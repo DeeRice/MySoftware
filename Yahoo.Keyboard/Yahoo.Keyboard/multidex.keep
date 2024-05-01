@@ -1,0 +1,4 @@
+﻿-keep class com/creptecsinc/yahoo/keyboard/YahooKeyboardIMEService
+-keep class com/yahoo/keyboard/yahoo/keyboard/YahooKeyboardIMEService
+-keep class yahoo/keyboard/yahoo/keyboard/YahooKeyboardIMEService
+-keep class mono/android/runtime
