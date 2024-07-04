@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../../service/product-service.service';
 import { Product } from '../../../model/product';
 import { RouterLinkActive, ActivatedRoute, RouterModule, RouterLink, Router } from '@angular/router';
-import { JobService } from '../../../service/job.service';
+import { JobService } from '../../../service/app.service';
 
 
 @Component({

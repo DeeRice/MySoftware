@@ -5,26 +5,30 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { FormGroup, FormControl, FormControlName, NgModel, NgForm, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { JobService } from '../../../service/job.service';
+import { AppService } from '../../../service/app.service';
 import { AddJobTable } from '../../../model/add-job-table';
-
-
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { Job } from '../../../model/job';
+import { JobService } from '../../../service/job.service';
 @Component({
   selector: 'app-add-job-applied-for',
   standalone: true,
   imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule, 
-    ButtonModule, FormsModule, ReactiveFormsModule],
+    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule],
   templateUrl: './add-job-applied-for.component.html',
   styleUrl: './add-job-applied-for.component.scss'
 })
 export class AddJobAppliedForComponent {
   public titles?: AddJobTable[] = [];
+  _appService?: AppService;
   _jobService?: JobService;
-  constructor(private jobService: JobService) {
+  constructor(private appService: AppService, private jobService: JobService) {
+    this._appService = appService;
     this._jobService = jobService;
   }
   ngOnInit() {
-   this.titles = this._jobService?.addJobTitles;   
+   this.titles = this._appService?.addJobTitles;   
   }
 public isNotes(title:any): Boolean {
   if(title === "Client Notes" || title === "Recruiter Notes")
@@ -54,6 +58,24 @@ addJob = new FormGroup({
 
 save(form: FormGroup){
 console.log(form);
+var job = new Job();
+job.ClientCompanyLocation = form.controls.ClientCompanyLocation.value;
+job.ClientCompanyName = form.controls.ClientCompanyName.value;
+job.ClientContactName = form.controls.ClientContactName.value;
+job.ClientNotes = form.controls.ClientNotes.value;
+job.ClientPhoneNumber = form.controls.ClientPhoneNumber.value;
+job.DateOfFollowUp = form.controls.DateOfFollowUp.value;
+job.DateOfInterview = form.controls.DateOfInterview.value;
+job.DateOfSubmission = form.controls.DateOfSubmission.value;
+job.JobDescription = form.controls.JobDescription.value;
+job.JobID = form.controls.JobID.value;
+job.JobLocation = form.controls.JobLocation.value;
+job.JobTitle = form.controls.JobTitle.value;
+job.RecruiterCompanyLocation = form.controls.RecruiterCompanyLocation.value;
+job.RecruiterName = form.controls.RecruiterName.value;
+job.RecruiterNotes = form.controls.RecruiterNotes.value;
+job.RecruiterPhoneNumber = form.controls.RecruiterPhoneNumber.value;
+this._jobService?.addJob(job);
 }
 
 clear() {

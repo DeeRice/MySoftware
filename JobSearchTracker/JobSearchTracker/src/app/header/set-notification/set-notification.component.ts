@@ -5,25 +5,27 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { FormGroup, FormControl, FormControlName, NgModel, NgForm, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { JobService } from '../../../service/job.service';
+import { AppService } from '../../../service/app.service';
 import { AddNotificationTable } from '../../../model/add-notification-table';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-set-notification',
   standalone: true,
   imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule, 
-    ButtonModule, FormsModule, ReactiveFormsModule],
+    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule],
   templateUrl: './set-notification.component.html',
   styleUrl: './set-notification.component.scss'
 })
 export class SetNotificationComponent {
   public titles?: AddNotificationTable[] = [];
-  _jobService?: JobService;
-  constructor(private jobService: JobService) {
-    this._jobService = jobService;
+  public _appService?: AppService;
+  constructor(private appService: AppService) {
+    this._appService = appService;
   }
   ngOnInit() {
-   this.titles = this._jobService?.addNotificationTitles;   
+   this.titles = this._appService?.addNotificationTitles;   
   }
 
 

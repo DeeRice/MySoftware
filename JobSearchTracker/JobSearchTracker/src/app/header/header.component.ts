@@ -8,7 +8,7 @@ import { AddJobAppliedForComponent } from './add-job-applied-for/add-job-applied
 import { ViewNotificationComponent } from './view-notification/view-notification.component';
 import { JobDetailsComponent } from '../job-details/job-details.component';
 import { CommonModule } from '@angular/common';
-import { JobService } from '../../service/job.service';
+import { JobService } from '../../service/app.service';
 import {FormsModule } from '@angular/forms';
 import { RouterLinkActive, ActivatedRoute, RouterModule } from '@angular/router';
 

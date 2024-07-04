@@ -6,8 +6,9 @@ import { routes } from '../app.routes';
 import { RouterLinkActive, ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { ProductService } from '../../service/product-service.service';
 import { Product } from '../../model/product';
-import { JobService } from '../../service/job.service';
+import { Job } from '../../model/job';
 import { HeaderComponent } from '../header/header.component';
+import { JobService } from '../../service/job.service';
 
 @Component({
   selector: 'app-job-details',
@@ -19,11 +20,12 @@ import { HeaderComponent } from '../header/header.component';
 })
 export class JobDetailsComponent {
   titles!: string[];
-
+  job?: Job;
+  jobService?: JobService;
   constructor(private route: ActivatedRoute, 
-    private productService: ProductService, public jobService: JobService,
+    private productService: ProductService, public _jobService: JobService,
     private router: Router) {
-      
+     this.jobService = _jobService;
      console.log();
     }
   products!: Product[];

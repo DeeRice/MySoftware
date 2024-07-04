@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { RouterLinkActive } from '@angular/router';
 import { JobDetailsComponent } from './job-details/job-details.component';
-import { JobService } from '../service/job.service';
+import { JobService } from '../service/app.service';
 import {FormsModule } from '@angular/forms';
 
 @Component({
