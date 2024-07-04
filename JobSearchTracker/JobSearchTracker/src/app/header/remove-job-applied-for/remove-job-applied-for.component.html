@@ -1,0 +1,32 @@
+<div class="card">
+    <p-table [value]="products"    
+    [paginator]="true"
+    [rows]="5"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Number</th>
+                <th>Recruiter Company Name</th>
+                <th>Client Company Name</th>
+                <th>Remove</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{product.id}}</td>
+                <td>{{ product.code }}</td>
+                <td>{{ product.name }}</td>
+                <td>
+                    <button 
+                    pButton 
+                    pRipple 
+                    label="Remove" 
+                    class="p-button-danger" [rounded]="true" (click)="remove(product.id)">
+                </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    
+</div>

@@ -1,0 +1,35 @@
+<div class="card">
+    <p-table [value]="titles == undefined ? [] : titles" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Set A Notification</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template [formGroup]="this.addNotification"  pTemplate="body" let-titles>
+            <tr>
+                <td>{{titles.titleName}}</td>
+                <td><input type="text" pInputText formControlName="{{titles.formName}}" /></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <tr>
+                <td><button 
+                    pButton 
+                    label="Submit" 
+                    class="p-button-success" [rounded]="true" (click)="save(addNotification)">
+                </button>
+            </td>
+                <td>
+                <button 
+                    pButton 
+                    pRipple 
+                    label="Clear" 
+                    class="p-button-danger" [rounded]="true" (click)="clear()">
+                </button>
+            </td>
+            </tr>
+        </ng-template>
+    
+    </p-table>
+</div>
