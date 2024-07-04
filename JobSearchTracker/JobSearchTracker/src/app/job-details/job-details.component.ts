@@ -19,13 +19,13 @@ import { JobService } from '../../service/job.service';
   styleUrl: './job-details.component.scss'
 })
 export class JobDetailsComponent {
-  titles!: string[];
-  job?: Job;
-  jobService?: JobService;
+  public titles!: string[];
+  public job?: Job;
+  public _jobService?: JobService;
   constructor(private route: ActivatedRoute, 
-    private productService: ProductService, public _jobService: JobService,
+    private productService: ProductService, public jobService: JobService,
     private router: Router) {
-     this.jobService = _jobService;
+     this._jobService = jobService;
      console.log();
     }
   products!: Product[];
@@ -38,6 +38,10 @@ export class JobDetailsComponent {
     this.productService.getProducts().then((data) => {
       this.products = data;
   });
+  var id = new Number(1);
+   // this._jobService?.getJobByID(id).then((data) => {
+   //    this.job = data;
+  //  });
  }
  goBackToJobGrid(){
   this.router.navigateByUrl("/app-header");

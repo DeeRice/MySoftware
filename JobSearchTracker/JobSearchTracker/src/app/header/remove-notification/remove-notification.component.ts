@@ -29,7 +29,7 @@ export class RemoveNotificationComponent {
     });
 }
 
-remove(id: Number){
+remove(id: number){
   console.log(id);
   this.notificationService.deleteNotification(id);
   }

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Notification } from '../model/notification';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
   providedIn: 'root'
@@ -10,26 +12,34 @@ export class NotificationService {
   public addNotificationUrl: string = "";
   public updateNotificationUrl: string = "";
   public deleteNotificationUrl: string = "";
-  constructor() { }
-
-  getNotificationByID(notificationID: Number) : Notification | null {
-    return null;
+  public _httpClient?: HttpClient;
+  constructor(private httpClient: HttpClient) { 
+    this._httpClient = httpClient;
   }
 
-  getAllNotifications() : Notification [] | null {
-    return null;
+  getNotificationByID(notificationID: number) : Observable<any> | undefined {
+    let params = new HttpParams().set('notificationID', notificationID);
+    return this._httpClient?.get(this.getNotificationByIDUrl, { params: params });
   }
 
-  addNotification(notification: Notification) : Number {
-    return 1;
+  getAllNotifications() : Observable<any> | undefined {
+    return this._httpClient?.get(this.getAllNotificationsUrl);
   }
 
-  updateNotification(notification: Notification) : Number {
-    return 1;
+  addNotification(notification: Notification) : Observable<any> | undefined {
+    let params = new HttpParams().set('notification', JSON.stringify(notification));
+    return this._httpClient?.post(this.addNotificationUrl, { params: params });
+  }
+
+  updateNotification(notification: Notification) : Observable<any> | undefined {
+    let params = new HttpParams().set("notificationID", notification.NotificationID)
+    .set('notification', JSON.stringify(notification));
+    return this._httpClient?.put(this.updateNotificationUrl, { params: params });
   }
   
-  deleteNotification(notificationID: Number) : Number {
-    return 1;
+  deleteNotification(notificationID: number) : Observable<any> | undefined {
+    let params = new HttpParams().set('notificationID', notificationID);
+    return this._httpClient?.delete(this.deleteNotificationUrl, { params: params });
   }
 
 }

@@ -29,7 +29,7 @@ export class RemoveJobAppliedForComponent {
     });
 }
 
-remove(id: Number){
+remove(id: number){
   console.log(id);
   this._jobService?.deleteJob(id);
 }
