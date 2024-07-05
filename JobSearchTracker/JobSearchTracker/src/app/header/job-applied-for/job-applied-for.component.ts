@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
@@ -22,7 +22,9 @@ import { JobService } from 'src/service/job.service';
 @Component({
   selector: 'app-job-applied-for',
   standalone: true,
-  imports: [TableModule, HttpClientModule, CommonModule, InputTextModule, TagModule, 
+  imports: [TableModule, 
+
+ CommonModule, InputTextModule, TagModule, 
     DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule, 
     SliderModule,  FormsModule, RouterLink, RouterLinkActive, FormsModule],
     providers: [CustomerService, ProductService, AppService, JobService],
