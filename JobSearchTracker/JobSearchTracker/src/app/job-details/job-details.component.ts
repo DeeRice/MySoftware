@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -13,8 +13,8 @@ import { JobService } from '../../service/job.service';
 @Component({
   selector: 'app-job-details',
   standalone: true,
-  imports: [TableModule, CommonModule, ButtonModule, RouterModule, HeaderComponent],
-  providers: [ProductService, JobService],
+  imports: [HeaderComponent, ButtonModule],
+  providers: [ProductService, JobService, TableModule, CommonModule, ButtonModule,RouterModule],
   templateUrl: './job-details.component.html',
   styleUrl: './job-details.component.scss'
 })
@@ -22,10 +22,12 @@ export class JobDetailsComponent {
   public titles!: string[];
   public job?: Job;
   public _jobService?: JobService;
-  constructor(private route: ActivatedRoute, 
+  public _router: any;
+  constructor(@Inject(ActivatedRoute) activatedRoute: ActivatedRoute, 
     private productService: ProductService, public jobService: JobService,
-    private router: Router) {
+    @Inject(Router) router: Router) {
      this._jobService = jobService;
+     this._router = router;
      console.log();
     }
   products!: Product[];
@@ -44,6 +46,6 @@ export class JobDetailsComponent {
   //  });
  }
  goBackToJobGrid(){
-  this.router.navigateByUrl("/app-header");
+  this._router.navigateByUrl("/app-header");
  }
 }

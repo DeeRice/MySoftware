@@ -7,20 +7,26 @@ import { Product } from '../../../model/product';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { NotificationService } from '../../../service/notification.service'
+import { MessageService, ConfirmationService } from 'primeng/api';
 @Component({
   selector: 'app-remove-notification',
   standalone: true,
   imports: [CommonModule, ButtonModule, TableModule, ConfirmDialogModule, ToastModule],
-  providers: [ProductService, NotificationService],
+  providers: [ProductService, NotificationService, MessageService, ConfirmationService],
   templateUrl: './remove-notification.component.html',
   styleUrl: './remove-notification.component.scss'
 })
 export class RemoveNotificationComponent {
-  products!: Product[];
-  _notificationService?: NotificationService;
-
-  constructor(private productService: ProductService, private notificationService: NotificationService) {
+ public products!: Product[];
+ public _notificationService?: NotificationService;
+ public _messageService?: MessageService;
+ public _confirmationService?: ConfirmationService;
+  constructor(private productService: ProductService, private notificationService: NotificationService,
+    private messageService?: MessageService, private confirmationService?: ConfirmationService
+  ) {
     this._notificationService = notificationService;
+    this._messageService = messageService;
+    this._confirmationService = confirmationService;
   }
   ngOnInit() {
     this.productService.getProductsMini().then((data) => {

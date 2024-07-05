@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -15,19 +15,18 @@ import { SliderModule } from 'primeng/slider';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../../service/product-service';
 import { Product } from '../../../model/product';
-import { RouterLinkActive, ActivatedRoute, RouterModule, RouterLink, Router } from '@angular/router';
+import { RouterLinkActive, ActivatedRoute, RouterModule, RouterLink, Router, RouterOutlet } from '@angular/router';
 import { AppService } from '../../../service/app.service';
 import { JobService } from 'src/service/job.service';
 
 @Component({
   selector: 'app-job-applied-for',
   standalone: true,
-  imports: [TableModule, 
-
- CommonModule, InputTextModule, TagModule, 
+  imports: [TableModule, InputTextModule, TagModule, 
     DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule, 
-    SliderModule,  FormsModule, RouterLink, RouterLinkActive, FormsModule],
-    providers: [CustomerService, ProductService, AppService, JobService],
+    SliderModule,  FormsModule,FormsModule, RouterModule],
+    providers: [CustomerService, ProductService, AppService, JobService, TableModule,CommonModule,
+      RouterLinkActive,RouterLink, RouterOutlet],
   templateUrl: './job-applied-for.component.html',
   styleUrl: './job-applied-for.component.scss'
 })
@@ -36,12 +35,16 @@ export class JobAppliedForComponent {
     products!: Product[];
     public _appService?: AppService; 
     public _jobService?: JobService; 
+    public _router: any;
+    public _routerLink: any;
     @Output() isHiddensChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
-    constructor(private route: ActivatedRoute, private router: Router,
+    constructor(@Inject(ActivatedRoute) activatedRoute: ActivatedRoute, @Inject(Router) router: Router,
       private productService: ProductService, public appService: AppService, 
-      jobService?: JobService) {
+      jobService?: JobService, @Inject(RouterLink) routerLink?: RouterLink) {
         this._appService = appService;
         this._jobService = jobService;
+        this._router = router;
+        this._routerLink = routerLink;
       }
 
     ngOnInit() {
@@ -51,7 +54,7 @@ export class JobAppliedForComponent {
     }
 
     goToDetailPage(id: string) {
-      this.router.navigate(['/app-job-details']);
+      this._router.navigate(['/app-job-details']);
       console.log(id);
     }   
  

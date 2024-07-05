@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, OnChanges, SimpleChanges, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnChanges, SimpleChanges, Output, Inject } from '@angular/core';
 import { TabViewModule } from 'primeng/tabview';
 import { SetNotificationComponent } from './set-notification/set-notification.component';
 import { RemoveNotificationComponent } from './remove-notification/remove-notification.component';
@@ -12,24 +12,30 @@ import { AppService } from '../../service/app.service';
 import {FormsModule } from '@angular/forms';
 import { RouterLinkActive, ActivatedRoute, RouterModule, RouterOutlet } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [ RouterOutlet, RouterModule,TabViewModule, JobAppliedForComponent, SetNotificationComponent,
+  imports: [JobAppliedForComponent, TabViewModule, SetNotificationComponent,
     RemoveNotificationComponent, RemoveJobAppliedForComponent, AddJobAppliedForComponent,
     ViewNotificationComponent, JobDetailsComponent, CommonModule, JobDetailsComponent, FormsModule
   ],
-  providers: [AppService, NgbModal, AppService, RouterModule],
+  providers: [AppService, NgbModal, AppService, RouterModule, RouterOutlet, TabViewModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
+
 export class HeaderComponent {
  isHidden?: boolean;
+;
  public _appService?: AppService;
-  constructor(private route: ActivatedRoute, public appService: AppService) {
+ public _httpClient: HttpClient;
+  constructor( @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, public appService: AppService,
+httpClient: HttpClient) {
         this._appService = this.appService;
         this.isHidden = this._appService.ishidden;
+        this._httpClient = httpClient;
   }
   public hide(){
     this.hide();

@@ -1,5 +1,5 @@
 import { NgModule }      from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent }  from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule, provideRouter, withComponentInputBinding } from '@angular/router';
@@ -18,15 +18,22 @@ import { RouterLink } from '@angular/router';
 import { RouterLinkActive } from '@angular/router';
 import { JobDetailsComponent } from './job-details/job-details.component';
 import {FormsModule } from '@angular/forms';
+import { provideHttpClient, withJsonpSupport } from '@angular/common/http';
+
+
 
 @NgModule({
-  imports: [RouterOutlet, CommonModule, RouterLink, RouterLinkActive,
-    FormsModule, BrowserModule, NgbModule,NgModule, AppComponent, RouterModule.forRoot(
-    routes,
-    { enableTracing: true } // <-- debugging purposes only
-  )],
-  declarations: [ AppComponent],
-  bootstrap:    [ AppComponent ],
-  providers: [provideRouter(routes, withComponentInputBinding())]
+  imports: [AppComponent,RouterModule.forRoot([
+    {path: 'app-header', component: HeaderComponent},
+    {path: 'app-job-details', component: JobDetailsComponent}
+]), RouterModule],
+  providers: [provideRouter(routes, withComponentInputBinding()), provideHttpClient(withJsonpSupport()),
+    RouterOutlet, RouterModule, CommonModule, RouterLink, RouterLinkActive,FormsModule, BrowserModule, 
+    NgbModule,NgModule]
 })
+
 export class AppModule { }
+
+bootstrapApplication(AppComponent, {
+  providers: [provideHttpClient(withJsonpSupport())]
+});

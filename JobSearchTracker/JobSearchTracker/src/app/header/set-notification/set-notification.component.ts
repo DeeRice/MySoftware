@@ -9,20 +9,28 @@ import { AppService } from '../../../service/app.service';
 import { AddNotificationTable } from '../../../model/add-notification-table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { MessageService, ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-set-notification',
   standalone: true,
   imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule, 
     ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule],
+    providers: [MessageService,ConfirmationService,AppService],
   templateUrl: './set-notification.component.html',
   styleUrl: './set-notification.component.scss'
 })
 export class SetNotificationComponent {
   public titles?: AddNotificationTable[] = [];
   public _appService?: AppService;
-  constructor(private appService: AppService) {
+  public _messageService?: MessageService;
+  public _confirmationService?: ConfirmationService;
+  constructor(private appService: AppService,
+    private messageService?: MessageService, private confirmationService?: ConfirmationService
+  ) {
     this._appService = appService;
+    this._messageService = messageService;
+    this._confirmationService = confirmationService;
   }
   ngOnInit() {
    this.titles = this._appService?.addNotificationTitles;   

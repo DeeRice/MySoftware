@@ -7,21 +7,28 @@ import { Product } from '../../../model/product';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { JobService } from '../../../service/job.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-remove-job-applied-for',
   standalone: true,
   imports: [CommonModule, ButtonModule, TableModule, ConfirmDialogModule, ToastModule, 
     ],
-  providers: [ProductService, JobService],
+  providers: [ProductService, JobService, ConfirmationService, MessageService],
   templateUrl: './remove-job-applied-for.component.html',
   styleUrl: './remove-job-applied-for.component.scss'
 })
 export class RemoveJobAppliedForComponent {
-  products!: Product[];
-  _jobService?: JobService;
-  constructor(private productService: ProductService, private jobService?: JobService) {
+  public products!: Product[];
+  public _jobService?: JobService;
+  public _messageService?: MessageService;
+  public _confirmationService?: ConfirmationService;
+  constructor(private productService: ProductService, private jobService?: JobService,
+    private messageService?: MessageService, private confirmationService?: ConfirmationService
+  ) {
      this._jobService = jobService;
+     this._messageService = messageService;
+     this._confirmationService = confirmationService;
   }
   ngOnInit() {
     this.productService.getProductsMini().then((data) => {

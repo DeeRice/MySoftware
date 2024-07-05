@@ -11,21 +11,31 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { Job } from '../../../model/job';
 import { JobService } from '../../../service/job.service';
+import { MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
+
 @Component({
   selector: 'app-add-job-applied-for',
   standalone: true,
   imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule, 
     ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule],
+   providers: [MessageService, ConfirmationService],
   templateUrl: './add-job-applied-for.component.html',
   styleUrl: './add-job-applied-for.component.scss'
 })
 export class AddJobAppliedForComponent {
   public titles?: AddJobTable[] = [];
-  _appService?: AppService;
-  _jobService?: JobService;
-  constructor(private appService: AppService, private jobService: JobService) {
+  public _appService?: AppService;
+  public _jobService?: JobService;
+  public _messageService?: MessageService;
+  public _confirmationService?: ConfirmationService;
+  constructor(private appService: AppService, private jobService: JobService,
+  private messageService: MessageService, private confirmationService: ConfirmationService
+  ) {
     this._appService = appService;
     this._jobService = jobService;
+    this._messageService = messageService;
+    this._confirmationService = confirmationService;
   }
   ngOnInit() {
    this.titles = this._appService?.addJobTitles;   

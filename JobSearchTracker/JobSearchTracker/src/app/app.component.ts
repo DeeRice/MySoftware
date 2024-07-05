@@ -14,16 +14,17 @@ import { RouterLink } from '@angular/router';
 import { RouterLinkActive } from '@angular/router';
 import { JobDetailsComponent } from './job-details/job-details.component';
 import { AppService } from '../service/app.service';
-import {FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, HeaderComponent, SetNotificationComponent, TabViewModule,
+  imports: [HeaderComponent, SetNotificationComponent, TabViewModule,
     RemoveNotificationComponent, RemoveJobAppliedForComponent, JobAppliedForComponent, JobDetailsComponent,
-    AddJobAppliedForComponent, ViewNotificationComponent, CommonModule, RouterLink, RouterLinkActive,
-    FormsModule],
-  providers: [NgbModal, AppService, RouterModule],
+    AddJobAppliedForComponent, ViewNotificationComponent, RouterModule],
+  providers: [NgbModal, AppService, RouterModule, RouterOutlet, CommonModule,RouterLink, 
+    RouterLinkActive, FormsModule, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -31,15 +32,17 @@ export class AppComponent {
   title = 'JobSearchTracker';
   jobGridIsHidden?: boolean = false;
   @Output() isHiddensChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
-  constructor(private modalService: NgbModal, public appService: AppService
-  ) {
+  public _httpClient?: HttpClient;
+  constructor(private modalService: NgbModal, public appService: AppService,
+  httpClient: HttpClient) {
     this.jobGridIsHidden = this.appService.ishidden;
+    this._httpClient = this._httpClient;
   }
 
   public open(modal: any): void {
     this.modalService.open(modal);
   }
-  ngOnChanges(changes: SimpleChanges,) {
+  ngOnChanges(changes: SimpleChanges) {
 
      
 }
