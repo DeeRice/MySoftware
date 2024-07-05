@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
-import { ProductService } from '../../../service/product-service.service';
+import { ProductService } from '../../../service/product-service';
 import { Product } from '../../../model/product';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
@@ -10,9 +10,8 @@ import { NotificationService } from '../../../service/notification.service'
 @Component({
   selector: 'app-remove-notification',
   standalone: true,
-  imports: [CommonModule, ButtonModule, TableModule, ConfirmDialogModule, ToastModule,
-  NotificationService],
-  providers: [ProductService],
+  imports: [CommonModule, ButtonModule, TableModule, ConfirmDialogModule, ToastModule],
+  providers: [ProductService, NotificationService],
   templateUrl: './remove-notification.component.html',
   styleUrl: './remove-notification.component.scss'
 })

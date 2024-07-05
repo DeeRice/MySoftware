@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
-import { ProductService } from '../../../service/product-service.service';
+import { ProductService } from '../../../service/product-service';
 import { Product } from '../../../model/product';
 
 @Component({

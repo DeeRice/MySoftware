@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
-import { ProductService } from '../../../service/product-service.service';
+import { ProductService } from '../../../service/product-service';
 import { Product } from '../../../model/product';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
@@ -12,8 +12,8 @@ import { JobService } from '../../../service/job.service';
   selector: 'app-remove-job-applied-for',
   standalone: true,
   imports: [CommonModule, ButtonModule, TableModule, ConfirmDialogModule, ToastModule, 
-    JobService],
-  providers: [ProductService],
+    ],
+  providers: [ProductService, JobService],
   templateUrl: './remove-job-applied-for.component.html',
   styleUrl: './remove-job-applied-for.component.scss'
 })

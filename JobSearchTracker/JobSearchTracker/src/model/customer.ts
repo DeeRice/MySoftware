@@ -9,7 +9,7 @@ export interface Representative {
     image?: string;
 }
 
-export interface Customer {
+export class Customer {
     id?: number;
     name?: string;
     country?: Country;

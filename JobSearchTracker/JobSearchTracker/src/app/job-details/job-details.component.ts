@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { routes } from '../app.routes';
 import { RouterLinkActive, ActivatedRoute, RouterModule, Router } from '@angular/router';
-import { ProductService } from '../../service/product-service.service';
+import { ProductService } from '../../service/product-service';
 import { Product } from '../../model/product';
 import { Job } from '../../model/job';
 import { HeaderComponent } from '../header/header.component';

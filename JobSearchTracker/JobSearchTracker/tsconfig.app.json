@@ -1,14 +1,26 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "./out-tsc/app",
-    "types": []
-  },
-  "files": [
-    "src/main.ts"
-  ],
-  "include": [
-    "src/**/*.d.ts"
-  ]
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "./out-tsc/app",
+        "types": ["jest"],
+        "target": "ES2022",
+        "useDefineForClassFields": false,
+        // ADD THIS ↓↓↓
+        "baseUrl": "./",
+        "paths": {
+            "@tool/*": [ "src/app/tool/*" ],
+            "@models/*": [ "src/app/models/*" ],
+            "@services/*": [ "src/app/services/*" ],
+            "@components/*": [ "src/app/components/*" ],
+            "@interfaces/*": [ "src/app/interfaces/*" ]
+        }
+        // ADD THIS ↑↑↑
+    },
+    "files": [],
+    "include": [
+         "src/**/*.ts",
+        "src/**/*.d.ts",
+        "src/**/*.spec.ts"
+    ]
 }

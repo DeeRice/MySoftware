@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnChanges, SimpleChanges, Output } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { TabViewModule } from 'primeng/tabview';
 import { SetNotificationComponent } from './header/set-notification/set-notification.component';
@@ -13,17 +13,17 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { RouterLinkActive } from '@angular/router';
 import { JobDetailsComponent } from './job-details/job-details.component';
-import { JobService } from '../service/app.service';
+import { AppService } from '../service/app.service';
 import {FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, SetNotificationComponent, TabViewModule,
+  imports: [RouterOutlet, RouterModule, HeaderComponent, SetNotificationComponent, TabViewModule,
     RemoveNotificationComponent, RemoveJobAppliedForComponent, JobAppliedForComponent, JobDetailsComponent,
     AddJobAppliedForComponent, ViewNotificationComponent, CommonModule, RouterLink, RouterLinkActive,
     FormsModule],
-  providers: [NgbModal, JobService],
+  providers: [NgbModal, AppService, RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -31,8 +31,9 @@ export class AppComponent {
   title = 'JobSearchTracker';
   jobGridIsHidden?: boolean = false;
   @Output() isHiddensChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
-  constructor(private modalService: NgbModal, public jobService: JobService) {
-    this.jobGridIsHidden = this.jobService.ishidden;
+  constructor(private modalService: NgbModal, public appService: AppService
+  ) {
+    this.jobGridIsHidden = this.appService.ishidden;
   }
 
   public open(modal: any): void {

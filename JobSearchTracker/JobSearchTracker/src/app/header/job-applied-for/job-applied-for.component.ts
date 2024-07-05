@@ -9,15 +9,15 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
-import { CustomerServiceService } from '../../../service/customer-service.service';
+import { CustomerService } from '../../../service/customer-service';
 import { Customer, Representative } from '../../../model/customer';
 import { SliderModule } from 'primeng/slider';
 import { FormsModule } from '@angular/forms';
-import { ProductService } from '../../../service/product-service.service';
+import { ProductService } from '../../../service/product-service';
 import { Product } from '../../../model/product';
 import { RouterLinkActive, ActivatedRoute, RouterModule, RouterLink, Router } from '@angular/router';
-import { JobService } from '../../../service/app.service';
-
+import { AppService } from '../../../service/app.service';
+import { JobService } from 'src/service/job.service';
 
 @Component({
   selector: 'app-job-applied-for',
@@ -25,16 +25,21 @@ import { JobService } from '../../../service/app.service';
   imports: [TableModule, HttpClientModule, CommonModule, InputTextModule, TagModule, 
     DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule, 
     SliderModule,  FormsModule, RouterLink, RouterLinkActive, FormsModule],
-    providers: [CustomerServiceService, ProductService, JobService],
+    providers: [CustomerService, ProductService, AppService, JobService],
   templateUrl: './job-applied-for.component.html',
   styleUrl: './job-applied-for.component.scss'
 })
 
 export class JobAppliedForComponent {
     products!: Product[];
+    public _appService?: AppService; 
+    public _jobService?: JobService; 
     @Output() isHiddensChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
     constructor(private route: ActivatedRoute, private router: Router,
-      private productService: ProductService, public jobService: JobService) {
+      private productService: ProductService, public appService: AppService, 
+      jobService?: JobService) {
+        this._appService = appService;
+        this._jobService = jobService;
       }
 
     ngOnInit() {

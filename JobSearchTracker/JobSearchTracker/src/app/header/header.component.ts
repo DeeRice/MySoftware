@@ -8,27 +8,28 @@ import { AddJobAppliedForComponent } from './add-job-applied-for/add-job-applied
 import { ViewNotificationComponent } from './view-notification/view-notification.component';
 import { JobDetailsComponent } from '../job-details/job-details.component';
 import { CommonModule } from '@angular/common';
-import { JobService } from '../../service/app.service';
+import { AppService } from '../../service/app.service';
 import {FormsModule } from '@angular/forms';
-import { RouterLinkActive, ActivatedRoute, RouterModule } from '@angular/router';
+import { RouterLinkActive, ActivatedRoute, RouterModule, RouterOutlet } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [TabViewModule, JobAppliedForComponent, SetNotificationComponent,
+  imports: [ RouterOutlet, RouterModule,TabViewModule, JobAppliedForComponent, SetNotificationComponent,
     RemoveNotificationComponent, RemoveJobAppliedForComponent, AddJobAppliedForComponent,
     ViewNotificationComponent, JobDetailsComponent, CommonModule, JobDetailsComponent, FormsModule
   ],
-  providers: [JobService],
+  providers: [AppService, NgbModal, AppService, RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
  isHidden?: boolean;
- public myJobService?: JobService;
-  constructor(private route: ActivatedRoute, public jobService: JobService) {
-        this.isHidden = this.jobService.ishidden;
-        this.myJobService = this.jobService;
+ public _appService?: AppService;
+  constructor(private route: ActivatedRoute, public appService: AppService) {
+        this._appService = this.appService;
+        this.isHidden = this._appService.ishidden;
   }
   public hide(){
     this.hide();
