@@ -6,7 +6,7 @@ import { routes } from '../app.routes';
 import { RouterLinkActive, ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { ProductService } from '../../service/product-service';
 import { Product } from '../../model/product';
-import { Job } from '../../model/job';
+import { JTSJob } from '../../model/job';
 import { HeaderComponent } from '../header/header.component';
 import { JobService } from '../../service/job.service';
 
@@ -20,7 +20,7 @@ import { JobService } from '../../service/job.service';
 })
 export class JobDetailsComponent {
   public titles!: string[];
-  public job?: Job;
+  public job?: JTSJob;
   public _jobService?: JobService;
   public _router: any;
   constructor(@Inject(ActivatedRoute) activatedRoute: ActivatedRoute, 
@@ -40,10 +40,10 @@ export class JobDetailsComponent {
     this.productService.getProducts().then((data) => {
       this.products = data;
   });
-  var id = new Number(1);
-   // this._jobService?.getJobByID(id).then((data) => {
-   //    this.job = data;
-  //  });
+   var id:number =this._jobService?._currentJobID as number;
+ /*  this._jobService?.getJobByID(id)?.subscribe((data) => {
+       this.job = data;
+    }); */
  }
  goBackToJobGrid(){
   this._router.navigateByUrl("/app-header");

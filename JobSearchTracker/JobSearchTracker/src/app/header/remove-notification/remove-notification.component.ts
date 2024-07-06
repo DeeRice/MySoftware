@@ -8,11 +8,16 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { NotificationService } from '../../../service/notification.service'
 import { MessageService, ConfirmationService } from 'primeng/api';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+
 @Component({
   selector: 'app-remove-notification',
   standalone: true,
-  imports: [CommonModule, ButtonModule, TableModule, ConfirmDialogModule, ToastModule],
-  providers: [ProductService, NotificationService, MessageService, ConfirmationService],
+  imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule, 
+    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule],
+   providers: [MessageService, ConfirmationService,  ConfirmDialogModule, ProductService, ToastModule],
   templateUrl: './remove-notification.component.html',
   styleUrl: './remove-notification.component.scss'
 })
@@ -21,8 +26,9 @@ export class RemoveNotificationComponent {
  public _notificationService?: NotificationService;
  public _messageService?: MessageService;
  public _confirmationService?: ConfirmationService;
+ public currentID:number = -1;
   constructor(private productService: ProductService, private notificationService: NotificationService,
-    private messageService?: MessageService, private confirmationService?: ConfirmationService
+    private messageService: MessageService, private confirmationService: ConfirmationService
   ) {
     this._notificationService = notificationService;
     this._messageService = messageService;
@@ -36,7 +42,20 @@ export class RemoveNotificationComponent {
 
 remove(id: number){
   console.log(id);
-  this.notificationService.deleteNotification(id);
+  this.currentID = id;
+  confirm();
   }
   
+  confirm() {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to remove this job?',
+        accept: () => {
+            //Actual logic to perform a confirmation
+            this._notificationService?.deleteNotification(this.currentID)?.subscribe(
+              data => this._messageService?.add({severity:'info', summary:'Confirmed', detail:'You have successfully removed the notification.'}),
+              error => this._messageService?.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to remove the notification.'})
+            );
+        }
+    });
+  }
 }

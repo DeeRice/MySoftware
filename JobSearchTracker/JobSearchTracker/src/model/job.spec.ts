@@ -1,7 +1,7 @@
-import { Job } from './job';
+import { JTSJob } from './job';
 
 describe('Job', () => {
   it('should create an instance', () => {
-    expect(new Job()).toBeTruthy();
+    expect(new JTSJob()).toBeTruthy();
   });
 });

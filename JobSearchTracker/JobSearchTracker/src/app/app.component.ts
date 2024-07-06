@@ -16,6 +16,7 @@ import { JobDetailsComponent } from './job-details/job-details.component';
 import { AppService } from '../service/app.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,7 @@ import { HttpClient } from '@angular/common/http';
     RemoveNotificationComponent, RemoveJobAppliedForComponent, JobAppliedForComponent, JobDetailsComponent,
     AddJobAppliedForComponent, ViewNotificationComponent, RouterModule],
   providers: [NgbModal, AppService, RouterModule, RouterOutlet, CommonModule,RouterLink, 
-    RouterLinkActive, FormsModule, RouterOutlet],
+    RouterLinkActive, FormsModule, RouterOutlet, BrowserAnimationsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

@@ -1,4 +1,4 @@
-export class Job {
+export class JTSJob {
 JobID: number = 0;
 JobTitle?: string;		
 JobLocation?: string;			
@@ -7,7 +7,7 @@ ClientContactName?: string;
 RecruiterCompanyName?: string;			
 ClientCompanyName?: string;			
 RecruiterPhoneNumber?: string;			
-ClientPhoneNumber?: string;			
+ClientCompanyPhoneNumber?: string;			
 RecruiterCompanyLocation?: string;			
 ClientCompanyLocation?: string;			
 RecruiterNotes?: string;			
