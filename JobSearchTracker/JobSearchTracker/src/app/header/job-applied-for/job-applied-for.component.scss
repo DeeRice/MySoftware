@@ -1,0 +1,17 @@
+:host ::ng-deep {
+    .p-progressbar {
+        height: .5rem;
+        background-color: #D8DADC;
+    
+        .p-progressbar-value {
+            background-color: #607D8B;
+        }
+    }
+}
+.search-table-outter { overflow-x: scroll; }
+th, td { min-width: 200px; }
+
+th{
+    background-color: #000080;
+    color: white;
+}

@@ -1,0 +1,23 @@
+<div class="background">
+    <p class="text-center">Job Tracker</p>
+    <p-tabView class="tab"  [hidden]="isHidden">
+        <p-tabPanel header="View Jobs Applied For">
+           <app-job-applied-for></app-job-applied-for>
+        </p-tabPanel>
+        <p-tabPanel header="Add Job Applied For">
+            <app-add-job-applied-for></app-add-job-applied-for>
+        </p-tabPanel>
+        <p-tabPanel header="Remove Job Applied For">
+         <app-remove-job-applied-for></app-remove-job-applied-for>
+        </p-tabPanel>
+        <p-tabPanel header="View Notification">
+          <app-view-notification></app-view-notification>
+        </p-tabPanel>
+        <p-tabPanel header="Set Notification">
+          <app-set-notification></app-set-notification>
+        </p-tabPanel>
+        <p-tabPanel header="Remove Notification">
+          <app-remove-notification></app-remove-notification>
+        </p-tabPanel>
+    </p-tabView>
+</div>
