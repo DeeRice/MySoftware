@@ -9,17 +9,17 @@ import { AppService } from '../../../service/app.service';
 import { AddJobTable } from '../../../model/add-job-table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
-import { Job } from '../../../model/job';
+import { JTSJob } from '../../../model/job';
 import { JobService } from '../../../service/job.service';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @Component({
   selector: 'app-add-job-applied-for',
   standalone: true,
   imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule, 
     ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule],
-   providers: [MessageService, ConfirmationService],
+   providers: [MessageService, ConfirmationService,  ConfirmDialogModule],
   templateUrl: './add-job-applied-for.component.html',
   styleUrl: './add-job-applied-for.component.scss'
 })
@@ -50,6 +50,8 @@ public isNotes(title:any): Boolean {
 addJob = new FormGroup({
  RecruiterCompanyName: new FormControl(''),
   ClientCompanyName: new FormControl(''),
+  ClientCompanyPhoneNumber: new FormControl(''),
+  JobID: new FormControl(''),
   JobLocation: new FormControl(''),
   JobTitle: new FormControl(''),	
   JobDescription: new FormControl(''),	
@@ -67,30 +69,40 @@ addJob = new FormGroup({
 });
 
 save(form: FormGroup){
-console.log(form);
-var job = new Job();
-job.ClientCompanyLocation = form.controls.ClientCompanyLocation.value;
-job.ClientCompanyName = form.controls.ClientCompanyName.value;
-job.ClientContactName = form.controls.ClientContactName.value;
-job.ClientNotes = form.controls.ClientNotes.value;
-job.ClientPhoneNumber = form.controls.ClientPhoneNumber.value;
-job.DateOfFollowUp = form.controls.DateOfFollowUp.value;
-job.DateOfInterview = form.controls.DateOfInterview.value;
-job.DateOfSubmission = form.controls.DateOfSubmission.value;
-job.JobDescription = form.controls.JobDescription.value;
-job.JobID = form.controls.JobID.value;
-job.JobLocation = form.controls.JobLocation.value;
-job.JobTitle = form.controls.JobTitle.value;
-job.RecruiterCompanyLocation = form.controls.RecruiterCompanyLocation.value;
-job.RecruiterName = form.controls.RecruiterName.value;
-job.RecruiterNotes = form.controls.RecruiterNotes.value;
-job.RecruiterPhoneNumber = form.controls.RecruiterPhoneNumber.value;
-this._jobService?.addJob(job);
+this.addJob = form;
+this.confirm();
 }
 
 clear() {
   this.addJob.reset();
 }
-
+confirm() {
+  this.confirmationService.confirm({
+      message: 'Are you sure that you want to add this job?',
+      accept: () => {
+        var job = new JTSJob();
+        job.ClientCompanyLocation = this.addJob.controls.ClientCompanyLocation.value || undefined;
+        job.ClientCompanyName = this.addJob .controls.ClientCompanyName.value || undefined;
+        job.ClientContactName = this.addJob .controls.ClientContactName.value || undefined;
+        job.ClientNotes = this.addJob.controls.ClientNotes.value || undefined;
+        job.ClientCompanyPhoneNumber = this.addJob.controls.ClientCompanyPhoneNumber.value || undefined;
+        job.DateOfFollowUp = new Date(this.addJob.controls.DateOfFollowUp.value as string) || undefined;
+        job.DateOfInterview = new Date(this.addJob.controls.DateOfInterview.value as string) || undefined;
+        job.DateOfSubmission = new Date(this.addJob.controls.DateOfSubmission.value as string) || undefined;
+        job.JobDescription = this.addJob.controls.JobDescription.value || undefined;
+        job.JobID = Number.parseInt(this.addJob.controls.JobID.value as string) || -1;
+        job.JobLocation = this.addJob.controls.JobLocation.value || undefined;
+        job.JobTitle = this.addJob.controls.JobTitle.value || undefined;
+        job.RecruiterCompanyLocation = this.addJob.controls.RecruiterCompanyLocation.value || undefined;
+        job.RecruiterName = this.addJob.controls.RecruiterName.value || undefined;
+        job.RecruiterNotes = this.addJob.controls.RecruiterNotes.value || undefined;
+        job.RecruiterPhoneNumber = this.addJob.controls.RecruiterPhoneNumber.value || undefined;
+        this._jobService?.addJob(job)?.subscribe(
+          data => this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'}),
+          error => this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'})
+        );
+      }
+  });
+}
 }
 

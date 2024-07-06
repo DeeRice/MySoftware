@@ -1,7 +1,7 @@
-import { Notification } from './notification';
+import { JTSNotification } from './notification';
 
 describe('Notification', () => {
   it('should create an instance', () => {
-    expect(new Notification()).toBeTruthy();
+    expect(new JTSNotification()).toBeTruthy();
   });
 });

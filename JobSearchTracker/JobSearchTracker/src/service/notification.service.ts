@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Notification } from '../model/notification';
+import { JTSNotification } from '../model/notification';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 
@@ -26,12 +26,12 @@ export class NotificationService {
     return this._httpClient?.get(this.getAllNotificationsUrl);
   }
 
-  addNotification(notification: Notification) : Observable<any> | undefined {
+  addNotification(notification: JTSNotification) : Observable<any> | undefined {
     let params = new HttpParams().set('notification', JSON.stringify(notification));
     return this._httpClient?.post(this.addNotificationUrl, { params: params });
   }
 
-  updateNotification(notification: Notification) : Observable<any> | undefined {
+  updateNotification(notification: JTSNotification) : Observable<any> | undefined {
     let params = new HttpParams().set("notificationID", notification.NotificationID)
     .set('notification', JSON.stringify(notification));
     return this._httpClient?.put(this.updateNotificationUrl, { params: params });

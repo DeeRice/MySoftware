@@ -10,6 +10,8 @@ import { AddNotificationTable } from '../../../model/add-notification-table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { MessageService, ConfirmationService } from 'primeng/api';
+import { JTSNotification, JTSNotificationEvent } from 'src/model/notification';
+import { NotificationService } from 'src/service/notification.service';
 
 @Component({
   selector: 'app-set-notification',
@@ -25,12 +27,15 @@ export class SetNotificationComponent {
   public _appService?: AppService;
   public _messageService?: MessageService;
   public _confirmationService?: ConfirmationService;
+  public _notificationService?: NotificationService;
   constructor(private appService: AppService,
-    private messageService?: MessageService, private confirmationService?: ConfirmationService
+    private messageService?: MessageService, private confirmationService?: ConfirmationService,
+    private notificationService?: NotificationService
   ) {
     this._appService = appService;
     this._messageService = messageService;
     this._confirmationService = confirmationService;
+    this._notificationService = notificationService;
   }
   ngOnInit() {
    this.titles = this._appService?.addNotificationTitles;   
@@ -53,9 +58,38 @@ export class SetNotificationComponent {
  
  save(form: FormGroup){
  console.log(form);
+   this.addNotification = form;
+   this.confirm();
  }
 
  clear() {
    this.addNotification.reset();
  }
+
+ confirm() {
+  this._confirmationService?.confirm({
+      message: 'Are you sure that you want to add this notification?',
+      accept: () => {
+          //Actual logic to perform a confirmation
+          var notification = new JTSNotification();
+          notification.RecruiterName = this.addNotification.controls.RecruiterName.value || undefined;
+          notification.RecruiterCompanyName = this.addNotification.controls.RecruiterCompanyName.value || undefined; 
+          notification.RecruiterCompanyLocation = this.addNotification.controls.RecruiterCompanyLocation.value || undefined;
+          notification.RecruiterPhoneNumber = this.addNotification.controls.RecruiterPhoneNumber.value || undefined;
+          notification.RecruiterCompanyPhoneNumber = this.addNotification.controls.RecruiterCompanyPhoneNumber.value || undefined;	
+          notification.ClientContactName = this.addNotification.controls.ClientContactName.value || undefined;
+          notification.ClientCompanyName = this.addNotification.controls.ClientCompanyName.value || undefined;
+          notification.ClientCompanyLocation = this.addNotification.controls.ClientCompanyLocation.value || undefined;
+          notification.ClientCompanyPhoneNumber = this.addNotification.controls.ClientCompanyPhoneNumber.value || undefined;
+          notification.NotificationDate = new Date(this.addNotification.controls.NotificationDate.value as string) || undefined;
+          notification.NotificationEvent = JTSNotificationEvent[this.addNotification.controls.NotificationEvent.value as keyof typeof JTSNotificationEvent];
+          this._notificationService?.addNotification(notification)?.subscribe(
+            data => this._messageService?.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the notification.'}),
+            error => this._messageService?.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the notification.'})
+          );
+      }
+  });
+}
+
+
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Job } from '../model/job';
+import { JTSJob } from '../model/job';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 
@@ -13,6 +13,7 @@ public addJobUrl: string = "";
 public updateJobUrl: string = "";
 public deleteJobUrl: string = "";
 public _httpClient?: HttpClient;
+public _currentJobID: number = -1;
   constructor(private httpClient: HttpClient) { 
     this._httpClient = httpClient;
   }
@@ -26,12 +27,12 @@ public _httpClient?: HttpClient;
     return this._httpClient?.get(this.getAllJobsUrl);
   }
 
-  addJob(job: Job) : Observable<any> | undefined {
+  addJob(job: JTSJob) : Observable<any> | undefined {
     let params = new HttpParams().set('job', JSON.stringify(job));
     return this._httpClient?.post(this.addJobUrl, { params: params });
   }
 
-  updateJob(job: Job) : Observable<any> | undefined {
+  updateJob(job: JTSJob) : Observable<any> | undefined {
     let params = new HttpParams().set("jobID", job.JobID)
     .set('job', JSON.stringify(job));
     return this._httpClient?.put(this.updateJobUrl, { params: params });

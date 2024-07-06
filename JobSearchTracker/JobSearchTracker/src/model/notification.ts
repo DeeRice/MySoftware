@@ -1,4 +1,4 @@
-export class Notification {
+export class JTSNotification {
 NotificationID: number = 0;
 RecruiterName?: string;
 RecruiterCompanyName?: string;
@@ -10,13 +10,13 @@ ClientCompanyName?: string;
 ClientCompanyLocation?: string;
 ClientCompanyPhoneNumber?: string;
 NotificationDate?: Date;
-NotificationEvent: NotificationEvent = NotificationEvent.NotSet;
+NotificationEvent: JTSNotificationEvent = JTSNotificationEvent.NotSet;
 }
 
 
-enum NotificationEvent {
-    NotSet,
-    FollowUpWithEmail,
-    FollowUpWithPhoneCall,
-    InterviewIsScheduled
+export enum JTSNotificationEvent {
+    NotSet = 0,
+    FollowUpWithEmail = 1,
+    FollowUpWithPhoneCall = 2,
+    InterviewIsScheduled = 3
   }

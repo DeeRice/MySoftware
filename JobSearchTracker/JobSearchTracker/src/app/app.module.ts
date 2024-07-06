@@ -19,6 +19,7 @@ import { RouterLinkActive } from '@angular/router';
 import { JobDetailsComponent } from './job-details/job-details.component';
 import {FormsModule } from '@angular/forms';
 import { provideHttpClient, withJsonpSupport } from '@angular/common/http';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 
 
 
@@ -26,14 +27,14 @@ import { provideHttpClient, withJsonpSupport } from '@angular/common/http';
   imports: [AppComponent,RouterModule.forRoot([
     {path: 'app-header', component: HeaderComponent},
     {path: 'app-job-details', component: JobDetailsComponent}
-]), RouterModule],
+]), RouterModule, BrowserAnimationsModule],
   providers: [provideRouter(routes, withComponentInputBinding()), provideHttpClient(withJsonpSupport()),
     RouterOutlet, RouterModule, CommonModule, RouterLink, RouterLinkActive,FormsModule, BrowserModule, 
-    NgbModule,NgModule]
+    NgbModule,NgModule, BrowserAnimationsModule, provideAnimations()]
 })
 
 export class AppModule { }
 
 bootstrapApplication(AppComponent, {
-  providers: [provideHttpClient(withJsonpSupport())]
+  providers: [provideHttpClient(withJsonpSupport()), provideAnimations()]
 });
