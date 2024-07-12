@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { JTSJob } from '../model/job';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JobService {
+public baseUrl ="https://localhost:44335"
 public getJobByIDUrl: string = "";
 public getAllJobsUrl: string = "";
 public addJobUrl: string = "";
@@ -19,28 +20,39 @@ public _currentJobID: number = -1;
   }
 
   getJobByID(jobID: number) : Observable<any> | undefined {
-    let params = new HttpParams().set('JobID', jobID);
-    return this._httpClient?.get(this.getJobByIDUrl, { params: params });
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8')
+    .set('Accept', 'application/json');
+    return this._httpClient?.get(`${this.baseUrl}/${this.getJobByIDUrl}/${jobID}`, { headers: headers });
   }
 
   getAllJobs() : Observable<any> | undefined {
-    return this._httpClient?.get(this.getAllJobsUrl);
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8')
+    .set('Accept', 'application/json');
+    return this._httpClient?.get(`${this.baseUrl}/${this.getAllJobsUrl}`, { headers: headers });
   }
 
   addJob(job: JTSJob) : Observable<any> | undefined {
-    let params = new HttpParams().set('job', JSON.stringify(job));
-    return this._httpClient?.post(this.addJobUrl, { params: params });
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8')
+    .set('Accept', 'application/json');
+    return this._httpClient?.post(this.addJobUrl, JSON.stringify(job), {headers: headers});
   }
 
   updateJob(job: JTSJob) : Observable<any> | undefined {
-    let params = new HttpParams().set("jobID", job.JobID)
-    .set('job', JSON.stringify(job));
-    return this._httpClient?.put(this.updateJobUrl, { params: params });
+    let headers = new HttpHeaders();
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+    return this._httpClient?.put(`${this.baseUrl}/${this.updateJobUrl}/${job.JobID}`, JSON.stringify(job), httpOptions);
   }
   
   deleteJob(jobID: number) : Observable<any> | undefined {
-    let params = new HttpParams().set('jobID', jobID);
-    return this._httpClient?.delete(this.deleteJobUrl, { params: params });
+    let headers = new HttpHeaders();
+    headers.set('Content-Type', 'application/json; charset=utf-8')
+   .set('Accept', 'application/json');
+    return this._httpClient?.delete(`${this.baseUrl}/${this.deleteJobUrl}/${jobID}`, { headers: headers });
   }
 
 

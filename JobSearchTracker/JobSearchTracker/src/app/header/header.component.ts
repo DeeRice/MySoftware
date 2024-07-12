@@ -28,14 +28,12 @@ import { HttpClient } from '@angular/common/http';
 
 export class HeaderComponent {
  isHidden?: boolean;
-;
+
  public _appService?: AppService;
- public _httpClient: HttpClient;
-  constructor( @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, public appService: AppService,
-httpClient: HttpClient) {
+  constructor( @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, public appService: AppService) {
         this._appService = this.appService;
         this.isHidden = this._appService.ishidden;
-        this._httpClient = httpClient;
+  
   }
   public hide(){
     this.hide();
