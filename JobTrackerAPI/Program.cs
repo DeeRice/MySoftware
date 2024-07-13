@@ -7,6 +7,7 @@ using JobTrackerAPI.Interface;
 using JobTrackerAPI.Mapping;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using IntegraPartnersContactApplicationAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddDbContext<IntegraPartnersContactAPIDataContext>(options =>
+builder.Services.AddDbContext<JobTrackerAPIDataContext>(options =>
 {
     options.UseSqlServer("Data Source=DESKTOP-7Q3Q0SF;Initial Catalog=IntegraPartners;Integrated Security=True;Encrypt=False");
 });

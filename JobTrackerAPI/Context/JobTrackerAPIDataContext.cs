@@ -1,5 +1,5 @@
-﻿using IntegraPartnersContactApplicationAPI.Interface;
-using IntegraPartnersContactApplicationAPI.Model;
+﻿using JobTrackerAPI.Interface;
+using JobTrackerAPI.Model;
 using JobTrackerAPI.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;

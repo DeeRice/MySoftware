@@ -90,7 +90,7 @@ namespace JobTrackerAPI.Repository
 
                     await _appDbContext.SaveChangesAsync();
 
-                    Job updatedJob = _appDbContext.Jobs.FirstOrDefault(x => x.user_id == user.user_id);
+                    Job updatedJob = _appDbContext.Jobs.FirstOrDefault(x => x.JobID == Job.JobID);
                     return updatedJob;
                 }
             }
@@ -137,4 +137,4 @@ namespace JobTrackerAPI.Repository
         }
     }
 }
-}
+

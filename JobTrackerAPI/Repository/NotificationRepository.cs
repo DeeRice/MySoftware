@@ -40,7 +40,7 @@ namespace JobTrackerAPI.Repository
             {
                 try
                 {
-                    Notification.NotificationID = null;
+                    Notification.NotificationID = -1;
                     var result = await _appDbContext.Notifications.AddAsync(Notification);
 
                     await _appDbContext.SaveChangesAsync();
@@ -98,7 +98,7 @@ namespace JobTrackerAPI.Repository
                 .FirstOrDefaultAsync(e => e.NotificationID == NotificationID);
             if (result != null)
             {
-                var removeNotification = _appDbContext.Notifications.FirstOrDefault(x => x.user_id == user_id);
+                var removeNotification = _appDbContext.Notifications.FirstOrDefault(x => x.NotificationID == NotificationID);
                 _appDbContext.Notifications.Remove(result);
                 await _appDbContext.SaveChangesAsync();
                 return removeNotification;
@@ -128,4 +128,4 @@ namespace JobTrackerAPI.Repository
         }
     }
 }
-}
+
