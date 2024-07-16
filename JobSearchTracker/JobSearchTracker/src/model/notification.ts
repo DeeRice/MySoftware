@@ -11,6 +11,7 @@ ClientCompanyLocation?: string;
 ClientCompanyPhoneNumber?: string;
 NotificationDate?: Date;
 NotificationEvent: JTSNotificationEvent = JTSNotificationEvent.NotSet;
+FK_NotficationID_JobID: number = 0;
 }
 
 
