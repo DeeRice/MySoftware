@@ -1,3 +1,5 @@
+import { JTSJob } from '../model/job';
+
 export class JTSNotification {
 NotificationID: number = 0;
 RecruiterName?: string;
@@ -12,6 +14,7 @@ ClientCompanyPhoneNumber?: string;
 NotificationDate?: Date;
 NotificationEvent: JTSNotificationEvent = JTSNotificationEvent.NotSet;
 FK_NotficationID_JobID: number = 0;
+Job!: JTSJob;
 }
 
 
