@@ -16,8 +16,8 @@ namespace IntegraPartnersContactApplicationAPI
         {
 
         }
-        public virtual DbSet<Job> Jobs { get; set; } = null!;
-        public virtual DbSet<Notification> Notifications { get; set; } = null!;
+        public virtual DbSet<Job> Job { get; set; } = null!;
+        public virtual DbSet<Notification> Notification { get; set; } = null!;
 
         public new int SaveChanges()
         {

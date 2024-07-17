@@ -8,12 +8,12 @@ import { catchError, of } from 'rxjs';
   providedIn: 'root'
 })
 export class NotificationService {
-  public baseUrl ="https://localhost:44335"
-  public getNotificationByIDUrl: string = this.baseUrl + "/Notification/GetNotificationByID";
-  public getAllNotificationsUrl: string = this.baseUrl + "/Notification/GetAllNotifications";
-  public addNotificationUrl: string = this.baseUrl + "/Notification/AddNotification";
-  public updateNotificationUrl: string = this.baseUrl + "/Notification/UpdateNotification";
-  public deleteNotificationUrl: string = this.baseUrl + "/Notification/DeleteNotification";
+  public baseUrl ="https://localhost:7052"
+  public getNotificationByIDUrl: string = "Notification/GetNotificationByID";
+  public getAllNotificationsUrl: string =  "Notification/GetAllNotifications";
+  public addNotificationUrl: string = "Notification/AddNotification";
+  public updateNotificationUrl: string =  "Notification/UpdateNotification";
+  public deleteNotificationUrl: string =  "Notification/DeleteNotification";
   public _httpClient?: HttpClient;
   constructor(private httpClient: HttpClient) { 
     this._httpClient = httpClient;

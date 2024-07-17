@@ -18,14 +18,14 @@ namespace JobTrackerAPI.Repository
 
         public async Task<List<Notification>> GetAllNotifications()
         {
-            return await _appDbContext.Notifications.ToListAsync();
+            return await _appDbContext.Notification.ToListAsync();
         }
 
         public async Task<Notification> GetNotificationByID(int? NotificationID)
         {
             try
             {
-                return await _appDbContext.Notifications
+                return await _appDbContext.Notification
                     .FirstOrDefaultAsync(e => e.NotificationID == NotificationID);
             }
             catch (Exception ex)
@@ -41,10 +41,10 @@ namespace JobTrackerAPI.Repository
                 try
                 {
                     Notification.NotificationID = -1;
-                    var result = await _appDbContext.Notifications.AddAsync(Notification);
+                    var result = await _appDbContext.Notification.AddAsync(Notification);
 
                     await _appDbContext.SaveChangesAsync();
-                    Notification updatedNotification = _appDbContext.Notifications.FirstOrDefault(x => x.NotificationID == Notification.NotificationID);
+                    Notification updatedNotification = _appDbContext.Notification.FirstOrDefault(x => x.NotificationID == Notification.NotificationID);
                     return updatedNotification;
                 }
                 catch (Exception ex)
@@ -62,7 +62,7 @@ namespace JobTrackerAPI.Repository
         {
             try
             {
-                var result = await _appDbContext.Notifications
+                var result = await _appDbContext.Notification
                     .FirstOrDefaultAsync(e => e.NotificationID == Notification.NotificationID);
 
                 if (result != null)
@@ -83,7 +83,7 @@ namespace JobTrackerAPI.Repository
                     result.Job = Notification.Job;
                     await _appDbContext.SaveChangesAsync();
 
-                    Notification updatedNotification = _appDbContext.Notifications.FirstOrDefault(x => x.NotificationID == Notification.NotificationID);
+                    Notification updatedNotification = _appDbContext.Notification.FirstOrDefault(x => x.NotificationID == Notification.NotificationID);
                     return updatedNotification;
                 }
             }
@@ -96,12 +96,12 @@ namespace JobTrackerAPI.Repository
 
         public async Task<Notification> DeleteNotification(int? NotificationID)
         {
-            var result = await _appDbContext.Notifications
+            var result = await _appDbContext.Notification
                 .FirstOrDefaultAsync(e => e.NotificationID == NotificationID);
             if (result != null)
             {
-                var removeNotification = _appDbContext.Notifications.FirstOrDefault(x => x.NotificationID == NotificationID);
-                _appDbContext.Notifications.Remove(result);
+                var removeNotification = _appDbContext.Notification.FirstOrDefault(x => x.NotificationID == NotificationID);
+                _appDbContext.Notification.Remove(result);
                 await _appDbContext.SaveChangesAsync();
                 return removeNotification;
             }
@@ -113,20 +113,20 @@ namespace JobTrackerAPI.Repository
 
         public async Task<Notification> FindNotification(int? NotificationID)
         {
-            var notification = await _appDbContext.Notifications.FindAsync(NotificationID);
+            var notification = await _appDbContext.Notification.FindAsync(NotificationID);
             return notification;
         }
 
         public bool NotificationExists(int? NotificationID)
         {
-            var result = _appDbContext.Notifications.Any(e => e.NotificationID == NotificationID);
+            var result = _appDbContext.Notification.Any(e => e.NotificationID == NotificationID);
             return result;
         }
 
         public DbSet<Notification> PopulateDataSet(DbSet<Notification> Notifications)
         {
-            _appDbContext.Notifications = Notifications;
-            return _appDbContext.Notifications;
+            _appDbContext.Notification = Notifications;
+            return _appDbContext.Notification;
         }
     }
 }

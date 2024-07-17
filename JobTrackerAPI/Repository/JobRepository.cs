@@ -17,14 +17,14 @@ namespace JobTrackerAPI.Repository
 
         public async Task<List<Job>> GetAllJobs()
         {
-            return await _appDbContext.Jobs.ToListAsync();
+            return await _appDbContext.Job.ToListAsync();
         }
 
         public async Task<Job> GetJobByID(int? JobID)
         {
             try
             {
-                return await _appDbContext.Jobs
+                return await _appDbContext.Job
                     .FirstOrDefaultAsync(e => e.JobID == JobID);
             }
             catch (Exception ex)
@@ -40,10 +40,10 @@ namespace JobTrackerAPI.Repository
                 try
                 {
                     Job = null;
-                    var result = await _appDbContext.Jobs.AddAsync(Job);
+                    var result = await _appDbContext.Job.AddAsync(Job);
 
                     await _appDbContext.SaveChangesAsync();
-                    Job updatedJob = _appDbContext.Jobs.FirstOrDefault(x => x.JobID == Job.JobID);
+                    Job updatedJob = _appDbContext.Job.FirstOrDefault(x => x.JobID == Job.JobID);
                     return updatedJob;
                 }
                 catch (Exception ex)
@@ -61,7 +61,7 @@ namespace JobTrackerAPI.Repository
         {
             try
             {
-                var result = await _appDbContext.Jobs
+                var result = await _appDbContext.Job
                     .FirstOrDefaultAsync(e => e.JobID == Job.JobID);
 
                 if (result != null)
@@ -90,7 +90,7 @@ namespace JobTrackerAPI.Repository
 
                     await _appDbContext.SaveChangesAsync();
 
-                    Job updatedJob = _appDbContext.Jobs.FirstOrDefault(x => x.JobID == Job.JobID);
+                    Job updatedJob = _appDbContext.Job.FirstOrDefault(x => x.JobID == Job.JobID);
                     return updatedJob;
                 }
             }
@@ -103,12 +103,12 @@ namespace JobTrackerAPI.Repository
 
         public async Task<Job> DeleteJob(int? JobID)
         {
-            var result = await _appDbContext.Jobs
+            var result = await _appDbContext.Job
                 .FirstOrDefaultAsync(e => e.JobID == JobID);
             if (result != null)
             {
-                var removeJob = _appDbContext.Jobs.FirstOrDefault(x => x.JobID == JobID);
-                _appDbContext.Jobs.Remove(result);
+                var removeJob = _appDbContext.Job.FirstOrDefault(x => x.JobID == JobID);
+                _appDbContext.Job.Remove(result);
                 await _appDbContext.SaveChangesAsync();
                 return removeJob;
             }
@@ -120,20 +120,20 @@ namespace JobTrackerAPI.Repository
 
         public async Task<Job> FindJob(int? JobID)
         {
-            var job = await _appDbContext.Jobs.FindAsync(JobID);
+            var job = await _appDbContext.Job.FindAsync(JobID);
             return job;
         }
 
         public bool JobExists(int? JobID)
         {
-            var result = _appDbContext.Jobs.Any(e => e.JobID == JobID);
+            var result = _appDbContext.Job.Any(e => e.JobID == JobID);
             return result;
         }
 
         public DbSet<Job> PopulateDataSet(DbSet<Job> Job)
         {
-            _appDbContext.Jobs = Job;
-            return _appDbContext.Jobs;
+            _appDbContext.Job = Job;
+            return _appDbContext.Job;
         }
     }
 }

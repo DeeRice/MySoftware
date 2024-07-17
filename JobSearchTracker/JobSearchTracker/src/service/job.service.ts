@@ -8,12 +8,12 @@ import { catchError, of } from 'rxjs';
   providedIn: 'root'
 })
 export class JobService {
-public baseUrl ="https://localhost:44335"
-public getJobByIDUrl: string = this.baseUrl + "/Job/GetJobByID";
-public getAllJobsUrl: string = this.baseUrl + "/Job/GetAllJobs";
-public addJobUrl: string = this.baseUrl + "/Job/AddJob";
-public updateJobUrl: string = this.baseUrl + "/Job/UpdateJob";
-public deleteJobUrl: string = this.baseUrl + "/Job/DeleteJob";
+public baseUrl ="https://localhost:7052"
+public getJobByIDUrl: string =  "Job/GetJobByID";
+public getAllJobsUrl: string =  "Job/GetAllJobs";
+public addJobUrl: string = "Job/AddJob";
+public updateJobUrl: string = "Job/UpdateJob";
+public deleteJobUrl: string =  "Job/DeleteJob";
 public _httpClient?: HttpClient;
 public _currentJobID: number = -1;
   constructor(private httpClient: HttpClient) { 

@@ -18,7 +18,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<JobTrackerAPIDataContext>(options =>
 {
-    options.UseSqlServer("Data Source=DESKTOP-7Q3Q0SF;Initial Catalog=IntegraPartners;Integrated Security=True;Encrypt=False");
+    options.UseSqlServer("Data Source=DESKTOP-7Q3Q0SF;Initial Catalog=JobSearchTracker;Integrated Security=True;Encrypt=False");
 });
 builder.Services.AddScoped<IMapping, Mapping>();
 builder.Services.AddScoped<INotificationController, NotificationController>();
