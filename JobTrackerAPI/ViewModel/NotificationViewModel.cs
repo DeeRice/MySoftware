@@ -1,4 +1,5 @@
-﻿using static JobTrackerAPI.Enum.JTEnum;
+﻿using JobTrackerAPI.Model;
+using static JobTrackerAPI.Enum.JTEnum;
 
 namespace JobTrackerAPI.ViewModel
 {
@@ -14,7 +15,9 @@ namespace JobTrackerAPI.ViewModel
         public string ClientCompanyName;
         public string ClientCompanyLocation;
         public string ClientCompanyPhoneNumber;
-        public string NotificationDate;
+        public DateTime NotificationDate;
         public NotificationEvent NotificationEvent;
+        public int FK_NotficationID_JobID { get; set; }
+        public virtual JobViewModel JobViewModel { get; set; }
     }
 }

@@ -7,22 +7,22 @@ namespace JobTrackerAPI.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int      JobID;
-        public string   JobTitle;
-        public string   JobLocation;
-        public string   RecruiterName;
-        public string   ClientContactName;
-        public string   RecruiterCompanyName;
-        public string   ClientCompanyName;
-        public string   RecruiterPhoneNumber;
-        public string   ClientPhoneNumber;
-        public string   RecruiterCompanyLocation;
-        public string   ClientCompanyLocation;
-        public string   RecruiterNotes;
-        public string   ClientNotes;
-        public string   JobDescription;
-        public DateTime DateOfSubmission;
-        public DateTime DateOfFollowUp;
-        public DateTime DateOfInterview;
+        public int JobID { get; set; }
+        public string JobTitle { get; set; }
+        public string JobLocation { get; set; }
+        public string RecruiterName { get; set; }
+        public string ClientContactName { get; set; }
+        public string RecruiterCompanyName { get; set; }
+        public string ClientCompanyName { get; set; }
+        public string RecruiterPhoneNumber { get; set; }
+        public string ClientCompanyPhoneNumber { get; set; }
+        public string RecruiterCompanyLocation { get; set; }
+        public string ClientCompanyLocation { get; set; }
+        public string RecruiterNotes { get; set; }
+        public string ClientNotes { get; set; }
+        public string JobDescription { get; set; }
+        public DateTime DateOfSubmission { get; set; }
+        public DateTime DateOfFollowUp { get; set; }
+        public DateTime DateOfInterview { get; set; }
     }
 }

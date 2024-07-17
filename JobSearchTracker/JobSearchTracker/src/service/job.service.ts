@@ -9,11 +9,11 @@ import { catchError, of } from 'rxjs';
 })
 export class JobService {
 public baseUrl ="https://localhost:44335"
-public getJobByIDUrl: string = "";
-public getAllJobsUrl: string = "";
-public addJobUrl: string = "";
-public updateJobUrl: string = "";
-public deleteJobUrl: string = "";
+public getJobByIDUrl: string = this.baseUrl + "/Job/GetJobByID";
+public getAllJobsUrl: string = this.baseUrl + "/Job/GetAllJobs";
+public addJobUrl: string = this.baseUrl + "/Job/AddJob";
+public updateJobUrl: string = this.baseUrl + "/Job/UpdateJob";
+public deleteJobUrl: string = this.baseUrl + "/Job/DeleteJob";
 public _httpClient?: HttpClient;
 public _currentJobID: number = -1;
   constructor(private httpClient: HttpClient) { 

@@ -22,6 +22,8 @@ namespace JobTrackerAPI.Mapping
             notificationViewModel.ClientCompanyPhoneNumber = notification.ClientCompanyPhoneNumber;
             notificationViewModel.NotificationDate = notification.NotificationDate;
             notificationViewModel.NotificationEvent = notification.NotificationEvent;
+            notificationViewModel.FK_NotficationID_JobID = notification.FK_NotficationID_JobID;
+            notificationViewModel.JobViewModel = this.MapEntityToViewModel(notification.Job);
             return notificationViewModel;
         }
 
@@ -36,7 +38,7 @@ namespace JobTrackerAPI.Mapping
             jobViewModel.RecruiterCompanyName = job.RecruiterCompanyName;
             jobViewModel.ClientCompanyName = job.ClientCompanyName;
             jobViewModel.RecruiterPhoneNumber = job.RecruiterPhoneNumber;
-            jobViewModel.ClientPhoneNumber = job.ClientPhoneNumber;
+            jobViewModel.ClientCompanyPhoneNumber = job.ClientCompanyPhoneNumber;
             jobViewModel.RecruiterCompanyLocation = job.RecruiterCompanyLocation;
             jobViewModel.ClientCompanyLocation = job.ClientCompanyLocation;
             jobViewModel.RecruiterNotes = job.RecruiterNotes;
@@ -63,6 +65,8 @@ namespace JobTrackerAPI.Mapping
             notification.ClientCompanyPhoneNumber = notificationViewModel.ClientCompanyPhoneNumber;
             notification.NotificationDate = notificationViewModel.NotificationDate;
             notification.NotificationEvent = notificationViewModel.NotificationEvent;
+            notification.FK_NotficationID_JobID = notificationViewModel.FK_NotficationID_JobID;
+            notification.Job = this.MapViewModelToEntity(notificationViewModel.JobViewModel);
             return notification;
 
         }
@@ -78,7 +82,7 @@ namespace JobTrackerAPI.Mapping
             job.RecruiterCompanyName = jobViewModel.RecruiterCompanyName;
             job.ClientCompanyName = jobViewModel.ClientCompanyName;
             job.RecruiterPhoneNumber = jobViewModel.RecruiterPhoneNumber;
-            job.ClientPhoneNumber = jobViewModel.ClientPhoneNumber;
+            job.ClientCompanyPhoneNumber = jobViewModel.ClientCompanyPhoneNumber;
             job.RecruiterCompanyLocation = jobViewModel.RecruiterCompanyLocation;
             job.ClientCompanyLocation = jobViewModel.ClientCompanyLocation;
             job.RecruiterNotes = jobViewModel.RecruiterNotes;

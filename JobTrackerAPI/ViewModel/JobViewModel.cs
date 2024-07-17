@@ -10,7 +10,7 @@
         public string RecruiterCompanyName;
         public string ClientCompanyName;
         public string RecruiterPhoneNumber;
-        public string ClientPhoneNumber;
+        public string ClientCompanyPhoneNumber;
         public string RecruiterCompanyLocation;
         public string ClientCompanyLocation;
         public string RecruiterNotes;

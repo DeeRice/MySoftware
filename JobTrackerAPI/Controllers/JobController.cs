@@ -8,8 +8,7 @@ using NuGet.Protocol;
 
 namespace JobTrackerAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+   
     public class JobController : ControllerBase, IJobController
     {
         private readonly IJobRepository _IJobRepository;

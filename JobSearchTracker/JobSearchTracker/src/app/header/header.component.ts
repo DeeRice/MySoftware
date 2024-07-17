@@ -19,7 +19,7 @@ import { HttpClient } from '@angular/common/http';
   standalone: true,
   imports: [JobAppliedForComponent, TabViewModule, SetNotificationComponent,
     RemoveNotificationComponent, RemoveJobAppliedForComponent, AddJobAppliedForComponent,
-    ViewNotificationComponent, JobDetailsComponent, CommonModule, JobDetailsComponent, FormsModule
+    ViewNotificationComponent, CommonModule, JobDetailsComponent, FormsModule
   ],
   providers: [AppService, NgbModal, AppService, RouterModule, RouterOutlet, TabViewModule],
   templateUrl: './header.component.html',

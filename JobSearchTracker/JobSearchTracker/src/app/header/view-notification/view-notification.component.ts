@@ -2,25 +2,28 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
-import { ProductService } from '../../../service/product-service';
-import { Product } from '../../../model/product';
+import { JTSNotification } from 'src/model/notification';
+import { NotificationService } from 'src/service/notification.service';
 
 @Component({
   selector: 'app-view-notification',
   standalone: true,
   imports: [CommonModule, ButtonModule, TableModule],
-  providers: [ProductService],
+  providers: [NotificationService],
   templateUrl: './view-notification.component.html',
   styleUrl: './view-notification.component.scss'
 })
 
 export class ViewNotificationComponent {
-  products!: Product[];
-
-  constructor(private productService: ProductService) {}
+  _notifications!: JTSNotification[];
+  _notificationService!: NotificationService;
+  constructor(private notificationService: NotificationService) {
+    this._notificationService = notificationService;
+  }
   ngOnInit() {
-    this.productService.getProductsMini().then((data) => {
-        this.products = data;
-    });
+   /* this._notificationService.getAllNotifications()?.subscribe((data) => {
+        this._notifications = data;
+    }); */
+    this._notifications = [];
 }
 }

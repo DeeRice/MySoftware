@@ -9,15 +9,12 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
-import { CustomerService } from '../../../service/customer-service';
-import { Customer, Representative } from '../../../model/customer';
 import { SliderModule } from 'primeng/slider';
 import { FormsModule } from '@angular/forms';
-import { ProductService } from '../../../service/product-service';
-import { Product } from '../../../model/product';
 import { RouterLinkActive, ActivatedRoute, RouterModule, RouterLink, Router, RouterOutlet } from '@angular/router';
 import { AppService } from '../../../service/app.service';
 import { JobService } from 'src/service/job.service';
+import { JTSJob } from 'src/model/job';
 
 @Component({
   selector: 'app-job-applied-for',
@@ -25,21 +22,21 @@ import { JobService } from 'src/service/job.service';
   imports: [TableModule, InputTextModule, TagModule, 
     DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule, 
     SliderModule,  FormsModule,FormsModule, RouterModule],
-    providers: [CustomerService, ProductService, AppService, JobService, TableModule,CommonModule,
+    providers: [AppService, JobService, TableModule,CommonModule,
       RouterLinkActive,RouterLink, RouterOutlet],
   templateUrl: './job-applied-for.component.html',
   styleUrl: './job-applied-for.component.scss'
 })
 
 export class JobAppliedForComponent {
-    products!: Product[];
+    jobs!: JTSJob[];
     public _appService?: AppService; 
     public _jobService?: JobService; 
     public _router: any;
     public _routerLink: any;
     @Output() isHiddensChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
     constructor(@Inject(ActivatedRoute) activatedRoute: ActivatedRoute, @Inject(Router) router: Router,
-      private productService: ProductService, public appService: AppService, 
+     public appService: AppService, 
       jobService?: JobService, @Inject(RouterLink) routerLink?: RouterLink) {
         this._appService = appService;
         this._jobService = jobService;
@@ -48,9 +45,10 @@ export class JobAppliedForComponent {
       }
 
     ngOnInit() {
-        this.productService.getProducts().then((data) => {
-            this.products = data;
-        });
+        this._jobService?.getAllJobs()?.subscribe((data) => {
+           this.jobs = data;
+        }); 
+        
     }
 
     goToDetailPage(id: string) {
