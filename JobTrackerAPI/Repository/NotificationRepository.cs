@@ -41,6 +41,7 @@ namespace JobTrackerAPI.Repository
                 try
                 {
                     Notification.NotificationID = -1;
+                   
                     var result = await _appDbContext.Notification.AddAsync(Notification);
 
                     await _appDbContext.SaveChangesAsync();
@@ -121,6 +122,12 @@ namespace JobTrackerAPI.Repository
         {
             var result = _appDbContext.Notification.Any(e => e.NotificationID == NotificationID);
             return result;
+        }
+
+        public async Task<int?> GetLastNotificationID()
+        {
+            int? lastNotificationID = _appDbContext?.Notification?.OrderByDescending(x => x.NotificationID).FirstOrDefault()?.NotificationID;
+            return lastNotificationID;
         }
 
         public DbSet<Notification> PopulateDataSet(DbSet<Notification> Notifications)

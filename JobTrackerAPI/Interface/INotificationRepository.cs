@@ -12,6 +12,7 @@ namespace JobTrackerAPI.Interface
         Task<Notification> EditNotification(int? notificationID, Notification notification);
         Task<Notification> DeleteNotification(int? notificationID);
         bool NotificationExists(int? notificationID);
+        Task<int?> GetLastNotificationID();
         DbSet<Notification> PopulateDataSet(DbSet<Notification> Notifications);
     }
 }

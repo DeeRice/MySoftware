@@ -39,9 +39,8 @@ namespace JobTrackerAPI.Repository
             {
                 try
                 {
-                    Job = null;
+                   
                     var result = await _appDbContext.Job.AddAsync(Job);
-
                     await _appDbContext.SaveChangesAsync();
                     Job updatedJob = _appDbContext.Job.FirstOrDefault(x => x.JobID == Job.JobID);
                     return updatedJob;
@@ -71,7 +70,7 @@ namespace JobTrackerAPI.Repository
                     result.JobTitle = Job.JobTitle;
                     result.JobLocation = Job.JobLocation;
                     result.RecruiterName = Job.RecruiterName;
-                    result.ClientContactName = Job.ClientContactName;
+                    result.ClientCompanyContactName = Job.ClientCompanyContactName;
                     result.RecruiterCompanyName = Job.RecruiterCompanyName;
                     result.ClientCompanyName = Job.ClientCompanyName;
                     result.RecruiterPhoneNumber = Job.RecruiterPhoneNumber;
@@ -128,6 +127,12 @@ namespace JobTrackerAPI.Repository
         {
             var result = _appDbContext.Job.Any(e => e.JobID == JobID);
             return result;
+        }
+
+        public async Task<int ?> GetLastJobID()
+        {
+           int ? lastJobID = _appDbContext?.Job?.OrderByDescending(x => x.JobID).FirstOrDefault()?.JobID;
+            return lastJobID;
         }
 
         public DbSet<Job> PopulateDataSet(DbSet<Job> Job)

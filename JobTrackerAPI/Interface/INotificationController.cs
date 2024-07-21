@@ -12,5 +12,6 @@ namespace JobTrackerAPI.Interface
         Task<JsonResult> EditNotification(int? notificationID, [Bind("UserID,Username,FirstName,LastName,Email,UserStatus,Department")] NotificationViewModel notificationViewModel);
         Task<JsonResult> DeleteNotification(int? notificationID);
         bool NotificationExists(int? notificationID);
+        Task<JsonResult> GetLastNotificationID();
     }
 }

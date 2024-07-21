@@ -36,10 +36,10 @@ export class RemoveJobAppliedForComponent {
      this._confirmationService = confirmationService;
   }
   ngOnInit() {
-   /* this._jobService?.getAllJobs()?.subscribe((data) => {
-        this._jobs = data;
-    });*/
-    this._jobs = [];
+   this._jobService?.getAllJobs()?.subscribe((data) => {
+    this._jobs = JSON.parse(data.toString());
+    });
+
 }
 
 remove(id: number){

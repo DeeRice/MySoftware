@@ -16,7 +16,10 @@ $display: (
     text-align: center;
     position:relative;
     bottom: 0.5em;
-    color: #000080;
+    background-color: #000080;
+    color:white;
+    padding-bottom: 10px;
+    padding-top: 10px;
   }
 
   .empty {
@@ -28,4 +31,6 @@ $display: (
    padding-right: 48%;
    background-color: #000080;
   }
-  
+  :host ::ng-deep {
+ 
+  }

@@ -6,23 +6,51 @@
     [rowsPerPageOptions]="[5, 10, 20]">
         <ng-template pTemplate="header">
             <tr>
-                <th>Number</th>
-                <th>Recruiter Company Name</th>
-                <th>Client Company Name</th>
-                <th>Remove</th>
+                <td>Number</td>
+                <td>Job ID</td>
+                <td>Job Title </td>
+                <td>Job Location </td>
+                <td>Recruiter Name </td>
+                <td>Client Contact Name </td>
+                <td>Recruiter Company Name </td>
+                <td>Client Name </td>
+                <td>Recruiter Phone Number </td>
+                <td>Client Phone Number </td>
+                <td>Recruiter Location </td>
+                <td>Client Location </td>
+                <td>Recruiter Notes </td>
+                <td>Client Notes </td>
+                <td>Job Description </td>
+                <td>Date Of Submission </td>
+                <td>Date Of FollowUp </td>
+                <td>Date Of Interview </td>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-product>
+        <ng-template pTemplate="body" let-job>
             <tr>
-                <td>{{product.id}}</td>
-                <td>{{ product.code }}</td>
-                <td>{{ product.name }}</td>
+                <td>{{ job.JobID}}</td>
+                <td>{{ job.JobTitle }}</td>
+                <td>{{ job.JobLocation }}</td>
+                <td>{{ job.RecruiterName }}</td>
+                <td>{{ job.ClientCompanyContactName }}</td>
+                <td>{{ job.RecruiterCompanyName }}</td>
+                <td>{{ job.ClientCompanyName }}</td>
+                <td>{{ job.RecruiterPhoneNumber }}</td>
+                <td>{{ job.ClientCompanyPhoneNumber }}</td>
+                <td>{{ job.RecruiterCompanyLocation }}</td>
+                <td>{{ job.ClientCompanyLocation }}</td>
+                <td>{{ job.RecruiterNotes }}</td>
+                <td>{{ job.ClientNotes }}</td>
+                <td>{{ job.JobDescription }}</td>
+                <td>{{ job.DateOfSubmission }}</td>
+                <td>{{ job.DateOfFollowUp }}</td>
+                <td>{{ job.DateOfInterview }}</td>
                 <td>
                     <button 
                     pButton 
                     pRipple 
                     label="Remove" 
-                    class="p-button-danger" [rounded]="true" (click)="remove(product.id)">
+                    class="p-button-danger" [rounded]="true" (click)="remove(job.JobID)">
                 </button>
                 </td>
             </tr>

@@ -1,23 +1,42 @@
-﻿namespace JobTrackerAPI.ViewModel
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace JobTrackerAPI.ViewModel
 {
     public class JobViewModel
     {
-        public int JobID;
-        public string JobTitle;
-        public string JobLocation;
-        public string RecruiterName;
-        public string ClientContactName;
-        public string RecruiterCompanyName;
-        public string ClientCompanyName;
-        public string RecruiterPhoneNumber;
-        public string ClientCompanyPhoneNumber;
-        public string RecruiterCompanyLocation;
-        public string ClientCompanyLocation;
-        public string RecruiterNotes;
-        public string ClientNotes;
-        public string JobDescription;
-        public DateTime DateOfSubmission;
-        public DateTime DateOfFollowUp;
-        public DateTime DateOfInterview;
+        [BindProperty(Name = "JobID", SupportsGet = true)]
+        public int JobID { get; set; }
+        [BindProperty(Name = "JobTitle", SupportsGet = true)]
+        public string ? JobTitle { get; set; }
+        [BindProperty(Name = "JobLocation", SupportsGet = true)]
+        public string ? JobLocation { get; set; }
+        [BindProperty(Name = "RecruiterName", SupportsGet = true)]
+        public string ? RecruiterName { get; set; }
+        [BindProperty(Name = "ClientCompanyContactName", SupportsGet = true)]
+        public string ? ClientCompanyContactName { get; set; }
+        [BindProperty(Name = "RecruiterCompanyName", SupportsGet = true)]
+        public string ? RecruiterCompanyName { get; set; }
+        [BindProperty(Name = "ClientCompanyName", SupportsGet = true)]
+        public string ? ClientCompanyName { get; set; }
+        [BindProperty(Name = "RecruiterPhoneNumber", SupportsGet = true)]
+        public string ? RecruiterPhoneNumber { get; set; }
+        [BindProperty(Name = "ClientCompanyPhoneNumber", SupportsGet = true)]
+        public string ? ClientCompanyPhoneNumber { get; set; }
+        [BindProperty(Name = "RecruiterCompanyLocation", SupportsGet = true)]
+        public string ? RecruiterCompanyLocation { get; set; }
+        [BindProperty(Name = "ClientCompanyLocation", SupportsGet = true)]
+        public string ? ClientCompanyLocation { get; set; }
+        [BindProperty(Name = "RecruiterNotes", SupportsGet = true)]
+        public string ? RecruiterNotes { get; set; }
+        [BindProperty(Name = "ClientNotes", SupportsGet = true)]
+        public string ? ClientNotes { get; set; }
+        [BindProperty(Name = "JobDescription", SupportsGet = true)]
+        public string ? JobDescription { get; set; }
+        [BindProperty(Name = "DateOfSubmission", SupportsGet = true)]
+        public DateTime ? DateOfSubmission { get; set; }
+        [BindProperty(Name = "DateOfFollowUp", SupportsGet = true)]
+        public DateTime ? DateOfFollowUp { get; set; }
+        [BindProperty(Name = "DateOfInterview", SupportsGet = true)]
+        public DateTime ? DateOfInterview { get; set; }
     }
 }

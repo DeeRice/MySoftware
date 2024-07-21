@@ -17,15 +17,17 @@ import { AppService } from '../service/app.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TableModule } from 'primeng/table';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [HeaderComponent, SetNotificationComponent, TabViewModule,
     RemoveNotificationComponent, RemoveJobAppliedForComponent, JobAppliedForComponent, JobDetailsComponent,
-    AddJobAppliedForComponent, ViewNotificationComponent, RouterModule],
+    AddJobAppliedForComponent, ViewNotificationComponent, RouterModule, TableModule, CommonModule],
   providers: [NgbModal, AppService, RouterModule, RouterOutlet, CommonModule,RouterLink, 
-    RouterLinkActive, FormsModule, RouterOutlet, BrowserAnimationsModule],
+    RouterLinkActive, FormsModule, RouterOutlet, BrowserAnimationsModule, TableModule, PrimeNGConfig],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

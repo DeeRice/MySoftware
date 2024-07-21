@@ -14,5 +14,7 @@ namespace JobTrackerAPI.Interface
         Task<JsonResult> EditJob(int? JobID, [Bind("UserID,Username,FirstName,LastName,Email,UserStatus,Department")] JobViewModel JobViewModel);
         Task<JsonResult> DeleteJob(int? JobID);
         bool JobExists(int? JobID);
+
+        Task<JsonResult> GetLastJobID();
     }
 }

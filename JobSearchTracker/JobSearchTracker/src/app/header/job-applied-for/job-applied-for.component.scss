@@ -7,11 +7,18 @@
             background-color: #607D8B;
         }
     }
+    thead.p-datatable-thead{
+        background-color: #000080;
+        color: white;
+        text-align: center;
+        font-size: 15px;
+    }
+    td {
+        text-align: center;
+        width: 40px;
+    }
+   
 }
 .search-table-outter { overflow-x: scroll; }
-th, td { min-width: 200px; }
-
-th{
-    background-color: #000080;
-    color: white;
-}
+th, td { min-width: 300px; }
+tr { max-height: 48px;}

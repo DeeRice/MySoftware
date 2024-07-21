@@ -34,7 +34,7 @@ namespace JobTrackerAPI.Mapping
             jobViewModel.JobTitle = job.JobTitle;
             jobViewModel.JobLocation = job.JobLocation;
             jobViewModel.RecruiterName = job.RecruiterName;
-            jobViewModel.ClientContactName = job.ClientContactName;
+            jobViewModel.ClientCompanyContactName = job.ClientCompanyContactName;
             jobViewModel.RecruiterCompanyName = job.RecruiterCompanyName;
             jobViewModel.ClientCompanyName = job.ClientCompanyName;
             jobViewModel.RecruiterPhoneNumber = job.RecruiterPhoneNumber;
@@ -78,7 +78,7 @@ namespace JobTrackerAPI.Mapping
             job.JobTitle = jobViewModel.JobTitle;
             job.JobLocation = jobViewModel.JobLocation;
             job.RecruiterName = jobViewModel.RecruiterName;
-            job.ClientContactName = jobViewModel.ClientContactName;
+            job.ClientCompanyContactName = jobViewModel.ClientCompanyContactName;
             job.RecruiterCompanyName = jobViewModel.RecruiterCompanyName;
             job.ClientCompanyName = jobViewModel.ClientCompanyName;
             job.RecruiterPhoneNumber = jobViewModel.RecruiterPhoneNumber;

@@ -1,46 +1,54 @@
 import { Component, EventEmitter, Inject, Output } from '@angular/core';
-import { Table, TableModule } from 'primeng/table';
+import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { routes } from '../app.routes';
-import { RouterLinkActive, ActivatedRoute, RouterModule, Router } from '@angular/router';
+import { RouterLinkActive, ActivatedRoute, RouterModule, Router, RoutesRecognized, Params } from '@angular/router';
 import { JTSJob } from '../../model/job';
 import { HeaderComponent } from '../header/header.component';
 import { JobService } from '../../service/job.service';
+import { debounce, debounceTime, distinctUntilChanged, interval, Observable, ObservableInput, switchMap } from 'rxjs';
+import { AppService } from 'src/service/app.service';
+import { AddJobTable } from 'src/model/add-job-table';
 
 @Component({
   selector: 'app-job-details',
   standalone: true,
-  imports: [HeaderComponent, ButtonModule],
-  providers: [JobService, TableModule, CommonModule, ButtonModule,RouterModule],
+  imports: [HeaderComponent, ButtonModule, TableModule, CommonModule],
+  providers: [JobService, AppService, TableModule, CommonModule, ButtonModule,RouterModule],
   templateUrl: './job-details.component.html',
   styleUrl: './job-details.component.scss'
 })
 export class JobDetailsComponent {
-  public titles!: string[];
-  public job?: JTSJob;
+  public titles?: AddJobTable[] = [];
   public _jobService?: JobService;
-  public _router: any;
+  public _appService?: AppService;
+  public _router: Router;
+  public _route?: ActivatedRoute;
   constructor(@Inject(ActivatedRoute) activatedRoute: ActivatedRoute, 
-   public jobService: JobService,
+   public jobService: JobService, appService: AppService,
     @Inject(Router) router: Router) {
      this._jobService = jobService;
      this._router = router;
-     console.log();
+     this._route = activatedRoute;
+     this._appService = appService;
+     this.jobDetails! = [] as JTSJob[];
     }
-  jobs!:  JTSJob[];
-  ngOnInit() {
-   this.titles = ["Recruiter Company Name", "Client Company Name" , 
-   "Job Location", "Job Title", "Job Description", "Recruiter Phone Number", 
-   "Recruiter Name", "Recruiter Phone Number", "Recruiter Notes",
-    "Client Phone Number" , "Client Notes" , "Date Of Submission" , 
-    "Date of Follow Up", "Date of Interview"];
-   /*
-   var id:number =this._jobService?._currentJobID as number;
- /*  this._jobService?.getJobByID(id)?.subscribe((data) => {
-       this.job = data;
-    }); */
-    this.job = new JTSJob();
+  public job!: JTSJob;
+  public jobDetails!: JTSJob[];
+  jobID: number = -1;
+ async ngOnInit() {
+   this.titles = this._appService?.addJobTitles;
+  await this._route?.params.subscribe((data: Params) =>{
+      this.jobID = parseInt(data["id"]);
+    });
+    if(Number.isNaN(this.jobID) == false){
+      this._jobService!.getJobByID(this.jobID)!.pipe(debounceTime(300), distinctUntilChanged(), switchMap((value: JTSJob, index: number) => this._jobService!.getJobByID(this.jobID) as unknown as ObservableInput<JTSJob>)).subscribe((data: JTSJob) => {
+        this.job! = JSON.parse(data.toString());
+           this!.jobDetails!.push(this!.job!);
+     });
+    }
+   
  }
  goBackToJobGrid(){
   this._router.navigateByUrl("/app-header");

@@ -2,6 +2,7 @@
 using JobTrackerAPI.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using NuGet.Protocol;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -32,7 +33,7 @@ namespace JobTrackerAPI.Controllers
             {
                 listOfAllJobs.Add(_mapper.MapEntityToViewModel(x));
             });
-            return new JsonResult(listOfAllJobs);
+            return new JsonResult(JsonConvert.SerializeObject(listOfAllJobs));
         }
 
         // GET: Users/GetUser/5
@@ -47,7 +48,7 @@ namespace JobTrackerAPI.Controllers
                 return new JsonResult(new Exception("Could Not Find User With Specified ID").Message.ToJson());
             }
 
-            return new JsonResult(jobViewModel);
+            return new JsonResult(jobViewModel.ToJson());
         }
 
 
@@ -55,17 +56,18 @@ namespace JobTrackerAPI.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-
-        public async Task<JsonResult> CreateJob([FromBody] JobViewModel JobViewModel)
+        [ActionName("CreateJob")]
+        [AcceptVerbs("application/json")]
+        public async Task<JsonResult> CreateJob([FromBody]JobViewModel JobViewModel)
         {
 
             if (ModelState.IsValid)
             {
-                if (JobExists(JobViewModel.JobID) == false)
+                if (JobExists(JobViewModel.JobID) == false && JobViewModel.JobID != 0 && JobViewModel.JobID != -1)
                 {
                     var userEntity = _mapper.MapViewModelToEntity(JobViewModel);
                     var returnedViewModel = _mapper.MapEntityToViewModel(await _IJobRepository.CreateJob(userEntity));
-                    return new JsonResult(returnedViewModel);
+                    return new JsonResult(returnedViewModel.ToJson());
                 }
                 else
                 {
@@ -84,7 +86,7 @@ namespace JobTrackerAPI.Controllers
             {
                 return new JsonResult(new Exception("Could Not Find User With The Submitted ID.").Message.ToJson());
             }
-            return new JsonResult(jobViewModel);
+            return new JsonResult(jobViewModel.ToJson());
         }
 
         // POST: Users/Edit/5
@@ -111,7 +113,7 @@ namespace JobTrackerAPI.Controllers
                     {
                         var userEntity = _mapper.MapViewModelToEntity(JobViewModel);
                         var returnedViewModel = _mapper.MapEntityToViewModel(await _IJobRepository.EditJob(JobID, userEntity));
-                        return new JsonResult(returnedViewModel);
+                        return new JsonResult(returnedViewModel.ToJson());
                     }
                     else
                     {
@@ -142,7 +144,7 @@ namespace JobTrackerAPI.Controllers
             if (job != null)
             {
                 var returnedViewModel = _mapper.MapEntityToViewModel(await _IJobRepository.DeleteJob(JobID));
-                return new JsonResult(returnedViewModel);
+                return new JsonResult(returnedViewModel.ToJson());
             }
             else
             {
@@ -153,6 +155,12 @@ namespace JobTrackerAPI.Controllers
         public bool JobExists(int? JobID)
         {
             return _IJobRepository.JobExists(JobID);
+        }
+
+        public async Task<JsonResult> GetLastJobID()
+        {
+          int ? lastJobID = await _IJobRepository.GetLastJobID();
+          return new JsonResult(lastJobID.ToJson());
         }
     }
 }

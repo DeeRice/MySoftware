@@ -12,6 +12,7 @@ namespace JobTrackerAPI.Interface
         Task<Job> EditJob(int? JobID, Job Job);
         Task<Job> DeleteJob(int? JobID);
         bool JobExists(int? JobID);
+        Task<int?> GetLastJobID();
         DbSet<Job> PopulateDataSet(DbSet<Job> Jobs);
     }
 }

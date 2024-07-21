@@ -1,4 +1,5 @@
 ﻿using JobTrackerAPI.Interface;
+using JobTrackerAPI.Repository;
 using JobTrackerAPI.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -154,6 +155,12 @@ namespace JobTrackerAPI.Controllers
         public bool NotificationExists(int? NotificationViewModel)
         {
             return _INotificationRepository.NotificationExists(NotificationViewModel);
+        }
+
+        public async Task<JsonResult> GetLastNotificationID()
+        {
+            int? lastNotificationID = await _INotificationRepository.GetLastNotificationID();
+            return new JsonResult(lastNotificationID.ToJson());
         }
     }
 }

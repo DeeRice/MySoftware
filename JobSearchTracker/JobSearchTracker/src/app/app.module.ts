@@ -20,21 +20,22 @@ import { JobDetailsComponent } from './job-details/job-details.component';
 import {FormsModule } from '@angular/forms';
 import { provideHttpClient, withJsonpSupport } from '@angular/common/http';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
-
+import { TableModule } from 'primeng/table';
+import { PrimeNGConfig } from 'primeng/api';
 
 
 @NgModule({
   imports: [AppComponent,RouterModule.forRoot([
     {path: 'app-header', component: HeaderComponent},
     {path: 'app-job-details', component: JobDetailsComponent}
-]), RouterModule, BrowserAnimationsModule],
+]), RouterModule, BrowserAnimationsModule, TableModule, CommonModule],
   providers: [provideRouter(routes, withComponentInputBinding()), provideHttpClient(withJsonpSupport()),
-    RouterOutlet, RouterModule, CommonModule, RouterLink, RouterLinkActive,FormsModule, BrowserModule, 
-    NgbModule,NgModule, BrowserAnimationsModule, provideAnimations()]
+    RouterOutlet, TableModule, RouterModule, CommonModule, RouterLink, RouterLinkActive,FormsModule, BrowserModule, 
+    NgbModule,NgModule, BrowserAnimationsModule, provideAnimations(), PrimeNGConfig]
 })
 
 export class AppModule { }
 
 bootstrapApplication(AppComponent, {
-  providers: [provideHttpClient(withJsonpSupport()), provideAnimations()]
+  providers: [provideHttpClient(withJsonpSupport()), provideAnimations(), PrimeNGConfig, provideRouter(routes, withComponentInputBinding())]
 });
