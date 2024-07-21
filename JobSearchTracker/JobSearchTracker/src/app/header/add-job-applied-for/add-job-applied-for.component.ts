@@ -90,6 +90,7 @@ clear() {
   this.addJob.reset();
 }
 confirm() {
+  debugger;
   this.confirmationService.confirm({
       message: 'Are you sure that you want to add this job?',
       accept: () => {
@@ -111,7 +112,6 @@ confirm() {
         job.DateOfSubmission = new Date(this.addJob.controls.DateOfSubmission.value as string) || undefined;
         job.DateOfFollowUp = new Date(this.addJob.controls.DateOfFollowUp.value as string) || undefined;
         job.DateOfInterview = new Date(this.addJob.controls.DateOfInterview.value as string) || undefined;
-        debugger;
         this._jobService?.addJob(job)?.subscribe(
           (result) => {
             // Handle result

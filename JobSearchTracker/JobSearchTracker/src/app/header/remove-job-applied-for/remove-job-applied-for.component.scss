@@ -28,3 +28,7 @@ th{
 button {
     border-radius: 10px;
   }
+
+  :host ::ng-deep button {
+    margin-right: .25em;
+}

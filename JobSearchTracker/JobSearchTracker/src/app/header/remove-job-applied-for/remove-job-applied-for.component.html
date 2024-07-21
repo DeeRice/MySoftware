@@ -1,7 +1,9 @@
 <div class="card">
-    <p-table [value]="_jobs"    
+    <p-table [value]="_jobs" 
+    [columns]="_appService?.addJobTitles"  
     [paginator]="true"
     [rows]="5"
+    dataKey="JobID"
     [tableStyle]="{ 'min-width': '50rem' }"
     [rowsPerPageOptions]="[5, 10, 20]">
         <ng-template pTemplate="header">
@@ -46,7 +48,7 @@
                 <td>{{ job.DateOfFollowUp }}</td>
                 <td>{{ job.DateOfInterview }}</td>
                 <td>
-                    <button 
+                    <button
                     pButton 
                     pRipple 
                     label="Remove" 
