@@ -1,62 +1,79 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
-import { ProductService } from '../../../service/product-service';
-import { Product } from '../../../model/product';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ToastModule } from 'primeng/toast';
-import { JobService } from '../../../service/job.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { FormGroup, FormControl, FormControlName, NgModel, NgForm, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppService } from '../../../service/app.service';
+import { AddJobTable } from '../../../model/add-job-table';
+import { JTSJob } from '../../../model/job';
+import { JobService } from '../../../service/job.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component } from '@angular/core';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-remove-job-applied-for',
   standalone: true,
   imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule, 
     ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule],
-   providers: [ProductService, JobService, MessageService, ConfirmationService,  ConfirmDialogModule, BrowserAnimationsModule],
+   providers: [JobService, MessageService, ConfirmationService,ToastModule, ButtonModule, ConfirmDialogModule],
   templateUrl: './remove-job-applied-for.component.html',
   styleUrl: './remove-job-applied-for.component.scss'
 })
 export class RemoveJobAppliedForComponent {
-  public products!: Product[];
+  public _jobs!: JTSJob[];
+  public titles?: AddJobTable[] = [];
   public _jobService?: JobService;
-  public _messageService: MessageService;
-  public _confirmationService: ConfirmationService;
+  public _messageService?: MessageService;
+  public _confirmationService?: ConfirmationService;
+  public _appService?: AppService;
   public currentID:number = -1;
-  constructor(private productService: ProductService, 
-    private messageService: MessageService, private confirmationService: ConfirmationService,
-    private jobService: JobService,
-  ) {
-     this._jobService = jobService;
-     this._messageService = messageService;
-     this._confirmationService = confirmationService;
-  }
+  constructor(private appService: AppService, private jobService: JobService,
+    private messageService: MessageService, private confirmationService: ConfirmationService
+    ) {
+      this._appService = appService;
+      this._jobService = jobService;
+      this._messageService = messageService;
+      this._confirmationService = confirmationService;
+    }
   ngOnInit() {
-    this.productService.getProductsMini().then((data) => {
-        this.products = data;
+    this.titles = this._appService?.addJobTitles;  
+   this._jobService?.getAllJobs()?.subscribe((data) => {
+    this._jobs = JSON.parse(data.toString());
     });
+
 }
 
 remove(id: number){
   console.log(id);
   this.currentID = id;
-  confirm();
+  this.confirm();
 }
 
 confirm() {
   this.confirmationService.confirm({
-      message: 'Are you sure that you want to remove this job?',
+    message: 'Do you want to delete this record?',
+    header: 'Delete Confirmation',
+    icon: 'pi pi-info-circle',
       accept: () => {
-          //Actual logic to perform a confirmation
-          this._jobService?.deleteJob(this.currentID)?.subscribe(
-            data => this._messageService?.add({severity:'info', summary:'Confirmed', detail:'You have successfully removed the job.'}),
-            error => this._messageService?.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to remove the job.'})
-          ); 
+
+        this._jobService?.deleteJob(this.currentID)?.subscribe(
+          (result) => {
+            // Handle result
+            console.log(result)
+          },
+          (error) => {
+            this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
+          },
+          () => {
+            // No errors, route to new page
+            this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'})
+          }
+        );
       }
   });
 }

@@ -1,0 +1,11 @@
+@JobTrackerAPI_HostAddress = http://localhost:5280
+
+GET {{JobTrackerAPI_HostAddress}}/Notification/
+Accept: application/json
+
+###
+
+
+GET {{JobTrackerAPI_HostAddress}}/Job/
+Accept: application/json
+

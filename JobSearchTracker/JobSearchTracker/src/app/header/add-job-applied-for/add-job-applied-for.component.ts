@@ -29,6 +29,8 @@ export class AddJobAppliedForComponent {
   public _jobService?: JobService;
   public _messageService?: MessageService;
   public _confirmationService?: ConfirmationService;
+  public jobIDIsDiabled:boolean = true;
+  public newJobID:number = -1;
   constructor(private appService: AppService, private jobService: JobService,
   private messageService: MessageService, private confirmationService: ConfirmationService
   ) {
@@ -37,15 +39,33 @@ export class AddJobAppliedForComponent {
     this._messageService = messageService;
     this._confirmationService = confirmationService;
   }
-  ngOnInit() {
+ async ngOnInit() {
    this.titles = this._appService?.addJobTitles;   
+   await this._jobService?.getLastJobID()?.subscribe((jobid)=>{
+       let returnJobID = jobid;
+       if(isNaN(jobid) === true){
+        jobid = 1;
+        this.newJobID = jobid;
+        this.addJob.controls.JobID.setValue(this.newJobID.toString());
+       }
+       else{
+       this.newJobID = parseInt(returnJobID.toString()) + 1;
+       this.addJob.controls.JobID.setValue(this.newJobID.toString());
+       }
+   });
+
   }
 public isNotes(title:any): Boolean {
-  if(title === "Client Notes" || title === "Recruiter Notes")
-   return false;
-  else
-   return true;
+  this.addJob.controls["JobID"].disable();
+  if(title === "Client Notes" || title === "Recruiter Notes"){
+    return false;
+  }
+  
+  else{
+    return true;
+  }
  }
+
 
 addJob = new FormGroup({
  RecruiterCompanyName: new FormControl(''),
@@ -58,8 +78,7 @@ addJob = new FormGroup({
   RecruiterName: new FormControl(''),
   RecruiterPhoneNumber: new FormControl(''),
   RecruiterNotes: new FormControl(''),
-  ClientContactName: new FormControl(''),
-  ClientContactPhoneNumber: new FormControl(''),
+  ClientCompanyContactName: new FormControl(''),
   ClientNotes: new FormControl(''),
   RecruiterCompanyLocation: new FormControl(''),	
   ClientCompanyLocation: new FormControl(''),
@@ -67,6 +86,7 @@ addJob = new FormGroup({
   DateOfFollowUp: new FormControl(''),
   DateOfInterview: new FormControl(''),
 });
+
 
 save(form: FormGroup){
 this.addJob = form;
@@ -77,32 +97,57 @@ clear() {
   this.addJob.reset();
 }
 confirm() {
+  debugger;
   this.confirmationService.confirm({
       message: 'Are you sure that you want to add this job?',
       accept: () => {
         var job = new JTSJob();
-        job.ClientCompanyLocation = this.addJob.controls.ClientCompanyLocation.value || undefined;
+        job.JobID = Number.parseInt(this.addJob.controls.JobID.value as string) || -1;
+        job.JobTitle = this.addJob.controls.JobTitle.value || undefined;
+        job.JobLocation = this.addJob.controls.JobLocation.value || undefined;
+        job.RecruiterName = this.addJob.controls.RecruiterName.value || undefined;
+        job.ClientCompanyContactName = this.addJob.controls.ClientCompanyContactName.value || undefined;
+        job.RecruiterCompanyName = this.addJob .controls.RecruiterCompanyName.value || undefined;
         job.ClientCompanyName = this.addJob .controls.ClientCompanyName.value || undefined;
-        job.ClientContactName = this.addJob .controls.ClientContactName.value || undefined;
-        job.ClientNotes = this.addJob.controls.ClientNotes.value || undefined;
+        job.RecruiterPhoneNumber = this.addJob.controls.RecruiterPhoneNumber.value || undefined;
         job.ClientCompanyPhoneNumber = this.addJob.controls.ClientCompanyPhoneNumber.value || undefined;
+        job.RecruiterCompanyLocation = this.addJob.controls.RecruiterCompanyLocation.value || undefined;
+        job.ClientCompanyLocation = this.addJob.controls.ClientCompanyLocation.value || undefined;
+        job.RecruiterNotes = this.addJob.controls.RecruiterNotes.value || undefined;
+        job.ClientNotes = this.addJob.controls.ClientNotes.value || undefined;
+        job.JobDescription = this.addJob.controls.JobDescription.value || undefined;
+        job.DateOfSubmission = new Date(this.addJob.controls.DateOfSubmission.value as string) || undefined;
         job.DateOfFollowUp = new Date(this.addJob.controls.DateOfFollowUp.value as string) || undefined;
         job.DateOfInterview = new Date(this.addJob.controls.DateOfInterview.value as string) || undefined;
-        job.DateOfSubmission = new Date(this.addJob.controls.DateOfSubmission.value as string) || undefined;
-        job.JobDescription = this.addJob.controls.JobDescription.value || undefined;
-        job.JobID = Number.parseInt(this.addJob.controls.JobID.value as string) || -1;
-        job.JobLocation = this.addJob.controls.JobLocation.value || undefined;
-        job.JobTitle = this.addJob.controls.JobTitle.value || undefined;
-        job.RecruiterCompanyLocation = this.addJob.controls.RecruiterCompanyLocation.value || undefined;
-        job.RecruiterName = this.addJob.controls.RecruiterName.value || undefined;
-        job.RecruiterNotes = this.addJob.controls.RecruiterNotes.value || undefined;
-        job.RecruiterPhoneNumber = this.addJob.controls.RecruiterPhoneNumber.value || undefined;
         this._jobService?.addJob(job)?.subscribe(
-          data => this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'}),
-          error => this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'})
+          (result) => {
+            // Handle result
+            console.log(result)
+          },
+          (error) => {
+            this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
+          },
+          () => {
+            // No errors, route to new page
+            this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'})
+          }
         );
       }
   });
 }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

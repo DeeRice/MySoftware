@@ -1,5 +1,5 @@
 <div class="card">
-    <p-table [value]="products"    
+    <p-table [value]="_notifications"    
     [paginator]="true"
     [rows]="5"
     [tableStyle]="{ 'min-width': '50rem' }"
@@ -7,26 +7,42 @@
         <ng-template pTemplate="header">
             <tr>
                 <th>Number</th>
+                <th>Notification ID</th>
+                <th>Notification For</th>
+                <th>Recruiter Name</th>
                 <th>Recruiter Company Name</th>
+                <th>Recruiter Company Location</th>
+                <th>Recruiter Phone Number</th>
+                <th>Recruiter Company Phone Number</th>
+                <th>Client Contact Name</th>
                 <th>Client Company Name</th>
+                <th>Client Company Location</th>
+                <th>Client Company Phone Number</th>
                 <th>Notification Date</th>
-                <th>Notification Event</th>
-                <th>Remove</th>
+                <th>Delete</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-product>
+        <ng-template pTemplate="body" let-notification>
             <tr>
-                <td>{{product.id}}</td>
-                <td>{{ product.code }}</td>
-                <td>{{ product.name }}</td>
-                <td>10/23/2024</td>
-                <td>Interview</td>
+                <td>{{notification.NotificationID}}</td>
+                <td>{{notification.NotificationID}}</td>
+                <td>{{notification.NotificationID}}</td>
+                <td>{{notification.RecruiterName}}</td>
+                <td>{{notification.RecruiterCompanyName}}</td>
+                <td>{{notification.RecruiterCompanyLocation}}</td>
+                <td>{{notification.RecruiterPhoneNumber}}</td>
+                <td>{{notification.RecruiterCompanyPhoneNumber}}</td>
+                <td>{{notification.ClientContactName}}</td>
+                <td>{{notification.ClientCompanyName}}</td>
+                <td>{{notification.ClientCompanyLocation}}</td>
+                <td>{{notification.ClientCompanyPhoneNumber}}</td>
+                <td>{{notification.NotificationDate | date: 'MMMM d, y, h:mm:ss a'}}</td>
                 <td>
                     <button 
                     pButton 
                     pRipple 
                     label="Remove" 
-                    class="p-button-danger" [rounded]="true" (click)="remove(product.id)">
+                    class="p-button-danger" [rounded]="true" (click)="remove(notification.NotificationID)">
                 </button>
                 </td>
             </tr>
@@ -37,3 +53,4 @@
     <p-toast />
     <p-confirmDialog />
 </div>
+
