@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using JobTrackerAPI.Model;
+using Microsoft.AspNetCore.Mvc;
 
 namespace JobTrackerAPI.ViewModel
 {
@@ -38,5 +39,13 @@ namespace JobTrackerAPI.ViewModel
         public DateTime ? DateOfFollowUp { get; set; }
         [BindProperty(Name = "DateOfInterview", SupportsGet = true)]
         public DateTime ? DateOfInterview { get; set; }
+
+        [BindProperty(Name = "FK_JobID_NotficationID", SupportsGet = true)]
+        public int? FK_JobID_NotficationID { get; set; }
+
+        [BindProperty(Name = "Notification", SupportsGet = true)]
+        public virtual NotificationViewModel? Notification { get; set; }
+
+        public int ? NotificationID { get; set; }
     }
 }

@@ -23,5 +23,9 @@ namespace JobTrackerAPI.Model
         public DateTime ? DateOfSubmission { get; set; }
         public DateTime ? DateOfFollowUp { get; set; }
         public DateTime ? DateOfInterview { get; set; }
+        [ForeignKey("FK_JobID_NotficationID")]
+        public int ? FK_JobID_NotficationID { get; set; }
+        public virtual Notification? Notification { get; set; }
+        public int ? NotificationID { get; set; }
     }
 }

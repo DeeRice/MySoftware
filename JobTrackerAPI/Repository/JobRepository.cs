@@ -83,10 +83,9 @@ namespace JobTrackerAPI.Repository
                     result.DateOfSubmission = Job.DateOfSubmission;
                     result.DateOfFollowUp = Job.DateOfFollowUp;
                     result.DateOfInterview = Job.DateOfInterview;
-
-
-
-
+                    result.FK_JobID_NotficationID = Job.FK_JobID_NotficationID;
+                    result.Notification = Job.Notification;
+                    result.NotificationID = Job.NotificationID;
                     await _appDbContext.SaveChangesAsync();
 
                     Job updatedJob = _appDbContext.Job.FirstOrDefault(x => x.JobID == Job.JobID);

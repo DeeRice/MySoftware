@@ -40,7 +40,7 @@ namespace JobTrackerAPI.Repository
             {
                 try
                 {
-                    Notification.NotificationID = -1;
+                   
                    
                     var result = await _appDbContext.Notification.AddAsync(Notification);
 
@@ -80,8 +80,6 @@ namespace JobTrackerAPI.Repository
                     result.ClientCompanyPhoneNumber = Notification.ClientCompanyPhoneNumber;
                     result.NotificationDate = Notification.NotificationDate;
                     result.NotificationEvent = Notification.NotificationEvent;
-                    result.FK_NotficationID_JobID = Notification.FK_NotficationID_JobID;
-                    result.Job = Notification.Job;
                     await _appDbContext.SaveChangesAsync();
 
                     Notification updatedNotification = _appDbContext.Notification.FirstOrDefault(x => x.NotificationID == Notification.NotificationID);

@@ -12,15 +12,21 @@ ClientCompanyName?: string;
 ClientCompanyLocation?: string;
 ClientCompanyPhoneNumber?: string;
 NotificationDate?: Date;
-NotificationEvent: JTSNotificationEvent = JTSNotificationEvent.NotSet;
-FK_NotficationID_JobID: number = 0;
-Job!: JTSJob;
+NotificationEvent?: number;
 }
 
+export class JTSNotificationEvent {
+  id: number = 0;
+  value?: JTSNotificationEventType;
+}
 
-export enum JTSNotificationEvent {
+export enum JTSNotificationEventType {
     NotSet = 0,
     FollowUpWithEmail = 1,
     FollowUpWithPhoneCall = 2,
     InterviewIsScheduled = 3
+  }
+
+  export class JTSNotificationPicker {
+    EventPicked?: string;
   }

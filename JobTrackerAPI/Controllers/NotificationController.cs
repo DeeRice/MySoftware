@@ -3,14 +3,14 @@ using JobTrackerAPI.Repository;
 using JobTrackerAPI.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using NuGet.Protocol;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace JobTrackerAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+ 
     public class NotificationController : ControllerBase, INotificationController
     {
         private readonly INotificationRepository _INotificationRepository;
@@ -34,7 +34,7 @@ namespace JobTrackerAPI.Controllers
             {
                 listOfAllNotifications.Add(_mapper.MapEntityToViewModel(x));
             });
-            return new JsonResult(listOfAllNotifications);
+            return new JsonResult(JsonConvert.SerializeObject(listOfAllNotifications));
         }
 
         // GET: Users/GetUser/5
@@ -49,7 +49,7 @@ namespace JobTrackerAPI.Controllers
                 return new JsonResult(new Exception("Could Not Find User With Specified ID").Message.ToJson());
             }
 
-            return new JsonResult(notificationViewModel);
+            return new JsonResult(JsonConvert.SerializeObject(notificationViewModel));
         }
 
 
@@ -57,8 +57,9 @@ namespace JobTrackerAPI.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-
-        public async Task<JsonResult> CreateNotification([FromBody] NotificationViewModel NotificationViewModel)
+        [ActionName("CreateNotification")]
+        [AcceptVerbs("application/json")]
+        public async Task<JsonResult> CreateNotification([FromBody]NotificationViewModel NotificationViewModel)
         {
 
             if (ModelState.IsValid)
@@ -67,7 +68,7 @@ namespace JobTrackerAPI.Controllers
                 {
                     var notificationEntity = _mapper.MapViewModelToEntity(NotificationViewModel);
                     var returnedViewModel = _mapper.MapEntityToViewModel(await _INotificationRepository.CreateNotification(notificationEntity));
-                    return new JsonResult(returnedViewModel);
+                    return new JsonResult(JsonConvert.SerializeObject(returnedViewModel));
                 }
                 else
                 {
@@ -86,7 +87,7 @@ namespace JobTrackerAPI.Controllers
             {
                 return new JsonResult(new Exception("Could Not Find User With The Submitted ID.").Message.ToJson());
             }
-            return new JsonResult(notificationViewModel);
+            return new JsonResult(JsonConvert.SerializeObject(notificationViewModel));
         }
 
         // POST: Users/Edit/5
@@ -113,7 +114,7 @@ namespace JobTrackerAPI.Controllers
                     {
                         var notificationEntity = _mapper.MapViewModelToEntity(NotificationViewModel);
                         var returnedViewModel = _mapper.MapEntityToViewModel(await _INotificationRepository.EditNotification(NotificationID, notificationEntity));
-                        return new JsonResult(returnedViewModel);
+                        return new JsonResult(JsonConvert.SerializeObject(returnedViewModel));
                     }
                     else
                     {
@@ -144,7 +145,7 @@ namespace JobTrackerAPI.Controllers
             if (notification != null)
             {
                 var returnedViewModel = _mapper.MapEntityToViewModel(await _INotificationRepository.DeleteNotification(NotificationID));
-                return new JsonResult(returnedViewModel);
+                return new JsonResult(JsonConvert.SerializeObject(returnedViewModel));
             }
             else
             {
@@ -160,7 +161,7 @@ namespace JobTrackerAPI.Controllers
         public async Task<JsonResult> GetLastNotificationID()
         {
             int? lastNotificationID = await _INotificationRepository.GetLastNotificationID();
-            return new JsonResult(lastNotificationID.ToJson());
+            return new JsonResult(JsonConvert.SerializeObject(lastNotificationID));
         }
     }
 }

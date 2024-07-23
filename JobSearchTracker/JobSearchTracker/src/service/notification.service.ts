@@ -11,7 +11,7 @@ export class NotificationService {
   public baseUrl ="https://localhost:7052"
   public getNotificationByIDUrl: string = "Notification/GetNotificationByID";
   public getAllNotificationsUrl: string =  "Notification/GetAllNotifications";
-  public addNotificationUrl: string = "Notification/AddNotification";
+  public addNotificationUrl: string = "Notification/CreateNotification";
   public updateNotificationUrl: string =  "Notification/UpdateNotification";
   public deleteNotificationUrl: string =  "Notification/DeleteNotification";
   public getLastNotificationIDUrl: string =  "Notification/GetLastNotificationID";
@@ -23,7 +23,7 @@ export class NotificationService {
   getNotificationByID(notificationID: number, errorMessage?: string) : Observable<JTSNotification> | undefined {
     let params = new HttpParams().set('notificationID', notificationID);
     let obj: JTSNotification = new JTSNotification();
-    return this._httpClient?.get<JTSNotification>(this.getNotificationByIDUrl, { params: params }).pipe(
+    return this._httpClient?.get<JTSNotification>(`${this.baseUrl}/${this.getNotificationByIDUrl}`, { params: params }).pipe(
       catchError(this.handleError<JTSNotification>('getNotificationByID', obj, errorMessage))
     ).pipe(
       map((response: JTSNotification) => response)
@@ -31,7 +31,7 @@ export class NotificationService {
   }
 
   getAllNotifications(errorMessage?: string) : Observable<JTSNotification[]> | undefined {
-    return this._httpClient?.get<JTSNotification[]>(this.getAllNotificationsUrl).pipe(
+    return this._httpClient?.get<JTSNotification[]>(`${this.baseUrl}/${this.getAllNotificationsUrl}`).pipe(
       catchError(this.handleError<JTSNotification[]>('getAllNotifications', [], errorMessage))
     ).pipe(
       map((response: JTSNotification[]) => response)
@@ -49,10 +49,13 @@ export class NotificationService {
     );
   }
   addNotification(notification: JTSNotification, errorMessage?: string) : Observable<JTSNotification> | undefined {
-    let params = new HttpParams().set('notification', JSON.stringify(notification));
-    let obj: JTSNotification = new JTSNotification();
-    return this._httpClient?.post<JTSNotification>(this.addNotificationUrl, { params: params }).pipe(
-      catchError(this.handleError<JTSNotification>('addNotification', obj, errorMessage))
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8')
+    .set('Accept', 'application/json');
+    let obj:JTSNotification = new JTSNotification();
+    debugger;
+    return this._httpClient?.post<JTSNotification>(`${this.baseUrl}/${this.addNotificationUrl}`, JSON.stringify(notification), {headers: headers}).pipe(
+      catchError(this.handleError<JTSNotification>('addNotification', notification, errorMessage))
     ).pipe(
       map((response: JTSNotification) => response)
     );
@@ -62,7 +65,7 @@ export class NotificationService {
     let params = new HttpParams().set("notificationID", notification.NotificationID)
     .set('notification', JSON.stringify(notification));
     let obj: JTSNotification = new JTSNotification();
-    return this._httpClient?.put<JTSNotification>(this.updateNotificationUrl, { params: params }).pipe(
+    return this._httpClient?.put<JTSNotification>(`${this.baseUrl}/${this.updateNotificationUrl}`, { params: params }).pipe(
       catchError(this.handleError<JTSNotification>('updateNotification', obj, errorMessage))
     ).pipe(
       map((response: JTSNotification) => response)
@@ -72,7 +75,7 @@ export class NotificationService {
   deleteNotification(notificationID: number, errorMessage?: string) : Observable<JTSNotification> | undefined {
     let params = new HttpParams().set('notificationID', notificationID);
     let obj: JTSNotification = new JTSNotification();
-    return this._httpClient?.delete<JTSNotification>(this.deleteNotificationUrl, { params: params }).pipe(
+    return this._httpClient?.delete<JTSNotification>(`${this.baseUrl}/${this.deleteNotificationUrl}`, { params: params }).pipe(
       catchError(this.handleError<JTSNotification>('deleteNotification', obj, errorMessage))
     ).pipe(
       map((response: JTSNotification) => response)
