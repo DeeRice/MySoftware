@@ -19,15 +19,16 @@ import { HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableModule } from 'primeng/table';
 import { PrimeNGConfig } from 'primeng/api';
+import { CalendarModule } from 'primeng/calendar';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [HeaderComponent, SetNotificationComponent, TabViewModule,
     RemoveNotificationComponent, RemoveJobAppliedForComponent, JobAppliedForComponent, JobDetailsComponent,
-    AddJobAppliedForComponent, ViewNotificationComponent, RouterModule, TableModule, CommonModule],
+    AddJobAppliedForComponent, ViewNotificationComponent, RouterModule, TableModule, CommonModule, CalendarModule],
   providers: [NgbModal, AppService, RouterModule, RouterOutlet, CommonModule,RouterLink, 
-    RouterLinkActive, FormsModule, RouterOutlet, BrowserAnimationsModule, TableModule, PrimeNGConfig],
+    RouterLinkActive, FormsModule, RouterOutlet, BrowserAnimationsModule, TableModule, PrimeNGConfig, CalendarModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

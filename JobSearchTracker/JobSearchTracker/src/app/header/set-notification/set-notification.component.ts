@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -10,21 +10,25 @@ import { AddNotificationTable } from '../../../model/add-notification-table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { MessageService, ConfirmationService } from 'primeng/api';
-import { JTSNotification, JTSNotificationEvent, JTSNotificationEventType, JTSNotificationPicker } from 'src/model/notification';
+import { JTSNotification, JTSNotificationEvent, JTSNotificationEventType, JTSNotificationPicker, NotficationEventEnum } from 'src/model/notification';
 import { NotificationService } from 'src/service/notification.service';
 import { MultiSelectChangeEvent, MultiSelectModule, MultiSelectSelectAllChangeEvent } from 'primeng/multiselect';
-import { JTSJob } from 'src/model/job';
+import { JobEnum, JTSJob } from 'src/model/job';
 import { JobService } from 'src/service/job.service';
+import {CalendarModule} from 'primeng/calendar';
+
 @Component({
   selector: 'app-set-notification',
   standalone: true,
   imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule, 
-    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, MultiSelectModule],
-    providers: [MessageService,ConfirmationService,AppService, MultiSelectModule],
+    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, MultiSelectModule,
+    CalendarModule],
+    providers: [MessageService,ConfirmationService,AppService, MultiSelectModule, CalendarModule],
   templateUrl: './set-notification.component.html',
   styleUrl: './set-notification.component.scss'
 })
 export class SetNotificationComponent {
+ thedateEmit!: EventEmitter<Date>;
   public titles?: AddNotificationTable[] = [];
   public _appService?: AppService;
   public _messageService?: MessageService;
@@ -33,13 +37,15 @@ export class SetNotificationComponent {
   jobs!: JTSJob[];
   job!:JTSJob;
   index:number = 0;
-  notificationEventTypes!: JTSNotificationEvent [];
-  notificationEventType!: JTSNotificationEvent;
-  eventPicker!: JTSNotificationPicker;
-  eventPickerList!: JTSNotificationPicker[];
-  eventPicked?: string;
+  eventDate!:Date;
+  notification?:JTSNotification = new JTSNotification();
+  notficationEventEnum?: NotficationEventEnum;
+  listOfNotficationEventEnums?: NotficationEventEnum[];
+  jobEnum?: JobEnum;
+  listofJobEnums?: JobEnum[];
   public _jobService?: JobService;
   public currentNotificationID: number = -1;
+  jobID?: number;
   constructor(private appService: AppService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
     private notificationService: NotificationService, private jobService: JobService
@@ -54,34 +60,52 @@ export class SetNotificationComponent {
    this.titles = this._appService?.addNotificationTitles;   
    this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
     this.jobs = JSON.parse(data.toString());
+    this.listofJobEnums = [];
+    if(this.notification != null){
+      this.notification.NotificationEvent = -1;
+    }
+    this.jobs.forEach((value, index) => {
+          let jobEnum = new JobEnum();
+          jobEnum.id = value.JobID;
+          jobEnum.name = value.ClientCompanyName;
+          this.listofJobEnums?.push(jobEnum);
+    });
+
     }); 
  this.makeTextboxesUnEditable();
- this.eventPickerList = [];
- let eventpone = new JTSNotificationPicker();
- eventpone.EventPicked = JTSNotificationEventType[0].toString();
- let eventtwo = new JTSNotificationPicker();
- eventtwo.EventPicked = JTSNotificationEventType[1].toString();
- let eventpthree = new JTSNotificationPicker();
- eventpthree.EventPicked = JTSNotificationEventType[2].toString();
- let eventpfour = new JTSNotificationPicker();
- eventpfour.EventPicked = JTSNotificationEventType[3].toString();
- this.eventPickerList.push(eventpone);
- this.eventPickerList.push(eventtwo);
- this.eventPickerList.push(eventpthree);
- this.eventPickerList.push(eventpfour);
+
+this.setEventPicker();
  this._jobService?.getLastJobID()?.subscribe((jobID)=>{
    this.currentNotificationID = parseInt(jobID.toString());
-   this.addNotification.controls.NotificationID.setValue(this.currentNotificationID.toString());
-   
+   this.addNotification.controls.NotificationID.setValue(0);
   });
 
 
 }
 
+setEventPicker(){
+  let eventEnumZero = new NotficationEventEnum();
+  eventEnumZero.id = 0;
+  eventEnumZero.name = "NotSet";
+  let eventEnumOne = new NotficationEventEnum();
+  eventEnumOne.id = 1;
+  eventEnumOne.name = "FollowUpWithEmail";
+  let eventEnumTwo = new NotficationEventEnum();
+  eventEnumTwo.id = 2;
+  eventEnumTwo.name = "FollowUpWithPhoneCall";
+  let eventEnumThree = new NotficationEventEnum();
+  eventEnumThree.id = 3;
+  eventEnumThree.name = "InterviewIsScheduled";
+  this.listOfNotficationEventEnums = [];
+  this.listOfNotficationEventEnums.push(eventEnumZero);
+  this.listOfNotficationEventEnums.push(eventEnumOne);
+  this.listOfNotficationEventEnums.push(eventEnumTwo);
+  this.listOfNotficationEventEnums.push(eventEnumThree);
+}
 
  addNotification = new FormGroup({
-  FK_NotficationID_JobID: new FormControl(''),
-  NotificationID: new FormControl(''),
+  FK_JobID: new FormControl<number>(-1),
+  NotificationID: new FormControl<number>(-1),
   RecruiterName: new FormControl(''),
   RecruiterCompanyName: new FormControl(''),
   RecruiterCompanyLocation: new FormControl(''),
@@ -91,8 +115,8 @@ export class SetNotificationComponent {
   ClientCompanyName: new FormControl(''),
   ClientCompanyLocation: new FormControl(''),
   ClientCompanyPhoneNumber: new FormControl(''),
-  NotificationDate: new FormControl(''),
-  NotificationEvent: new FormControl(''),
+  NotificationDate: new FormControl<Date | undefined>(undefined),
+  NotificationEvent: new FormControl<NotficationEventEnum | undefined>(undefined),
  });
  
  save(form: FormGroup){
@@ -111,22 +135,25 @@ export class SetNotificationComponent {
     header: 'Add Notification Confirmation',
     icon: 'pi pi-info-circle',
       accept: () => {
-        var notification = new JTSNotification();
-        notification.NotificationID = this.currentNotificationID;
-        notification.RecruiterName = this.addNotification.controls.RecruiterName.value || undefined;
-       // notification.FK_NotficationID_JobID = parseInt(this.addNotification.controls.FK_NotficationID_JobID.value?.toString() as string) as number || -1;
-        notification.RecruiterCompanyName = this.addNotification.controls.RecruiterCompanyName.value || undefined; 
-        notification.RecruiterCompanyLocation = this.addNotification.controls.RecruiterCompanyLocation.value || undefined;
-        notification.RecruiterPhoneNumber = this.addNotification.controls.RecruiterPhoneNumber.value || undefined;
-        notification.RecruiterCompanyPhoneNumber = this.addNotification.controls.RecruiterCompanyPhoneNumber.value || undefined;	
-        notification.ClientContactName = this.addNotification.controls.ClientContactName.value || undefined;
-        notification.ClientCompanyName = this.addNotification.controls.ClientCompanyName.value || undefined;
-        notification.ClientCompanyLocation = this.addNotification.controls.ClientCompanyLocation.value || undefined;
-        notification.ClientCompanyPhoneNumber = this.addNotification.controls.ClientCompanyPhoneNumber.value || undefined;
-        notification.NotificationDate = new Date(this.addNotification.controls.NotificationDate.value as string) || undefined;
-        notification.NotificationEvent = parseInt(this.addNotification.controls.NotificationEvent.value as string);
+       if(this.notification != null && this.currentNotificationID != -1) {
+        this.notification.NotificationID = this.currentNotificationID as number;
+        this.notification.RecruiterName = this.addNotification.controls.RecruiterName.value || undefined;
+        this.jobID = this.addNotification.controls.FK_JobID.value || undefined;
+        this.notification.RecruiterCompanyName = this.addNotification.controls.RecruiterCompanyName.value || undefined; 
+        this.notification.RecruiterCompanyLocation = this.addNotification.controls.RecruiterCompanyLocation.value || undefined;
+        this.notification.RecruiterPhoneNumber = this.addNotification.controls.RecruiterPhoneNumber.value || undefined;
+        this.notification.RecruiterCompanyPhoneNumber = this.addNotification.controls.RecruiterCompanyPhoneNumber.value || undefined;	
+        this.notification.ClientContactName = this.addNotification.controls.ClientContactName.value || undefined;
+        this.notification.ClientCompanyName = this.addNotification.controls.ClientCompanyName.value || undefined;
+        this.notification.ClientCompanyLocation = this.addNotification.controls.ClientCompanyLocation.value || undefined;
+        this.notification.ClientCompanyPhoneNumber = this.addNotification.controls.ClientCompanyPhoneNumber.value || undefined;
+        this.notification.NotificationID = this.addNotification.controls.NotificationID.value as number;
+        this.notification.NotificationDate = this.addNotification.controls.NotificationDate.value as Date;
+        this.job.notificationID = this.notification.NotificationID;
+        this.job.FK_JobID_NotficationID = this.notification.NotificationID;
+        this.job.notification = this.notification;
         debugger;
-        this.notificationService?.addNotification(notification)?.subscribe(
+        this.notificationService?.addNotification(this.notification)?.subscribe(
           (result) => {
             // Handle result
             console.log(result)
@@ -136,15 +163,29 @@ export class SetNotificationComponent {
           },
           () => {
             // No errors, route to new page
+            this.jobService?.updateJob(this.job)?.subscribe(
+              (result) => {
+                // Handle result
+                console.log(result)
+              },
+              (error) => {
+                this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
+              },
+              () => {
+              
+              });
             this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'})
           }
         );
       }
+    }
   });
+
 }
 
 isNotAPicker(title: string){
-  if(title === "Job To Set Notification On"){
+  if(title === "Job To Set Notification On" || title === "Notification Event" || 
+    title === "Notification Date"){
     return false;
   }
   else{
@@ -153,6 +194,8 @@ isNotAPicker(title: string){
 }
 
 makeTextboxesUnEditable(){
+  this.currentNotificationID = 0;
+  this.addNotification.controls.NotificationID.setValue(0);
   this.addNotification.controls.ClientCompanyLocation.disable();
   this.addNotification.controls.ClientCompanyName.disable();
   this.addNotification.controls.ClientCompanyPhoneNumber.disable();
@@ -165,9 +208,20 @@ makeTextboxesUnEditable(){
   this.addNotification.controls.NotificationID.disable();
 }
 
-onFKPickerChanged(event: MultiSelectChangeEvent) {
-  let obj: any = this.job;
-  if(obj.length < 1 || obj == undefined){
+onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
+  let obj:JTSJob | null;
+  if(event.value.length > 0){
+  this.job = this.jobs.find(item => item.JobID === event.value[0].id) as JTSJob;
+  obj = this.job;
+  }
+  else{
+   obj = null;
+  }  
+
+
+  if(obj == undefined){
+    this.currentNotificationID = 0;
+    this.addNotification.controls.NotificationID.setValue(0);
     this.addNotification.controls.RecruiterName.setValue("")
     this.addNotification.controls.RecruiterCompanyName.setValue("")
     this.addNotification.controls.RecruiterCompanyLocation.setValue("")
@@ -179,21 +233,42 @@ onFKPickerChanged(event: MultiSelectChangeEvent) {
     this.addNotification.controls.ClientCompanyPhoneNumber.setValue("")
   }
   else{
-    this.addNotification.controls.RecruiterName.setValue(obj["0"].RecruiterName?.toString() as string)
-    this.addNotification.controls.RecruiterCompanyName.setValue(obj["0"].RecruiterCompanyName?.toString() as string)
-    this.addNotification.controls.RecruiterCompanyLocation.setValue(obj["0"].RecruiterCompanyLocation?.toString() as string)
-    this.addNotification.controls.RecruiterPhoneNumber.setValue(obj["0"].RecruiterPhoneNumber?.toString() as string)
-    this.addNotification.controls.RecruiterCompanyPhoneNumber.setValue(obj["0"].RecruiterPhoneNumber?.toString() as string)
-    this.addNotification.controls.ClientContactName.setValue(obj["0"].ClientCompanyContactName?.toString() as string)
-    this.addNotification.controls.ClientCompanyName.setValue(obj["0"].ClientCompanyName?.toString() as string)
-    this.addNotification.controls.ClientCompanyLocation.setValue(obj["0"].ClientCompanyLocation?.toString() as string)
-    this.addNotification.controls.ClientCompanyPhoneNumber.setValue(obj["0"].ClientCompanyPhoneNumber?.toString() as string)
+    obj = obj as JTSJob;
+    this.currentNotificationID = obj.JobID;
+    obj.notificationID = obj.JobID;
+    obj.FK_JobID_NotficationID = obj.JobID;
+    this.addNotification.controls.NotificationID.setValue(obj.notificationID || null);
+    this.addNotification.controls.RecruiterName.setValue(obj.RecruiterName || null);
+    this.addNotification.controls.RecruiterCompanyName.setValue(obj.RecruiterCompanyName || null)
+    this.addNotification.controls.RecruiterCompanyLocation.setValue(obj.RecruiterCompanyLocation || null)
+    this.addNotification.controls.RecruiterPhoneNumber.setValue(obj.RecruiterPhoneNumber || null)
+    this.addNotification.controls.RecruiterCompanyPhoneNumber.setValue(obj.RecruiterPhoneNumber || null)
+    this.addNotification.controls.ClientContactName.setValue(obj.ClientCompanyContactName || null)
+    this.addNotification.controls.ClientCompanyName.setValue(obj.ClientCompanyName || null)
+    this.addNotification.controls.ClientCompanyLocation.setValue(obj.ClientCompanyLocation || null)
+    this.addNotification.controls.ClientCompanyPhoneNumber.setValue(obj.ClientCompanyPhoneNumber || null)
+    this.addNotification.controls.NotificationEvent.setValue(this.notficationEventEnum as NotficationEventEnum);
+    if(this.notification != null){
+    
+      this.notification.NotificationEvent = event.value[0].id;
+    }
+
   }
 
 }
 
+onEventPickerChanged(event: MultiSelectChangeEvent){
+  if(event.value.length > 0){
+     this.addNotification.controls.NotificationEvent.setValue(this.notficationEventEnum as NotficationEventEnum | null)
+     if(this.notification != null){
+      this.notification.NotificationEvent = event.value[0].id;
+     }
+  }
+}
+
 isNotFKPicker(title: string){
- if(title === "Notification Event"){
+
+ if(title === "Notification Event" || title === "Notification Date"){
   return false;
  }
  else{
@@ -201,20 +276,26 @@ isNotFKPicker(title: string){
  }
 }
 onNotificationEventPickerChanged(event: MultiSelectChangeEvent){
-  if(event.value.length < 1 || event.value == undefined){
-    this.addNotification.controls.NotificationEvent.setValue(JTSNotificationEventType.NotSet.toString() as string);
-  }
-  else{
-   switch(event.value["0"].EventPicked){
-     case "NotSet":  this.addNotification.controls.NotificationEvent.setValue(JTSNotificationEventType.NotSet.toString() as string); break;
-     case "FollowUpWithEmail":  this.addNotification.controls.NotificationEvent.setValue(JTSNotificationEventType.FollowUpWithEmail.toString() as string); break;
-     case "FollowUpWithPhoneCall":  this.addNotification.controls.NotificationEvent.setValue(JTSNotificationEventType.FollowUpWithPhoneCall.toString() as string); break;
-     case "InterviewIsScheduled":  this.addNotification.controls.NotificationEvent.setValue(JTSNotificationEventType.InterviewIsScheduled.toString() as string); break;
-     default:break;
-   }
+
    
-  }
+  
 }
+
+onDateChanged(){
+debugger;
+
+//this.addNotification.controls.NotificationDate.setValue();
+}
+
+isNotADatePicker(title: string){
+  if(title === "Notification Date"){
+    return false;
+   }
+   else{
+    return true;
+   }
+}
+
 display(num: number){
   let jtsEvent = JTSNotificationEventType[num];
   return jtsEvent[num];
