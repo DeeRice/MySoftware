@@ -1,0 +1,71 @@
+<h3 class="centered-header">Job Details</h3>
+<table class="table">
+    <tbody *ngFor="let somenotification of notificationDetails">
+      <tr>
+        <th scope="row"></th>
+        <td>Recruiter Name</td>
+        <td>{{somenotification.RecruiterName}}</td>
+        <td></td>
+        <td>Recruiter Company Name</td>
+        <td>{{somenotification.RecruiterCompanyName}}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Recruiter Company Location</td>
+        <td>{{somenotification.RecruiterCompanyLocation}}</td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Recruiter Phone Number</td>
+        <td>{{somenotification.RecruiterPhoneNumber}}</td>
+        <td></td>
+        <td>Recruiter Company Phone Number</td>
+        <td>{{somenotification.RecruiterCompanyPhoneNumber}}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Client Contact Name</td>
+        <td>{{somenotification.ClientContactName}}</td>
+        <td></td>
+        <td>Client Company Name</td>
+        <td>{{somenotification.ClientCompanyName}}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Client Company Location</td>
+        <td>{{somenotification.ClientCompanyLocation}}</td>
+        <td></td>
+        <td>Client Company Phone Number</td>
+        <td>{{somenotification.ClientCompanyPhoneNumber}}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Notification Date</td>
+        <td>{{somenotification.NotificationDate}}</td>
+        <td></td>
+        <td>Notification Event</td>
+        <td>{{somenotification.NotificationEvent}}</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <p-button label="Back" (click)="goBackToJobGrid()" />
+
+
+
+public NotificationID: number = 0;
+public RecruiterName?: string;
+public RecruiterCompanyName?: string;
+public RecruiterCompanyLocation?: string;
+public RecruiterPhoneNumber?: string;
+public RecruiterCompanyPhoneNumber?: string;
+public ClientContactName?: string;
+public ClientCompanyName?: string;
+public ClientCompanyLocation?: string;
+public ClientCompanyPhoneNumber?: string;
+public NotificationDate?: Date;
+public NotificationEvent?: number;
