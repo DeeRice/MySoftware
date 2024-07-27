@@ -23,7 +23,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-notification>
             <tr>
-                <td>{{notification.NotificationID}}</td>
+                <td><a [routerLink]="['/app-notification-details']" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="goToDetailPage(notification.NotificationID.toString())">{{notification.NotificationID}}</a></td>
                 <td>{{notification.NotificationID}}</td>
                 <td>{{notification.NotificationID}}</td>
                 <td>{{notification.RecruiterName}}</td>

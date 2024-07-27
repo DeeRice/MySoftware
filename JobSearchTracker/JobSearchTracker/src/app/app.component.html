@@ -180,8 +180,9 @@
 <main class="main">
   <div class="content container-fluid">
     <router-outlet></router-outlet>
-    <app-header [hidden]="true"></app-header>
-    <app-job-details   [hidden]="!this.jobGridIsHidden"></app-job-details>
+    <app-header [hidden]="!this.headerIsHidden"></app-header>
+    <app-job-details [hidden]="!this.jobDetailsIsHidden"></app-job-details>
+    <app-notification-details [hidden]="!this.notificationDetailsIsHidden"></app-notification-details>
   </div>
 </main>
 

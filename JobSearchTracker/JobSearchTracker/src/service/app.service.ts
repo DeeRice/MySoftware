@@ -10,9 +10,15 @@ import { AddNotificationTable } from '../model/add-notification-table';
 })
 
 export class AppService {
- public  ishidden?: boolean = false;
- private jobGridIsHidden = new BehaviorSubject(false);
- getjobGridIsHidden = this.jobGridIsHidden.asObservable();
+  jobDetailsIsHidden?: boolean = false;
+  notificationDetailsIsHidden?: boolean = false;
+  headerIsHidden?: boolean = false;
+ private headerIsHiddenBehavior = new BehaviorSubject(false);
+ getHeaderIsHidden = this.headerIsHiddenBehavior.asObservable();
+ private notificationDetailsIsHiddenBehavior = new BehaviorSubject(false);
+ getNotificationDetailsIsHidden = this.notificationDetailsIsHiddenBehavior.asObservable();
+ private jobDetailsIsHiddenBehavior = new BehaviorSubject(false);
+ getjobDetailsIsHidden = this.jobDetailsIsHiddenBehavior.asObservable();
  public addJobTitles?: AddJobTable[] = [
   {titleName: "Job ID", formName:"JobID"}, 
   {titleName:"Job Title", formName:"JobTitle"}, 
@@ -34,7 +40,7 @@ export class AppService {
 
 
   public addNotificationTitles?: AddNotificationTable[] = [
-    {titleName:"Job To Set Notification On", formName:"FK_NotficationID_JobID"}, 
+    {titleName:"Job To Set Notification On", formName:"FK_JobID_NotficationID"}, 
     {titleName:"Notification ID", formName:"NotificationID"},
     {titleName:"Recruiter Name", formName:"RecruiterName"}, 
     {titleName:"Recruiter Company Name", formName:"RecruiterCompanyName"}, 
@@ -48,9 +54,16 @@ export class AppService {
     {titleName:"Notification Event", formName:"NotificationEvent"}];
 
  constructor() { }
- setJobGridIsHidden(isHidden: boolean){
-    this.jobGridIsHidden.next(isHidden);
-    this.ishidden = isHidden;
+ setHeaderIsHidden(isHidden: boolean){
+    this.headerIsHiddenBehavior.next(isHidden);
+    this.headerIsHidden = isHidden;
  }
-
+ setNotificationIsHidden(isHidden: boolean){
+  this.notificationDetailsIsHiddenBehavior.next(isHidden);
+  this.notificationDetailsIsHidden = isHidden;
+}
+setJobDetailsIsHidden(isHidden: boolean){
+  this.jobDetailsIsHiddenBehavior.next(isHidden);
+  this.jobDetailsIsHidden = isHidden;
+}
 }

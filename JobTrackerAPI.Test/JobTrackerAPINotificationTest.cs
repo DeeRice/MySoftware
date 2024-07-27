@@ -129,10 +129,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyName = "",
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
-                NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                Job = new Job()
+                NotificationDate = new DateTime()
             };
             var notificationViewModel = new NotificationViewModel() 
             {
@@ -147,9 +144,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
                 NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                JobViewModel = new JobViewModel()
+                NotificationEvent = NotificationEvent.NotSet
             };
             List<Notification> list = new List<Notification>();
             list.Add(notification);
@@ -250,9 +245,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
                 NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                JobViewModel = new JobViewModel()
+                NotificationEvent = NotificationEvent.NotSet
             };
             List<Notification> list = new List<Notification>();
             list.Add(notification);
@@ -295,9 +288,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
                 NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                JobViewModel = new JobViewModel()
+                NotificationEvent = NotificationEvent.NotSet
             };
             List<Notification> list = new List<Notification>();
             list.Add(notification);
@@ -338,9 +329,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
                 NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                Job = new Job()
+                NotificationEvent = (int)NotificationEvent.NotSet
             };
             var notificationViewModel = new NotificationViewModel() 
             {
@@ -355,9 +344,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
                 NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                JobViewModel = new JobViewModel()
+                NotificationEvent = NotificationEvent.NotSet
             };
             List<Notification> list = new List<Notification>();
             list.Add(notification);
@@ -397,9 +384,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
                 NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                Job = new Job()
+                NotificationEvent = (int)NotificationEvent.NotSet
             };
             var notificationViewModel = new NotificationViewModel() 
             {
@@ -414,9 +399,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
                 NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                JobViewModel = new JobViewModel()
+                NotificationEvent = NotificationEvent.NotSet
             };
             List<Notification> list = new List<Notification>();
             list.Add(notification);
@@ -461,9 +444,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
                 NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                Job = new Job()
+                NotificationEvent = (int)NotificationEvent.NotSet
             };
             var notificationViewModel = new NotificationViewModel() 
             {
@@ -478,9 +459,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
                 NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                JobViewModel = new JobViewModel()
+                NotificationEvent = NotificationEvent.NotSet
             };
             List<Notification> list = new List<Notification>();
             list.Add(notification);
@@ -525,9 +504,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
                 NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                Job = new Job()
+                NotificationEvent = (int)NotificationEvent.NotSet
             };
             var notificationViewModel = new NotificationViewModel() 
             {
@@ -541,10 +518,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyName = "",
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
-                NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                JobViewModel = new JobViewModel()
+                NotificationDate = new DateTime()
             };
             List<Notification> list = new List<Notification>();
             list.Add(notification);
@@ -590,9 +564,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
                 NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                Job = new Job()
+                NotificationEvent = (int)NotificationEvent.NotSet
             };
             var notificationViewModel = new NotificationViewModel() 
             {
@@ -607,9 +579,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
                 NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                JobViewModel = new JobViewModel()
+                NotificationEvent = NotificationEvent.NotSet
             };
             List<Notification> list = new List<Notification>();
             //list.Add(user);

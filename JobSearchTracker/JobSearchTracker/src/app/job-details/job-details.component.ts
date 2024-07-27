@@ -44,8 +44,10 @@ export class JobDetailsComponent {
     });
     if(Number.isNaN(this.jobID) == false){
       this._jobService!.getJobByID(this.jobID)!.pipe(debounceTime(300), distinctUntilChanged(), switchMap((value: JTSJob, index: number) => this._jobService!.getJobByID(this.jobID) as unknown as ObservableInput<JTSJob>)).subscribe((data: JTSJob) => {
-        this.job! = JSON.parse(data.toString());
-           this!.jobDetails!.push(this!.job!);
+        if(data != null){
+          this.job! = JSON.parse(data.toString());
+          this!.jobDetails!.push(this!.job!);
+        }
      });
     }
    

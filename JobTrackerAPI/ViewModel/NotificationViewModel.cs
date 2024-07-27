@@ -29,7 +29,9 @@ namespace JobTrackerAPI.ViewModel
         [BindProperty(Name = "NotificationDate", SupportsGet = true)]
         public DateTime ? NotificationDate { get; set; }
         [BindProperty(Name = "NotificationEvent", SupportsGet = true)]
-        public int ? NotificationEvent { get; set; }
+        public NotificationEvent NotificationEvent { get; set; } = NotificationEvent.NotSet;
+        [BindProperty(Name = "Message", SupportsGet = true)]
+        public string ? Message { get; set; }
 
     }
 }

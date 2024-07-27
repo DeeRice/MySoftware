@@ -104,7 +104,7 @@ setEventPicker(){
 }
 
  addNotification = new FormGroup({
-  FK_JobID: new FormControl<number>(-1),
+  FK_JobID_NotficationID: new FormControl<number>(-1),
   NotificationID: new FormControl<number>(-1),
   RecruiterName: new FormControl(''),
   RecruiterCompanyName: new FormControl(''),
@@ -138,7 +138,7 @@ setEventPicker(){
        if(this.notification != null && this.currentNotificationID != -1) {
         this.notification.NotificationID = this.currentNotificationID as number;
         this.notification.RecruiterName = this.addNotification.controls.RecruiterName.value || undefined;
-        this.jobID = this.addNotification.controls.FK_JobID.value || undefined;
+        this.jobID = this.addNotification.controls.FK_JobID_NotficationID.value || undefined;
         this.notification.RecruiterCompanyName = this.addNotification.controls.RecruiterCompanyName.value || undefined; 
         this.notification.RecruiterCompanyLocation = this.addNotification.controls.RecruiterCompanyLocation.value || undefined;
         this.notification.RecruiterPhoneNumber = this.addNotification.controls.RecruiterPhoneNumber.value || undefined;
@@ -150,7 +150,6 @@ setEventPicker(){
         this.notification.NotificationID = this.addNotification.controls.NotificationID.value as number;
         this.notification.NotificationDate = this.addNotification.controls.NotificationDate.value as Date;
         this.job.notificationID = this.notification.NotificationID;
-        this.job.FK_JobID_NotficationID = this.notification.NotificationID;
         this.job.notification = this.notification;
         debugger;
         this.notificationService?.addNotification(this.notification)?.subscribe(
@@ -236,7 +235,6 @@ onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
     obj = obj as JTSJob;
     this.currentNotificationID = obj.JobID;
     obj.notificationID = obj.JobID;
-    obj.FK_JobID_NotficationID = obj.JobID;
     this.addNotification.controls.NotificationID.setValue(obj.notificationID || null);
     this.addNotification.controls.RecruiterName.setValue(obj.RecruiterName || null);
     this.addNotification.controls.RecruiterCompanyName.setValue(obj.RecruiterCompanyName || null)

@@ -32,7 +32,7 @@ export class HeaderComponent {
  public _appService?: AppService;
   constructor( @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, public appService: AppService) {
         this._appService = this.appService;
-        this.isHidden = this._appService.ishidden;
+        this.isHidden = this._appService.headerIsHidden;
   
   }
   public hide(){

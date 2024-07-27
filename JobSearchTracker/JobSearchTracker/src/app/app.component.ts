@@ -20,11 +20,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableModule } from 'primeng/table';
 import { PrimeNGConfig } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
+import { NotificationDetailsComponent } from './notification-details/notification-details.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HeaderComponent, SetNotificationComponent, TabViewModule,
+  imports: [HeaderComponent, SetNotificationComponent, TabViewModule, NotificationDetailsComponent,
     RemoveNotificationComponent, RemoveJobAppliedForComponent, JobAppliedForComponent, JobDetailsComponent,
     AddJobAppliedForComponent, ViewNotificationComponent, RouterModule, TableModule, CommonModule, CalendarModule],
   providers: [NgbModal, AppService, RouterModule, RouterOutlet, CommonModule,RouterLink, 
@@ -34,12 +35,16 @@ import { CalendarModule } from 'primeng/calendar';
 })
 export class AppComponent {
   title = 'JobSearchTracker';
-  jobGridIsHidden?: boolean = false;
+  jobDetailsIsHidden?: boolean = false;
+  notificationDetailsIsHidden?: boolean = false;
+  headerIsHidden?: boolean = false;
   @Output() isHiddensChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
   public _httpClient?: HttpClient;
   constructor(private modalService: NgbModal, public appService: AppService,
   httpClient: HttpClient) {
-    this.jobGridIsHidden = this.appService.ishidden;
+    this.jobDetailsIsHidden = this.appService.jobDetailsIsHidden;
+    this.notificationDetailsIsHidden = this.appService.notificationDetailsIsHidden;
+    this.headerIsHidden = this.appService.headerIsHidden;
     this._httpClient = this._httpClient;
   }
 

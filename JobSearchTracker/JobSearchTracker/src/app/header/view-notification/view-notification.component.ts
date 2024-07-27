@@ -49,8 +49,15 @@ export class ViewNotificationComponent {
   }
   ngOnInit() {
    this._notificationService.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-        this._notifications = JSON.parse(data.toString());
+    debugger;
+    if(data.length > 0){
+      this._notifications = JSON.parse(data.toString());
+    }
     }); 
-   
 }
+
+goToDetailPage(id: string) {
+  this._router.navigate(['/app-notification-details/', id]);
+  console.log(id);
+}   
 }

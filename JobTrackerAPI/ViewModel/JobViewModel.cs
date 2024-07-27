@@ -45,7 +45,7 @@ namespace JobTrackerAPI.ViewModel
 
         [BindProperty(Name = "Notification", SupportsGet = true)]
         public virtual NotificationViewModel? Notification { get; set; }
-
+        [BindProperty(Name = "NotificationID", SupportsGet = true)]
         public int ? NotificationID { get; set; }
     }
 }

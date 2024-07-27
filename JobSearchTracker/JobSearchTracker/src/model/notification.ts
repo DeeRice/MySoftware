@@ -13,6 +13,7 @@ public ClientCompanyLocation?: string;
 public ClientCompanyPhoneNumber?: string;
 public NotificationDate?: Date;
 public NotificationEvent?: number;
+public Message?: string;
 }
 
 export class JTSNotificationEvent {
