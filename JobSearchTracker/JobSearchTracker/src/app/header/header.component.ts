@@ -13,6 +13,7 @@ import {FormsModule } from '@angular/forms';
 import { RouterLinkActive, ActivatedRoute, RouterModule, RouterOutlet } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
+import { JobService } from 'src/service/job.service';
 
 @Component({
   selector: 'app-header',
@@ -28,12 +29,30 @@ import { HttpClient } from '@angular/common/http';
 
 export class HeaderComponent {
  isHidden?: boolean;
-
+ notificationsIsDisabled = true;
+ lastJobID?: number = -1;
  public _appService?: AppService;
-  constructor( @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, public appService: AppService) {
-        this._appService = this.appService;
+ public _jobService?: JobService;
+  constructor( @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, public appService: AppService, 
+  jobService: JobService) {
+        this._appService = appService;
         this.isHidden = this._appService.headerIsHidden;
-  
+        this._jobService = jobService;
+  }
+  ngOnInit(){
+
+    this.notificationsIsDisabled = this.appService.getNotificationTabIsDisabled();
+     this._jobService!.getLastJobID()?.subscribe((jobID: number) => {
+       this.lastJobID = jobID;
+       if(jobID != null && jobID >= 1 && jobID != undefined){
+        this.notificationsIsDisabled = false;
+        this._appService!.setNotificationTabIsDisabled(this.notificationsIsDisabled);
+       }
+       else {
+        this.notificationsIsDisabled = true;
+        this._appService!.setNotificationTabIsDisabled(this.notificationsIsDisabled);
+       }
+     });
   }
   public hide(){
     this.hide();

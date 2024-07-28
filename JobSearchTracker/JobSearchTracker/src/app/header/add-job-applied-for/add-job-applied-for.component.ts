@@ -72,7 +72,6 @@ public isNotNotes(title:any): Boolean {
  }
 
  isNotADatePicker(title: string){
-  debugger;
   if(title === "Date Of Submission" || title === "Date Of Follow Up" || 
     title === "Date Of Interview"){
     return false;

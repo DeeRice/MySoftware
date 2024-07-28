@@ -11,8 +11,9 @@ import { AddNotificationTable } from '../model/add-notification-table';
 
 export class AppService {
   jobDetailsIsHidden?: boolean = false;
-  notificationDetailsIsHidden?: boolean = false;
+  notificationDetailsIsHidden: boolean = false;
   headerIsHidden?: boolean = false;
+  notificationTabIsDisabled:boolean = true;
  private headerIsHiddenBehavior = new BehaviorSubject(false);
  getHeaderIsHidden = this.headerIsHiddenBehavior.asObservable();
  private notificationDetailsIsHiddenBehavior = new BehaviorSubject(false);
@@ -66,5 +67,12 @@ export class AppService {
 setJobDetailsIsHidden(isHidden: boolean){
   this.jobDetailsIsHiddenBehavior.next(isHidden);
   this.jobDetailsIsHidden = isHidden;
+}
+
+setNotificationTabIsDisabled(isHidden: boolean){
+  this.notificationTabIsDisabled = isHidden;
+}
+getNotificationTabIsDisabled(): boolean {
+  return this.notificationTabIsDisabled;
 }
 }

@@ -43,7 +43,9 @@ export class RemoveJobAppliedForComponent {
   ngOnInit() {
     this.titles = this._appService?.addJobTitles;  
    this._jobService?.getAllJobs()?.subscribe((data) => {
+    if(data != null && (data as JTSJob[]).length != 0 && data != undefined){
     this._jobs = JSON.parse(data.toString());
+    }
     });
 
 }

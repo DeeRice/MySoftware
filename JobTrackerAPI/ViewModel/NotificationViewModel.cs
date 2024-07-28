@@ -8,6 +8,8 @@ namespace JobTrackerAPI.ViewModel
     {
         [BindProperty(Name = "NotificationID", SupportsGet = true)]
         public int NotificationID { get; set; }
+        [BindProperty(Name = "NotificationNumber", SupportsGet = true)]
+        public int NotificationNumber { get; set; }
         [BindProperty(Name = "RecruiterName", SupportsGet = true)]
         public string ? RecruiterName { get; set; }
         [BindProperty(Name = "RecruiterCompanyName", SupportsGet = true)]
@@ -31,7 +33,7 @@ namespace JobTrackerAPI.ViewModel
         [BindProperty(Name = "NotificationEvent", SupportsGet = true)]
         public NotificationEvent NotificationEvent { get; set; } = NotificationEvent.NotSet;
         [BindProperty(Name = "Message", SupportsGet = true)]
-        public string ? Message { get; set; }
+        public string Message { get; set; }
 
     }
 }

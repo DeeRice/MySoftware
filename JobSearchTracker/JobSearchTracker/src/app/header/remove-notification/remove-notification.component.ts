@@ -55,7 +55,9 @@ export class RemoveNotificationComponent {
   }
   ngOnInit() {
     this._notificationService.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+      if(data != null && (data as JTSNotification[]).length != 0 && data != undefined){
       this._notifications = JSON.parse(data.toString());
+      }
   }); 
  
   }

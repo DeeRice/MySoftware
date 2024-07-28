@@ -9,6 +9,7 @@ namespace JobTrackerAPI.Model
     {
         [Key]
         public int  NotificationID { get; set; }
+        public int NotificationNumber { get; set; }
         public string ? RecruiterName { get; set; }
         public string ? RecruiterCompanyName { get; set; }
         public string ? RecruiterCompanyLocation { get; set; }
@@ -21,6 +22,6 @@ namespace JobTrackerAPI.Model
         public DateTime NotificationDate { get; set; }
         public int NotificationEvent { get; set; }
 
-        public string ? Message { get; set; }
+        public string Message { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace JobTrackerAPI.Mapping
         {
             NotificationViewModel notificationViewModel = new NotificationViewModel();
             notificationViewModel.NotificationID = notification.NotificationID;
+            notificationViewModel.NotificationNumber = notification.NotificationNumber;
             notificationViewModel.RecruiterName = notification?.RecruiterName;
             notificationViewModel.RecruiterCompanyName = notification?.RecruiterCompanyName;
             notificationViewModel.RecruiterCompanyLocation = notification?.RecruiterCompanyLocation;
@@ -29,6 +30,7 @@ namespace JobTrackerAPI.Mapping
         {
             JobViewModel jobViewModel = new JobViewModel();
             jobViewModel.JobID = job.JobID;
+            jobViewModel.JobNumber = job.JobNumber;
             jobViewModel.JobTitle = job?.JobTitle;
             jobViewModel.JobLocation = job?.JobLocation;
             jobViewModel.RecruiterName = job?.RecruiterName;
@@ -58,6 +60,7 @@ namespace JobTrackerAPI.Mapping
         {
             Notification notification = new Notification();
             notification.NotificationID = notificationViewModel.NotificationID;
+            notification.NotificationNumber = notificationViewModel.NotificationNumber;
             notification.RecruiterName = notificationViewModel?.RecruiterName;
             notification.RecruiterCompanyName = notificationViewModel?.RecruiterCompanyName;
             notification.RecruiterCompanyLocation = notificationViewModel?.RecruiterCompanyLocation;
@@ -78,6 +81,7 @@ namespace JobTrackerAPI.Mapping
         {
             Job job = new Job();
             job.JobID = jobViewModel.JobID;
+            job.JobNumber = jobViewModel.JobNumber;
             job.JobTitle = jobViewModel?.JobTitle;
             job.JobLocation = jobViewModel?.JobLocation;
             job.RecruiterName = jobViewModel?.RecruiterName;

@@ -7,6 +7,7 @@ namespace JobTrackerAPI.Model
     {
         [Key]
         public int JobID { get; set; }
+        public int JobNumber { get; set; }
         public string ? JobTitle { get; set; }
         public string ? JobLocation { get; set; }
         public string ? RecruiterName { get; set; }

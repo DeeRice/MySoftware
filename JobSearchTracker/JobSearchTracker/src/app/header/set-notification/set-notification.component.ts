@@ -59,7 +59,9 @@ export class SetNotificationComponent {
   ngOnInit() {
    this.titles = this._appService?.addNotificationTitles;   
    this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
+    if(data != null && (data as JTSJob[]).length != 0 && data != undefined){
     this.jobs = JSON.parse(data.toString());
+    
     this.listofJobEnums = [];
     if(this.notification != null){
       this.notification.NotificationEvent = -1;
@@ -70,7 +72,7 @@ export class SetNotificationComponent {
           jobEnum.name = value.ClientCompanyName;
           this.listofJobEnums?.push(jobEnum);
     });
-
+  }
     }); 
  this.makeTextboxesUnEditable();
 
@@ -150,7 +152,7 @@ setEventPicker(){
         this.notification.ClientCompanyPhoneNumber = this.addNotification.controls.ClientCompanyPhoneNumber.value || undefined;
         this.notification.NotificationID = this.addNotification.controls.NotificationID.value as number;
         this.notification.NotificationDate = this.addNotification.controls.NotificationDate.value as Date;
-        this.notification.Message = this.addNotification.controls.NotificationMessage.value || undefined;
+        this.notification.Message = this.addNotification.controls.NotificationMessage.value as string;
         this.job.notificationID = this.notification.NotificationID;
         this.job.notification = this.notification;
         debugger;
@@ -289,7 +291,7 @@ isNotANotifcationMessage(title: string){
    }
 }
 onDateChanged(){
-debugger;
+
 
 //this.addNotification.controls.NotificationDate.setValue();
 }

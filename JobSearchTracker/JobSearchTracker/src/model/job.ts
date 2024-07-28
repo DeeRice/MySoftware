@@ -2,6 +2,7 @@ import { JTSNotification } from "./notification";
 
 export class JTSJob {
     JobID! :number;
+    JobNumber!: number;
     JobTitle?:string;
     JobLocation?:string;
     RecruiterName?:string;

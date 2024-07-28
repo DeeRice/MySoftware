@@ -32,7 +32,7 @@ import { getJSON } from 'jquery';
 })
 
 export class JobAppliedForComponent {
-    jobs!: JTSJob[];
+    jobs: JTSJob[] = [];
     public _appService?: AppService; 
     public _jobService?: JobService; 
     public _router: any;
@@ -47,11 +47,20 @@ export class JobAppliedForComponent {
         this._routerLink = routerLink;
       }
 
-    ngOnInit() {
-        this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
-           this.jobs = JSON.parse(data.toString());
+    async ngOnInit() {
+      this._appService!.setNotificationTabIsDisabled(true);
+       await this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
+          if(data != null && (data as JTSJob[]).length != 0 && data != undefined){
+            this.jobs = JSON.parse(data.toString());
+          }
+          if(this.jobs.length >= 1){
+            this._appService!.setNotificationTabIsDisabled(false);
+           }
+           else {
+            this._appService!.setNotificationTabIsDisabled(true);
+           }
         }); 
-  
+      
     }
 
     goToDetailPage(id: string) {
