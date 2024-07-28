@@ -1,18 +1,19 @@
 import { JTSJob } from '../model/job';
 
 export class JTSNotification {
-NotificationID: number = 0;
-RecruiterName?: string;
-RecruiterCompanyName?: string;
-RecruiterCompanyLocation?: string;
-RecruiterPhoneNumber?: string;
-RecruiterCompanyPhoneNumber?: string;
-ClientContactName?: string;
-ClientCompanyName?: string;
-ClientCompanyLocation?: string;
-ClientCompanyPhoneNumber?: string;
-NotificationDate?: Date;
-NotificationEvent?: number;
+public NotificationID: number = 0;
+public RecruiterName?: string;
+public RecruiterCompanyName?: string;
+public RecruiterCompanyLocation?: string;
+public RecruiterPhoneNumber?: string;
+public RecruiterCompanyPhoneNumber?: string;
+public ClientContactName?: string;
+public ClientCompanyName?: string;
+public ClientCompanyLocation?: string;
+public ClientCompanyPhoneNumber?: string;
+public NotificationDate!: Date;
+public NotificationEvent!: number;
+public Message?: string;
 }
 
 export class JTSNotificationEvent {
@@ -29,4 +30,9 @@ export enum JTSNotificationEventType {
 
   export class JTSNotificationPicker {
     EventPicked?: string;
+  }
+
+  export class NotficationEventEnum {
+    id?:number;
+    name?: string;
   }

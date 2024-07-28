@@ -1,0 +1,36 @@
+$display: (
+    responsive: true,
+    print: true,
+    property: display,
+    class: d,
+    values: inline inline-block block grid table table-row table-cell flex inline-flex none
+  );
+
+
+.firstRow {
+    position: relative;
+    top: 5%;
+  }
+
+  .centered-header {
+    text-align: center;
+    position:relative;
+    bottom: 0.5em;
+    background-color: #000080;
+    color:white;
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+
+  .empty {
+    height: 2.8em;
+  }
+
+  :host ::ng-deep .p-button{
+   padding-left: 48%;
+   padding-right: 48%;
+   background-color: #000080;
+  }
+  :host ::ng-deep {
+    width: 100%;;
+  }

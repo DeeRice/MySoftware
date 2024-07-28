@@ -80,6 +80,7 @@ namespace JobTrackerAPI.Repository
                     result.ClientCompanyPhoneNumber = Notification.ClientCompanyPhoneNumber;
                     result.NotificationDate = Notification.NotificationDate;
                     result.NotificationEvent = Notification.NotificationEvent;
+                    result.Message = Notification.Message;
                     await _appDbContext.SaveChangesAsync();
 
                     Notification updatedNotification = _appDbContext.Notification.FirstOrDefault(x => x.NotificationID == Notification.NotificationID);

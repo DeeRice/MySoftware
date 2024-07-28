@@ -20,8 +20,8 @@ namespace JobTrackerAPI.Mapping
             notificationViewModel.ClientCompanyName = notification?.ClientCompanyName;
             notificationViewModel.ClientCompanyLocation = notification?.ClientCompanyLocation;
             notificationViewModel.ClientCompanyPhoneNumber = notification?.ClientCompanyPhoneNumber;
-            notificationViewModel.NotificationDate = notification?.NotificationDate;
-            notificationViewModel.NotificationEvent = notification?.NotificationEvent;
+            notificationViewModel.NotificationDate = notification.NotificationDate;
+            notificationViewModel.NotificationEvent = (NotificationEvent)notification.NotificationEvent;
             return notificationViewModel;
         }
 
@@ -67,8 +67,9 @@ namespace JobTrackerAPI.Mapping
             notification.ClientCompanyName = notificationViewModel?.ClientCompanyName;
             notification.ClientCompanyLocation = notificationViewModel?.ClientCompanyLocation;
             notification.ClientCompanyPhoneNumber = notificationViewModel?.ClientCompanyPhoneNumber;
-            notification.NotificationDate = notificationViewModel?.NotificationDate;
-            notification.NotificationEvent = notificationViewModel?.NotificationEvent;
+            notification.NotificationDate = notificationViewModel.NotificationDate;
+            notification.NotificationEvent = notificationViewModel?.NotificationEvent == null ? 0 : (int)notificationViewModel?.NotificationEvent;
+            notification.Message = notificationViewModel?.Message;
             return notification;
 
         }

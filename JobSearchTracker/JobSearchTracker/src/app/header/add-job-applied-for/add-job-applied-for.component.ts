@@ -14,12 +14,14 @@ import { JobService } from '../../../service/job.service';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {CalendarModule} from 'primeng/calendar';
+
 @Component({
   selector: 'app-add-job-applied-for',
   standalone: true,
   imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule, 
-    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule],
-   providers: [MessageService, ConfirmationService,  ConfirmDialogModule],
+    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, CalendarModule],
+   providers: [MessageService, ConfirmationService,  ConfirmDialogModule, CalendarModule],
   templateUrl: './add-job-applied-for.component.html',
   styleUrl: './add-job-applied-for.component.scss'
 })
@@ -55,9 +57,12 @@ export class AddJobAppliedForComponent {
    });
 
   }
-public isNotes(title:any): Boolean {
+public isNotNotes(title:any): Boolean {
   this.addJob.controls["JobID"].disable();
-  if(title === "Client Notes" || title === "Recruiter Notes"){
+  if(title === "Client Notes" || title === "Recruiter Notes" || title === "Job Description"
+    || title === "Date Of Submission" || title === "Date Of Follow Up" || 
+    title === "Date Of Interview"
+  ){
     return false;
   }
   
@@ -66,6 +71,22 @@ public isNotes(title:any): Boolean {
   }
  }
 
+ isNotADatePicker(title: string){
+  debugger;
+  if(title === "Date Of Submission" || title === "Date Of Follow Up" || 
+    title === "Date Of Interview"){
+    return false;
+  }
+  else{
+    return true;
+  }
+}
+
+onDateChanged(){
+  
+  //this.addNotification.controls.NotificationDate.setValue();
+  }
+  
 
 addJob = new FormGroup({
  RecruiterCompanyName: new FormControl(''),

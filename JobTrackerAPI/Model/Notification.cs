@@ -18,8 +18,9 @@ namespace JobTrackerAPI.Model
         public string ? ClientCompanyName { get; set; }
         public string ? ClientCompanyLocation { get; set; }
         public string ? ClientCompanyPhoneNumber { get; set; }
-        public DateTime ? NotificationDate { get; set; }
-        public int ? NotificationEvent { get; set; }
+        public DateTime NotificationDate { get; set; }
+        public int NotificationEvent { get; set; }
 
+        public string ? Message { get; set; }
     }
 }

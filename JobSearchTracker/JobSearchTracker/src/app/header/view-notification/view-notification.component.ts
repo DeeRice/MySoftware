@@ -21,6 +21,8 @@ import { getJSON } from 'jquery';
 import { NotificationService } from 'src/service/notification.service';
 import { JTSNotification } from 'src/model/notification';
 
+
+
 @Component({
   selector: 'app-view-notification',
   standalone: true,
@@ -49,8 +51,17 @@ export class ViewNotificationComponent {
   }
   ngOnInit() {
    this._notificationService.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-        this._notifications = JSON.parse(data.toString());
+    if(data.length > 0){
+      this._notifications = JSON.parse(data.toString());
+    }
     }); 
-   
 }
+
+goToDetailPage(id: string) {
+  this._appService?.setJobDetailsIsHidden(true);
+  this._appService?.setHeaderIsHidden(true);
+  this._appService?.setNotificationIsHidden(false);
+  this._router.navigate(['/app-notification-details/', id]);
+  console.log(id);
+}   
 }

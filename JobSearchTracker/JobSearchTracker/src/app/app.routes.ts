@@ -7,10 +7,13 @@ import { AddJobAppliedForComponent } from './header/add-job-applied-for/add-job-
 import { ViewNotificationComponent } from './header/view-notification/view-notification.component';
 import { HeaderComponent } from './header/header.component';
 import { JobDetailsComponent } from './job-details/job-details.component';
+import { NotificationDetailsComponent } from './notification-details/notification-details.component';
 
 export const routes: Routes = [
     { path: 'app-header', component: HeaderComponent },
     { path: 'app-job-details', component: JobDetailsComponent  },
-    { path: 'app-job-details/:id', component: JobDetailsComponent  }
+    { path: 'app-job-details/:id', component: JobDetailsComponent  },
+    { path: 'app-notification-details', component: NotificationDetailsComponent  },
+    { path: 'app-notification-details/:id', component: NotificationDetailsComponent  }
 ];
 

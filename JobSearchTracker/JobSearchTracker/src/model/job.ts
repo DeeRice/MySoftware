@@ -1,3 +1,5 @@
+import { JTSNotification } from "./notification";
+
 export class JTSJob {
     JobID! :number;
     JobTitle?:string;
@@ -16,7 +18,13 @@ export class JTSJob {
     DateOfSubmission?: Date;
     DateOfFollowUp?: Date;
     DateOfInterview?: Date;
-    FK_JobID_NotficationID?: number = 0;
-    notification?:Notification;
+    notification?:JTSNotification;
     notificationID?:number = 0;
+}
+
+
+
+export class JobEnum {
+    id?: number;
+    name?: string;
 }

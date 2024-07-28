@@ -32,20 +32,23 @@ export class JobDetailsComponent {
      this._router = router;
      this._route = activatedRoute;
      this._appService = appService;
-     this.jobDetails! = [] as JTSJob[];
     }
   public job!: JTSJob;
   public jobDetails!: JTSJob[];
   jobID: number = -1;
+  
  async ngOnInit() {
+  this.jobDetails = [];
    this.titles = this._appService?.addJobTitles;
   await this._route?.params.subscribe((data: Params) =>{
       this.jobID = parseInt(data["id"]);
     });
     if(Number.isNaN(this.jobID) == false){
       this._jobService!.getJobByID(this.jobID)!.pipe(debounceTime(300), distinctUntilChanged(), switchMap((value: JTSJob, index: number) => this._jobService!.getJobByID(this.jobID) as unknown as ObservableInput<JTSJob>)).subscribe((data: JTSJob) => {
-        this.job! = JSON.parse(data.toString());
-           this!.jobDetails!.push(this!.job!);
+        if(data != null){
+          this.job = JSON.parse(data.toString());
+          this.jobDetails.push(this.job);
+        }
      });
     }
    
