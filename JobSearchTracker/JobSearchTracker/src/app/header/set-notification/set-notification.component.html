@@ -10,7 +10,11 @@
             <tr>
                 <td>{{titles.titleName}}</td>
                 <td *ngIf="isNotAPicker(titles.titleName); then thenBlock else elseBlock" ></td>
-                <ng-template #thenBlock> <td><input type="text" pInputText formControlName="{{titles.formName}}" /></td></ng-template>
+                <ng-template #thenBlock> 
+                    <td *ngIf="isNotANotifcationMessage(titles.titleName); then thenBlock else elseBlock" ></td>
+                    <ng-template #thenBlock> <td><input type="text" pInputText formControlName="{{titles.formName}}" /></td></ng-template>
+                    <ng-template #elseBlock><td><textarea rows="5" cols="30" pInputTextarea formControlName="{{titles.formName}}"></textarea></td></ng-template> 
+                </ng-template>
                 <ng-template #elseBlock>
                     <td *ngIf="isNotFKPicker(titles.titleName); then thenBlock else elseBlock" ></td>
                     <ng-template #thenBlock><td><p-multiSelect [selectionLimit]="1" [options]="listofJobEnums" [(ngModel)]="jobEnum" optionLabel="name" placeholder="Select A Job" (onChange)="onFK_JobIDPickerChanged($event)" formControlName="{{titles.formName}}" [optionValue]="jobEnum?.id?.toString()" /></td></ng-template>

@@ -1,4 +1,4 @@
-<h3 class="centered-header">Job Details</h3>
+<h3 class="centered-header">Notification Details</h3>
 <table class="table">
     <tbody *ngFor="let somenotification of notificationDetails">
       <tr>
@@ -14,6 +14,10 @@
         <th scope="row"></th>
         <td>Recruiter Company Location</td>
         <td>{{somenotification.RecruiterCompanyLocation}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
       </tr>
       <tr>
         <th scope="row"></th>
@@ -45,10 +49,16 @@
       <tr>
         <th scope="row"></th>
         <td>Notification Date</td>
-        <td>{{somenotification.NotificationDate}}</td>
+        <td>{{somenotification.NotificationDate | date: 'MMMM d, y, h:mm:ss a'}}</td>
         <td></td>
         <td>Notification Event</td>
-        <td>{{somenotification.NotificationEvent}}</td>
+        <td>{{convertNumberToNotificationEnum(somenotification.NotificationEvent)}}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Notification Message</td>
+        <td>{{somenotification.Message}}</td>
         <td></td>
       </tr>
     </tbody>
@@ -57,15 +67,3 @@
 
 
 
-public NotificationID: number = 0;
-public RecruiterName?: string;
-public RecruiterCompanyName?: string;
-public RecruiterCompanyLocation?: string;
-public RecruiterPhoneNumber?: string;
-public RecruiterCompanyPhoneNumber?: string;
-public ClientContactName?: string;
-public ClientCompanyName?: string;
-public ClientCompanyLocation?: string;
-public ClientCompanyPhoneNumber?: string;
-public NotificationDate?: Date;
-public NotificationEvent?: number;

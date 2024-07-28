@@ -7,9 +7,18 @@
             background-color: #607D8B;
         }
     }
+    th{
+        background-color: #000080;
+        color: white;
+        font-size: 13.5px;
+        min-width: 300px;
+        height: 15px;
+        font-weight: 400;
+    }
+    th, td { min-width: 300px; }
 }
 .search-table-outter { overflow-x: scroll; }
-th, td { min-width: 200px; }
+th, td { min-width: 300px; }
 
 th{
     background-color: #000080;

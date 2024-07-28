@@ -38,6 +38,7 @@ export class JobDetailsComponent {
   jobID: number = -1;
   
  async ngOnInit() {
+  this.jobDetails = [];
    this.titles = this._appService?.addJobTitles;
   await this._route?.params.subscribe((data: Params) =>{
       this.jobID = parseInt(data["id"]);
@@ -45,8 +46,8 @@ export class JobDetailsComponent {
     if(Number.isNaN(this.jobID) == false){
       this._jobService!.getJobByID(this.jobID)!.pipe(debounceTime(300), distinctUntilChanged(), switchMap((value: JTSJob, index: number) => this._jobService!.getJobByID(this.jobID) as unknown as ObservableInput<JTSJob>)).subscribe((data: JTSJob) => {
         if(data != null){
-          this.job! = JSON.parse(data.toString());
-          this!.jobDetails!.push(this!.job!);
+          this.job = JSON.parse(data.toString());
+          this.jobDetails.push(this.job);
         }
      });
     }

@@ -11,7 +11,7 @@ import { debounce, debounceTime, distinctUntilChanged, interval, Observable, Obs
 import { AppService } from 'src/service/app.service';
 import { AddJobTable } from 'src/model/add-job-table';
 import { NotificationService } from 'src/service/notification.service';
-import { JTSNotification } from 'src/model/notification';
+import { JTSNotification, JTSNotificationEventType } from 'src/model/notification';
 
 @Component({
   selector: 'app-notification-details',
@@ -39,18 +39,23 @@ export class NotificationDetailsComponent {
   public notificationDetails!: JTSNotification[];
   notificationID: number = -1;
  async ngOnInit() {
+  this.notificationDetails = [];
    this.titles = this._appService?.addJobTitles;
   await this._route?.params.subscribe((data: Params) =>{
       this.notificationID = parseInt(data["id"]);
     });
     if(Number.isNaN(this.notificationID) == false){
-      this.notificationService!.getNotificationByID(this.notificationID)!.pipe(debounceTime(300), distinctUntilChanged(), switchMap((value: JTSNotification, index: number) => this.notificationService!.getNotificationByID(this.notificationID) as unknown as ObservableInput<JTSNotification>)).subscribe((data: JTSNotification) => {
-        this.notification! = JSON.parse(data.toString());
-           this!.notificationDetails!.push(this!.notification!);
+      this.notificationService.getNotificationByID(this.notificationID)!.pipe(debounceTime(300), distinctUntilChanged(), switchMap((value: JTSNotification, index: number) => this.notificationService!.getNotificationByID(this.notificationID) as unknown as ObservableInput<JTSNotification>)).subscribe((data: JTSNotification) => {
+        this.notification = JSON.parse(data.toString());
+           this.notificationDetails.push(this.notification!);
      });
     }
    
  }
+convertNumberToNotificationEnum(eventNumber: number | undefined){
+  return JTSNotificationEventType[eventNumber as number];
+}
+
  goBackToJobGrid(){
   this._router.navigateByUrl("/app-header");
  }

@@ -50,6 +50,7 @@ export class AppService {
     {titleName:"Client Company Name", formName:"ClientCompanyName"}, 
     {titleName:"Client Company Location", formName:"ClientCompanyLocation"}, 
     {titleName:"Client Company Phone Number", formName:"ClientCompanyPhoneNumber"}, 
+    {titleName:"Notification Message", formName:"NotificationMessage"}, 
     {titleName:"Notification Date", formName:"NotificationDate"},
     {titleName:"Notification Event", formName:"NotificationEvent"}];
 

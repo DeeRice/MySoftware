@@ -115,6 +115,7 @@ setEventPicker(){
   ClientCompanyName: new FormControl(''),
   ClientCompanyLocation: new FormControl(''),
   ClientCompanyPhoneNumber: new FormControl(''),
+  NotificationMessage: new FormControl(''),
   NotificationDate: new FormControl<Date | undefined>(undefined),
   NotificationEvent: new FormControl<NotficationEventEnum | undefined>(undefined),
  });
@@ -149,6 +150,7 @@ setEventPicker(){
         this.notification.ClientCompanyPhoneNumber = this.addNotification.controls.ClientCompanyPhoneNumber.value || undefined;
         this.notification.NotificationID = this.addNotification.controls.NotificationID.value as number;
         this.notification.NotificationDate = this.addNotification.controls.NotificationDate.value as Date;
+        this.notification.Message = this.addNotification.controls.NotificationMessage.value || undefined;
         this.job.notificationID = this.notification.NotificationID;
         this.job.notification = this.notification;
         debugger;
@@ -278,7 +280,14 @@ onNotificationEventPickerChanged(event: MultiSelectChangeEvent){
    
   
 }
-
+isNotANotifcationMessage(title: string){
+  if(title === "Notification Message"){
+    return false;
+   }
+   else{
+    return true;
+   }
+}
 onDateChanged(){
 debugger;
 

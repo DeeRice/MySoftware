@@ -11,8 +11,8 @@ public ClientContactName?: string;
 public ClientCompanyName?: string;
 public ClientCompanyLocation?: string;
 public ClientCompanyPhoneNumber?: string;
-public NotificationDate?: Date;
-public NotificationEvent?: number;
+public NotificationDate!: Date;
+public NotificationEvent!: number;
 public Message?: string;
 }
 

@@ -55,6 +55,9 @@ export class JobAppliedForComponent {
     }
 
     goToDetailPage(id: string) {
+      this._appService?.setJobDetailsIsHidden(false);
+      this._appService?.setHeaderIsHidden(true);
+      this._appService?.setNotificationIsHidden(true);
       this._router.navigate(['/app-job-details/', id]);
       console.log(id);
     }   
