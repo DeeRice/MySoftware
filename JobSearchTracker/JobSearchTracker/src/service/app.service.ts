@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { HeaderComponent } from '../app/header/header.component';
 import { AddJobTable } from '../model/add-job-table';
 import { AddNotificationTable } from '../model/add-notification-table';
@@ -20,6 +20,7 @@ export class AppService {
  getNotificationDetailsIsHidden = this.notificationDetailsIsHiddenBehavior.asObservable();
  private jobDetailsIsHiddenBehavior = new BehaviorSubject(false);
  getjobDetailsIsHidden = this.jobDetailsIsHiddenBehavior.asObservable();
+
  public addJobTitles?: AddJobTable[] = [
   {titleName: "Job ID", formName:"JobID"}, 
   {titleName:"Job Title", formName:"JobTitle"}, 
@@ -55,10 +56,13 @@ export class AppService {
     {titleName:"Notification Date", formName:"NotificationDate"},
     {titleName:"Notification Event", formName:"NotificationEvent"}];
 
- constructor() { }
+ constructor() { 
+
+ }
  setHeaderIsHidden(isHidden: boolean){
     this.headerIsHiddenBehavior.next(isHidden);
     this.headerIsHidden = isHidden;
+
  }
  setNotificationIsHidden(isHidden: boolean){
   this.notificationDetailsIsHiddenBehavior.next(isHidden);
@@ -75,4 +79,7 @@ setNotificationTabIsDisabled(isHidden: boolean){
 getNotificationTabIsDisabled(): boolean {
   return this.notificationTabIsDisabled;
 }
+
+
+
 }

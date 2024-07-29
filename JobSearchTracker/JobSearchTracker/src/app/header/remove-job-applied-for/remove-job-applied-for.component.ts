@@ -32,7 +32,7 @@ export class RemoveJobAppliedForComponent {
   public _confirmationService?: ConfirmationService;
   public _appService?: AppService;
   public currentID:number = -1;
-  lastTableLazyLoadEvent?: TableLazyLoadEvent;
+  public lastTableLazyLoadEvent?: TableLazyLoadEvent;
   constructor(private appService: AppService, private jobService: JobService,
     private messageService: MessageService, private confirmationService: ConfirmationService
     ) {
@@ -48,6 +48,8 @@ export class RemoveJobAppliedForComponent {
     this._jobs = JSON.parse(data.toString());
     }
     });
+
+    //  this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
 
 }
 
@@ -74,7 +76,8 @@ confirm() {
           },
           () => {
             // No errors, route to new page
-            this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'})
+            this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
+
           }
         );
       }

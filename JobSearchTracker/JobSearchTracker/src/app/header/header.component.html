@@ -1,6 +1,6 @@
 <div class="background">
     <p class="text-center">Job Tracker</p>
-    <p-tabView class="tab"  [hidden]="isHidden">
+    <p-tabView class="tab"  [hidden]="isHidden" (onChange)="handleChange($event)">
         <p-tabPanel header="View Jobs Applied For">
            <app-job-applied-for></app-job-applied-for>
         </p-tabPanel>

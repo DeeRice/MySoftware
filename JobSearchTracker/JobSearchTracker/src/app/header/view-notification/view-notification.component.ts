@@ -41,7 +41,7 @@ export class ViewNotificationComponent {
   public _appService?: AppService;  
   public _router: any;
   public _routerLink: any;
-  lastTableLazyLoadEvent?: TableLazyLoadEvent;
+  public lastTableLazyLoadEvent?: TableLazyLoadEvent;
   constructor(@Inject(ActivatedRoute) activatedRoute: ActivatedRoute, @Inject(Router) router: Router,
   public appService: AppService, PrimeNGConfig: PrimeNGConfig,
    notificationService: NotificationService, @Inject(RouterLink) routerLink?: RouterLink) {
@@ -56,6 +56,9 @@ export class ViewNotificationComponent {
       this._notifications = JSON.parse(data.toString());
     }
     }); 
+   
+    //  this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
+    
 }
 
 goToDetailPage(id: string) {

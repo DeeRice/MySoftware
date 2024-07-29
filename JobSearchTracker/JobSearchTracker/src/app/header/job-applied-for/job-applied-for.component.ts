@@ -15,7 +15,7 @@ import { RouterLinkActive, ActivatedRoute, RouterModule, RouterLink, Router, Rou
 import { AppService } from '../../../service/app.service';
 import { JobService } from 'src/service/job.service';
 import { JTSJob } from 'src/model/job';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { LazyLoadEvent, PrimeNGConfig } from 'primeng/api';
 import { getJSON } from 'jquery';
 
@@ -61,7 +61,9 @@ export class JobAppliedForComponent {
             this._appService!.setNotificationTabIsDisabled(true);
            }
         }); 
-      
+       
+         // this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
+       
     }
 
     goToDetailPage(id: string) {

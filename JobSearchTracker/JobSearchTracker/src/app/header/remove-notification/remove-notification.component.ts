@@ -43,7 +43,7 @@ export class RemoveNotificationComponent {
   public _messageService?: MessageService;
   public _confirmationService?: ConfirmationService;
   public currentID:number = -1;
-  lastTableLazyLoadEvent?: TableLazyLoadEvent;
+  public lastTableLazyLoadEvent?: TableLazyLoadEvent;
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService, @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, @Inject(Router) router: Router,
   public appService: AppService, PrimeNGConfig: PrimeNGConfig,
    notificationService: NotificationService, @Inject(RouterLink) routerLink?: RouterLink) {
@@ -59,6 +59,9 @@ export class RemoveNotificationComponent {
       if(data != null && (data as JTSNotification[]).length != 0 && data != undefined){
       this._notifications = JSON.parse(data.toString());
       }
+ 
+       // this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
+    
   }); 
  
   }
@@ -86,7 +89,8 @@ remove(id: number){
             },
             () => {
               // No errors, route to new page
-              this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'})
+              this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
+
             }
           );
         }

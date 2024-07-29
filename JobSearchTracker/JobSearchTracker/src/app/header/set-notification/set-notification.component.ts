@@ -178,7 +178,8 @@ setEventPicker(){
               () => {
               
               });
-            this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'})
+            this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
+
           }
         );
       }
