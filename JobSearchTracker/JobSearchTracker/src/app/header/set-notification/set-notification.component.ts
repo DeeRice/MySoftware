@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, ElementRef, EventEmitter, ViewChild } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -12,7 +12,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { JTSNotification, JTSNotificationEvent, JTSNotificationEventType, JTSNotificationPicker, NotficationEventEnum } from 'src/model/notification';
 import { NotificationService } from 'src/service/notification.service';
-import { MultiSelectChangeEvent, MultiSelectModule, MultiSelectSelectAllChangeEvent } from 'primeng/multiselect';
+import { MultiSelect, MultiSelectChangeEvent, MultiSelectModule, MultiSelectSelectAllChangeEvent } from 'primeng/multiselect';
 import { JobEnum, JTSJob } from 'src/model/job';
 import { JobService } from 'src/service/job.service';
 import {CalendarModule} from 'primeng/calendar';
@@ -46,6 +46,8 @@ export class SetNotificationComponent {
   public _jobService?: JobService;
   public currentNotificationID: number = -1;
   jobID?: number;
+  pickerPopupIsVisible!: boolean; 
+  @ViewChild('ms') multiselect?: MultiSelect;
   constructor(private appService: AppService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
     private notificationService: NotificationService, private jobService: JobService
@@ -155,7 +157,6 @@ setEventPicker(){
         this.notification.Message = this.addNotification.controls.NotificationMessage.value as string;
         this.job.notificationID = this.notification.NotificationID;
         this.job.notification = this.notification;
-        debugger;
         this.notificationService?.addNotification(this.notification)?.subscribe(
           (result) => {
             // Handle result
@@ -251,7 +252,6 @@ onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
     this.addNotification.controls.ClientCompanyPhoneNumber.setValue(obj.ClientCompanyPhoneNumber || null)
     this.addNotification.controls.NotificationEvent.setValue(this.notficationEventEnum as NotficationEventEnum);
     if(this.notification != null){
-    
       this.notification.NotificationEvent = event.value[0].id;
     }
 
@@ -266,6 +266,7 @@ onEventPickerChanged(event: MultiSelectChangeEvent){
       this.notification.NotificationEvent = event.value[0].id;
      }
   }
+  this.multiselect?.hide();
 }
 
 isNotFKPicker(title: string){
@@ -279,7 +280,6 @@ isNotFKPicker(title: string){
 }
 onNotificationEventPickerChanged(event: MultiSelectChangeEvent){
 
-   
   
 }
 isNotANotifcationMessage(title: string){
@@ -308,6 +308,15 @@ isNotADatePicker(title: string){
 display(num: number){
   let jtsEvent = JTSNotificationEventType[num];
   return jtsEvent[num];
+}
+
+setPickerBinding(title: string): boolean {
+  if(title == "NotificationEvent"){
+    return this.pickerPopupIsVisible;
+  }
+  else {
+    return false;
+  }
 }
 }
 

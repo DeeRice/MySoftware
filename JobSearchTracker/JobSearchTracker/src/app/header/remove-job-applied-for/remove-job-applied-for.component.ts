@@ -1,4 +1,4 @@
-import { TableModule } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -32,6 +32,7 @@ export class RemoveJobAppliedForComponent {
   public _confirmationService?: ConfirmationService;
   public _appService?: AppService;
   public currentID:number = -1;
+  lastTableLazyLoadEvent?: TableLazyLoadEvent;
   constructor(private appService: AppService, private jobService: JobService,
     private messageService: MessageService, private confirmationService: ConfirmationService
     ) {
@@ -78,5 +79,21 @@ confirm() {
         );
       }
   });
+}
+
+public async refreshDataGrid(event: TableLazyLoadEvent) {
+  this.lastTableLazyLoadEvent = event;
+  this._appService!.setNotificationTabIsDisabled(true);
+  await this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
+     if(data != null && (data as JTSJob[]).length != 0 && data != undefined){
+       this._jobs = JSON.parse(data.toString());
+     }
+     if(this._jobs.length >= 1){
+       this._appService!.setNotificationTabIsDisabled(false);
+      }
+      else {
+       this._appService!.setNotificationTabIsDisabled(true);
+      }
+   }); 
 }
 }

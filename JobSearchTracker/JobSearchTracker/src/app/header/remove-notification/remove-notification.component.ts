@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
-import { TableModule } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { HttpClientModule, provideHttpClient, withJsonpSupport } from '@angular/common/http';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -43,6 +43,7 @@ export class RemoveNotificationComponent {
   public _messageService?: MessageService;
   public _confirmationService?: ConfirmationService;
   public currentID:number = -1;
+  lastTableLazyLoadEvent?: TableLazyLoadEvent;
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService, @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, @Inject(Router) router: Router,
   public appService: AppService, PrimeNGConfig: PrimeNGConfig,
    notificationService: NotificationService, @Inject(RouterLink) routerLink?: RouterLink) {
@@ -90,5 +91,15 @@ remove(id: number){
           );
         }
     });
+  }
+
+  public async refreshDataGrid(event: TableLazyLoadEvent) {
+    this.lastTableLazyLoadEvent = event;
+    await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+       if(data != null && (data as JTSNotification[]).length != 0 && data != undefined){
+         this._notifications = JSON.parse(data.toString());
+       }
+      
+     }); 
   }
 }

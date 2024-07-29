@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
-import { TableModule } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { HttpClientModule, provideHttpClient, withJsonpSupport } from '@angular/common/http';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -41,6 +41,7 @@ export class ViewNotificationComponent {
   public _appService?: AppService;  
   public _router: any;
   public _routerLink: any;
+  lastTableLazyLoadEvent?: TableLazyLoadEvent;
   constructor(@Inject(ActivatedRoute) activatedRoute: ActivatedRoute, @Inject(Router) router: Router,
   public appService: AppService, PrimeNGConfig: PrimeNGConfig,
    notificationService: NotificationService, @Inject(RouterLink) routerLink?: RouterLink) {
@@ -64,4 +65,15 @@ goToDetailPage(id: string) {
   this._router.navigate(['/app-notification-details/', id]);
   console.log(id);
 }   
+
+public async refreshDataGrid(event: TableLazyLoadEvent) {
+  this.lastTableLazyLoadEvent = event;
+  await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+     if(data != null && (data as JTSNotification[]).length != 0 && data != undefined){
+       this._notifications = JSON.parse(data.toString());
+     }
+    
+   }); 
+}
+
 }

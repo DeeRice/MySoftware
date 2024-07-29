@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
-import { TableModule } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { HttpClientModule, provideHttpClient, withJsonpSupport } from '@angular/common/http';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -16,7 +16,7 @@ import { AppService } from '../../../service/app.service';
 import { JobService } from 'src/service/job.service';
 import { JTSJob } from 'src/model/job';
 import { Observable } from 'rxjs';
-import { PrimeNGConfig } from 'primeng/api';
+import { LazyLoadEvent, PrimeNGConfig } from 'primeng/api';
 import { getJSON } from 'jquery';
 
 @Component({
@@ -37,6 +37,7 @@ export class JobAppliedForComponent {
     public _jobService?: JobService; 
     public _router: any;
     public _routerLink: any;
+    lastTableLazyLoadEvent?: TableLazyLoadEvent;
     @Output() isHiddensChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
     constructor(@Inject(ActivatedRoute) activatedRoute: ActivatedRoute, @Inject(Router) router: Router,
      public appService: AppService, PrimeNGConfig: PrimeNGConfig,
@@ -70,6 +71,20 @@ export class JobAppliedForComponent {
       this._router.navigate(['/app-job-details/', id]);
       console.log(id);
     }   
- 
+   public async refreshDataGrid(event: TableLazyLoadEvent) {
+      this.lastTableLazyLoadEvent = event;
+      this._appService!.setNotificationTabIsDisabled(true);
+      await this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
+         if(data != null && (data as JTSJob[]).length != 0 && data != undefined){
+           this.jobs = JSON.parse(data.toString());
+         }
+         if(this.jobs.length >= 1){
+           this._appService!.setNotificationTabIsDisabled(false);
+          }
+          else {
+           this._appService!.setNotificationTabIsDisabled(true);
+          }
+       }); 
+    }
 }
 
