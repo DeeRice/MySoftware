@@ -49,6 +49,7 @@ export class SetNotificationComponent {
   pickerPopupIsVisible!: boolean; 
   @ViewChild('ms') multiselect?: MultiSelect;
   _notifications!: JTSNotification[];
+  public messageHeader?: string;
   constructor(private appService: AppService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
     private notificationService: NotificationService, private jobService: JobService
@@ -62,11 +63,11 @@ export class SetNotificationComponent {
  async ngOnInit() {
    this.titles = this._appService?.addNotificationTitles;   
    this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
-    if(data != null && (data as JTSJob[]).length != 0 && data != undefined){
+    if((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)){
     this.jobs = JSON.parse(data.toString());
     
     this.listofJobEnums = [];
-    if(this.notification != null){
+    if((this.notification != undefined) && (this.notification != null)){
       this.notification.NotificationEvent = -1;
     }
     this.jobs.forEach((value, index) => {
@@ -76,7 +77,14 @@ export class SetNotificationComponent {
           this.listofJobEnums?.push(jobEnum);
     });
   }
-    }); 
+}, 
+(error) => {
+  this.messageHeader = "Error!"
+  let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
+  console.log(error);
+  this.confirm(message);
+
+}); 
  this.makeTextboxesUnEditable();
 
 this.setEventPicker();
@@ -91,6 +99,12 @@ this.setEventPicker();
     this.currentNotificationID = parseInt(returnNotificaitonID.toString()) + 1;
     this.addNotification.controls.NotificationID.setValue(this.currentNotificationID);
     }
+},
+(error) => {
+  this.messageHeader = "Error!"
+  let message:string = "Error occured while trying to retrieve the last notificaiton id. See developer for solution."
+  console.log(error);
+  this.confirm(message);
 });
 
 }
@@ -135,17 +149,19 @@ setEventPicker(){
  save(form: FormGroup){
  console.log(form);
    this.addNotification = form;
-   this.confirm();
+   let message:string = "Are you sure you want add this notification?";
+   this.messageHeader = "Add Notification Confirmation";
+   this.confirm(message);
  }
 
  clear() {
    this.addNotification.reset();
  }
 
- confirm() {
+ confirm(messageToShow: string) {
   this.confirmationService.confirm({
-    message: 'Are you sure you want add this notification?',
-    header: 'Add Notification Confirmation',
+    message: messageToShow ,
+    header: this.messageHeader,
     icon: 'pi pi-info-circle',
       accept: () => {
        if(this.notification != null && this.currentNotificationID != -1) {
@@ -162,7 +178,6 @@ setEventPicker(){
         this.notification.ClientCompanyPhoneNumber = this.addNotification.controls.ClientCompanyPhoneNumber.value || undefined;
         this.notification.NotificationID = this.addNotification.controls.NotificationID.value as number;
         this.notification.NotificationDate = this.addNotification.controls.NotificationDate.value as Date;
-        debugger;
         this.notification.Message = this.addNotification.controls.NotificationMessage.value as string;
         this.job.notificationID = this.notification.NotificationID;
         this.job.notification = this.notification;
@@ -170,16 +185,11 @@ setEventPicker(){
           (result) => {
             // Handle result
             console.log(result)
-          },
-          (error) => {
-            this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
-          },
-          () => {
-            // No errors, route to new page
             this.jobService?.updateJob(this.job)?.subscribe(
               (result) => {
                 // Handle result
                 console.log(result)
+                this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
               },
               (error) => {
                 this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
@@ -187,8 +197,12 @@ setEventPicker(){
               () => {
               
               });
-            this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
-
+          },
+          (error) => {
+            this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
+          },
+          () => {
+            // No errors, route to new page
           }
         );
       }
@@ -233,7 +247,7 @@ onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
   }  
 
 
-  if(obj == undefined){
+  if((obj == undefined) || (obj == null)){
     this.currentNotificationID = 0;
     this.addNotification.controls.NotificationID.setValue(0);
     this.addNotification.controls.RecruiterName.setValue("")
@@ -262,7 +276,7 @@ onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
     this.addNotification.controls.ClientCompanyLocation.setValue(obj.ClientCompanyLocation || null)
     this.addNotification.controls.ClientCompanyPhoneNumber.setValue(obj.ClientCompanyPhoneNumber || null)
     this.addNotification.controls.NotificationEvent.setValue(this.notficationEventEnum as NotficationEventEnum);
-    if(this.notification != null){
+    if((this.notification != null) && (this.notification != undefined)){
       this.notification.NotificationEvent = event.value[0].id;
     }
 
@@ -273,7 +287,7 @@ onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
 onEventPickerChanged(event: MultiSelectChangeEvent){
   if(event.value.length > 0){
      this.addNotification.controls.NotificationEvent.setValue(this.notficationEventEnum as NotficationEventEnum | null)
-     if(this.notification != null){
+     if((this.notification != null) && (this.notification != undefined)){
       this.notification.NotificationEvent = event.value[0].id;
      }
   }
@@ -332,10 +346,16 @@ setPickerBinding(title: string): boolean {
 
 async displayNotificationsForToday() {
  await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-    if(data.length > 0){
+    if((data != null) && (data != undefined) && (data.length > 0)){
       this._notifications = JSON.parse(data.toString());
     }
-  }); 
+  },
+ (error) => {
+  this.messageHeader = "Error!"
+  let message:string = "Error occured while trying to retrieve a list of notifications. See developer for solution."
+  console.log(error);
+  this.confirm(message);
+ }); 
 }
 
 

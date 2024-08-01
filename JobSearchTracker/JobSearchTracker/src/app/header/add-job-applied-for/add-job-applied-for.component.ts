@@ -38,6 +38,7 @@ export class AddJobAppliedForComponent {
   public newJobID:number = -1;
   _notifications!: JTSNotification[];
   _notificationsToBeDisplay?: JTSNotification[];
+  public messageHeader?: string;
   constructor(private appService: AppService, private jobService: JobService,
   private messageService: MessageService, private confirmationService: ConfirmationService,
   private notificationService: NotificationService
@@ -62,7 +63,13 @@ export class AddJobAppliedForComponent {
        this.newJobID = parseInt(returnJobID.toString()) + 1;
        this.addJob.controls.JobID.setValue(this.newJobID.toString());
        }
-   });
+   },
+  (error)=>{
+    this.messageHeader = "Error!"
+    let message:string = "Error occured while trying to retrive the last job id. See developer for solution."
+    console.log(error);
+    this.confirm(message);
+  });
     
   }
 public isNotNotes(title:any): Boolean {
@@ -118,16 +125,18 @@ addJob = new FormGroup({
 
 save(form: FormGroup){
 this.addJob = form;
-this.confirm();
+let message:string = "Are you sure that you want to add this job?";
+this.messageHeader = "Add Job Confirmation";
+this.confirm(message);
 }
 
 clear() {
   this.addJob.reset();
 }
-confirm() {
+confirm(messageToShow: string) {
   this.confirmationService.confirm({
-      header: "Add Job Confirmation",
-      message: 'Are you sure that you want to add this job?',
+      header: this.messageHeader, 
+      message: messageToShow,
       accept: () => {
         var job = new JTSJob();
         job.JobID = Number.parseInt(this.addJob.controls.JobID.value as string) || -1;
@@ -151,13 +160,14 @@ confirm() {
           (result) => {
             // Handle result
             console.log(result)
+            this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
           },
           (error) => {
             this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
           },
           () => {
             // No errors, route to new page
-            this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
+         
            
           }
         );
@@ -167,16 +177,22 @@ confirm() {
 
 async displayNotificationsForToday() {
  await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-    if(data.length > 0){
+    if((data != null) && (data != undefined) && (data.length > 0)){
       this._notifications = JSON.parse(data.toString());
     }
-  }); 
+  },
+(error) => {
+  this.messageHeader = "Error!"
+  let message:string = "Error occured while trying to retrieve a list of all notifications. See developer for solution."
+  console.log(error);
+  this.confirm(message);
+}); 
 
-  if(this._notifications.length > 0) {
+  if((this._notifications != null) && (this._notifications != undefined) && (this._notifications.length > 0)) {
     this._notificationsToBeDisplay = this._notifications.
     filter(obj => `${new Date(obj.NotificationDate).getMonth()}/${new Date(obj.NotificationDate).getDay()}/${new Date(obj.NotificationDate).getFullYear()}` == `${new Date(Date.now()).getMonth()}/${new Date(Date.now()).getDay()}/${new Date(Date.now()).getFullYear()}`)
   }
-    debugger;
+   
 }
 }
 

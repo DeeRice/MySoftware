@@ -61,7 +61,7 @@ export class ViewNotificationComponent {
   }
   ngOnInit() {
    this._notificationService.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-    if(data.length > 0){
+    if((data != null) && (data != undefined) && (data.length > 0)){
       this._notifications = JSON.parse(data.toString());
     }
     }); 
@@ -81,7 +81,7 @@ goToDetailPage(id: string) {
 public async refreshDataGrid(event: TableLazyLoadEvent) {
   this.lastTableLazyLoadEvent = event;
   await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-     if(data != null && (data as JTSNotification[]).length != 0 && data != undefined){
+     if((data != null) && (data != undefined) && ((data as JTSNotification[]).length != 0)){
        this._notifications = JSON.parse(data.toString());
      }
     
@@ -90,10 +90,10 @@ public async refreshDataGrid(event: TableLazyLoadEvent) {
 
 async displayNotificationsForToday() {
   await   this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-       if(data.length > 0){
+       if((data != null) && (data != undefined) && (data.length > 0)){
          this._notifications = JSON.parse(data.toString());
        }
-       if(this._notifications.length > 0) {
+       if((this._notifications != null) && (this._notifications != undefined) && (this._notifications.length > 0)) {
          this._notificationsToBeDisplay = [];
          this._notifications.forEach((obj, index)=>{
          

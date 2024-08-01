@@ -37,6 +37,7 @@ export class RemoveJobAppliedForComponent {
   public currentID:number = -1;
   public lastTableLazyLoadEvent?: TableLazyLoadEvent;
   _notifications!: JTSNotification[];
+  public messageHeader?: string;
   constructor(private appService: AppService, private jobService: JobService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
     private notificationService: NotificationService
@@ -50,25 +51,34 @@ export class RemoveJobAppliedForComponent {
   ngOnInit() {
     this.titles = this._appService?.addJobTitles;  
    this._jobService?.getAllJobs()?.subscribe((data) => {
-    if(data != null && (data as JTSJob[]).length != 0 && data != undefined){
+    if((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)){
     this._jobs = JSON.parse(data.toString());
     }
-    });
+    },
+   (error)=>{
+    this.messageHeader = "Error!"
+    let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
+    console.log(error);
+    this.confirm(message);
+   });
 
-    //  this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
+    
 
 }
 
 remove(id: number){
   console.log(id);
   this.currentID = id;
-  this.confirm();
+  this.messageHeader = "Delete Job Confirmation";
+  let message:string = "Are you sure you want to delete this job?";
+  this.confirm(message);
 }
 
-confirm() {
+
+confirm(messageToShow: string) {
   this.confirmationService.confirm({
-    message: 'Are you sure you want to delete this job?',
-    header: 'Delete Job Confirmation',
+    message: messageToShow,
+    header: this.messageHeader,
     icon: 'pi pi-info-circle',
       accept: () => {
 
@@ -88,29 +98,42 @@ confirm() {
         );
       }
   });
+  this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
 }
 
 public async refreshDataGrid(event: TableLazyLoadEvent) {
   this.lastTableLazyLoadEvent = event;
   this._appService!.setNotificationTabIsDisabled(true);
   await this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
-     if(data != null && (data as JTSJob[]).length != 0 && data != undefined){
+     if((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)){
        this._jobs = JSON.parse(data.toString());
      }
-     if(this._jobs.length >= 1){
+     if((this._jobs != null) && (this._jobs != undefined) && (this._jobs.length >= 1)){
        this._appService!.setNotificationTabIsDisabled(false);
       }
       else {
        this._appService!.setNotificationTabIsDisabled(true);
       }
-   }); 
+   },
+  (error) => {
+    this.messageHeader = "Error!"
+    let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
+    console.log(error);
+    this.confirm(message);
+  }); 
 }
 
 async displayNotificationsForToday() {
  await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-    if(data.length > 0){
+    if((data != null) && (data != undefined) && (data.length > 0)){
       this._notifications = JSON.parse(data.toString());
     }
-  }); 
+  },
+(error) =>{
+  this.messageHeader = "Error!"
+  let message:string = "Error occured while trying to retrieve a list of notifications. See developer for solution."
+  console.log(error);
+  this.confirm(message);
+}); 
 }
 }

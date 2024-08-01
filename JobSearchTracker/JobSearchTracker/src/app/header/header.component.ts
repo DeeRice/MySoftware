@@ -15,15 +15,18 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 import { JobService } from 'src/service/job.service';
 import { TableLazyLoadEvent } from 'primeng/table';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [JobAppliedForComponent, TabViewModule, SetNotificationComponent,
     RemoveNotificationComponent, RemoveJobAppliedForComponent, AddJobAppliedForComponent,
-    ViewNotificationComponent, CommonModule, JobDetailsComponent, FormsModule
-  ],
-  providers: [AppService, NgbModal, AppService, RouterModule, RouterOutlet, TabViewModule],
+    ViewNotificationComponent, CommonModule, JobDetailsComponent, FormsModule,
+    ConfirmDialogModule],
+  providers: [MessageService, ConfirmationService, AppService, NgbModal, AppService, RouterModule, RouterOutlet, 
+    TabViewModule,ConfirmDialogModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -34,15 +37,21 @@ export class HeaderComponent {
  lastJobID?: number = -1;
  public _appService?: AppService;
  public _jobService?: JobService;
+ public _messageService?: MessageService;
+ public _confirmationService?: ConfirmationService;
+ public messageHeader?: string;
  @ViewChild(JobAppliedForComponent) jobAppliedForComponent?:JobAppliedForComponent;
  @ViewChild(RemoveJobAppliedForComponent) removeJobAppliedForComponent?: RemoveJobAppliedForComponent;
  @ViewChild(ViewNotificationComponent) viewNotificationComponent?:ViewNotificationComponent;
  @ViewChild(RemoveNotificationComponent) removeNotificationComponent?: RemoveNotificationComponent;
   constructor( @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, public appService: AppService, 
+  private messageService: MessageService, private confirmationService: ConfirmationService,
   jobService: JobService) {
         this._appService = appService;
         this.isHidden = this._appService.headerIsHidden;
         this._jobService = jobService;
+        this._confirmationService = this.confirmationService;
+        this._messageService = this.messageService;
   }
   ngOnInit(){
 
@@ -57,6 +66,12 @@ export class HeaderComponent {
         this.notificationsIsDisabled = true;
         this._appService!.setNotificationTabIsDisabled(this.notificationsIsDisabled);
        }
+     },
+     (error) => {
+      this.messageHeader = "Error!"
+      let message:string = "Error occured while trying to retrieve the last job. See developer for solution."
+      console.log(error);
+      this.confirm(message);
      });
   }
   public hide(){
@@ -68,4 +83,14 @@ export class HeaderComponent {
      this.viewNotificationComponent?.refreshDataGrid(this.viewNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
      this.removeNotificationComponent?.refreshDataGrid(this.removeNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
   }
+
+  confirm(messageToShow: string) {
+    this.confirmationService?.confirm({
+          message: messageToShow,
+          accept: () => {
+              //Actual logic to perform a confirmation
+          }
+      });
+  }
+
 }

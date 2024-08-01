@@ -44,6 +44,7 @@ export class RemoveNotificationComponent {
   public _confirmationService?: ConfirmationService;
   public currentID:number = -1;
   public lastTableLazyLoadEvent?: TableLazyLoadEvent;
+  public messageHeader?: string;
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService, @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, @Inject(Router) router: Router,
   public appService: AppService, PrimeNGConfig: PrimeNGConfig,
    notificationService: NotificationService, @Inject(RouterLink) routerLink?: RouterLink) {
@@ -56,12 +57,15 @@ export class RemoveNotificationComponent {
   }
   ngOnInit() {
     this._notificationService.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-      if(data != null && (data as JTSNotification[]).length != 0 && data != undefined){
+      if((data != null) && (data != undefined) && ((data as JTSNotification[]).length != 0)){
       this._notifications = JSON.parse(data.toString());
       }
- 
-
-    
+  },
+  (error)=> {
+    this.messageHeader = "Error!"
+    let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
+    console.log(error);
+    this.confirm(message);
   }); 
  
   }
@@ -69,13 +73,15 @@ export class RemoveNotificationComponent {
 remove(id: number){
   console.log(id);
   this.currentID = id;
-  this.confirm();
+  this.messageHeader = "Delete Notification Confirmation"
+  let message:string = "Are you sure you want to delete this notification?"
+  this.confirm(message);
   }
   
-  confirm() {
+  confirm(messageToShow: string) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete this notification?',
-      header: 'Delete Notification Confirmation',
+      message: messageToShow,
+      header: this.messageHeader,
       icon: 'pi pi-info-circle',
         accept: () => {
   
@@ -100,19 +106,31 @@ remove(id: number){
   public async refreshDataGrid(event: TableLazyLoadEvent) {
     this.lastTableLazyLoadEvent = event;
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-       if(data != null && (data as JTSNotification[]).length != 0 && data != undefined){
+       if((data != null) && (data != undefined) && ((data as JTSNotification[]).length != 0)){
          this._notifications = JSON.parse(data.toString());
        }
       
-     }); 
+     },
+    (error) =>{
+      this.messageHeader = "Error!"
+      let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
+      console.log(error);
+      this.confirm(message);
+    }); 
   }
 
   async displayNotificationsForToday() {
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-      if(data.length > 0){
+      if((data != null) && (data != undefined) && (data.length > 0)){
         this._notifications = JSON.parse(data.toString());
       }
-    }); 
+    },
+   (error)=>{
+    this.messageHeader = "Error!"
+    let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
+    console.log(error);
+    this.confirm(message);
+   }); 
   }
   display(num: number){
     let jtsEvent = JTSNotificationEventType[num];

@@ -17,7 +17,7 @@ import { JobService } from 'src/service/job.service';
 import { JTSJob } from 'src/model/job';
 import { Observable, Subject } from 'rxjs';
 import { LazyLoadEvent, MessageService, PrimeNGConfig } from 'primeng/api';
-import { getJSON } from 'jquery';
+import { error, getJSON } from 'jquery';
 import { JTSNotification, JTSNotificationEventType } from 'src/model/notification';
 import { NotificationService } from 'src/service/notification.service';
 import {Dialog, DialogModule} from 'primeng/dialog';
@@ -81,7 +81,13 @@ export class JobAppliedForComponent {
            }
           
            this.displayNotificationsForToday();
-        }); 
+        },
+       (error) => {
+         this.messageHeader = "Error!"
+         let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
+         console.log(error);
+         this.confirm(message);
+       }); 
        
        
        
@@ -99,24 +105,30 @@ export class JobAppliedForComponent {
       this.lastTableLazyLoadEvent = event;
       this._appService!.setNotificationTabIsDisabled(true);
       await this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
-         if(data != null && (data as JTSJob[]).length != 0 && data != undefined){
+         if((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)){
            this.jobs = JSON.parse(data.toString());
          }
-         if(this.jobs.length >= 1){
+         if((this.jobs != null) && (this.jobs != undefined) && (this.jobs.length >= 1)){
            this._appService!.setNotificationTabIsDisabled(false);
           }
           else {
            this._appService!.setNotificationTabIsDisabled(true);
           }
-       }); 
+       }, 
+       (error) => {
+        this.messageHeader = "Error!"
+        let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
+        console.log(error);
+        this.confirm(message);
+      }); 
     }
 
   async displayNotificationsForToday() {
    await   this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-        if(data.length > 0){
+        if((data != null) && (data != undefined) && (data.length > 0)){
           this._notifications = JSON.parse(data.toString());
         }
-        if(this._notifications.length > 0) {
+        if((this._notifications != null) && (this._notifications != undefined) && (this._notifications.length > 0)) {
           this._notificationsToBeDisplay = [];
           this._notifications.forEach((obj, index)=>{
           
@@ -124,18 +136,26 @@ export class JobAppliedForComponent {
              this._notificationsToBeDisplay?.push(obj)
             }
           });
+          if((this._notificationsToBeDisplay != null) && (this._notificationsToBeDisplay != undefined) && (this._notificationsToBeDisplay.length > 0)) {
           this._notificationsToBeDisplay.forEach((obj, index)=> {
             let notificationEvt = JTSNotificationEventType[obj.NotificationEvent];
             this.setMessageHeader(notificationEvt);
             this.confirm(obj.Message);
           });
         }
+        }
+      }, (error)=> {
+        this.messageHeader = "Error!"
+        let message:string = "Error occured while trying to retrieve a list of notifications. See developer for solution."
+        console.log(error);
+        this.confirm(message);
       }); 
-
+     
     }
 
  confirm(messageToShow: string) {
     this.confirmationService?.confirm({
+          header: this.messageHeader,
           message: messageToShow,
           accept: () => {
               //Actual logic to perform a confirmation
