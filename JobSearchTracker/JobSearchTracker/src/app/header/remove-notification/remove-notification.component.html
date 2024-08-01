@@ -19,7 +19,9 @@
                 <th>Client Company Name</th>
                 <th>Client Company Location</th>
                 <th>Client Company Phone Number</th>
+                <th>Notification Message</th>
                 <th>Notification Date</th>
+                <th>Notification Event</th>
                 <th>Delete</th>
             </tr>
         </ng-template>
@@ -37,7 +39,9 @@
                 <td>{{notification.ClientCompanyName}}</td>
                 <td>{{notification.ClientCompanyLocation}}</td>
                 <td>{{notification.ClientCompanyPhoneNumber}}</td>
-                <td>{{notification.NotificationDate | date: 'MMMM d, y, h:mm:ss a'}}</td>
+                <td>{{notification.Message}}</td>
+                <td>{{notification.NotificationDate | date: 'MMMM d, y'}}</td>
+                <td>{{display(notification.NotificationEvent)}}</td>
                 <td>
                     <button 
                     pButton 

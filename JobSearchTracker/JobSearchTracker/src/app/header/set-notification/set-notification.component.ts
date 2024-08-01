@@ -48,6 +48,7 @@ export class SetNotificationComponent {
   jobID?: number;
   pickerPopupIsVisible!: boolean; 
   @ViewChild('ms') multiselect?: MultiSelect;
+  _notifications!: JTSNotification[];
   constructor(private appService: AppService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
     private notificationService: NotificationService, private jobService: JobService
@@ -58,7 +59,7 @@ export class SetNotificationComponent {
     this._notificationService = notificationService;
     this._jobService = this.jobService;
   }
-  ngOnInit() {
+ async ngOnInit() {
    this.titles = this._appService?.addNotificationTitles;   
    this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
     if(data != null && (data as JTSJob[]).length != 0 && data != undefined){
@@ -79,11 +80,18 @@ export class SetNotificationComponent {
  this.makeTextboxesUnEditable();
 
 this.setEventPicker();
- this._jobService?.getLastJobID()?.subscribe((jobID)=>{
-   this.currentNotificationID = parseInt(jobID.toString());
-   this.addNotification.controls.NotificationID.setValue(0);
-  });
-
+  await this._notificationService?.getLastNotificationID()?.subscribe((notificationid)=>{
+    let returnNotificaitonID = notificationid;
+    if(isNaN(notificationid) === true){
+      notificationid = 1;
+     this.currentNotificationID = notificationid;
+     this.addNotification.controls.NotificationID.setValue(this.currentNotificationID);
+    }
+    else{
+    this.currentNotificationID = parseInt(returnNotificaitonID.toString()) + 1;
+    this.addNotification.controls.NotificationID.setValue(this.currentNotificationID);
+    }
+});
 
 }
 
@@ -136,7 +144,7 @@ setEventPicker(){
 
  confirm() {
   this.confirmationService.confirm({
-    message: 'Do you want add this notification?',
+    message: 'Are you sure you want add this notification?',
     header: 'Add Notification Confirmation',
     icon: 'pi pi-info-circle',
       accept: () => {
@@ -154,6 +162,7 @@ setEventPicker(){
         this.notification.ClientCompanyPhoneNumber = this.addNotification.controls.ClientCompanyPhoneNumber.value || undefined;
         this.notification.NotificationID = this.addNotification.controls.NotificationID.value as number;
         this.notification.NotificationDate = this.addNotification.controls.NotificationDate.value as Date;
+        debugger;
         this.notification.Message = this.addNotification.controls.NotificationMessage.value as string;
         this.job.notificationID = this.notification.NotificationID;
         this.job.notification = this.notification;
@@ -199,7 +208,7 @@ isNotAPicker(title: string){
 }
 
 makeTextboxesUnEditable(){
-  this.currentNotificationID = 0;
+ 
   this.addNotification.controls.NotificationID.setValue(0);
   this.addNotification.controls.ClientCompanyLocation.disable();
   this.addNotification.controls.ClientCompanyName.disable();
@@ -239,8 +248,9 @@ onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
   }
   else{
     obj = obj as JTSJob;
-    this.currentNotificationID = obj.JobID;
-    obj.notificationID = obj.JobID;
+    debugger;
+    this.currentNotificationID = obj.JobID + 1;
+    obj.notificationID = this.currentNotificationID;
     this.addNotification.controls.NotificationID.setValue(obj.notificationID || null);
     this.addNotification.controls.RecruiterName.setValue(obj.RecruiterName || null);
     this.addNotification.controls.RecruiterCompanyName.setValue(obj.RecruiterCompanyName || null)
@@ -319,5 +329,15 @@ setPickerBinding(title: string): boolean {
     return false;
   }
 }
+
+async displayNotificationsForToday() {
+ await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+    if(data.length > 0){
+      this._notifications = JSON.parse(data.toString());
+    }
+  }); 
+}
+
+
 }
 

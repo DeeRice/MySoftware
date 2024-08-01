@@ -14,6 +14,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
+import { JTSNotification } from 'src/model/notification';
+import { NotificationService } from 'src/service/notification.service';
 
 @Component({
   selector: 'app-remove-job-applied-for',
@@ -30,16 +32,20 @@ export class RemoveJobAppliedForComponent {
   public _jobService?: JobService;
   public _messageService?: MessageService;
   public _confirmationService?: ConfirmationService;
+  public _notificationService?: NotificationService;
   public _appService?: AppService;
   public currentID:number = -1;
   public lastTableLazyLoadEvent?: TableLazyLoadEvent;
+  _notifications!: JTSNotification[];
   constructor(private appService: AppService, private jobService: JobService,
-    private messageService: MessageService, private confirmationService: ConfirmationService
+    private messageService: MessageService, private confirmationService: ConfirmationService,
+    private notificationService: NotificationService
     ) {
       this._appService = appService;
       this._jobService = jobService;
       this._messageService = messageService;
       this._confirmationService = confirmationService;
+      this._notificationService = notificationService;
     }
   ngOnInit() {
     this.titles = this._appService?.addJobTitles;  
@@ -61,8 +67,8 @@ remove(id: number){
 
 confirm() {
   this.confirmationService.confirm({
-    message: 'Do you want to delete this record?',
-    header: 'Delete Confirmation',
+    message: 'Are you sure you want to delete this job?',
+    header: 'Delete Job Confirmation',
     icon: 'pi pi-info-circle',
       accept: () => {
 
@@ -98,5 +104,13 @@ public async refreshDataGrid(event: TableLazyLoadEvent) {
        this._appService!.setNotificationTabIsDisabled(true);
       }
    }); 
+}
+
+async displayNotificationsForToday() {
+ await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+    if(data.length > 0){
+      this._notifications = JSON.parse(data.toString());
+    }
+  }); 
 }
 }

@@ -21,6 +21,7 @@ namespace JobTrackerAPI.Mapping
             notificationViewModel.ClientCompanyName = notification?.ClientCompanyName;
             notificationViewModel.ClientCompanyLocation = notification?.ClientCompanyLocation;
             notificationViewModel.ClientCompanyPhoneNumber = notification?.ClientCompanyPhoneNumber;
+            notificationViewModel.Message = notification?.Message;
             notificationViewModel.NotificationDate = notification.NotificationDate;
             notificationViewModel.NotificationEvent = (NotificationEvent)notification.NotificationEvent;
             return notificationViewModel;

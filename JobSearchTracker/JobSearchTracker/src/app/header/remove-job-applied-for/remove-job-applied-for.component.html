@@ -45,9 +45,9 @@
                 <td>{{ job.RecruiterNotes }}</td>
                 <td>{{ job.ClientNotes }}</td>
                 <td>{{ job.JobDescription }}</td>
-                <td>{{ job.DateOfSubmission }}</td>
-                <td>{{ job.DateOfFollowUp }}</td>
-                <td>{{ job.DateOfInterview }}</td>
+                <td>{{ job.DateOfSubmission | date: 'MMMM d, y' }}</td>
+                <td>{{ job.DateOfFollowUp | date: 'MMMM d, y' }}</td>
+                <td>{{ job.DateOfInterview | date: 'MMMM d, y' }}</td>
                 <td>
                     <button
                     pButton 

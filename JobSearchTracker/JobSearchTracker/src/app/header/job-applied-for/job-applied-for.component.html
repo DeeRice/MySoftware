@@ -46,11 +46,21 @@
                 <td>{{ job.RecruiterNotes }}</td>
                 <td>{{ job.ClientNotes }}</td>
                 <td>{{ job.JobDescription }}</td>
-                <td>{{ job.DateOfSubmission | date: 'MMMM d, y, h:mm:ss a' }}</td>
-                <td>{{ job.DateOfFollowUp | date: 'MMMM d, y, h:mm:ss a'}}</td>
-                <td>{{ job.DateOfInterview | date: 'MMMM d, y, h:mm:ss a' }}</td>
+                <td>{{ job.DateOfSubmission | date: 'MMMM d, y' }}</td>
+                <td>{{ job.DateOfFollowUp | date: 'MMMM d, y'}}</td>
+                <td>{{ job.DateOfInterview | date: 'MMMM d, y' }}</td>
             </tr>
         </ng-template>
     </p-table>
 </div>
-
+<div class="card flex justify-content-center gap-2">
+    <p-toast />
+    <p-confirmDialog #cd [style]="{width: '50vw'}">
+        <ng-template pTemplate="header">
+            <h3>{{messageHeader}}</h3>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <button type="button" pButton icon="pi pi-check" label="Ok" (click)="cd.accept()"></button>
+        </ng-template>
+    </p-confirmDialog>
+</div>

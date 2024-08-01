@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
 import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api';
 import { getJSON } from 'jquery';
 import { NotificationService } from 'src/service/notification.service';
-import { JTSNotification } from 'src/model/notification';
+import { JTSNotification, JTSNotificationEventType } from 'src/model/notification';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
@@ -60,7 +60,7 @@ export class RemoveNotificationComponent {
       this._notifications = JSON.parse(data.toString());
       }
  
-       // this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
+
     
   }); 
  
@@ -74,8 +74,8 @@ remove(id: number){
   
   confirm() {
     this.confirmationService.confirm({
-      message: 'Do you want to delete this record?',
-      header: 'Delete Confirmation',
+      message: 'Are you sure you want to delete this notification?',
+      header: 'Delete Notification Confirmation',
       icon: 'pi pi-info-circle',
         accept: () => {
   
@@ -90,11 +90,11 @@ remove(id: number){
             () => {
               // No errors, route to new page
               this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
-
             }
           );
         }
     });
+    this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
   }
 
   public async refreshDataGrid(event: TableLazyLoadEvent) {
@@ -105,5 +105,17 @@ remove(id: number){
        }
       
      }); 
+  }
+
+  async displayNotificationsForToday() {
+    await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+      if(data.length > 0){
+        this._notifications = JSON.parse(data.toString());
+      }
+    }); 
+  }
+  display(num: number){
+    let jtsEvent = JTSNotificationEventType[num];
+    return jtsEvent;
   }
 }

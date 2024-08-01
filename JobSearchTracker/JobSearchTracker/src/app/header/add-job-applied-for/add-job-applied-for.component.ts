@@ -15,6 +15,8 @@ import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {CalendarModule} from 'primeng/calendar';
+import { JTSNotification } from 'src/model/notification';
+import { NotificationService } from 'src/service/notification.service';
 
 @Component({
   selector: 'app-add-job-applied-for',
@@ -31,16 +33,22 @@ export class AddJobAppliedForComponent {
   public _jobService?: JobService;
   public _messageService?: MessageService;
   public _confirmationService?: ConfirmationService;
+  public _notificationService?: NotificationService;
   public jobIDIsDiabled:boolean = true;
   public newJobID:number = -1;
+  _notifications!: JTSNotification[];
+  _notificationsToBeDisplay?: JTSNotification[];
   constructor(private appService: AppService, private jobService: JobService,
-  private messageService: MessageService, private confirmationService: ConfirmationService
+  private messageService: MessageService, private confirmationService: ConfirmationService,
+  private notificationService: NotificationService
   ) {
     this._appService = appService;
     this._jobService = jobService;
     this._messageService = messageService;
     this._confirmationService = confirmationService;
+    this._notificationService = notificationService;
   }
+
  async ngOnInit() {
    this.titles = this._appService?.addJobTitles;   
    await this._jobService?.getLastJobID()?.subscribe((jobid)=>{
@@ -55,7 +63,7 @@ export class AddJobAppliedForComponent {
        this.addJob.controls.JobID.setValue(this.newJobID.toString());
        }
    });
-
+    
   }
 public isNotNotes(title:any): Boolean {
   this.addJob.controls["JobID"].disable();
@@ -117,8 +125,8 @@ clear() {
   this.addJob.reset();
 }
 confirm() {
-  debugger;
   this.confirmationService.confirm({
+      header: "Add Job Confirmation",
       message: 'Are you sure that you want to add this job?',
       accept: () => {
         var job = new JTSJob();
@@ -155,6 +163,20 @@ confirm() {
         );
       }
   });
+}
+
+async displayNotificationsForToday() {
+ await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+    if(data.length > 0){
+      this._notifications = JSON.parse(data.toString());
+    }
+  }); 
+
+  if(this._notifications.length > 0) {
+    this._notificationsToBeDisplay = this._notifications.
+    filter(obj => `${new Date(obj.NotificationDate).getMonth()}/${new Date(obj.NotificationDate).getDay()}/${new Date(obj.NotificationDate).getFullYear()}` == `${new Date(Date.now()).getMonth()}/${new Date(Date.now()).getDay()}/${new Date(Date.now()).getFullYear()}`)
+  }
+    debugger;
 }
 }
 
