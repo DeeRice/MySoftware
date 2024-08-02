@@ -120,6 +120,14 @@ confirm(messageToShow: string) {
      });
  }
 
+ goToEditPage(id: string) {
+  this._appService?.setJobDetailsIsHidden(false);
+  this._appService?.setHeaderIsHidden(true);
+  this._appService?.setNotificationIsHidden(true);
+  this._router.navigate(['/app-edit-notification/', id]);
+  console.log(id);
+}  
+
  setMessageHeader(header: string){
    switch(header){
      case "NotSet": this.messageHeader = ""; break;

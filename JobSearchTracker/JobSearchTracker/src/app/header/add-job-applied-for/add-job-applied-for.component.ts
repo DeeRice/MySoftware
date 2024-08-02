@@ -107,6 +107,7 @@ addJob = new FormGroup({
   ClientCompanyName: new FormControl(''),
   ClientCompanyPhoneNumber: new FormControl(''),
   JobID: new FormControl(''),
+  JobNumber: new FormControl(''),
   JobLocation: new FormControl(''),
   JobTitle: new FormControl(''),	
   JobDescription: new FormControl(''),	
@@ -140,6 +141,7 @@ confirm(messageToShow: string) {
       accept: () => {
         var job = new JTSJob();
         job.JobID = Number.parseInt(this.addJob.controls.JobID.value as string) || -1;
+        job.JobNumber = Number.parseInt(this.addJob.controls.JobNumber.value as string) || -1;
         job.JobTitle = this.addJob.controls.JobTitle.value || undefined;
         job.JobLocation = this.addJob.controls.JobLocation.value || undefined;
         job.RecruiterName = this.addJob.controls.RecruiterName.value || undefined;

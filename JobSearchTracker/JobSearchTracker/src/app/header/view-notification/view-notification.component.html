@@ -7,9 +7,9 @@
     [lazy]="true" (onLazyLoad)="refreshDataGrid($event)">
         <ng-template pTemplate="header">
             <tr>
-                <th>Number</th>
                 <th>Notification ID</th>
-                <th>Notification For</th>
+                <th>Notfication Number</th>
+                <th>Notification For Job Number</th>
                 <th>Recruiter Name</th>
                 <th>Recruiter Company Name</th>
                 <th>Recruiter Company Location</th>
@@ -22,12 +22,13 @@
                 <th>Notification Message</th>
                 <th>Notification Date</th>
                 <th>Notification Event</th>
+                <th>Edit</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-notification>
             <tr>
                 <td><a [routerLink]="['/app-notification-details']" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="goToDetailPage(notification.NotificationID.toString())">{{notification.NotificationID}}</a></td>
-                <td>{{notification.NotificationID}}</td>
+                <td>{{notification.NotificationNumber}}</td>
                 <td>{{notification.NotificationID}}</td>
                 <td>{{notification.RecruiterName}}</td>
                 <td>{{notification.RecruiterCompanyName}}</td>
@@ -41,6 +42,14 @@
                 <td>{{notification.Message}}</td>
                 <td>{{notification.NotificationDate | date: 'MMM d, y'}}</td>
                 <td>{{display(notification.NotificationEvent)}}</td>
+                <td>
+                    <button 
+                        pButton 
+                        pRipple 
+                        label="Edit" 
+                        class="p-button-primary" [rounded]="true" (click)="goToEditPage(notification.NotificationID)">
+                    </button>
+                </td>
             </tr>
         </ng-template>
     </p-table>

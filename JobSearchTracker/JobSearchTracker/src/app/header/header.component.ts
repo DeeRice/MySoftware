@@ -17,6 +17,8 @@ import { JobService } from 'src/service/job.service';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { EditJobComponent } from '../edit-job/edit-job.component';
+import { EditNotificationComponent } from '../edit-notification/edit-notification.component';
 
 @Component({
   selector: 'app-header',
@@ -24,7 +26,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
   imports: [JobAppliedForComponent, TabViewModule, SetNotificationComponent,
     RemoveNotificationComponent, RemoveJobAppliedForComponent, AddJobAppliedForComponent,
     ViewNotificationComponent, CommonModule, JobDetailsComponent, FormsModule,
-    ConfirmDialogModule],
+    ConfirmDialogModule, EditJobComponent, EditNotificationComponent],
   providers: [MessageService, ConfirmationService, AppService, NgbModal, AppService, RouterModule, RouterOutlet, 
     TabViewModule,ConfirmDialogModule],
   templateUrl: './header.component.html',

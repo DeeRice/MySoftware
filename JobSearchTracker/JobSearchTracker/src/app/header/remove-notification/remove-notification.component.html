@@ -7,9 +7,9 @@
     [lazy]="true" (onLazyLoad)="refreshDataGrid($event)">
         <ng-template pTemplate="header">
             <tr>
-                <th>Number</th>
                 <th>Notification ID</th>
-                <th>Notification For</th>
+                <th>Notification Number</th>
+                <th>Notification For Job Number</th>
                 <th>Recruiter Name</th>
                 <th>Recruiter Company Name</th>
                 <th>Recruiter Company Location</th>
@@ -28,7 +28,7 @@
         <ng-template pTemplate="body" let-notification>
             <tr>
                 <td>{{notification.NotificationID}}</td>
-                <td>{{notification.NotificationID}}</td>
+                <td>{{notification.NotificationNumber}}</td>
                 <td>{{notification.NotificationID}}</td>
                 <td>{{notification.RecruiterName}}</td>
                 <td>{{notification.RecruiterCompanyName}}</td>

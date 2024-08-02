@@ -1,39 +1,51 @@
-import { Component, ElementRef, EventEmitter, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { routes } from '../app.routes';
+import { RouterLinkActive, ActivatedRoute, RouterModule, Router, RoutesRecognized, Params } from '@angular/router';
+import { JTSJob } from '../../model/job';
+import { HeaderComponent } from '../header/header.component';
+import { JobService } from '../../service/job.service';
+import { debounce, debounceTime, distinctUntilChanged, interval, Observable, ObservableInput, switchMap } from 'rxjs';
+import { AppService } from 'src/service/app.service';
+import { AddJobTable } from 'src/model/add-job-table';
+import { NotificationService } from 'src/service/notification.service';
+import { JTSNotification, JTSNotificationEventType } from 'src/model/notification';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ElementRef, ViewChild } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { ButtonModule } from 'primeng/button';
 import { FormGroup, FormControl, FormControlName, NgModel, NgForm, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AppService } from '../../../service/app.service';
-import { AddNotificationTable } from '../../../model/add-notification-table';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { AddNotificationTable } from '../../model/add-notification-table';
 import { ToastModule } from 'primeng/toast';
-import { MessageService, ConfirmationService } from 'primeng/api';
-import { JTSNotification, JTSNotificationEvent, JTSNotificationEventType, JTSNotificationPicker, NotficationEventEnum } from 'src/model/notification';
-import { NotificationService } from 'src/service/notification.service';
+import { JTSNotificationEvent, JTSNotificationPicker, NotficationEventEnum } from 'src/model/notification';
 import { MultiSelect, MultiSelectChangeEvent, MultiSelectModule, MultiSelectSelectAllChangeEvent } from 'primeng/multiselect';
-import { JobEnum, JTSJob } from 'src/model/job';
-import { JobService } from 'src/service/job.service';
+import { JobEnum } from 'src/model/job';
 import {CalendarModule} from 'primeng/calendar';
 
+
 @Component({
-  selector: 'app-set-notification',
+  selector: 'app-edit-notification',
   standalone: true,
   imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule, 
     ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, MultiSelectModule,
     CalendarModule],
-    providers: [MessageService,ConfirmationService,AppService, MultiSelectModule, CalendarModule],
-  templateUrl: './set-notification.component.html',
-  styleUrl: './set-notification.component.scss'
+    providers: [MessageService,ConfirmationService,AppService, MultiSelectModule, CalendarModule, JobService],
+  templateUrl: './edit-notification.component.html',
+  styleUrl: './edit-notification.component.scss'
 })
-export class SetNotificationComponent {
- thedateEmit!: EventEmitter<Date>;
+export class EditNotificationComponent {
   public titles?: AddNotificationTable[] = [];
+  public _notificationService?: NotificationService;
   public _appService?: AppService;
+  public _router: Router;
+  public _route?: ActivatedRoute;
   public _messageService?: MessageService;
   public _confirmationService?: ConfirmationService;
-  public _notificationService?: NotificationService;
+  public messageHeader?: string;
+  thedateEmit!: EventEmitter<Date>;
   jobs!: JTSJob[];
   job!:JTSJob;
   index:number = 0;
@@ -49,19 +61,47 @@ export class SetNotificationComponent {
   pickerPopupIsVisible!: boolean; 
   @ViewChild('ms') multiselect?: MultiSelect;
   _notifications!: JTSNotification[];
-  public messageHeader?: string;
-  constructor(private appService: AppService,
-    private messageService: MessageService, private confirmationService: ConfirmationService,
-    private notificationService: NotificationService, private jobService: JobService
-  ) {
-    this._appService = appService;
-    this._messageService = messageService;
-    this._confirmationService = confirmationService;
-    this._notificationService = notificationService;
-    this._jobService = this.jobService;
-  }
+  notificationID: number = -1;
+  constructor(@Inject(ActivatedRoute) activatedRoute: ActivatedRoute, 
+   public notificationService: NotificationService, appService: AppService,
+   private messageService: MessageService, private confirmationService: ConfirmationService,
+    @Inject(Router) router: Router,   public jobService: JobService) {
+      this._appService = appService;
+      this._messageService = messageService;
+      this._confirmationService = confirmationService;
+      this._notificationService = notificationService;
+      this._jobService = this.jobService;
+      this._router = router;
+      this._route = activatedRoute;
+    }
+
+
  async ngOnInit() {
-   this.titles = this._appService?.addNotificationTitles;   
+  this._notifications = [];
+  this.titles = this._appService?.addNotificationTitles; 
+  await this._route?.params.subscribe((data: Params) => {
+    if((data != null) && (data != undefined))
+      this.notificationID = parseInt(data["id"]);
+    },
+  (error) => {
+    this.messageHeader = "Error!"
+    let message:string = "Error occured while trying to retrieve the params. See developer for solution."
+    console.log(error);
+    this.confirm(message);
+  });
+    if(Number.isNaN(this.notificationID) == false){
+      this.notificationService.getNotificationByID(this.notificationID)!.pipe(debounceTime(300), distinctUntilChanged(), switchMap((value: JTSNotification, index: number) => this.notificationService!.getNotificationByID(this.notificationID) as unknown as ObservableInput<JTSNotification>)).subscribe((data: JTSNotification) => {
+        this.notification = JSON.parse(data.toString());
+           this._notifications.push(this.notification!);
+     },
+    (error)=> {
+      this.messageHeader = "Error!"
+      let message:string = "Error occured while trying to retrieve the notification id. See developer for solution."
+      console.log(error);
+      this.confirm(message);
+    });
+    }
+  
    this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
     if((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)){
     this.jobs = JSON.parse(data.toString());
@@ -88,51 +128,19 @@ export class SetNotificationComponent {
  this.makeTextboxesUnEditable();
 
 this.setEventPicker();
-  await this._notificationService?.getLastNotificationID()?.subscribe((notificationid)=>{
-    let returnNotificaitonID = notificationid;
-    if(isNaN(notificationid) === true){
-      notificationid = 1;
-     this.currentNotificationID = notificationid;
-     this.addNotification.controls.NotificationID.setValue(this.currentNotificationID);
-    }
-    else{
-    this.currentNotificationID = parseInt(returnNotificaitonID.toString()) + 1;
-    this.addNotification.controls.NotificationID.setValue(this.currentNotificationID);
-    }
-},
-(error) => {
-  this.messageHeader = "Error!"
-  let message:string = "Error occured while trying to retrieve the last notificaiton id. See developer for solution."
-  console.log(error);
-  this.confirm(message);
-});
 
 }
-
-setEventPicker(){
-  let eventEnumZero = new NotficationEventEnum();
-  eventEnumZero.id = 0;
-  eventEnumZero.name = "NotSet";
-  let eventEnumOne = new NotficationEventEnum();
-  eventEnumOne.id = 1;
-  eventEnumOne.name = "FollowUpWithEmail";
-  let eventEnumTwo = new NotficationEventEnum();
-  eventEnumTwo.id = 2;
-  eventEnumTwo.name = "FollowUpWithPhoneCall";
-  let eventEnumThree = new NotficationEventEnum();
-  eventEnumThree.id = 3;
-  eventEnumThree.name = "InterviewIsScheduled";
-  this.listOfNotficationEventEnums = [];
-  this.listOfNotficationEventEnums.push(eventEnumZero);
-  this.listOfNotficationEventEnums.push(eventEnumOne);
-  this.listOfNotficationEventEnums.push(eventEnumTwo);
-  this.listOfNotficationEventEnums.push(eventEnumThree);
+convertNumberToNotificationEnum(eventNumber: number | undefined){
+  return JTSNotificationEventType[eventNumber as number];
 }
+
+ goBackToJobGrid(){
+  this._router.navigateByUrl("/app-header");
+ }
 
  addNotification = new FormGroup({
   FK_JobID_NotficationID: new FormControl<number>(-1),
   NotificationID: new FormControl<number>(-1),
-  NotificationNumber: new FormControl<number>(-1),
   RecruiterName: new FormControl(''),
   RecruiterCompanyName: new FormControl(''),
   RecruiterCompanyLocation: new FormControl(''),
@@ -146,74 +154,8 @@ setEventPicker(){
   NotificationDate: new FormControl<Date | undefined>(undefined),
   NotificationEvent: new FormControl<NotficationEventEnum | undefined>(undefined),
  });
- 
- save(form: FormGroup){
- console.log(form);
-   this.addNotification = form;
-   let message:string = "Are you sure you want add this notification?";
-   this.messageHeader = "Add Notification Confirmation";
-   this.confirm(message);
- }
 
- clear() {
-   this.addNotification.reset();
- }
-
- confirm(messageToShow: string) {
-  this.confirmationService.confirm({
-    message: messageToShow ,
-    header: this.messageHeader,
-    icon: 'pi pi-info-circle',
-      accept: () => {
-       if(this.notification != null && this.currentNotificationID != -1) {
-        this.notification.NotificationID = this.currentNotificationID as number;
-        this.notification.NotificationNumber = this.addNotification.controls.NotificationNumber.value as number;
-        this.notification.RecruiterName = this.addNotification.controls.RecruiterName.value || undefined;
-        this.jobID = this.addNotification.controls.FK_JobID_NotficationID.value || undefined;
-        this.notification.RecruiterCompanyName = this.addNotification.controls.RecruiterCompanyName.value || undefined; 
-        this.notification.RecruiterCompanyLocation = this.addNotification.controls.RecruiterCompanyLocation.value || undefined;
-        this.notification.RecruiterPhoneNumber = this.addNotification.controls.RecruiterPhoneNumber.value || undefined;
-        this.notification.RecruiterCompanyPhoneNumber = this.addNotification.controls.RecruiterCompanyPhoneNumber.value || undefined;	
-        this.notification.ClientContactName = this.addNotification.controls.ClientContactName.value || undefined;
-        this.notification.ClientCompanyName = this.addNotification.controls.ClientCompanyName.value || undefined;
-        this.notification.ClientCompanyLocation = this.addNotification.controls.ClientCompanyLocation.value || undefined;
-        this.notification.ClientCompanyPhoneNumber = this.addNotification.controls.ClientCompanyPhoneNumber.value || undefined;
-        this.notification.NotificationID = this.addNotification.controls.NotificationID.value as number;
-        this.notification.NotificationDate = this.addNotification.controls.NotificationDate.value as Date;
-        this.notification.Message = this.addNotification.controls.NotificationMessage.value as string;
-        this.job.notificationID = this.notification.NotificationID;
-        this.job.notification = this.notification;
-        this.notificationService?.addNotification(this.notification)?.subscribe(
-          (result) => {
-            // Handle result
-            console.log(result)
-            this.jobService?.updateJob(this.job)?.subscribe(
-              (result) => {
-                // Handle result
-                console.log(result)
-                this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
-              },
-              (error) => {
-                this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
-              },
-              () => {
-              
-              });
-          },
-          (error) => {
-            this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
-          },
-          () => {
-            // No errors, route to new page
-          }
-        );
-      }
-    }
-  });
-
-}
-
-isNotAPicker(title: string){
+ isNotAPicker(title: string){
   if(title === "Job To Set Notification On" || title === "Notification Event" || 
     title === "Notification Date"){
     return false;
@@ -252,7 +194,6 @@ onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
   if((obj == undefined) || (obj == null)){
     this.currentNotificationID = 0;
     this.addNotification.controls.NotificationID.setValue(0);
-    this.addNotification.controls.NotificationNumber.setValue(0);
     this.addNotification.controls.RecruiterName.setValue("")
     this.addNotification.controls.RecruiterCompanyName.setValue("")
     this.addNotification.controls.RecruiterCompanyLocation.setValue("")
@@ -361,6 +302,90 @@ async displayNotificationsForToday() {
  }); 
 }
 
+save(form: FormGroup){
+  console.log(form);
+    this.addNotification = form;
+    let message:string = "Are you sure you want add this notification?";
+    this.messageHeader = "Add Notification Confirmation";
+    this.confirm(message);
+  }
+ 
+  setEventPicker(){
+    let eventEnumZero = new NotficationEventEnum();
+    eventEnumZero.id = 0;
+    eventEnumZero.name = "NotSet";
+    let eventEnumOne = new NotficationEventEnum();
+    eventEnumOne.id = 1;
+    eventEnumOne.name = "FollowUpWithEmail";
+    let eventEnumTwo = new NotficationEventEnum();
+    eventEnumTwo.id = 2;
+    eventEnumTwo.name = "FollowUpWithPhoneCall";
+    let eventEnumThree = new NotficationEventEnum();
+    eventEnumThree.id = 3;
+    eventEnumThree.name = "InterviewIsScheduled";
+    this.listOfNotficationEventEnums = [];
+    this.listOfNotficationEventEnums.push(eventEnumZero);
+    this.listOfNotficationEventEnums.push(eventEnumOne);
+    this.listOfNotficationEventEnums.push(eventEnumTwo);
+    this.listOfNotficationEventEnums.push(eventEnumThree);
+  }
+  
+
+  clear() {
+    this.addNotification.reset();
+  }
+ 
+  confirm(messageToShow: string) {
+   this.confirmationService.confirm({
+     message: messageToShow ,
+     header: this.messageHeader,
+     icon: 'pi pi-info-circle',
+       accept: () => {
+        if(this.notification != null && this.currentNotificationID != -1) {
+         this.notification.NotificationID = this.currentNotificationID as number;
+         this.notification.RecruiterName = this.addNotification.controls.RecruiterName.value || undefined;
+         this.jobID = this.addNotification.controls.FK_JobID_NotficationID.value || undefined;
+         this.notification.RecruiterCompanyName = this.addNotification.controls.RecruiterCompanyName.value || undefined; 
+         this.notification.RecruiterCompanyLocation = this.addNotification.controls.RecruiterCompanyLocation.value || undefined;
+         this.notification.RecruiterPhoneNumber = this.addNotification.controls.RecruiterPhoneNumber.value || undefined;
+         this.notification.RecruiterCompanyPhoneNumber = this.addNotification.controls.RecruiterCompanyPhoneNumber.value || undefined;	
+         this.notification.ClientContactName = this.addNotification.controls.ClientContactName.value || undefined;
+         this.notification.ClientCompanyName = this.addNotification.controls.ClientCompanyName.value || undefined;
+         this.notification.ClientCompanyLocation = this.addNotification.controls.ClientCompanyLocation.value || undefined;
+         this.notification.ClientCompanyPhoneNumber = this.addNotification.controls.ClientCompanyPhoneNumber.value || undefined;
+         this.notification.NotificationID = this.addNotification.controls.NotificationID.value as number;
+         this.notification.NotificationDate = this.addNotification.controls.NotificationDate.value as Date;
+         this.notification.Message = this.addNotification.controls.NotificationMessage.value as string;
+         this.job.notificationID = this.notification.NotificationID;
+         this.job.notification = this.notification;
+         this.notificationService?.addNotification(this.notification)?.subscribe(
+           (result) => {
+             // Handle result
+             console.log(result)
+             this.jobService?.updateJob(this.job)?.subscribe(
+               (result) => {
+                 // Handle result
+                 console.log(result)
+                 this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
+               },
+               (error) => {
+                 this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
+               },
+               () => {
+               
+               });
+           },
+           (error) => {
+             this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
+           },
+           () => {
+             // No errors, route to new page
+           }
+         );
+       }
+     }
+   });
+ 
+ }
 
 }
-

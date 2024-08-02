@@ -9,8 +9,8 @@
     [lazy]="true" (onLazyLoad)="refreshDataGrid($event)">
         <ng-template pTemplate="header">
             <tr>
-                <td>Number</td>
                 <td>Job ID</td>
+                <td>Job Number</td>
                 <td>Job Title </td>
                 <td>Job Location </td>
                 <td>Recruiter Name </td>
@@ -32,6 +32,7 @@
         <ng-template pTemplate="body" let-job>
             <tr>
                 <td>{{ job.JobID}}</td>
+                <td>{{ job.JobNumber}}</td>
                 <td>{{ job.JobTitle }}</td>
                 <td>{{ job.JobLocation }}</td>
                 <td>{{ job.RecruiterName }}</td>

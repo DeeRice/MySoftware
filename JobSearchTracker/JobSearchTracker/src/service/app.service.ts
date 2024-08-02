@@ -23,6 +23,7 @@ export class AppService {
 
  public addJobTitles?: AddJobTable[] = [
   {titleName: "Job ID", formName:"JobID"}, 
+  {titleName: "Job Number", formName:"JobNumber"}, 
   {titleName:"Job Title", formName:"JobTitle"}, 
   {titleName:"Job Location", formName:"JobLocation"}, 
   {titleName:"Recruiter Name", formName:"RecruiterName"}, 
@@ -44,6 +45,7 @@ export class AppService {
   public addNotificationTitles?: AddNotificationTable[] = [
     {titleName:"Job To Set Notification On", formName:"FK_JobID_NotficationID"}, 
     {titleName:"Notification ID", formName:"NotificationID"},
+    {titleName:"Notification Number", formName:"NotificationNumber"},
     {titleName:"Recruiter Name", formName:"RecruiterName"}, 
     {titleName:"Recruiter Company Name", formName:"RecruiterCompanyName"}, 
     {titleName:"Recruiter Company Location", formName:"RecruiterCompanyLocation"}, 
