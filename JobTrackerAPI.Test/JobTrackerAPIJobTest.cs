@@ -55,10 +55,12 @@ namespace JobTrackerAPI.Test
             var job = new Job()
             {
                 JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
-                ClientContactName = "",
+                ClientCompanyContactName = "",
                 RecruiterCompanyName = "",
                 ClientCompanyName = "",
                 RecruiterPhoneNumber = "",
@@ -70,15 +72,19 @@ namespace JobTrackerAPI.Test
                 JobDescription = "",
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime()
+                DateOfInterview = new DateTime(),
+                Notification = new Notification(),
+                NotificationID = 0
             };
             var jobViewModel = new JobViewModel()
             {
                 JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
-                ClientContactName = "",
+                ClientCompanyContactName = "",
                 RecruiterCompanyName = "",
                 ClientCompanyName = "",
                 RecruiterPhoneNumber = "",
@@ -90,7 +96,9 @@ namespace JobTrackerAPI.Test
                 JobDescription = "",
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime()
+                DateOfInterview = new DateTime(),
+                Notification = new NotificationViewModel(),
+                NotificationID = 0
             };
             List<Job> list = new List<Job>();
             list.Add(job);
@@ -123,10 +131,12 @@ namespace JobTrackerAPI.Test
             var job = new Job()
             {
                 JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
-                ClientContactName = "",
+                ClientCompanyContactName = "",
                 RecruiterCompanyName = "",
                 ClientCompanyName = "",
                 RecruiterPhoneNumber = "",
@@ -138,15 +148,19 @@ namespace JobTrackerAPI.Test
                 JobDescription = "",
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime()
+                DateOfInterview = new DateTime(),
+                Notification = new Notification(),
+                NotificationID = 0
             };
             var jobViewModel = new JobViewModel()
             {
                 JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
-                ClientContactName = "",
+                ClientCompanyContactName = "",
                 RecruiterCompanyName = "",
                 ClientCompanyName = "",
                 RecruiterPhoneNumber = "",
@@ -158,7 +172,9 @@ namespace JobTrackerAPI.Test
                 JobDescription = "",
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime()
+                DateOfInterview = new DateTime(),
+                Notification = new NotificationViewModel(),
+                NotificationID = 0
             };
             List<Job> list = new List<Job>();
             list.Add(job);
@@ -249,10 +265,12 @@ namespace JobTrackerAPI.Test
             var jobViewModel = new JobViewModel()
             {
                 JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
-                ClientContactName = "",
+                ClientCompanyContactName = "",
                 RecruiterCompanyName = "",
                 ClientCompanyName = "",
                 RecruiterPhoneNumber = "",
@@ -264,7 +282,9 @@ namespace JobTrackerAPI.Test
                 JobDescription = "",
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime()
+                DateOfInterview = new DateTime(),
+                Notification = new NotificationViewModel(),
+                NotificationID = 0
             };
             List<Job> list = new List<Job>();
             list.Add(job);
@@ -297,10 +317,12 @@ namespace JobTrackerAPI.Test
             var jobViewModel = new JobViewModel()
             {
                 JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
-                ClientContactName = "",
+                ClientCompanyContactName = "",
                 RecruiterCompanyName = "",
                 ClientCompanyName = "",
                 RecruiterPhoneNumber = "",
@@ -312,7 +334,9 @@ namespace JobTrackerAPI.Test
                 JobDescription = "",
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime()
+                DateOfInterview = new DateTime(),
+                Notification = new NotificationViewModel(),
+                NotificationID = 0
             };
             List<Job> list = new List<Job>();
             list.Add(job);
@@ -335,7 +359,7 @@ namespace JobTrackerAPI.Test
         }
 
         [TestMethod]
-        public void EditJobReturnsAOneForSuccess()
+        public void EditJobReturnsAJob()
         {
             // Arrange test
             var iMockJobRepository = new Mock<IJobRepository>();
@@ -343,10 +367,12 @@ namespace JobTrackerAPI.Test
             Job job = new Job()
             {
                 JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
-                ClientContactName = "",
+                ClientCompanyContactName = "",
                 RecruiterCompanyName = "",
                 ClientCompanyName = "",
                 RecruiterPhoneNumber = "",
@@ -358,15 +384,19 @@ namespace JobTrackerAPI.Test
                 JobDescription = "",
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime()
+                DateOfInterview = new DateTime(),
+                Notification = new Notification(),
+                NotificationID = 0
             };
             var jobViewModel = new JobViewModel()
             {
                 JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
-                ClientContactName = "",
+                ClientCompanyContactName = "",
                 RecruiterCompanyName = "",
                 ClientCompanyName = "",
                 RecruiterPhoneNumber = "",
@@ -378,7 +408,9 @@ namespace JobTrackerAPI.Test
                 JobDescription = "",
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime()
+                DateOfInterview = new DateTime(),
+                Notification = new NotificationViewModel(),
+                NotificationID = 0
             };
             List<Job> list = new List<Job>();
             list.Add(job);
@@ -408,10 +440,12 @@ namespace JobTrackerAPI.Test
             Job job = new Job()
             {
                 JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
-                ClientContactName = "",
+                ClientCompanyContactName = "",
                 RecruiterCompanyName = "",
                 ClientCompanyName = "",
                 RecruiterPhoneNumber = "",
@@ -423,15 +457,19 @@ namespace JobTrackerAPI.Test
                 JobDescription = "",
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime()
+                DateOfInterview = new DateTime(),
+                Notification = new Notification(),
+                NotificationID = 0
             };
             var jobViewModel = new JobViewModel()
             {
                 JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
-                ClientContactName = "",
+                ClientCompanyContactName = "",
                 RecruiterCompanyName = "",
                 ClientCompanyName = "",
                 RecruiterPhoneNumber = "",
@@ -443,7 +481,9 @@ namespace JobTrackerAPI.Test
                 JobDescription = "",
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime()
+                DateOfInterview = new DateTime(),
+                Notification = new NotificationViewModel(),
+                NotificationID = 0
             };
             List<Job> list = new List<Job>();
             list.Add(job);
@@ -472,16 +512,18 @@ namespace JobTrackerAPI.Test
         }
 
         [TestMethod]
-        public void CreateJobReturnsAOneForSuccess()
+        public void CreateJobReturnsAJob()
         {
             // Arrange test
             Job job = new Job()
             {
                 JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
-                ClientContactName = "",
+                ClientCompanyContactName = "",
                 RecruiterCompanyName = "",
                 ClientCompanyName = "",
                 RecruiterPhoneNumber = "",
@@ -493,15 +535,19 @@ namespace JobTrackerAPI.Test
                 JobDescription = "",
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime()
+                DateOfInterview = new DateTime(),
+                Notification = new Notification(),
+                NotificationID = 0
             };
             var jobViewModel = new JobViewModel()
             {
                 JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
-                ClientContactName = "",
+                ClientCompanyContactName = "",
                 RecruiterCompanyName = "",
                 ClientCompanyName = "",
                 RecruiterPhoneNumber = "",
@@ -513,7 +559,9 @@ namespace JobTrackerAPI.Test
                 JobDescription = "",
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime()
+                DateOfInterview = new DateTime(),
+                Notification = new NotificationViewModel(),
+                NotificationID = 0
             };
             List<Job> list = new List<Job>();
             list.Add(job);
@@ -542,16 +590,18 @@ namespace JobTrackerAPI.Test
         }
 
         [TestMethod]
-        public void DeleteJobReturnsAOneForSuccess()
+        public void DeleteJobReturnsADeletedJob()
         {
             // Arrange test
             Job job = new Job()
             {
                 JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
-                ClientContactName = "",
+                ClientCompanyContactName = "",
                 RecruiterCompanyName = "",
                 ClientCompanyName = "",
                 RecruiterPhoneNumber = "",
@@ -563,15 +613,19 @@ namespace JobTrackerAPI.Test
                 JobDescription = "",
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime()
+                DateOfInterview = new DateTime(),
+                Notification = new Notification(),
+                NotificationID = 0
             };
             var jobViewModel = new JobViewModel()
             {
                 JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
-                ClientContactName = "",
+                ClientCompanyContactName = "",
                 RecruiterCompanyName = "",
                 ClientCompanyName = "",
                 RecruiterPhoneNumber = "",
@@ -583,7 +637,9 @@ namespace JobTrackerAPI.Test
                 JobDescription = "",
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime()
+                DateOfInterview = new DateTime(),
+                Notification = new NotificationViewModel(),
+                NotificationID = 0
             };
             List<Job> list = new List<Job>();
             list.Add(job);
@@ -619,30 +675,12 @@ namespace JobTrackerAPI.Test
             Job job = new Job()
             {
                 JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
-                ClientContactName = "",
-                RecruiterCompanyName = "",
-                ClientCompanyName = "",
-                RecruiterPhoneNumber = "",
-                ClientCompanyPhoneNumber = "",
-                RecruiterCompanyLocation = "",
-                ClientCompanyLocation = "",
-                RecruiterNotes = "",
-                ClientNotes = "",
-                JobDescription = "",
-                DateOfSubmission = new DateTime(),
-                DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime()
-            };
-            var jobViewModel = new JobViewModel()
-            {
-                JobID = 0,
-                JobTitle = "",
-                JobLocation = "",
-                RecruiterName = "",
-                ClientContactName = "",
+                ClientCompanyContactName = "",
                 RecruiterCompanyName = "",
                 ClientCompanyName = "",
                 RecruiterPhoneNumber = "",
@@ -655,6 +693,32 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
+                Notification = new Notification(),
+                NotificationID = 0
+            };
+            var jobViewModel = new JobViewModel()
+            {
+                JobID = 0,
+                JobNumber = 0,
+                FK_JobID_NotficationID = 0,
+                JobTitle = "",
+                JobLocation = "",
+                RecruiterName = "",
+                ClientCompanyContactName = "",
+                RecruiterCompanyName = "",
+                ClientCompanyName = "",
+                RecruiterPhoneNumber = "",
+                ClientCompanyPhoneNumber = "",
+                RecruiterCompanyLocation = "",
+                ClientCompanyLocation = "",
+                RecruiterNotes = "",
+                ClientNotes = "",
+                JobDescription = "",
+                DateOfSubmission = new DateTime(),
+                DateOfFollowUp = new DateTime(),
+                DateOfInterview = new DateTime(),
+                Notification = new NotificationViewModel(),
+                NotificationID = 0
             };
             List<Job> list = new List<Job>();
             //list.Add(user);
@@ -681,6 +745,66 @@ namespace JobTrackerAPI.Test
 
             // Assert test
             Assert.AreEqual(okResult, exceptionMessage);
+        }
+
+        [TestMethod]
+        public void GetLastJobReturnsANull()
+        {
+            // Arrange test
+            int? jobID = null;
+
+            List<Job> list = new List<Job>();
+            //list.Add(user);
+            var query = GetQueryableMockDbSet<Job>(list);
+            var iMapper = new Mock<IMapping>();
+            var iMockJobRepository = new Mock<IJobRepository>();
+            iMockJobRepository.Setup(x => x.PopulateDataSet(query)).Returns(query);
+            string exceptionMessage = "could not find the job to delete.";
+            iMockJobRepository.Setup(x => x.GetLastJobID()).Returns(Task.FromResult<int?>(null));
+            var controller = new JobController(iMockJobRepository.Object, iMapper.Object);
+            JsonResult? result = null;
+
+            // Act test
+            Task.Run(async () =>
+            {
+
+                result = await controller.GetLastJobID();
+
+            }).Wait();
+            int? okResult = JsonConvert.DeserializeObject<int?>(result.Value.ToString());
+
+            // Assert test
+            Assert.AreEqual(okResult, jobID);
+        }
+
+        [TestMethod]
+        public void GetLastJobReturnsAJobID()
+        {
+            // Arrange test
+            int? jobID = 1;
+
+            List<Job> list = new List<Job>();
+            //list.Add(user);
+            var query = GetQueryableMockDbSet<Job>(list);
+            var iMapper = new Mock<IMapping>();
+            var iMockJobRepository = new Mock<IJobRepository>();
+            iMockJobRepository.Setup(x => x.PopulateDataSet(query)).Returns(query);
+            string exceptionMessage = "could not find the job to delete.";
+            iMockJobRepository.Setup(x => x.GetLastJobID()).Returns(Task.FromResult<int?>(1));
+            var controller = new JobController(iMockJobRepository.Object, iMapper.Object);
+            JsonResult? result = null;
+
+            // Act test
+            Task.Run(async () =>
+            {
+
+                result = await controller.GetLastJobID();
+
+            }).Wait();
+            int? okResult = JsonConvert.DeserializeObject<int?>(result.Value.ToString());
+
+            // Assert test
+            Assert.AreEqual(okResult, jobID);
         }
 
         public static DbSet<T> GetQueryableMockDbSet<T>(List<T> sourceList) where T : class

@@ -1,6 +1,6 @@
 <div class="background">
     <p class="text-center">Job Tracker</p>
-    <p-tabView class="tab"  [hidden]="isHidden">
+    <p-tabView class="tab"  [hidden]="isHidden" (onChange)="handleChange($event)">
         <p-tabPanel header="View Jobs Applied For">
            <app-job-applied-for></app-job-applied-for>
         </p-tabPanel>
@@ -10,13 +10,13 @@
         <p-tabPanel header="Remove Job Applied For">
          <app-remove-job-applied-for></app-remove-job-applied-for>
         </p-tabPanel>
-        <p-tabPanel header="View Notification">
+        <p-tabPanel header="View Notification" [disabled]="notificationsIsDisabled">
           <app-view-notification></app-view-notification>
         </p-tabPanel>
-        <p-tabPanel header="Set Notification">
+        <p-tabPanel header="Set Notification" [disabled]="notificationsIsDisabled">
           <app-set-notification></app-set-notification>
         </p-tabPanel>
-        <p-tabPanel header="Remove Notification">
+        <p-tabPanel header="Remove Notification" [disabled]="notificationsIsDisabled">
           <app-remove-notification></app-remove-notification>
         </p-tabPanel>
     </p-tabView>

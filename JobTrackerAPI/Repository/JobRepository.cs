@@ -67,6 +67,7 @@ namespace JobTrackerAPI.Repository
                 {
 
                     result.JobID = Job.JobID;
+                    result.JobNumber = Job.JobNumber;
                     result.JobTitle = Job.JobTitle;
                     result.JobLocation = Job.JobLocation;
                     result.RecruiterName = Job.RecruiterName;

@@ -68,9 +68,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
                 NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                Job = new Job()
+                NotificationEvent = (int)NotificationEvent.NotSet,
         };
             var notificationViewModel = new NotificationViewModel() 
             {
@@ -85,9 +83,7 @@ namespace JobTrackerAPI.Test
                 ClientCompanyLocation = "",
                 ClientCompanyPhoneNumber = "",
                 NotificationDate = new DateTime(),
-                NotificationEvent = NotificationEvent.NotSet,
-                FK_NotficationID_JobID = 0,
-                JobViewModel = new JobViewModel()
+                NotificationEvent = NotificationEvent.NotSet
             };
             List<Notification> list = new List<Notification>();
             list.Add(notification);
@@ -606,6 +602,66 @@ namespace JobTrackerAPI.Test
 
             // Assert test
             Assert.AreEqual(okResult, exceptionMessage);
+        }
+
+        [TestMethod]
+        public void GetLastNotificationIDReturnsNull()
+        {
+            // Arrange test
+            int? notificationID = null;
+
+            List<Notification> list = new List<Notification>();
+            //list.Add(user);
+            var query = GetQueryableMockDbSet<Notification>(list);
+            var iMapper = new Mock<IMapping>();
+            var iMockNotificationRepository = new Mock<INotificationRepository>();
+            iMockNotificationRepository.Setup(x => x.PopulateDataSet(query)).Returns(query);
+            string exceptionMessage = "could not find the job to delete.";
+            iMockNotificationRepository.Setup(x => x.GetLastNotificationID()).Returns(Task.FromResult<int?>(null));
+            var controller = new NotificationController(iMockNotificationRepository.Object, iMapper.Object);
+            JsonResult? result = null;
+
+            // Act test
+            Task.Run(async () =>
+            {
+
+                result = await controller.GetLastNotificationID();
+
+            }).Wait();
+            int? okResult = JsonConvert.DeserializeObject<int?>(result.Value.ToString());
+
+            // Assert test
+            Assert.AreEqual(okResult, notificationID);
+        }
+
+        [TestMethod]
+        public void GetLastNotificationIDReturnsANotificationID()
+        {
+            // Arrange test
+            int? notificationID = 1;
+
+            List<Notification> list = new List<Notification>();
+            //list.Add(user);
+            var query = GetQueryableMockDbSet<Notification>(list);
+            var iMapper = new Mock<IMapping>();
+            var iMockNotificationRepository = new Mock<INotificationRepository>();
+            iMockNotificationRepository.Setup(x => x.PopulateDataSet(query)).Returns(query);
+            string exceptionMessage = "could not find the job to delete.";
+            iMockNotificationRepository.Setup(x => x.GetLastNotificationID()).Returns(Task.FromResult<int?>(1));
+            var controller = new NotificationController(iMockNotificationRepository.Object, iMapper.Object);
+            JsonResult? result = null;
+
+            // Act test
+            Task.Run(async () =>
+            {
+
+                result = await controller.GetLastNotificationID();
+
+            }).Wait();
+            int? okResult = JsonConvert.DeserializeObject<int?>(result.Value.ToString());
+
+            // Assert test
+            Assert.AreEqual(okResult, notificationID);
         }
 
         public static DbSet<T> GetQueryableMockDbSet<T>(List<T> sourceList) where T : class

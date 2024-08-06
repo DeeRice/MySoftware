@@ -5,33 +5,35 @@
     [rows]="5"
     dataKey="JobID"
     [tableStyle]="{ 'min-width': '50rem' }"
-    [rowsPerPageOptions]="[5, 10, 20]">
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [lazy]="true" (onLazyLoad)="refreshDataGrid($event)">
         <ng-template pTemplate="header">
             <tr>
-                <td>Number</td>
-                <td>Job ID</td>
-                <td>Job Title </td>
-                <td>Job Location </td>
-                <td>Recruiter Name </td>
-                <td>Client Contact Name </td>
-                <td>Recruiter Company Name </td>
-                <td>Client Name </td>
-                <td>Recruiter Phone Number </td>
-                <td>Client Phone Number </td>
-                <td>Recruiter Location </td>
-                <td>Client Location </td>
-                <td>Recruiter Notes </td>
-                <td>Client Notes </td>
-                <td>Job Description </td>
-                <td>Date Of Submission </td>
-                <td>Date Of FollowUp </td>
-                <td>Date Of Interview </td>
+                <th>Job ID</th>
+                <th>Job Number</th>
+                <th>Job Title </th>
+                <th>Job Location </th>
+                <th>Recruiter Name </th>
+                <th>Client Contact Name </th>
+                <th>Recruiter Company Name </th>
+                <th>Client Name </th>
+                <th>Recruiter Phone Number </th>
+                <th>Client Phone Number </th>
+                <th>Recruiter Location </th>
+                <th>Client Location </th>
+                <th>Recruiter Notes </th>
+                <th>Client Notes </th>
+                <th>Job Description </th>
+                <th>Date Of Submission </th>
+                <th>Date Of FollowUp </th>
+                <th>Date Of Interview </th>
+                <th>Edit</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-job>
             <tr>
                 <td><a [routerLink]="['/app-job-details']" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="goToDetailPage(job.JobID.toString())">{{job.JobID}}</a></td>
-                <td>{{ job.JobID}}</td>
+                <td>{{ job.JobNumber}}</td>
                 <td>{{ job.JobTitle }}</td>
                 <td>{{ job.JobLocation }}</td>
                 <td>{{ job.RecruiterName }}</td>
@@ -45,11 +47,29 @@
                 <td>{{ job.RecruiterNotes }}</td>
                 <td>{{ job.ClientNotes }}</td>
                 <td>{{ job.JobDescription }}</td>
-                <td>{{ job.DateOfSubmission | date: 'MMMM d, y, h:mm:ss a' }}</td>
-                <td>{{ job.DateOfFollowUp | date: 'MMMM d, y, h:mm:ss a'}}</td>
-                <td>{{ job.DateOfInterview | date: 'MMMM d, y, h:mm:ss a' }}</td>
+                <td>{{ job.DateOfSubmission | date: 'MMMM d, y' }}</td>
+                <td>{{ job.DateOfFollowUp | date: 'MMMM d, y'}}</td>
+                <td>{{ job.DateOfInterview | date: 'MMMM d, y' }}</td>
+                <td>
+                <button 
+                    pButton 
+                    pRipple 
+                    label="Edit" 
+                    class="p-button-primary" [rounded]="true" (click)="goToEditPage(job.JobID)">
+                </button>
+                </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
-
+<div class="card flex justify-content-center gap-2">
+    <p-toast />
+    <p-confirmDialog #cd [style]="{width: '50vw'}">
+        <ng-template pTemplate="header">
+            <h3>{{messageHeader}}</h3>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <button type="button" pButton icon="pi pi-check" label="Ok" (click)="cd.accept()"></button>
+        </ng-template>
+    </p-confirmDialog>
+</div>

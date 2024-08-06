@@ -1,0 +1,29 @@
+$display: (
+    responsive: true,
+    print: true,
+    property: display,
+    class: d,
+    values: inline inline-block block grid table table-row table-cell flex inline-flex none
+  );
+
+
+th{
+    background-color: #000080;
+    color: white;
+    font-size: 13.5px;
+    min-width: 300px;
+    height: 15px;
+    font-weight: 400;
+}
+th, td { min-width: 300px; }
+button {
+    border-radius: 10px;
+  }
+  button[label='Back']{
+    width: 100%;
+  }
+
+  :host ::ng-deep {
+   
+  }
+

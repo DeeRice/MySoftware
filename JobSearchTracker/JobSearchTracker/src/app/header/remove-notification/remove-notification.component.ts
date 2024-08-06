@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
-import { TableModule } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { HttpClientModule, provideHttpClient, withJsonpSupport } from '@angular/common/http';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
 import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api';
 import { getJSON } from 'jquery';
 import { NotificationService } from 'src/service/notification.service';
-import { JTSNotification } from 'src/model/notification';
+import { JTSNotification, JTSNotificationEventType } from 'src/model/notification';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
@@ -43,6 +43,8 @@ export class RemoveNotificationComponent {
   public _messageService?: MessageService;
   public _confirmationService?: ConfirmationService;
   public currentID:number = -1;
+  public lastTableLazyLoadEvent?: TableLazyLoadEvent;
+  public messageHeader?: string;
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService, @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, @Inject(Router) router: Router,
   public appService: AppService, PrimeNGConfig: PrimeNGConfig,
    notificationService: NotificationService, @Inject(RouterLink) routerLink?: RouterLink) {
@@ -55,7 +57,15 @@ export class RemoveNotificationComponent {
   }
   ngOnInit() {
     this._notificationService.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+      if((data != null) && (data != undefined) && ((data as JTSNotification[]).length != 0)){
       this._notifications = JSON.parse(data.toString());
+      }
+  },
+  (error)=> {
+    this.messageHeader = "Error!"
+    let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
+    console.log(error);
+    this.confirm(message);
   }); 
  
   }
@@ -63,13 +73,15 @@ export class RemoveNotificationComponent {
 remove(id: number){
   console.log(id);
   this.currentID = id;
-  this.confirm();
+  this.messageHeader = "Delete Notification Confirmation"
+  let message:string = "Are you sure you want to delete this notification?"
+  this.confirm(message);
   }
   
-  confirm() {
+  confirm(messageToShow: string) {
     this.confirmationService.confirm({
-      message: 'Do you want to delete this record?',
-      header: 'Delete Confirmation',
+      message: messageToShow,
+      header: this.messageHeader,
       icon: 'pi pi-info-circle',
         accept: () => {
   
@@ -83,10 +95,45 @@ remove(id: number){
             },
             () => {
               // No errors, route to new page
-              this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'})
+              this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
             }
           );
         }
     });
+    this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
+  }
+
+  public async refreshDataGrid(event: TableLazyLoadEvent) {
+    this.lastTableLazyLoadEvent = event;
+    await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+       if((data != null) && (data != undefined) && ((data as JTSNotification[]).length != 0)){
+         this._notifications = JSON.parse(data.toString());
+       }
+      
+     },
+    (error) =>{
+      this.messageHeader = "Error!"
+      let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
+      console.log(error);
+      this.confirm(message);
+    }); 
+  }
+
+  async displayNotificationsForToday() {
+    await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+      if((data != null) && (data != undefined) && (data.length > 0)){
+        this._notifications = JSON.parse(data.toString());
+      }
+    },
+   (error)=>{
+    this.messageHeader = "Error!"
+    let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
+    console.log(error);
+    this.confirm(message);
+   }); 
+  }
+  display(num: number){
+    let jtsEvent = JTSNotificationEventType[num];
+    return jtsEvent;
   }
 }

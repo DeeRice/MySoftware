@@ -21,13 +21,16 @@ import { TableModule } from 'primeng/table';
 import { PrimeNGConfig } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
 import { NotificationDetailsComponent } from './notification-details/notification-details.component';
+import { EditJobComponent } from './edit-job/edit-job.component';
+import { EditNotificationComponent } from './edit-notification/edit-notification.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [HeaderComponent, SetNotificationComponent, TabViewModule, NotificationDetailsComponent,
     RemoveNotificationComponent, RemoveJobAppliedForComponent, JobAppliedForComponent, JobDetailsComponent,
-    AddJobAppliedForComponent, ViewNotificationComponent, RouterModule, TableModule, CommonModule, CalendarModule],
+    AddJobAppliedForComponent, ViewNotificationComponent, RouterModule, TableModule, CommonModule, CalendarModule,
+  EditJobComponent, EditNotificationComponent],
   providers: [NgbModal, AppService, RouterModule, RouterOutlet, CommonModule,RouterLink, 
     RouterLinkActive, FormsModule, RouterOutlet, BrowserAnimationsModule, TableModule, PrimeNGConfig, CalendarModule],
   templateUrl: './app.component.html',

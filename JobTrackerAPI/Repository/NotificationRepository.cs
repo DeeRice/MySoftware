@@ -69,6 +69,7 @@ namespace JobTrackerAPI.Repository
                 if (result != null)
                 {
                     result.NotificationID = Notification.NotificationID;
+                    result.NotificationNumber = Notification.NotificationNumber;
                     result.RecruiterName = Notification.RecruiterName;
                     result.RecruiterCompanyName = Notification.RecruiterCompanyName;
                     result.RecruiterCompanyLocation = Notification.RecruiterCompanyLocation;

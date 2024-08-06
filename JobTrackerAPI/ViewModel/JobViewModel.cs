@@ -7,6 +7,8 @@ namespace JobTrackerAPI.ViewModel
     {
         [BindProperty(Name = "JobID", SupportsGet = true)]
         public int JobID { get; set; }
+        [BindProperty(Name = "JobNumber", SupportsGet = true)]
+        public int JobNumber { get; set; }
         [BindProperty(Name = "JobTitle", SupportsGet = true)]
         public string ? JobTitle { get; set; }
         [BindProperty(Name = "JobLocation", SupportsGet = true)]

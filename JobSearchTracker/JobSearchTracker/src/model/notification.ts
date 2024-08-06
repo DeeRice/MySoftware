@@ -1,7 +1,8 @@
 import { JTSJob } from '../model/job';
 
 export class JTSNotification {
-public NotificationID: number = 0;
+public NotificationID!: number;
+public NotificationNumber!: number;
 public RecruiterName?: string;
 public RecruiterCompanyName?: string;
 public RecruiterCompanyLocation?: string;
@@ -13,7 +14,7 @@ public ClientCompanyLocation?: string;
 public ClientCompanyPhoneNumber?: string;
 public NotificationDate!: Date;
 public NotificationEvent!: number;
-public Message?: string;
+public Message!: string;
 }
 
 export class JTSNotificationEvent {

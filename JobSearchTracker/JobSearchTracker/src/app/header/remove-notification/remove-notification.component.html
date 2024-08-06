@@ -3,12 +3,13 @@
     [paginator]="true"
     [rows]="5"
     [tableStyle]="{ 'min-width': '50rem' }"
-    [rowsPerPageOptions]="[5, 10, 20]">
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [lazy]="true" (onLazyLoad)="refreshDataGrid($event)">
         <ng-template pTemplate="header">
             <tr>
-                <th>Number</th>
                 <th>Notification ID</th>
-                <th>Notification For</th>
+                <th>Notification Number</th>
+                <th>Notification For Job Number</th>
                 <th>Recruiter Name</th>
                 <th>Recruiter Company Name</th>
                 <th>Recruiter Company Location</th>
@@ -18,14 +19,16 @@
                 <th>Client Company Name</th>
                 <th>Client Company Location</th>
                 <th>Client Company Phone Number</th>
+                <th>Notification Message</th>
                 <th>Notification Date</th>
+                <th>Notification Event</th>
                 <th>Delete</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-notification>
             <tr>
                 <td>{{notification.NotificationID}}</td>
-                <td>{{notification.NotificationID}}</td>
+                <td>{{notification.NotificationNumber}}</td>
                 <td>{{notification.NotificationID}}</td>
                 <td>{{notification.RecruiterName}}</td>
                 <td>{{notification.RecruiterCompanyName}}</td>
@@ -36,7 +39,9 @@
                 <td>{{notification.ClientCompanyName}}</td>
                 <td>{{notification.ClientCompanyLocation}}</td>
                 <td>{{notification.ClientCompanyPhoneNumber}}</td>
-                <td>{{notification.NotificationDate | date: 'MMMM d, y, h:mm:ss a'}}</td>
+                <td>{{notification.Message}}</td>
+                <td>{{notification.NotificationDate | date: 'MMMM d, y'}}</td>
+                <td>{{display(notification.NotificationEvent)}}</td>
                 <td>
                     <button 
                     pButton 

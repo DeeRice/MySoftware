@@ -15,6 +15,8 @@ import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {CalendarModule} from 'primeng/calendar';
+import { JTSNotification } from 'src/model/notification';
+import { NotificationService } from 'src/service/notification.service';
 
 @Component({
   selector: 'app-add-job-applied-for',
@@ -31,16 +33,23 @@ export class AddJobAppliedForComponent {
   public _jobService?: JobService;
   public _messageService?: MessageService;
   public _confirmationService?: ConfirmationService;
+  public _notificationService?: NotificationService;
   public jobIDIsDiabled:boolean = true;
   public newJobID:number = -1;
+  _notifications!: JTSNotification[];
+  _notificationsToBeDisplay?: JTSNotification[];
+  public messageHeader?: string;
   constructor(private appService: AppService, private jobService: JobService,
-  private messageService: MessageService, private confirmationService: ConfirmationService
+  private messageService: MessageService, private confirmationService: ConfirmationService,
+  private notificationService: NotificationService
   ) {
     this._appService = appService;
     this._jobService = jobService;
     this._messageService = messageService;
     this._confirmationService = confirmationService;
+    this._notificationService = notificationService;
   }
+
  async ngOnInit() {
    this.titles = this._appService?.addJobTitles;   
    await this._jobService?.getLastJobID()?.subscribe((jobid)=>{
@@ -54,8 +63,14 @@ export class AddJobAppliedForComponent {
        this.newJobID = parseInt(returnJobID.toString()) + 1;
        this.addJob.controls.JobID.setValue(this.newJobID.toString());
        }
-   });
-
+   },
+  (error)=>{
+    this.messageHeader = "Error!"
+    let message:string = "Error occured while trying to retrive the last job id. See developer for solution."
+    console.log(error);
+    this.confirm(message);
+  });
+    
   }
 public isNotNotes(title:any): Boolean {
   this.addJob.controls["JobID"].disable();
@@ -72,7 +87,6 @@ public isNotNotes(title:any): Boolean {
  }
 
  isNotADatePicker(title: string){
-  debugger;
   if(title === "Date Of Submission" || title === "Date Of Follow Up" || 
     title === "Date Of Interview"){
     return false;
@@ -93,6 +107,7 @@ addJob = new FormGroup({
   ClientCompanyName: new FormControl(''),
   ClientCompanyPhoneNumber: new FormControl(''),
   JobID: new FormControl(''),
+  JobNumber: new FormControl(''),
   JobLocation: new FormControl(''),
   JobTitle: new FormControl(''),	
   JobDescription: new FormControl(''),	
@@ -111,19 +126,22 @@ addJob = new FormGroup({
 
 save(form: FormGroup){
 this.addJob = form;
-this.confirm();
+let message:string = "Are you sure that you want to add this job?";
+this.messageHeader = "Add Job Confirmation";
+this.confirm(message);
 }
 
 clear() {
   this.addJob.reset();
 }
-confirm() {
-  debugger;
+confirm(messageToShow: string) {
   this.confirmationService.confirm({
-      message: 'Are you sure that you want to add this job?',
+      header: this.messageHeader, 
+      message: messageToShow,
       accept: () => {
         var job = new JTSJob();
         job.JobID = Number.parseInt(this.addJob.controls.JobID.value as string) || -1;
+        job.JobNumber = Number.parseInt(this.addJob.controls.JobNumber.value as string) || -1;
         job.JobTitle = this.addJob.controls.JobTitle.value || undefined;
         job.JobLocation = this.addJob.controls.JobLocation.value || undefined;
         job.RecruiterName = this.addJob.controls.RecruiterName.value || undefined;
@@ -144,17 +162,39 @@ confirm() {
           (result) => {
             // Handle result
             console.log(result)
+            this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
           },
           (error) => {
             this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
           },
           () => {
             // No errors, route to new page
-            this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'})
+         
+           
           }
         );
       }
   });
+}
+
+async displayNotificationsForToday() {
+ await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+    if((data != null) && (data != undefined) && (data.length > 0)){
+      this._notifications = JSON.parse(data.toString());
+    }
+  },
+(error) => {
+  this.messageHeader = "Error!"
+  let message:string = "Error occured while trying to retrieve a list of all notifications. See developer for solution."
+  console.log(error);
+  this.confirm(message);
+}); 
+
+  if((this._notifications != null) && (this._notifications != undefined) && (this._notifications.length > 0)) {
+    this._notificationsToBeDisplay = this._notifications.
+    filter(obj => `${new Date(obj.NotificationDate).getMonth()}/${new Date(obj.NotificationDate).getDay()}/${new Date(obj.NotificationDate).getFullYear()}` == `${new Date(Date.now()).getMonth()}/${new Date(Date.now()).getDay()}/${new Date(Date.now()).getFullYear()}`)
+  }
+   
 }
 }
 
