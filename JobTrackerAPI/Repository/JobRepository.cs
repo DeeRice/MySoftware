@@ -75,6 +75,7 @@ namespace JobTrackerAPI.Repository
                     result.RecruiterCompanyName = Job.RecruiterCompanyName;
                     result.ClientCompanyName = Job.ClientCompanyName;
                     result.RecruiterPhoneNumber = Job.RecruiterPhoneNumber;
+                    result.RecruiterCompanyPhoneNumber = Job.RecruiterCompanyPhoneNumber;
                     result.ClientCompanyPhoneNumber = Job.ClientCompanyPhoneNumber;
                     result.RecruiterCompanyLocation = Job.RecruiterCompanyLocation;
                     result.ClientCompanyLocation = Job.ClientCompanyLocation;

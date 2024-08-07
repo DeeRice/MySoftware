@@ -11,21 +11,21 @@ namespace JobTrackerAPI.ViewModel
         [BindProperty(Name = "NotificationNumber", SupportsGet = true)]
         public int NotificationNumber { get; set; }
         [BindProperty(Name = "RecruiterName", SupportsGet = true)]
-        public string ? RecruiterName { get; set; }
+        public string RecruiterName { get; set; }
         [BindProperty(Name = "RecruiterCompanyName", SupportsGet = true)]
-        public string ? RecruiterCompanyName { get; set; }
+        public string RecruiterCompanyName { get; set; }
         [BindProperty(Name = "RecruiterCompanyLocation", SupportsGet = true)]
-        public string ? RecruiterCompanyLocation { get; set; }
+        public string RecruiterCompanyLocation { get; set; }
         [BindProperty(Name = "RecruiterPhoneNumber", SupportsGet = true)]
         public string ? RecruiterPhoneNumber { get; set; }
         [BindProperty(Name = "RecruiterCompanyPhoneNumber", SupportsGet = true)]
-        public string ? RecruiterCompanyPhoneNumber { get; set; }
+        public string RecruiterCompanyPhoneNumber { get; set; }
         [BindProperty(Name = "ClientContactName", SupportsGet = true)]
-        public string ? ClientContactName { get; set; }
+        public string ClientContactName { get; set; }
         [BindProperty(Name = "ClientCompanyName", SupportsGet = true)]
         public string ? ClientCompanyName { get; set; }
         [BindProperty(Name = "ClientCompanyLocation", SupportsGet = true)]
-        public string ? ClientCompanyLocation { get; set; }
+        public string ClientCompanyLocation { get; set; }
         [BindProperty(Name = "ClientCompanyPhoneNumber", SupportsGet = true)]
         public string ? ClientCompanyPhoneNumber { get; set; }
         [BindProperty(Name = "NotificationDate", SupportsGet = true)]
