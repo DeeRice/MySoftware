@@ -31,6 +31,7 @@ export class AppService {
   {titleName: "Recruiter Company Name", formName:"RecruiterCompanyName"}, 
   {titleName:"Client Company Name", formName:"ClientCompanyName"},
   {titleName:"Recruiter Phone Number", formName:"RecruiterPhoneNumber"},
+  {titleName:"Recruiter Company Phone Number", formName:"RecruiterCompanyPhoneNumber"},
   {titleName:"Client Company Phone Number", formName:"ClientCompanyPhoneNumber"} , 
   {titleName:"Recruiter Company Location", formName:"RecruiterCompanyLocation"},
   {titleName:"Client Company Location", formName:"ClientCompanyLocation"}, 

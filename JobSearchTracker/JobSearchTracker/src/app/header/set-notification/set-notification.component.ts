@@ -168,15 +168,15 @@ setEventPicker(){
        if(this.notification != null && this.currentNotificationID != -1) {
         this.notification.NotificationID = this.currentNotificationID as number;
         this.notification.NotificationNumber = this.addNotification.controls.NotificationNumber.value as number;
-        this.notification.RecruiterName = this.addNotification.controls.RecruiterName.value || undefined;
+        this.notification.RecruiterName = this.addNotification.controls.RecruiterName.value as string;
         this.jobID = this.addNotification.controls.FK_JobID_NotficationID.value || undefined;
-        this.notification.RecruiterCompanyName = this.addNotification.controls.RecruiterCompanyName.value || undefined; 
-        this.notification.RecruiterCompanyLocation = this.addNotification.controls.RecruiterCompanyLocation.value || undefined;
+        this.notification.RecruiterCompanyName = this.addNotification.controls.RecruiterCompanyName.value as string; 
+        this.notification.RecruiterCompanyLocation = this.addNotification.controls.RecruiterCompanyLocation.value as string;
         this.notification.RecruiterPhoneNumber = this.addNotification.controls.RecruiterPhoneNumber.value || undefined;
-        this.notification.RecruiterCompanyPhoneNumber = this.addNotification.controls.RecruiterCompanyPhoneNumber.value || undefined;	
+        this.notification.RecruiterCompanyPhoneNumber = this.addNotification.controls.RecruiterCompanyPhoneNumber.value as string;	
         this.notification.ClientContactName = this.addNotification.controls.ClientContactName.value || undefined;
-        this.notification.ClientCompanyName = this.addNotification.controls.ClientCompanyName.value || undefined;
-        this.notification.ClientCompanyLocation = this.addNotification.controls.ClientCompanyLocation.value || undefined;
+        this.notification.ClientCompanyName = this.addNotification.controls.ClientCompanyName.value as string;
+        this.notification.ClientCompanyLocation = this.addNotification.controls.ClientCompanyLocation.value as string;
         this.notification.ClientCompanyPhoneNumber = this.addNotification.controls.ClientCompanyPhoneNumber.value || undefined;
         this.notification.NotificationID = this.addNotification.controls.NotificationID.value as number;
         this.notification.NotificationDate = this.addNotification.controls.NotificationDate.value as Date;

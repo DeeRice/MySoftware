@@ -136,6 +136,7 @@ export class EditJobComponent {
          JobDescription: new FormControl(''),	
          RecruiterName: new FormControl(''),
          RecruiterPhoneNumber: new FormControl(''),
+         RecruiterCompanyPhoneNumber: new FormControl(''),
          RecruiterNotes: new FormControl(''),
          ClientCompanyContactName: new FormControl(''),
          ClientNotes: new FormControl(''),
@@ -164,19 +165,20 @@ export class EditJobComponent {
               accept: () => {
                 var job = new JTSJob();
                 job.JobID = Number.parseInt(this.addJob.controls.JobID.value as string) || -1;
-                job.JobTitle = this.addJob.controls.JobTitle.value || undefined;
-                job.JobLocation = this.addJob.controls.JobLocation.value || undefined;
-                job.RecruiterName = this.addJob.controls.RecruiterName.value || undefined;
+                job.JobTitle = this.addJob.controls.JobTitle.value as string;
+                job.JobLocation = this.addJob.controls.JobLocation.value as string;
+                job.RecruiterName = this.addJob.controls.RecruiterName.value as string;
                 job.ClientCompanyContactName = this.addJob.controls.ClientCompanyContactName.value || undefined;
-                job.RecruiterCompanyName = this.addJob .controls.RecruiterCompanyName.value || undefined;
-                job.ClientCompanyName = this.addJob .controls.ClientCompanyName.value || undefined;
+                job.RecruiterCompanyName = this.addJob .controls.RecruiterCompanyName.value as string;
+                job.ClientCompanyName = this.addJob .controls.ClientCompanyName.value as string;
                 job.RecruiterPhoneNumber = this.addJob.controls.RecruiterPhoneNumber.value || undefined;
+                job.RecruiterCompanyPhoneNumber = this.addJob.controls.RecruiterCompanyPhoneNumber.value as string;
                 job.ClientCompanyPhoneNumber = this.addJob.controls.ClientCompanyPhoneNumber.value || undefined;
-                job.RecruiterCompanyLocation = this.addJob.controls.RecruiterCompanyLocation.value || undefined;
-                job.ClientCompanyLocation = this.addJob.controls.ClientCompanyLocation.value || undefined;
+                job.RecruiterCompanyLocation = this.addJob.controls.RecruiterCompanyLocation.value as string;
+                job.ClientCompanyLocation = this.addJob.controls.ClientCompanyLocation.value as string;
                 job.RecruiterNotes = this.addJob.controls.RecruiterNotes.value || undefined;
                 job.ClientNotes = this.addJob.controls.ClientNotes.value || undefined;
-                job.JobDescription = this.addJob.controls.JobDescription.value || undefined;
+                job.JobDescription = this.addJob.controls.JobDescription.value as string;
                 job.DateOfSubmission = this.addJob.controls.DateOfSubmission.value as Date || null;
                 job.DateOfFollowUp = this.addJob.controls.DateOfFollowUp.value as Date || null;
                 job.DateOfInterview = this.addJob.controls.DateOfInterview.value as Date || undefined;
