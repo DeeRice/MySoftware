@@ -21,12 +21,12 @@ namespace JobTrackerAPI.Repository
             return await _appDbContext.Notification.ToListAsync();
         }
 
-        public async Task<Notification> GetNotificationByID(int? NotificationID)
+        public async Task<Notification> GetNotificationByID(int? notificationID)
         {
             try
             {
                 return await _appDbContext.Notification
-                    .FirstOrDefaultAsync(e => e.NotificationID == NotificationID);
+                    .FirstOrDefaultAsync(e => e.NotificationID == notificationID);
             }
             catch (Exception ex)
             {
@@ -34,18 +34,17 @@ namespace JobTrackerAPI.Repository
             }
         }
 
-        public async Task<Notification> CreateNotification(Notification Notification)
+        public async Task<Notification> CreateNotification(Notification notification)
         {
-            if (Notification != null)
+            if (notification != null)
             {
                 try
                 {
-                   
-                   
-                    var result = await _appDbContext.Notification.AddAsync(Notification);
 
+                    notification.NotificationID = 0;
+                    var result = await _appDbContext.Notification.AddAsync(notification);
                     await _appDbContext.SaveChangesAsync();
-                    Notification updatedNotification = _appDbContext.Notification.FirstOrDefault(x => x.NotificationID == Notification.NotificationID);
+                    Notification updatedNotification = _appDbContext.Notification.FirstOrDefault(x => x.NotificationID == notification.NotificationID);
                     return updatedNotification;
                 }
                 catch (Exception ex)
@@ -59,32 +58,32 @@ namespace JobTrackerAPI.Repository
             }
         }
 
-        public async Task<Notification> EditNotification(int? NotificationID, Notification Notification)
+        public async Task<Notification> EditNotification(int? notificationID, Notification notification)
         {
             try
             {
                 var result = await _appDbContext.Notification
-                    .FirstOrDefaultAsync(e => e.NotificationID == Notification.NotificationID);
+                    .FirstOrDefaultAsync(e => e.NotificationID == notification.NotificationID);
 
                 if (result != null)
                 {
-                    result.NotificationID = Notification.NotificationID;
-                    result.NotificationNumber = Notification.NotificationNumber;
-                    result.RecruiterName = Notification.RecruiterName;
-                    result.RecruiterCompanyName = Notification.RecruiterCompanyName;
-                    result.RecruiterCompanyLocation = Notification.RecruiterCompanyLocation;
-                    result.RecruiterPhoneNumber = Notification.RecruiterPhoneNumber;
-                    result.RecruiterCompanyPhoneNumber = Notification.RecruiterCompanyPhoneNumber;
-                    result.ClientContactName = Notification.ClientContactName;
-                    result.ClientCompanyName = Notification.ClientCompanyName;
-                    result.ClientCompanyLocation = Notification.ClientCompanyLocation;
-                    result.ClientCompanyPhoneNumber = Notification.ClientCompanyPhoneNumber;
-                    result.NotificationDate = Notification.NotificationDate;
-                    result.NotificationEvent = Notification.NotificationEvent;
-                    result.Message = Notification.Message;
+                    result.NotificationID = notification.NotificationID;
+                    result.NotificationNumber = notification.NotificationNumber;
+                    result.RecruiterName = notification.RecruiterName;
+                    result.RecruiterCompanyName = notification.RecruiterCompanyName;
+                    result.RecruiterCompanyLocation = notification.RecruiterCompanyLocation;
+                    result.RecruiterPhoneNumber = notification.RecruiterPhoneNumber;
+                    result.RecruiterCompanyPhoneNumber = notification.RecruiterCompanyPhoneNumber;
+                    result.ClientContactName = notification.ClientContactName;
+                    result.ClientCompanyName = notification.ClientCompanyName;
+                    result.ClientCompanyLocation = notification.ClientCompanyLocation;
+                    result.ClientCompanyPhoneNumber = notification.ClientCompanyPhoneNumber;
+                    result.NotificationDate = notification.NotificationDate;
+                    result.NotificationEvent = notification.NotificationEvent;
+                    result.Message = notification.Message;
                     await _appDbContext.SaveChangesAsync();
 
-                    Notification updatedNotification = _appDbContext.Notification.FirstOrDefault(x => x.NotificationID == Notification.NotificationID);
+                    Notification updatedNotification = _appDbContext.Notification.FirstOrDefault(x => x.NotificationID == notification.NotificationID);
                     return updatedNotification;
                 }
             }
@@ -95,13 +94,13 @@ namespace JobTrackerAPI.Repository
             return null;
         }
 
-        public async Task<Notification> DeleteNotification(int? NotificationID)
+        public async Task<Notification> DeleteNotification(int? notificationID)
         {
             var result = await _appDbContext.Notification
-                .FirstOrDefaultAsync(e => e.NotificationID == NotificationID);
+                .FirstOrDefaultAsync(e => e.NotificationID == notificationID);
             if (result != null)
             {
-                var removeNotification = _appDbContext.Notification.FirstOrDefault(x => x.NotificationID == NotificationID);
+                var removeNotification = _appDbContext.Notification.FirstOrDefault(x => x.NotificationID == notificationID);
                 _appDbContext.Notification.Remove(result);
                 await _appDbContext.SaveChangesAsync();
                 return removeNotification;
@@ -112,15 +111,15 @@ namespace JobTrackerAPI.Repository
             }
         }
 
-        public async Task<Notification> FindNotification(int? NotificationID)
+        public async Task<Notification> FindNotification(int? notificationID)
         {
-            var notification = await _appDbContext.Notification.FindAsync(NotificationID);
+            var notification = await _appDbContext.Notification.FindAsync(notificationID);
             return notification;
         }
 
-        public bool NotificationExists(int? NotificationID)
+        public bool NotificationExists(int? notificationID)
         {
-            var result = _appDbContext.Notification.Any(e => e.NotificationID == NotificationID);
+            var result = _appDbContext.Notification.Any(e => e.NotificationID == notificationID);
             return result;
         }
 

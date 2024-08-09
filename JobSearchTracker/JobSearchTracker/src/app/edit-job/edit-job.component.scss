@@ -20,9 +20,13 @@ button {
     border-radius: 10px;
   }
   button[label='Back']{
-    width: 100%;
+    margin-top: 2%;
+    width: 50%;
   }
-
+  button[label='Submit']{
+    margin-top: 2%;
+    width: 50%;
+  }
   :host ::ng-deep {
    
   }

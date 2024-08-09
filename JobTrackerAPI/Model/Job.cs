@@ -6,6 +6,7 @@ namespace JobTrackerAPI.Model
     public class Job
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int JobID { get; set; }
         public int JobNumber { get; set; }
         public string JobTitle { get; set; }

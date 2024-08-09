@@ -56,25 +56,8 @@ export class HeaderComponent {
         this._messageService = this.messageService;
   }
   ngOnInit(){
-
-    this.notificationsIsDisabled = this.appService.getNotificationTabIsDisabled();
-     this._jobService!.getLastJobID()?.subscribe((jobID: number) => {
-       this.lastJobID = jobID;
-       if(jobID != null && jobID >= 1 && jobID != undefined){
-        this.notificationsIsDisabled = false;
-        this._appService!.setNotificationTabIsDisabled(this.notificationsIsDisabled);
-       }
-       else {
-        this.notificationsIsDisabled = true;
-        this._appService!.setNotificationTabIsDisabled(this.notificationsIsDisabled);
-       }
-     },
-     (error) => {
-      this.messageHeader = "Error!"
-      let message:string = "Error occured while trying to retrieve the last job. See developer for solution."
-      console.log(error);
-      this.confirm(message);
-     });
+    this.loadHeaders();
+   
   }
   public hide(){
     this.hide();
@@ -94,5 +77,25 @@ export class HeaderComponent {
           }
       });
   }
-
+  
+  public loadHeaders(){
+    this.notificationsIsDisabled = this.appService.getNotificationTabIsDisabled();
+    this._jobService!.getLastJobID()?.subscribe((jobID: number) => {
+      this.lastJobID = jobID;
+      if(jobID != null && jobID >= 1 && jobID != undefined){
+       this.notificationsIsDisabled = false;
+       this._appService!.setNotificationTabIsDisabled(this.notificationsIsDisabled);
+      }
+      else {
+       this.notificationsIsDisabled = true;
+       this._appService!.setNotificationTabIsDisabled(this.notificationsIsDisabled);
+      }
+    },
+    (error) => {
+     this.messageHeader = "Error!"
+     let message:string = "Error occured while trying to retrieve the last job. See developer for solution."
+     console.log(error);
+     this.confirm(message);
+    });
+  }
 }

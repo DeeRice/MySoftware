@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {CalendarModule} from 'primeng/calendar';
 import { JTSNotification } from 'src/model/notification';
 import { NotificationService } from 'src/service/notification.service';
+import { HeaderComponent } from '../header.component';
 
 @Component({
   selector: 'app-add-job-applied-for',
@@ -39,6 +40,7 @@ export class AddJobAppliedForComponent {
   _notifications!: JTSNotification[];
   _notificationsToBeDisplay?: JTSNotification[];
   public messageHeader?: string;
+  @ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
   constructor(private appService: AppService, private jobService: JobService,
   private messageService: MessageService, private confirmationService: ConfirmationService,
   private notificationService: NotificationService
@@ -165,6 +167,7 @@ confirm(messageToShow: string) {
             // Handle result
             console.log(result)
             this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
+            this.headerComponent?.loadHeaders();
           },
           (error) => {
             this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});

@@ -8,6 +8,7 @@ namespace JobTrackerAPI.Model
     public class Notification
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int  NotificationID { get; set; }
         public int NotificationNumber { get; set; }
         public string RecruiterName { get; set; }

@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, DatePipe, DatePipeConfig } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
@@ -19,13 +19,16 @@ import { JTSNotification } from 'src/model/notification';
 import { NotificationService } from 'src/service/notification.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, switchMap, ObservableInput } from 'rxjs';
+import { Pipe, PipeTransform } from '@angular/core';
+import { TranslateLoader, TranslateService, TranslateStore } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-job',
   standalone: true,
   imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule, 
     ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, CalendarModule],
-   providers: [MessageService, ConfirmationService,  ConfirmDialogModule, CalendarModule],
+   providers: [MessageService, ConfirmationService,  ConfirmDialogModule, CalendarModule
+   ],
   templateUrl: './edit-job.component.html',
   styleUrl: './edit-job.component.scss'
 })
@@ -79,6 +82,7 @@ export class EditJobComponent {
             this.job = JSON.parse(data.toString());
             this._jobs.push(this.job);
             this.populateJob(this.job);
+            this.lockFields();
           }
        },
       (error) => {
@@ -93,10 +97,13 @@ export class EditJobComponent {
    goBackToJobGrid(){
     this._router.navigateByUrl("/app-header");
    }
-  
+  lockFields(){
+    this.addJob.controls.JobID.disable();
+    this.addJob.controls.JobTitle.disable();
+    this.addJob.controls.JobNumber.disable();
+  }
 
     public isNotNotes(title:any): Boolean {
-      this.addJob.controls["JobID"].disable();
       if(title === "Client Notes" || title === "Recruiter Notes" || title === "Job Description"
         || title === "Date Of Submission" || title === "Date Of Follow Up" || 
         title === "Date Of Interview"
@@ -142,9 +149,9 @@ export class EditJobComponent {
          ClientNotes: new FormControl(''),
          RecruiterCompanyLocation: new FormControl(''),	
          ClientCompanyLocation: new FormControl(''),
-         DateOfSubmission: new FormControl<Date | null>(null),
-         DateOfFollowUp: new FormControl<Date | null>(null),
-         DateOfInterview: new FormControl<Date | null>(null),
+         DateOfSubmission: new FormControl<string | null>(null),
+         DateOfFollowUp: new FormControl<string | null>(null),
+         DateOfInterview: new FormControl<string | null>(null),
        });
 
        save(form: FormGroup){
@@ -179,10 +186,10 @@ export class EditJobComponent {
                 job.RecruiterNotes = this.addJob.controls.RecruiterNotes.value || undefined;
                 job.ClientNotes = this.addJob.controls.ClientNotes.value || undefined;
                 job.JobDescription = this.addJob.controls.JobDescription.value as string;
-                job.DateOfSubmission = this.addJob.controls.DateOfSubmission.value as Date || null;
-                job.DateOfFollowUp = this.addJob.controls.DateOfFollowUp.value as Date || null;
-                job.DateOfInterview = this.addJob.controls.DateOfInterview.value as Date || undefined;
-                this._jobService?.addJob(job)?.subscribe(
+                job.DateOfSubmission = new Date(this.addJob.controls.DateOfSubmission.value as string);
+                job.DateOfFollowUp = new Date(this.addJob.controls.DateOfFollowUp.value as string);
+                job.DateOfInterview = new Date(this.addJob.controls.DateOfInterview.value as string);
+                this._jobService?.updateJob(job)?.subscribe(
                   (result) => {
                     // Handle result
                     console.log(result)
@@ -210,14 +217,21 @@ export class EditJobComponent {
          this.addJob.controls.RecruiterCompanyName.setValue(job.RecruiterCompanyName || null);
          this.addJob.controls.ClientCompanyName.setValue(job.ClientCompanyName || null);
          this.addJob.controls.RecruiterPhoneNumber.setValue(job.RecruiterPhoneNumber || null);
+         this.addJob.controls.RecruiterCompanyPhoneNumber.setValue(job.RecruiterCompanyPhoneNumber || null);
          this.addJob.controls.ClientCompanyPhoneNumber.setValue(job.ClientCompanyPhoneNumber || null);
          this.addJob.controls.RecruiterCompanyLocation.setValue(job.RecruiterCompanyLocation || null);
          this.addJob.controls.ClientCompanyLocation.setValue(job.ClientCompanyLocation || null);
          this.addJob.controls.RecruiterNotes.setValue(job.RecruiterNotes || null);
          this.addJob.controls.ClientNotes.setValue(job.ClientNotes || null);
          this.addJob.controls.JobDescription.setValue(job.JobDescription || null);
-         this.addJob.controls.DateOfSubmission.setValue(job.DateOfSubmission || null);
-         this.addJob.controls.DateOfFollowUp.setValue(job.DateOfFollowUp || null);
-         this.addJob.controls.DateOfInterview.setValue(job.DateOfInterview || null);
+         this.addJob.controls.DateOfSubmission.setValue(this.formatDate(job.DateOfSubmission, "MMMM, dd, yyyy")  || null);
+         this.addJob.controls.DateOfFollowUp.setValue(this.formatDate(job.DateOfFollowUp as Date, "MMMM, dd, yyyy") || null);
+         this.addJob.controls.DateOfInterview.setValue(this.formatDate(job.DateOfInterview as Date, "MMMM, dd, yyyy") || null);
+        }
+
+        formatDate(date: Date, pattern: string): string{
+          
+             const datePipe: DatePipe = new DatePipe("en");
+             return datePipe.transform(date, pattern) as string;
         }
 }

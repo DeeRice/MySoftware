@@ -16,6 +16,7 @@ import { MultiSelect, MultiSelectChangeEvent, MultiSelectModule, MultiSelectSele
 import { JobEnum, JTSJob } from 'src/model/job';
 import { JobService } from 'src/service/job.service';
 import {CalendarModule} from 'primeng/calendar';
+import { HeaderComponent } from '../header.component';
 
 @Component({
   selector: 'app-set-notification',
@@ -44,12 +45,13 @@ export class SetNotificationComponent {
   jobEnum?: JobEnum;
   listofJobEnums?: JobEnum[];
   public _jobService?: JobService;
-  public currentNotificationID: number = -1;
+  public currentNotificationID?: number | null = null;
   jobID?: number;
   pickerPopupIsVisible!: boolean; 
   @ViewChild('ms') multiselect?: MultiSelect;
   _notifications!: JTSNotification[];
   public messageHeader?: string;
+  @ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
   constructor(private appService: AppService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
     private notificationService: NotificationService, private jobService: JobService
@@ -88,6 +90,7 @@ export class SetNotificationComponent {
  this.makeTextboxesUnEditable();
 
 this.setEventPicker();
+/*
   await this._notificationService?.getLastNotificationID()?.subscribe((notificationid)=>{
     let returnNotificaitonID = notificationid;
     if(isNaN(notificationid) === true){
@@ -106,7 +109,7 @@ this.setEventPicker();
   console.log(error);
   this.confirm(message);
 });
-
+*/
 }
 
 setEventPicker(){
@@ -130,9 +133,9 @@ setEventPicker(){
 }
 
  addNotification = new FormGroup({
-  FK_JobID_NotficationID: new FormControl<number>(-1),
-  NotificationID: new FormControl<number>(-1),
-  NotificationNumber: new FormControl<number>(-1),
+  FK_JobID_NotficationID: new FormControl<number | null>(null),
+  NotificationID: new FormControl<number | null>(null),
+  NotificationNumber: new FormControl<number | null>(null),
   RecruiterName: new FormControl(''),
   RecruiterCompanyName: new FormControl(''),
   RecruiterCompanyLocation: new FormControl(''),
@@ -192,6 +195,7 @@ setEventPicker(){
                 // Handle result
                 console.log(result)
                 this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
+                this.headerComponent?.loadHeaders();
               },
               (error) => {
                 this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});

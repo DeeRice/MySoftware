@@ -63,7 +63,7 @@ namespace JobTrackerAPI.Controllers
 
             if (ModelState.IsValid)
             {
-                if (JobExists(JobViewModel.JobID) == false && JobViewModel.JobID != 0 && JobViewModel.JobID != -1)
+                if (JobExists(JobViewModel.JobID) == false)
                 {
                     var userEntity = _mapper.MapViewModelToEntity(JobViewModel);
                     var returnedViewModel = _mapper.MapEntityToViewModel(await _IJobRepository.CreateJob(userEntity));

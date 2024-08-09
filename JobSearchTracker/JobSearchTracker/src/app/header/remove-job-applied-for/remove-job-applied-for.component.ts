@@ -9,20 +9,24 @@ import { JTSJob } from '../../../model/job';
 import { JobService } from '../../../service/job.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Component } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { JTSNotification } from 'src/model/notification';
 import { NotificationService } from 'src/service/notification.service';
+import { Router, RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
+import { HeaderComponent } from '../header.component';
 
 @Component({
   selector: 'app-remove-job-applied-for',
   standalone: true,
   imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule, 
-    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule],
-   providers: [JobService, MessageService, ConfirmationService,ToastModule, ButtonModule, ConfirmDialogModule],
+    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, RouterModule],
+   providers: [JobService, MessageService, ConfirmationService,ToastModule, ButtonModule, ConfirmDialogModule,
+    RouterLinkActive,RouterLink, RouterOutlet
+   ],
   templateUrl: './remove-job-applied-for.component.html',
   styleUrl: './remove-job-applied-for.component.scss'
 })
@@ -38,15 +42,21 @@ export class RemoveJobAppliedForComponent {
   public lastTableLazyLoadEvent?: TableLazyLoadEvent;
   _notifications!: JTSNotification[];
   public messageHeader?: string;
-  constructor(private appService: AppService, private jobService: JobService,
+  public _router: any;
+  public _routerLink: any;
+  @ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
+  constructor(private appService: AppService, private jobService: JobService, @Inject(Router) router: Router,
     private messageService: MessageService, private confirmationService: ConfirmationService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService, @Inject(RouterLink) routerLink?: RouterLink
+    
     ) {
       this._appService = appService;
       this._jobService = jobService;
       this._messageService = messageService;
       this._confirmationService = confirmationService;
       this._notificationService = notificationService;
+      this._router = router;
+      this._routerLink = routerLink;
     }
   ngOnInit() {
     this.titles = this._appService?.addJobTitles;  
@@ -85,15 +95,17 @@ confirm(messageToShow: string) {
         this._jobService?.deleteJob(this.currentID)?.subscribe(
           (result) => {
             // Handle result
-            console.log(result)
+            console.log(result);
+            this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully removed the job.'});
+            this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
+            this.headerComponent?.loadHeaders();
           },
           (error) => {
             this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
           },
           () => {
             // No errors, route to new page
-            this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
-
+        
           }
         );
       }
@@ -136,4 +148,12 @@ async displayNotificationsForToday() {
   this.confirm(message);
 }); 
 }
+
+goToDetailPage(id: string) {
+  this._appService?.setJobDetailsIsHidden(false);
+  this._appService?.setHeaderIsHidden(true);
+  this._appService?.setNotificationIsHidden(true);
+  this._router.navigate(['/app-job-details/', id]);
+  console.log(id);
+}   
 }

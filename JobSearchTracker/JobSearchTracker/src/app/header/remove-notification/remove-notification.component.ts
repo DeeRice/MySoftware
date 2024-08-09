@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Inject, ViewChild } from '@angular/core';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { HttpClientModule, provideHttpClient, withJsonpSupport } from '@angular/common/http';
 import { CommonModule, JsonPipe } from '@angular/common';
@@ -21,6 +21,7 @@ import { getJSON } from 'jquery';
 import { NotificationService } from 'src/service/notification.service';
 import { JTSNotification, JTSNotificationEventType } from 'src/model/notification';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { HeaderComponent } from '../header.component';
 
 @Component({
   selector: 'app-remove-notification',
@@ -45,6 +46,7 @@ export class RemoveNotificationComponent {
   public currentID:number = -1;
   public lastTableLazyLoadEvent?: TableLazyLoadEvent;
   public messageHeader?: string;
+  @ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService, @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, @Inject(Router) router: Router,
   public appService: AppService, PrimeNGConfig: PrimeNGConfig,
    notificationService: NotificationService, @Inject(RouterLink) routerLink?: RouterLink) {
@@ -88,14 +90,17 @@ remove(id: number){
           this._notificationService?.deleteNotification(this.currentID)?.subscribe(
             (result) => {
               // Handle result
-              console.log(result)
+              console.log(result);
+              this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
+              this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
+              this.headerComponent?.loadHeaders();
             },
             (error) => {
               this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
             },
             () => {
               // No errors, route to new page
-              this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
+          
             }
           );
         }
@@ -136,4 +141,13 @@ remove(id: number){
     let jtsEvent = JTSNotificationEventType[num];
     return jtsEvent;
   }
+
+  goToDetailPage(id: string) {
+    this._appService?.setJobDetailsIsHidden(true);
+    this._appService?.setHeaderIsHidden(true);
+    this._appService?.setNotificationIsHidden(false);
+    this._router.navigate(['/app-notification-details/', id]);
+    console.log(id);
+  }  
+
 }

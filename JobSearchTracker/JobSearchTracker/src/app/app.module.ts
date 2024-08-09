@@ -23,12 +23,14 @@ import { TableModule } from 'primeng/table';
 import { PrimeNGConfig } from 'primeng/api';
 import {CalendarModule} from 'primeng/calendar';
 import { NotificationDetailsComponent } from './notification-details/notification-details.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [AppComponent,RouterModule.forRoot([
     {path: 'app-header', component: HeaderComponent},
     {path: 'app-job-details', component: JobDetailsComponent}
-]), RouterModule, BrowserAnimationsModule, TableModule, CommonModule, CalendarModule, NotificationDetailsComponent],
+]), RouterModule, BrowserAnimationsModule, TableModule, CommonModule, CalendarModule, NotificationDetailsComponent,
+TranslateModule.forRoot(),],
   providers: [provideRouter(routes, withComponentInputBinding()), provideHttpClient(withJsonpSupport()),
     RouterOutlet, TableModule, RouterModule, CommonModule, RouterLink, RouterLinkActive,FormsModule, BrowserModule, 
     NgbModule,NgModule, BrowserAnimationsModule, provideAnimations(), PrimeNGConfig, CalendarModule]

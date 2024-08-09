@@ -2,7 +2,10 @@
 using JobTrackerAPI.Model;
 using JobTrackerAPI.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
+using System.Reflection.Emit;
 using System.Xml;
 
 namespace IntegraPartnersContactApplicationAPI
@@ -23,13 +26,18 @@ namespace IntegraPartnersContactApplicationAPI
             modelBuilder.Entity<Job>(b =>
             {
                 b.HasKey(e => e.JobID);
-                b.Property(e => e.JobID).ValueGeneratedOnAdd();
+                b.Property(e => e.JobID).UseIdentityColumn();
+                b.Property(e => e.JobID).ValueGeneratedOnAdd().
+                Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Save);
             });
             modelBuilder.Entity<Notification>(b =>
             {
                 b.HasKey(e => e.NotificationID);
-                b.Property(e => e.NotificationID).ValueGeneratedOnAdd();
+                b.Property(e => e.NotificationID).UseIdentityColumn();
+                b.Property(e => e.NotificationID).ValueGeneratedOnAdd().
+                Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Save);
             });
+
         }
 
         public virtual DbSet<Job> Job { get; set; } = null!;
