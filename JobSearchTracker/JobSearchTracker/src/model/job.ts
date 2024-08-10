@@ -22,6 +22,7 @@ export class JTSJob {
     DateOfInterview?: Date;
     notification?:JTSNotification;
     notificationID?:number = 0;
+    FKJobIDNotficationID?:JobEnum;
 }
 
 

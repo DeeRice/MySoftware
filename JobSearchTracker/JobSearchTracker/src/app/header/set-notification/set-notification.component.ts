@@ -90,26 +90,7 @@ export class SetNotificationComponent {
  this.makeTextboxesUnEditable();
 
 this.setEventPicker();
-/*
-  await this._notificationService?.getLastNotificationID()?.subscribe((notificationid)=>{
-    let returnNotificaitonID = notificationid;
-    if(isNaN(notificationid) === true){
-      notificationid = 1;
-     this.currentNotificationID = notificationid;
-     this.addNotification.controls.NotificationID.setValue(this.currentNotificationID);
-    }
-    else{
-    this.currentNotificationID = parseInt(returnNotificaitonID.toString()) + 1;
-    this.addNotification.controls.NotificationID.setValue(this.currentNotificationID);
-    }
-},
-(error) => {
-  this.messageHeader = "Error!"
-  let message:string = "Error occured while trying to retrieve the last notificaiton id. See developer for solution."
-  console.log(error);
-  this.confirm(message);
-});
-*/
+
 }
 
 setEventPicker(){
@@ -133,7 +114,7 @@ setEventPicker(){
 }
 
  addNotification = new FormGroup({
-  FK_JobID_NotficationID: new FormControl<number | null>(null),
+  FKJobIDNotficationID: new FormControl<number | null>(null),
   NotificationID: new FormControl<number | null>(null),
   NotificationNumber: new FormControl<number | null>(null),
   RecruiterName: new FormControl(''),
@@ -172,7 +153,7 @@ setEventPicker(){
         this.notification.NotificationID = this.currentNotificationID as number;
         this.notification.NotificationNumber = this.addNotification.controls.NotificationNumber.value as number;
         this.notification.RecruiterName = this.addNotification.controls.RecruiterName.value as string;
-        this.jobID = this.addNotification.controls.FK_JobID_NotficationID.value || undefined;
+        this.jobID = this.addNotification.controls.FKJobIDNotficationID.value || undefined;
         this.notification.RecruiterCompanyName = this.addNotification.controls.RecruiterCompanyName.value as string; 
         this.notification.RecruiterCompanyLocation = this.addNotification.controls.RecruiterCompanyLocation.value as string;
         this.notification.RecruiterPhoneNumber = this.addNotification.controls.RecruiterPhoneNumber.value || undefined;
@@ -269,7 +250,6 @@ onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
   }
   else{
     obj = obj as JTSJob;
-    debugger;
     this.currentNotificationID = obj.JobID + 1;
     obj.notificationID = this.currentNotificationID;
     this.addNotification.controls.NotificationID.setValue(obj.notificationID || null);

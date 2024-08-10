@@ -21,7 +21,7 @@ import { FormGroup, FormControl, FormControlName, NgModel, NgForm, FormsModule, 
 import { AddNotificationTable } from '../../model/add-notification-table';
 import { ToastModule } from 'primeng/toast';
 import { JTSNotificationEvent, JTSNotificationPicker, NotficationEventEnum } from 'src/model/notification';
-import { MultiSelect, MultiSelectChangeEvent, MultiSelectModule, MultiSelectSelectAllChangeEvent } from 'primeng/multiselect';
+import { MultiSelect, MultiSelectChangeEvent, MultiSelectLazyLoadEvent, MultiSelectModule, MultiSelectSelectAllChangeEvent } from 'primeng/multiselect';
 import { JobEnum } from 'src/model/job';
 import {CalendarModule} from 'primeng/calendar';
 
@@ -59,7 +59,8 @@ export class EditNotificationComponent {
   public currentNotificationID: number = -1;
   jobID?: number;
   pickerPopupIsVisible!: boolean; 
-  @ViewChild('ms') multiselect?: MultiSelect;
+  @ViewChild('EventPicker') eventPickerMultiselect?: MultiSelect;
+  @ViewChild('JobPicker') jobPickerMultiselect?: MultiSelect;
   _notifications!: JTSNotification[];
   notificationID: number = -1;
   constructor(@Inject(ActivatedRoute) activatedRoute: ActivatedRoute, 
@@ -119,8 +120,11 @@ export class EditNotificationComponent {
           jobEnum.id = Value.JobID;
           jobEnum.name = Value.ClientCompanyName;
           this.listofJobEnums?.push(jobEnum); 
-          this.addNotification.controls.FK_JobID_NotficationID.setValue(this.jobEnum as JobEnum);
+          if(index == 0) {
+            this.jobEnum = jobEnum;
+          }
     });
+
   }
 }, 
 (error) => {
@@ -144,7 +148,7 @@ convertNumberToNotificationEnum(eventNumber: number | undefined) {
  }
 
  addNotification = new FormGroup({
-  FK_JobID_NotficationID: new FormControl<JobEnum | null>(null),
+  FKJobIDNotficationID: new FormControl<JobEnum | null>(null),
   NotificationID: new FormControl<number>(-1),
   NotificationNumber: new FormControl<number>(-1),
   RecruiterName: new FormControl(''),
@@ -190,9 +194,13 @@ makeTextboxesUnEditable(){
 
 onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
   let obj:JTSJob | null;
-  if(event.value.length > 0){
-  this.job = this.jobs.find(item => item.JobID === event.value[0].id) as JTSJob;
+  if(event.itemValue != null){
+  this.job = this.jobs.find(item => item.ClientCompanyName === event.itemValue?.name) as JTSJob;
   obj = this.job;
+  let jobE = new JobEnum();
+  jobE.id =  this.job.JobID;
+  jobE.name =  this.job.ClientCompanyName;
+  this.jobEnum = jobE
   }
   else{
    obj = null;
@@ -202,15 +210,16 @@ onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
   if((obj == undefined) || (obj == null)){
 
     this.addNotification.controls.NotificationID.setValue(null);
-    this.addNotification.controls.RecruiterName.setValue("")
-    this.addNotification.controls.RecruiterCompanyName.setValue("")
-    this.addNotification.controls.RecruiterCompanyLocation.setValue("")
-    this.addNotification.controls.RecruiterPhoneNumber.setValue("")
-    this.addNotification.controls.RecruiterCompanyPhoneNumber.setValue("")
-    this.addNotification.controls.ClientContactName.setValue("")
-    this.addNotification.controls.ClientCompanyName.setValue("")
-    this.addNotification.controls.ClientCompanyLocation.setValue("")
-    this.addNotification.controls.ClientCompanyPhoneNumber.setValue("")
+    this.addNotification.controls.RecruiterName.setValue("");
+    this.addNotification.controls.RecruiterCompanyName.setValue("");
+    this.addNotification.controls.RecruiterCompanyLocation.setValue("");
+    this.addNotification.controls.RecruiterPhoneNumber.setValue("");
+    this.addNotification.controls.RecruiterCompanyPhoneNumber.setValue("");
+    this.addNotification.controls.ClientContactName.setValue("");
+    this.addNotification.controls.ClientCompanyName.setValue("");
+    this.addNotification.controls.ClientCompanyLocation.setValue("");
+    this.addNotification.controls.ClientCompanyPhoneNumber.setValue("");
+    this.jobPickerMultiselect?.hide();
   }
   else{
     obj = obj as JTSJob;
@@ -226,13 +235,12 @@ onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
     this.addNotification.controls.ClientCompanyLocation.setValue(obj.ClientCompanyLocation || null)
     this.addNotification.controls.ClientCompanyPhoneNumber.setValue(obj.ClientCompanyPhoneNumber || null)
     this.addNotification.controls.NotificationEvent.setValue(this.notficationEventEnum as NotficationEventEnum);
-    if((this.notification != null) && (this.notification != undefined)){
-      this.notification.NotificationEvent = event.value[0].id;
-    }
-
+   
+    this.jobPickerMultiselect?.hide();
   }
 
 }
+
 
 onEventPickerChanged(event: MultiSelectChangeEvent){
   if(event.value.length > 0){
@@ -241,7 +249,7 @@ onEventPickerChanged(event: MultiSelectChangeEvent){
       this.notification.NotificationEvent = event.value[0].id;
      }
   }
-  this.multiselect?.hide();
+  this.eventPickerMultiselect?.hide();
 }
 
 isNotFKPicker(title: string){
@@ -267,8 +275,6 @@ isNotANotifcationMessage(title: string){
 }
 onDateChanged(){
 
-
-//this.addNotification.controls.NotificationDate.setValue();
 }
 
 isNotADatePicker(title: string){
@@ -351,7 +357,6 @@ save(form: FormGroup){
          this.notification.NotificationID = this.currentNotificationID as number;
          this.notification.NotificationNumber = this.addNotification.controls.NotificationNumber.value as number;
          this.notification.RecruiterName = this.addNotification.controls.RecruiterName.value as string;
-         this.jobID = this.addNotification.controls.FK_JobID_NotficationID.value?.id || undefined;
          this.notification.RecruiterCompanyName = this.addNotification.controls.RecruiterCompanyName.value as string; 
          this.notification.RecruiterCompanyLocation = this.addNotification.controls.RecruiterCompanyLocation.value as string;
          this.notification.RecruiterPhoneNumber = this.addNotification.controls.RecruiterPhoneNumber.value || undefined;

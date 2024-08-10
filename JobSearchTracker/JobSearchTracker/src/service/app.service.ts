@@ -44,7 +44,7 @@ export class AppService {
 
 
   public addNotificationTitles?: AddNotificationTable[] = [
-    {titleName:"Job To Set Notification On", formName:"FK_JobID_NotficationID"}, 
+    {titleName:"Job To Set Notification On", formName:"FKJobIDNotficationID"}, 
     {titleName:"Notification ID", formName:"NotificationID"},
     {titleName:"Notification Number", formName:"NotificationNumber"},
     {titleName:"Recruiter Name", formName:"RecruiterName"}, 

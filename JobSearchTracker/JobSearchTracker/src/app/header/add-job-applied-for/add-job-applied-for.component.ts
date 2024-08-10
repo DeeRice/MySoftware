@@ -54,24 +54,6 @@ export class AddJobAppliedForComponent {
 
  async ngOnInit() {
    this.titles = this._appService?.addJobTitles;   
-   await this._jobService?.getLastJobID()?.subscribe((jobid)=>{
-       let returnJobID = jobid;
-       if(isNaN(jobid) === true){
-        jobid = 1;
-        this.newJobID = jobid;
-        this.addJob.controls.JobID.setValue(this.newJobID.toString());
-       }
-       else{
-       this.newJobID = parseInt(returnJobID.toString()) + 1;
-       this.addJob.controls.JobID.setValue(this.newJobID.toString());
-       }
-   },
-  (error)=>{
-    this.messageHeader = "Error!"
-    let message:string = "Error occured while trying to retrive the last job id. See developer for solution."
-    console.log(error);
-    this.confirm(message);
-  });
     
   }
 public isNotNotes(title:any): Boolean {
