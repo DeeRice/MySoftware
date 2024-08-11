@@ -1,6 +1,7 @@
 ﻿using IntegraPartnersContactApplicationAPI;
 using JobTrackerAPI.Interface;
 using JobTrackerAPI.Model;
+using JobTrackerAPI.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using static JobTrackerAPI.Enum.JTEnum;
 
@@ -81,6 +82,9 @@ namespace JobTrackerAPI.Repository
                     result.NotificationDate = notification.NotificationDate;
                     result.NotificationEvent = notification.NotificationEvent;
                     result.Message = notification.Message;
+                    result.JobID = notification.JobID;
+                    result.JobNumber = notification.JobNumber;
+                    result.JobTitle = notification.JobTitle;
                     await _appDbContext.SaveChangesAsync();
 
                     Notification updatedNotification = _appDbContext.Notification.FirstOrDefault(x => x.NotificationID == notification.NotificationID);

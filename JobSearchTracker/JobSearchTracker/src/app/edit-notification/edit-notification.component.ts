@@ -148,7 +148,7 @@ convertNumberToNotificationEnum(eventNumber: number | undefined) {
  }
 
  addNotification = new FormGroup({
-  FKJobIDNotficationID: new FormControl<JobEnum | null>(null),
+  FKJobIDNotficationID: new FormControl<string>(""),
   NotificationID: new FormControl<number>(-1),
   NotificationNumber: new FormControl<number>(-1),
   RecruiterName: new FormControl(''),
@@ -166,7 +166,7 @@ convertNumberToNotificationEnum(eventNumber: number | undefined) {
  });
 
  isNotAPicker(title: string){
-  if(title === "Job To Set Notification On" || title === "Notification Event" || 
+  if(title === "Notification Event" || 
     title === "Notification Date"){
     return false;
   }
@@ -177,19 +177,9 @@ convertNumberToNotificationEnum(eventNumber: number | undefined) {
 
 makeTextboxesUnEditable(){
  
-  this.addNotification.controls.NotificationID.setValue(0);
-  this.addNotification.controls.NotificationNumber.setValue(0);
-  this.addNotification.controls.ClientCompanyLocation.disable();
-  this.addNotification.controls.ClientCompanyName.disable();
-  this.addNotification.controls.ClientCompanyPhoneNumber.disable();
-  this.addNotification.controls.ClientContactName.disable();
-  this.addNotification.controls.RecruiterCompanyLocation.disable();
-  this.addNotification.controls.RecruiterCompanyName.disable();
-  this.addNotification.controls.RecruiterCompanyPhoneNumber.disable();
-  this.addNotification.controls.RecruiterName.disable();
-  this.addNotification.controls.RecruiterPhoneNumber.disable();
   this.addNotification.controls.NotificationID.disable();
   this.addNotification.controls.NotificationNumber.disable();
+  this.addNotification.controls.FKJobIDNotficationID.disable();
 }
 
 onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
@@ -407,6 +397,7 @@ save(form: FormGroup){
 
 populateNotification(notification: JTSNotification){
   this.addNotification.controls.NotificationID.setValue(notification.NotificationID || null);
+  this.addNotification.controls.FKJobIDNotficationID.setValue(notification.ClientCompanyName || null);
   this.addNotification.controls.NotificationNumber.setValue(notification.NotificationNumber || null);
   this.addNotification.controls.RecruiterName.setValue(notification.RecruiterName || null);
   this.addNotification.controls.RecruiterCompanyName.setValue(notification.RecruiterCompanyName || null);
