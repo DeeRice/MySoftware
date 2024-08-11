@@ -22,7 +22,7 @@ namespace JobTrackerAPI.Controllers
             _mapper = mapper;
         }
 
-        // GET: Users/GetAllUsers
+        // GET: Notification/GetAllNotifications
 
 
         [HttpGet]
@@ -37,7 +37,7 @@ namespace JobTrackerAPI.Controllers
             return new JsonResult(JsonConvert.SerializeObject(listOfAllNotifications));
         }
 
-        // GET: Users/GetUser/5
+        // GET: Notification/GetNotification/5
         [HttpGet]
         public async Task<JsonResult> GetNotificationByID(int? NotificationID)
         {
@@ -46,14 +46,14 @@ namespace JobTrackerAPI.Controllers
             if (notificationViewModel == null)
             {
 
-                return new JsonResult(new Exception("Could Not Find User With Specified ID").Message.ToJson());
+                return new JsonResult(new Exception("Could Not Find Notification With Specified ID").Message.ToJson());
             }
 
             return new JsonResult(JsonConvert.SerializeObject(notificationViewModel));
         }
 
 
-        // POST: Users/Create
+        // POST: Notification/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -72,25 +72,25 @@ namespace JobTrackerAPI.Controllers
                 }
                 else
                 {
-                    return new JsonResult(new Exception("the user that was attempted to be created already exist in the database").Message.ToJson());
+                    return new JsonResult(new Exception("the notification that was attempted to be created already exist in the database").Message.ToJson());
                 }
             }
-            return new JsonResult(new Exception("error occurred while trying to create a user. Please check to make sure all value are accurate").Message.ToJson());
+            return new JsonResult(new Exception("error occurred while trying to create a notification. Please check to make sure all value are accurate").Message.ToJson());
         }
 
-        // GET: Users/FindUser/5
+        // GET: Notification/FindNotification/5
         [HttpGet]
         public async Task<JsonResult> FindNotification(int? NotificationID)
         {
             var notificationViewModel = _mapper.MapEntityToViewModel(await _INotificationRepository.FindNotification(NotificationID));
             if (notificationViewModel == null)
             {
-                return new JsonResult(new Exception("Could Not Find User With The Submitted ID.").Message.ToJson());
+                return new JsonResult(new Exception("Could Not Find Notification With The Submitted ID.").Message.ToJson());
             }
             return new JsonResult(JsonConvert.SerializeObject(notificationViewModel));
         }
 
-        // POST: Users/Edit/5
+        // POST: Notification/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPut]
@@ -99,11 +99,11 @@ namespace JobTrackerAPI.Controllers
         {
             if (NotificationID == null)
             {
-                return new JsonResult(new Exception("a user was not submitted to be updated.").Message.ToJson());
+                return new JsonResult(new Exception("a notification was not submitted to be updated.").Message.ToJson());
             }
             if (NotificationID != NotificationViewModel.NotificationID)
             {
-                return new JsonResult(new Exception("the id sent with the request does not match the id in the user object").Message.ToJson());
+                return new JsonResult(new Exception("the id sent with the request does not match the id in the notification object").Message.ToJson());
             }
 
             if (ModelState.IsValid)
@@ -118,14 +118,14 @@ namespace JobTrackerAPI.Controllers
                     }
                     else
                     {
-                        return new JsonResult(new Exception("the user being edited is not found in the database").Message.ToJson());
+                        return new JsonResult(new Exception("the notification being edited is not found in the database").Message.ToJson());
                     }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!NotificationExists(NotificationViewModel.NotificationID))
                     {
-                        return new JsonResult(new Exception("the user being edited is not found in the database").Message.ToJson());
+                        return new JsonResult(new Exception("the notification being edited is not found in the database").Message.ToJson());
                     }
                     else
                     {
@@ -136,7 +136,7 @@ namespace JobTrackerAPI.Controllers
             return new JsonResult(new Exception("Something went wrong. Please check all data from the request and make sure it is valid.").Message.ToJson());
         }
 
-        // POST: Users/Delete/5
+        // POST: Notification/Delete/5
         [HttpDelete]
 
         public async Task<JsonResult> DeleteNotification(int? NotificationID)
@@ -149,7 +149,7 @@ namespace JobTrackerAPI.Controllers
             }
             else
             {
-                return new JsonResult(new Exception("could not find the user to delete.").Message.ToJson());
+                return new JsonResult(new Exception("could not find the notification to delete.").Message.ToJson());
             }
         }
 
