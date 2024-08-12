@@ -9,7 +9,7 @@ namespace JobTrackerAPI.Interface
         Task<JsonResult> GetNotificationByID(int? notificationID);
         Task<JsonResult> CreateNotification([Bind("UserID,Username,FirstName,LastName,Email,UserStatus,Department")] NotificationViewModel notificationViewModel);
         Task<JsonResult> FindNotification(int? notificationID);
-        Task<JsonResult> EditNotification(int? notificationID, [Bind("UserID,Username,FirstName,LastName,Email,UserStatus,Department")] NotificationViewModel notificationViewModel);
+        Task<JsonResult> EditNotification([Bind("UserID,Username,FirstName,LastName,Email,UserStatus,Department")] NotificationViewModel notificationViewModel);
         Task<JsonResult> DeleteNotification(int? notificationID);
         bool NotificationExists(int? notificationID);
         Task<JsonResult> GetLastNotificationID();

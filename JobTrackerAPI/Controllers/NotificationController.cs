@@ -95,13 +95,13 @@ namespace JobTrackerAPI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPut]
 
-        public async Task<JsonResult> EditNotification(int? NotificationID, [FromBody] NotificationViewModel NotificationViewModel)
+        public async Task<JsonResult> EditNotification([FromBody] NotificationViewModel NotificationViewModel)
         {
-            if (NotificationID == null)
+            if (NotificationViewModel.NotificationID == null)
             {
                 return new JsonResult(new Exception("a notification was not submitted to be updated.").Message.ToJson());
             }
-            if (NotificationID != NotificationViewModel.NotificationID)
+            if (NotificationViewModel.NotificationID != NotificationViewModel.NotificationID)
             {
                 return new JsonResult(new Exception("the id sent with the request does not match the id in the notification object").Message.ToJson());
             }
@@ -110,10 +110,10 @@ namespace JobTrackerAPI.Controllers
             {
                 try
                 {
-                    if (NotificationExists(NotificationID))
+                    if (NotificationExists(NotificationViewModel.NotificationID))
                     {
                         var notificationEntity = _mapper.MapViewModelToEntity(NotificationViewModel);
-                        var returnedViewModel = _mapper.MapEntityToViewModel(await _INotificationRepository.EditNotification(NotificationID, notificationEntity));
+                        var returnedViewModel = _mapper.MapEntityToViewModel(await _INotificationRepository.EditNotification(notificationEntity));
                         return new JsonResult(JsonConvert.SerializeObject(returnedViewModel));
                     }
                     else

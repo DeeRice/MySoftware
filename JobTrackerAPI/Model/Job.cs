@@ -5,10 +5,12 @@ namespace JobTrackerAPI.Model
 {
     public class Job
     {
-        [Key]
+        [Key, Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int JobID { get; set; }
+        [Key, Column(Order = 1)]
         public int JobNumber { get; set; }
+        [Key, Column(Order = 2)]
         public string JobTitle { get; set; }
         public string JobLocation { get; set; }
         public string RecruiterName { get; set; }
@@ -26,9 +28,6 @@ namespace JobTrackerAPI.Model
         public DateTime DateOfSubmission { get; set; }
         public DateTime ? DateOfFollowUp { get; set; }
         public DateTime ? DateOfInterview { get; set; }
-        [ForeignKey("FK_JobID_NotficationID")]
-        public int ? FK_JobID_NotficationID { get; set; }
-        public virtual Notification? Notification { get; set; }
         public int ? NotificationID { get; set; }
     }
 }

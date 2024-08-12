@@ -94,25 +94,21 @@ namespace JobTrackerAPI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPut]
 
-        public async Task<JsonResult> EditJob(int? JobID, [FromBody] JobViewModel JobViewModel)
+        public async Task<JsonResult> EditJob([FromBody] JobViewModel JobViewModel)
         {
             if (JobViewModel == null)
             {
                 return new JsonResult(new Exception("a job was not submitted to be updated.").Message.ToJson());
             }
-            if (JobID != JobViewModel.JobID)
-            {
-                return new JsonResult(new Exception("the id sent with the request does not match the id in the job object").Message.ToJson());
-            }
-
+         
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (JobExists(JobID))
+                    if (JobExists(JobViewModel.JobID))
                     {
                         var jobEntity = _mapper.MapViewModelToEntity(JobViewModel);
-                        var returnedViewModel = _mapper.MapEntityToViewModel(await _IJobRepository.EditJob(JobID, jobEntity));
+                        var returnedViewModel = _mapper.MapEntityToViewModel(await _IJobRepository.EditJob(jobEntity));
                         return new JsonResult(JsonConvert.SerializeObject(returnedViewModel));
                     }
                     else

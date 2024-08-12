@@ -12,7 +12,7 @@ export class NotificationService {
   public getNotificationByIDUrl: string = "Notification/GetNotificationByID";
   public getAllNotificationsUrl: string =  "Notification/GetAllNotifications";
   public addNotificationUrl: string = "Notification/CreateNotification";
-  public updateNotificationUrl: string =  "Notification/UpdateNotification";
+  public editNotificationUrl: string =  "Notification/EditNotification";
   public deleteNotificationUrl: string =  "Notification/DeleteNotification";
   public getLastNotificationIDUrl: string =  "Notification/GetLastNotificationID";
   public _httpClient?: HttpClient;
@@ -61,12 +61,12 @@ export class NotificationService {
     );
   }
 
-  updateNotification(notification: JTSNotification, errorMessage?: string) : Observable<JTSNotification> | undefined {
-    let params = new HttpParams().set("notificationID", notification.NotificationID)
-    .set('notification', JSON.stringify(notification));
-    let obj: JTSNotification = new JTSNotification();
-    return this._httpClient?.put<JTSNotification>(`${this.baseUrl}/${this.updateNotificationUrl}`, { params: params }).pipe(
-      catchError(this.handleError<JTSNotification>('updateNotification', obj, errorMessage))
+  editNotification(notification: JTSNotification, errorMessage?: string) : Observable<JTSNotification> | undefined {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8')
+    .set('Accept', 'application/json');
+    return this._httpClient?.put<JTSNotification>(`${this.baseUrl}/${this.editNotificationUrl}`, JSON.stringify(notification), {headers: headers}).pipe(
+      catchError(this.handleError<JTSNotification>('editNotification', notification, errorMessage))
     ).pipe(
       map((response: JTSNotification) => response)
     );

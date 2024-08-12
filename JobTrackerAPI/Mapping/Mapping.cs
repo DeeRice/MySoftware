@@ -52,12 +52,6 @@ namespace JobTrackerAPI.Mapping
             jobViewModel.DateOfSubmission = job.DateOfSubmission;
             jobViewModel.DateOfFollowUp = job?.DateOfFollowUp;
             jobViewModel.DateOfInterview = job?.DateOfInterview;
-            if (job?.Notification != null)
-            {
-                jobViewModel.FK_JobID_NotficationID = job?.FK_JobID_NotficationID;
-                jobViewModel.Notification = this.MapEntityToViewModel(job?.Notification);
-                jobViewModel.NotificationID = job?.NotificationID;
-            }
             return jobViewModel;
         }
 
@@ -107,12 +101,7 @@ namespace JobTrackerAPI.Mapping
             job.DateOfSubmission = jobViewModel.DateOfSubmission;
             job.DateOfFollowUp = jobViewModel?.DateOfFollowUp;
             job.DateOfInterview = jobViewModel?.DateOfInterview;
-            if (jobViewModel?.Notification != null)
-            {
-                job.FK_JobID_NotficationID = jobViewModel?.FK_JobID_NotficationID;
-                job.Notification = this.MapViewModelToEntity(jobViewModel?.Notification);
-                job.NotificationID = jobViewModel?.NotificationID;
-            }
+          
             return job;
         }
     }

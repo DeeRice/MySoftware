@@ -202,7 +202,7 @@ namespace JobTrackerAPI.Test
             NotificationViewModel notificationViewModel = null;
             List<Notification> list = new List<Notification>();
             list.Add(notification);
-            iMockNotificationRepository.Setup(x => x.EditNotification(0, notification)).Returns(Task.FromResult(notification));
+            iMockNotificationRepository.Setup(x => x.EditNotification(notification)).Returns(Task.FromResult(notification));
             iMapper.Setup(x => x.MapEntityToViewModel(notification)).Returns(notificationViewModel);
             var controller = new NotificationController(iMockNotificationRepository.Object, iMapper.Object);
             JsonResult? result = null;
@@ -211,7 +211,7 @@ namespace JobTrackerAPI.Test
             Task.Run(async () =>
             {
 
-                result = await controller.EditNotification(null, notificationViewModel);
+                result = await controller.EditNotification(notificationViewModel);
 
             }).Wait();
             string okResult = JsonConvert.DeserializeObject<string>(result.Value.ToString());
@@ -260,7 +260,7 @@ namespace JobTrackerAPI.Test
             List<Notification> list = new List<Notification>();
             list.Add(notification);
             bool notficationExist = false;
-            iMockNotificationRepository.Setup(x => x.EditNotification(1000, notification)).Returns(Task.FromResult(notification));
+            iMockNotificationRepository.Setup(x => x.EditNotification(notification)).Returns(Task.FromResult(notification));
             iMockNotificationRepository.Setup(x => x.NotificationExists(notificationViewModel.NotificationID)).Returns(notficationExist);
             iMapper.Setup(x => x.MapEntityToViewModel(notification)).Returns(notificationViewModel);
             iMapper.Setup(x => x.MapViewModelToEntity(notificationViewModel)).Returns(notification);
@@ -271,7 +271,7 @@ namespace JobTrackerAPI.Test
             Task.Run(async () =>
             {
 
-                result = await controller.EditNotification(1000, notificationViewModel);
+                result = await controller.EditNotification(notificationViewModel);
 
             }).Wait();
             string okResult = JsonConvert.DeserializeObject<string>(result.Value.ToString());
@@ -319,7 +319,7 @@ namespace JobTrackerAPI.Test
             };
             List<Notification> list = new List<Notification>();
             list.Add(notification);
-            iMockNotificationRepository.Setup(x => x.EditNotification(0, notification)).Returns(Task.FromResult(notification));
+            iMockNotificationRepository.Setup(x => x.EditNotification(notification)).Returns(Task.FromResult(notification));
             iMapper.Setup(x => x.MapEntityToViewModel(notification)).Returns(notificationViewModel);
             var controller = new NotificationController(iMockNotificationRepository.Object, iMapper.Object);
             JsonResult? result = null;
@@ -328,7 +328,7 @@ namespace JobTrackerAPI.Test
             Task.Run(async () =>
             {
 
-                result = await controller.EditNotification(1, notificationViewModel);
+                result = await controller.EditNotification(notificationViewModel);
 
             }).Wait();
             string okResult = JsonConvert.DeserializeObject<string>(result.Value.ToString());
@@ -376,7 +376,7 @@ namespace JobTrackerAPI.Test
             List<Notification> list = new List<Notification>();
             list.Add(notification);
             iMockNotificationRepository.Setup(x => x.NotificationExists(notificationViewModel.NotificationID)).Returns(true);
-            iMockNotificationRepository.Setup(x => x.EditNotification(0, notification)).Returns(Task.FromResult(notification));
+            iMockNotificationRepository.Setup(x => x.EditNotification(notification)).Returns(Task.FromResult(notification));
             iMapper.Setup(x => x.MapViewModelToEntity(notificationViewModel)).Returns(notification);
             iMapper.Setup(x => x.MapEntityToViewModel(notification)).Returns(notificationViewModel);
             var controller = new NotificationController(iMockNotificationRepository.Object, iMapper.Object);
@@ -386,7 +386,7 @@ namespace JobTrackerAPI.Test
             Task.Run(async () =>
             {
 
-                result = await controller.EditNotification(notificationViewModel.NotificationID, notificationViewModel);
+                result = await controller.EditNotification(notificationViewModel);
 
             }).Wait();
             NotificationViewModel okResult = JsonConvert.DeserializeObject<NotificationViewModel>(result.Value.ToString());

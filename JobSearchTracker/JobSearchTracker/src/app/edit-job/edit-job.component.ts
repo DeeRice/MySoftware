@@ -189,7 +189,7 @@ export class EditJobComponent {
                 job.DateOfSubmission = new Date(this.addJob.controls.DateOfSubmission.value as string);
                 job.DateOfFollowUp = new Date(this.addJob.controls.DateOfFollowUp.value as string);
                 job.DateOfInterview = new Date(this.addJob.controls.DateOfInterview.value as string);
-                this._jobService?.updateJob(job)?.subscribe(
+                this._jobService?.editJob(job)?.subscribe(
                   (result) => {
                     // Handle result
                     console.log(result)
@@ -208,7 +208,7 @@ export class EditJobComponent {
           });
         }
         populateJob(job: JTSJob){
-         this.addJob.controls.JobID.setValue(job.JobID.toString() || null)
+         this.addJob.controls.JobID.setValue(job.JobID.toString() || null);
          this.addJob.controls.JobNumber.setValue(job.JobNumber.toString() || null);
          this.addJob.controls.JobTitle.setValue(job.JobTitle || null);
          this.addJob.controls.JobLocation.setValue(job.JobLocation || null);

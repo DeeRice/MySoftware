@@ -56,7 +56,6 @@ namespace JobTrackerAPI.Test
             {
                 JobID = 0,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
@@ -73,14 +72,12 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new Notification(),
                 NotificationID = 0
             };
             var jobViewModel = new JobViewModel()
             {
                 JobID = 0,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
@@ -97,7 +94,6 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new NotificationViewModel(),
                 NotificationID = 0
             };
             List<Job> list = new List<Job>();
@@ -132,7 +128,6 @@ namespace JobTrackerAPI.Test
             {
                 JobID = 0,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
@@ -149,14 +144,12 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new Notification(),
                 NotificationID = 0
             };
             var jobViewModel = new JobViewModel()
             {
                 JobID = 0,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
@@ -173,7 +166,6 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new NotificationViewModel(),
                 NotificationID = 0
             };
             List<Job> list = new List<Job>();
@@ -266,7 +258,6 @@ namespace JobTrackerAPI.Test
             {
                 JobID = 100000,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
@@ -283,7 +274,6 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new NotificationViewModel(),
                 NotificationID = 0
             };
             List<Job> list = new List<Job>();
@@ -318,7 +308,6 @@ namespace JobTrackerAPI.Test
             {
                 JobID = 1000,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
@@ -335,7 +324,6 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new NotificationViewModel(),
                 NotificationID = 0
             };
             List<Job> list = new List<Job>();
@@ -368,7 +356,6 @@ namespace JobTrackerAPI.Test
             {
                 JobID = 6,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
@@ -385,14 +372,12 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new Notification(),
                 NotificationID = 0
             };
             var jobViewModel = new JobViewModel()
             {
                 JobID = 6,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "Go",
                 JobLocation = "",
                 RecruiterName = "",
@@ -409,7 +394,6 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new NotificationViewModel(),
                 NotificationID = 0
             };
             List<Job> list = new List<Job>();
@@ -445,7 +429,6 @@ namespace JobTrackerAPI.Test
             {
                 JobID = 0,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
@@ -462,14 +445,12 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new Notification(),
                 NotificationID = 0
             };
             var jobViewModel = new JobViewModel()
             {
                 JobID = 0,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
@@ -486,7 +467,6 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new NotificationViewModel(),
                 NotificationID = 0
             };
             List<Job> list = new List<Job>();
@@ -523,7 +503,6 @@ namespace JobTrackerAPI.Test
             {
                 JobID = 0,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
@@ -540,14 +519,12 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new Notification(),
                 NotificationID = 0
             };
             var jobViewModel = new JobViewModel()
             {
                 JobID = 0,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
@@ -564,7 +541,6 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new NotificationViewModel(),
                 NotificationID = 0
             };
             List<Job> list = new List<Job>();
@@ -602,7 +578,6 @@ namespace JobTrackerAPI.Test
             {
                 JobID = 0,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
@@ -619,14 +594,12 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new Notification(),
                 NotificationID = 0
             };
             var jobViewModel = new JobViewModel()
             {
                 JobID = 0,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
@@ -643,7 +616,6 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new NotificationViewModel(),
                 NotificationID = 0
             };
             List<Job> list = new List<Job>();
@@ -682,7 +654,6 @@ namespace JobTrackerAPI.Test
             {
                 JobID = 1000,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
@@ -699,14 +670,12 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new Notification(),
                 NotificationID = 0
             };
             var jobViewModel = new JobViewModel()
             {
                 JobID = 1000,
                 JobNumber = 0,
-                FK_JobID_NotficationID = 0,
                 JobTitle = "",
                 JobLocation = "",
                 RecruiterName = "",
@@ -723,7 +692,6 @@ namespace JobTrackerAPI.Test
                 DateOfSubmission = new DateTime(),
                 DateOfFollowUp = new DateTime(),
                 DateOfInterview = new DateTime(),
-                Notification = new NotificationViewModel(),
                 NotificationID = 0
             };
             List<Job> list = new List<Job>();

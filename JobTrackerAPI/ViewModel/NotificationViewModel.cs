@@ -41,6 +41,7 @@ namespace JobTrackerAPI.ViewModel
         public int JobNumber { get; set; }
         [BindProperty(Name = "JobTitle", SupportsGet = true)]
         public string JobTitle { get; set; }
+        public virtual JobViewModel Job { get; set; }
 
     }
 }

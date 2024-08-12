@@ -25,14 +25,16 @@ namespace IntegraPartnersContactApplicationAPI
         {
             modelBuilder.Entity<Job>(b =>
             {
-                b.HasKey(e => e.JobID);
+                b.HasKey(e => new { e.JobID, e.JobNumber, e.JobTitle });
                 b.Property(e => e.JobID).UseIdentityColumn();
                 b.Property(e => e.JobID).ValueGeneratedOnAdd().
                 Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Save);
+                
+
             });
             modelBuilder.Entity<Notification>(b =>
             {
-                b.HasKey(e => e.NotificationID);
+                b.HasKey(e => new { e.NotificationID, e.NotificationNumber});
                 b.Property(e => e.NotificationID).UseIdentityColumn();
                 b.Property(e => e.NotificationID).ValueGeneratedOnAdd().
                 Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Save);

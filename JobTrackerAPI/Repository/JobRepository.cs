@@ -56,7 +56,7 @@ namespace JobTrackerAPI.Repository
             }
         }
 
-        public async Task<Job> EditJob(int? jobID, Job job)
+        public async Task<Job> EditJob(Job job)
         {
             try
             {
@@ -85,8 +85,6 @@ namespace JobTrackerAPI.Repository
                     result.DateOfSubmission = job.DateOfSubmission;
                     result.DateOfFollowUp = job.DateOfFollowUp;
                     result.DateOfInterview = job.DateOfInterview;
-                    result.FK_JobID_NotficationID = job.FK_JobID_NotficationID;
-                    result.Notification = job.Notification;
                     result.NotificationID = job.NotificationID;
                     await _appDbContext.SaveChangesAsync();
 

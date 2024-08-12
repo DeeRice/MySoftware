@@ -125,7 +125,7 @@ confirm(messageToShow: string) {
       message: messageToShow,
       accept: () => {
         var job = new JTSJob();
-        job.JobID = Number.parseInt(this.addJob.controls.JobID.value as string) || -1;
+        job.JobID = 0;
         job.JobNumber = Number.parseInt(this.addJob.controls.JobNumber.value as string) || -1;
         job.JobTitle = this.addJob.controls.JobTitle.value as string;
         job.JobLocation = this.addJob.controls.JobLocation.value as string;

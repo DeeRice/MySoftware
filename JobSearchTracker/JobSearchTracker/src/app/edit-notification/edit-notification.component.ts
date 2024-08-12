@@ -110,7 +110,7 @@ export class EditNotificationComponent {
    this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
     if((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)){
     this.jobs = JSON.parse(data.toString());
-    
+    this.job = this.jobs.find(item => item.JobID === this.notification?.JobID) as JTSJob;
     this.listofJobEnums = [];
     if((this.notification != undefined) && (this.notification != null)){
       this.notification.NotificationEvent = 0;
@@ -149,6 +149,9 @@ convertNumberToNotificationEnum(eventNumber: number | undefined) {
 
  addNotification = new FormGroup({
   FKJobIDNotficationID: new FormControl<string>(""),
+  JobID: new FormControl<number>(-1),
+  JobNumber: new FormControl<number>(-1),
+  JobTitle: new FormControl<string>(""),
   NotificationID: new FormControl<number>(-1),
   NotificationNumber: new FormControl<number>(-1),
   RecruiterName: new FormControl(''),
@@ -180,6 +183,9 @@ makeTextboxesUnEditable(){
   this.addNotification.controls.NotificationID.disable();
   this.addNotification.controls.NotificationNumber.disable();
   this.addNotification.controls.FKJobIDNotficationID.disable();
+  this.addNotification.controls.JobID.disable();
+  this.addNotification.controls.JobNumber.disable();
+  this.addNotification.controls.JobTitle.disable();
 }
 
 onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
@@ -344,7 +350,7 @@ save(form: FormGroup){
      icon: 'pi pi-info-circle',
        accept: () => {
         if(this.notification != null && this.currentNotificationID != -1) {
-         this.notification.NotificationID = this.currentNotificationID as number;
+         this.notification.NotificationID = this.addNotification.controls.NotificationID.value as number;
          this.notification.NotificationNumber = this.addNotification.controls.NotificationNumber.value as number;
          this.notification.RecruiterName = this.addNotification.controls.RecruiterName.value as string;
          this.notification.RecruiterCompanyName = this.addNotification.controls.RecruiterCompanyName.value as string; 
@@ -355,16 +361,15 @@ save(form: FormGroup){
          this.notification.ClientCompanyName = this.addNotification.controls.ClientCompanyName.value as string;
          this.notification.ClientCompanyLocation = this.addNotification.controls.ClientCompanyLocation.value as string;
          this.notification.ClientCompanyPhoneNumber = this.addNotification.controls.ClientCompanyPhoneNumber.value || undefined;
-         this.notification.NotificationID = this.addNotification.controls.NotificationID.value as number;
          this.notification.NotificationDate = new Date(this.addNotification.controls.NotificationDate.value as string);
          this.notification.Message = this.addNotification.controls.NotificationMessage.value as string;
-         this.job.notificationID = this.notification.NotificationID;
-         this.job.notification = this.notification;
-         this.notificationService?.updateNotification(this.notification)?.subscribe(
+         this.job = this.jobs.find(item => item.JobID === this.notification?.JobID) as JTSJob;
+         this.job.notificationID = this.addNotification.controls.NotificationID.value as number;
+         this.notificationService?.editNotification(this.notification)?.subscribe(
            (result) => {
              // Handle result
              console.log(result)
-             this.jobService?.updateJob(this.job)?.subscribe(
+             this.jobService?.editJob(this.job)?.subscribe(
                (result) => {
                  // Handle result
                  console.log(result)
@@ -397,6 +402,9 @@ save(form: FormGroup){
 
 populateNotification(notification: JTSNotification){
   this.addNotification.controls.NotificationID.setValue(notification.NotificationID || null);
+  this.addNotification.controls.JobID.setValue(notification.JobID || null);
+  this.addNotification.controls.JobTitle.setValue(notification.JobTitle || null);
+  this.addNotification.controls.JobNumber.setValue(notification.JobNumber || null);
   this.addNotification.controls.FKJobIDNotficationID.setValue(notification.ClientCompanyName || null);
   this.addNotification.controls.NotificationNumber.setValue(notification.NotificationNumber || null);
   this.addNotification.controls.RecruiterName.setValue(notification.RecruiterName || null);
@@ -413,5 +421,5 @@ populateNotification(notification: JTSNotification){
   this.addNotification.controls.NotificationEvent.setValue(this.notficationEventEnum as NotficationEventEnum);
  
  }
-
+ 
 }

@@ -15,6 +15,10 @@ public ClientCompanyPhoneNumber?: string;
 public NotificationDate!: Date;
 public NotificationEvent!: number;
 public Message!: string;
+public JobID!:number;
+public JobNumber!:number;
+public JobTitle!:string;
+public Job!:JTSJob;
 }
 
 export class JTSNotificationEvent {

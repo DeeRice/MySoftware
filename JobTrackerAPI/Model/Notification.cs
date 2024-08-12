@@ -2,14 +2,16 @@
 using System.ComponentModel.DataAnnotations;
 using static JobTrackerAPI.Enum.JTEnum;
 using JobTrackerAPI.ViewModel;
+using Microsoft.Identity.Client;
 
 namespace JobTrackerAPI.Model
 {
     public class Notification
     {
-        [Key]
+        [Key, Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int  NotificationID { get; set; }
+        [Key, Column(Order = 1)]
         public int NotificationNumber { get; set; }
         public string RecruiterName { get; set; }
         public string RecruiterCompanyName { get; set; }
@@ -23,8 +25,14 @@ namespace JobTrackerAPI.Model
         public DateTime NotificationDate { get; set; }
         public int NotificationEvent { get; set; }
         public string Message { get; set; }
+
+       
         public int JobID { get; set; }
+       
         public int JobNumber { get; set; }
+       
         public string JobTitle { get; set; }
+        [ForeignKey("JobID,JobNumber,JobTitle")]
+        public virtual Job Job { get; set; }
     }
 }

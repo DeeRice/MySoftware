@@ -115,6 +115,9 @@ setEventPicker(){
 
  addNotification = new FormGroup({
   FKJobIDNotficationID: new FormControl<number | null>(null),
+  JobID: new FormControl<number | null>(null),
+  JobNumber: new FormControl<number | null>(null),
+  JobTitle: new FormControl<string>(""),
   NotificationID: new FormControl<number | null>(null),
   NotificationNumber: new FormControl<number | null>(null),
   RecruiterName: new FormControl(''),
@@ -149,8 +152,8 @@ setEventPicker(){
     header: this.messageHeader,
     icon: 'pi pi-info-circle',
       accept: () => {
-       if(this.notification != null && this.currentNotificationID != -1) {
-        this.notification.NotificationID = this.currentNotificationID as number;
+       if(this.notification != null) {
+        this.notification.NotificationID = 0;
         this.notification.NotificationNumber = this.addNotification.controls.NotificationNumber.value as number;
         this.notification.RecruiterName = this.addNotification.controls.RecruiterName.value as string;
         this.jobID = this.addNotification.controls.FKJobIDNotficationID.value || undefined;
@@ -162,16 +165,18 @@ setEventPicker(){
         this.notification.ClientCompanyName = this.addNotification.controls.ClientCompanyName.value as string;
         this.notification.ClientCompanyLocation = this.addNotification.controls.ClientCompanyLocation.value as string;
         this.notification.ClientCompanyPhoneNumber = this.addNotification.controls.ClientCompanyPhoneNumber.value || undefined;
-        this.notification.NotificationID = this.addNotification.controls.NotificationID.value as number;
         this.notification.NotificationDate = this.addNotification.controls.NotificationDate.value as Date;
         this.notification.Message = this.addNotification.controls.NotificationMessage.value as string;
         this.job.notificationID = this.notification.NotificationID;
-        this.job.notification = this.notification;
+        this.notification.JobID = this.addNotification.controls.JobID.value as number;
+        this.notification.JobNumber = this.addNotification.controls.JobNumber.value as number;
+        this.notification.JobTitle = this.addNotification.controls.JobTitle.value as string;
+        this.notification.Job = this.job;
         this.notificationService?.addNotification(this.notification)?.subscribe(
           (result) => {
             // Handle result
             console.log(result)
-            this.jobService?.updateJob(this.job)?.subscribe(
+            this.jobService?.editJob(this.job)?.subscribe(
               (result) => {
                 // Handle result
                 console.log(result)
@@ -221,6 +226,9 @@ makeTextboxesUnEditable(){
   this.addNotification.controls.RecruiterName.disable();
   this.addNotification.controls.RecruiterPhoneNumber.disable();
   this.addNotification.controls.NotificationID.disable();
+  this.addNotification.controls.JobTitle.disable();
+  this.addNotification.controls.JobID.disable();
+  this.addNotification.controls.JobNumber.disable();
 }
 
 onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
@@ -250,8 +258,11 @@ onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
   }
   else{
     obj = obj as JTSJob;
-    this.currentNotificationID = obj.JobID + 1;
+    this.currentNotificationID = undefined;
     obj.notificationID = this.currentNotificationID;
+    this.addNotification.controls.JobID.setValue(obj.JobID || null);
+    this.addNotification.controls.JobNumber.setValue(obj.JobNumber || null);
+    this.addNotification.controls.JobTitle.setValue(obj.JobTitle || null);
     this.addNotification.controls.NotificationID.setValue(obj.notificationID || null);
     this.addNotification.controls.RecruiterName.setValue(obj.RecruiterName || null);
     this.addNotification.controls.RecruiterCompanyName.setValue(obj.RecruiterCompanyName || null)

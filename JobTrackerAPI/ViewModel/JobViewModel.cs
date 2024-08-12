@@ -44,11 +44,6 @@ namespace JobTrackerAPI.ViewModel
         [BindProperty(Name = "DateOfInterview", SupportsGet = true)]
         public DateTime ? DateOfInterview { get; set; }
 
-        [BindProperty(Name = "FK_JobID_NotficationID", SupportsGet = true)]
-        public int? FK_JobID_NotficationID { get; set; }
-
-        [BindProperty(Name = "Notification", SupportsGet = true)]
-        public virtual NotificationViewModel? Notification { get; set; }
         [BindProperty(Name = "NotificationID", SupportsGet = true)]
         public int ? NotificationID { get; set; }
     }

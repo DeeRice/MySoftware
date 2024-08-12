@@ -12,7 +12,7 @@ public baseUrl ="https://localhost:7052"
 public getJobByIDUrl: string =  "Job/GetJobByID";
 public getAllJobsUrl: string =  "Job/GetAllJobs";
 public addJobUrl: string = "Job/CreateJob";
-public updateJobUrl: string = "Job/UpdateJob";
+public editJobUrl: string = "Job/EditJob";
 public deleteJobUrl: string =  "Job/DeleteJob";
 public getLastJobIDUrl: string =  "Job/GetLastJobID";
 public _httpClient?: HttpClient;
@@ -67,14 +67,14 @@ public _currentJobID: number = -1;
     );
   }
 
-  updateJob(job: JTSJob, errorMessage?: string) :  Observable<JTSJob> | undefined {
+  editJob(job: JTSJob, errorMessage?: string) :  Observable<JTSJob> | undefined {
     let headers = new HttpHeaders();
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
     let obj:JTSJob = new JTSJob();
-    return this._httpClient?.put<JTSJob>(`${this.baseUrl}/${this.updateJobUrl}/${job.JobID}`, JSON.stringify(job), httpOptions).pipe(
-      catchError(this.handleError<JTSJob>('updateJob', obj, errorMessage))
+    return this._httpClient?.put<JTSJob>(`${this.baseUrl}/${this.editJobUrl}`, JSON.stringify(job), httpOptions).pipe(
+      catchError(this.handleError<JTSJob>('editJob', obj, errorMessage))
     ).pipe(
       map((response: JTSJob) => response)
     );

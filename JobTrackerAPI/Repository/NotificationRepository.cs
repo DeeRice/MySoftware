@@ -59,7 +59,7 @@ namespace JobTrackerAPI.Repository
             }
         }
 
-        public async Task<Notification> EditNotification(int? notificationID, Notification notification)
+        public async Task<Notification> EditNotification(Notification notification)
         {
             try
             {
