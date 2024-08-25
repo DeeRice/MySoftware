@@ -52,8 +52,6 @@ export class NotificationService {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8')
     .set('Accept', 'application/json');
-    let obj:JTSNotification = new JTSNotification();
-    debugger;
     return this._httpClient?.post<JTSNotification>(`${this.baseUrl}/${this.addNotificationUrl}`, JSON.stringify(notification), {headers: headers}).pipe(
       catchError(this.handleError<JTSNotification>('addNotification', notification, errorMessage))
     ).pipe(
@@ -62,6 +60,7 @@ export class NotificationService {
   }
 
   editNotification(notification: JTSNotification, errorMessage?: string) : Observable<JTSNotification> | undefined {
+    debugger;
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8')
     .set('Accept', 'application/json');

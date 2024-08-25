@@ -12,7 +12,11 @@ import { EditJobComponent } from './edit-job/edit-job.component';
 import { EditNotificationComponent } from './edit-notification/edit-notification.component';
 
 export const routes: Routes = [
-    { path: 'app-header', component: HeaderComponent },
+    { path: 'app-header', component: HeaderComponent, children:[
+        { path: '',redirectTo: 'app-header', pathMatch: 'full'},
+        { path: 'app-job-applied-for', component: JobAppliedForComponent},
+
+    ]},
     { path: 'app-job-details', component: JobDetailsComponent  },
     { path: 'app-job-details/:id', component: JobDetailsComponent  },
     { path: 'app-notification-details', component: NotificationDetailsComponent  },

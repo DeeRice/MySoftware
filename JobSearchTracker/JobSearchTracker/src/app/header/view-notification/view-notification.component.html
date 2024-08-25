@@ -9,7 +9,7 @@
             <tr>
                 <th>Notification ID</th>
                 <th>Notfication Number</th>
-                <th>Notification For Job Number</th>
+                <th>Job ID</th>
                 <th>Recruiter Name</th>
                 <th>Recruiter Company Name</th>
                 <th>Recruiter Company Location</th>
@@ -29,7 +29,7 @@
             <tr>
                 <td><a [routerLink]="['/app-notification-details']" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="goToDetailPage(notification.NotificationID.toString())">{{notification.NotificationID}}</a></td>
                 <td>{{notification.NotificationNumber}}</td>
-                <td>{{notification.NotificationID}}</td>
+                <td>{{notification.JobID}}</td>
                 <td>{{notification.RecruiterName}}</td>
                 <td>{{notification.RecruiterCompanyName}}</td>
                 <td>{{notification.RecruiterCompanyLocation}}</td>

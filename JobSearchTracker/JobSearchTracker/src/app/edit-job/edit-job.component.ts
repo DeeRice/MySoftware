@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, DatePipe, DatePipeConfig } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -21,11 +21,12 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, switchMap, ObservableInput } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateLoader, TranslateService, TranslateStore } from '@ngx-translate/core';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-edit-job',
   standalone: true,
-  imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule, 
+  imports: [HeaderComponent, TableModule, CommonModule, InputTextModule, InputTextareaModule, 
     ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, CalendarModule],
    providers: [MessageService, ConfirmationService,  ConfirmDialogModule, CalendarModule
    ],
@@ -49,10 +50,11 @@ export class EditJobComponent {
   jobID: number = -1;
   public _router: Router;
   public _route?: ActivatedRoute;
+  @Inject(HeaderComponent) _headerComponent?: HeaderComponent;
   constructor(private appService: AppService, private jobService: JobService,
   private messageService: MessageService, private confirmationService: ConfirmationService,
-  private notificationService: NotificationService, @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, 
-  @Inject(Router) router: Router) {
+  private notificationService: NotificationService, @Inject(ActivatedRoute) activatedRoute: ActivatedRoute,
+  @Inject(Router) router: Router, @Inject(HeaderComponent) headerComponent?: HeaderComponent) {
     this._appService = appService;
     this._jobService = jobService;
     this._messageService = messageService;
@@ -60,11 +62,12 @@ export class EditJobComponent {
     this._notificationService = notificationService;
     this._router = router;
     this._route = activatedRoute;
+    this._headerComponent = headerComponent;
   }
 
   async ngOnInit() {
     this._jobs = [];
-     this.titles = this._appService?.addJobTitles;
+     this.titles = this._appService?.editJobTitles;
     await this._route?.params.subscribe((data: Params) =>{
       if((data != null) && (data != undefined)){
         this.jobID = parseInt(data["id"]);
@@ -101,6 +104,7 @@ export class EditJobComponent {
     this.addJob.controls.JobID.disable();
     this.addJob.controls.JobTitle.disable();
     this.addJob.controls.JobNumber.disable();
+    this.addJob.controls.NotificationID.disable();
   }
 
     public isNotNotes(title:any): Boolean {
@@ -137,6 +141,7 @@ export class EditJobComponent {
          ClientCompanyName: new FormControl(''),
          ClientCompanyPhoneNumber: new FormControl(''),
          JobID: new FormControl(''),
+         NotificationID: new FormControl(''),
          JobNumber: new FormControl(''),
          JobLocation: new FormControl(''),
          JobTitle: new FormControl(''),	
@@ -172,6 +177,8 @@ export class EditJobComponent {
               accept: () => {
                 var job = new JTSJob();
                 job.JobID = Number.parseInt(this.addJob.controls.JobID.value as string) || -1;
+                job.JobNumber = Number.parseInt(this.addJob.controls.JobNumber.value as string) || -1;
+                job.NotificationID = Number.parseInt(this.addJob.controls.NotificationID.value as string) || -1;
                 job.JobTitle = this.addJob.controls.JobTitle.value as string;
                 job.JobLocation = this.addJob.controls.JobLocation.value as string;
                 job.RecruiterName = this.addJob.controls.RecruiterName.value as string;
@@ -186,22 +193,25 @@ export class EditJobComponent {
                 job.RecruiterNotes = this.addJob.controls.RecruiterNotes.value || undefined;
                 job.ClientNotes = this.addJob.controls.ClientNotes.value || undefined;
                 job.JobDescription = this.addJob.controls.JobDescription.value as string;
-                job.DateOfSubmission = new Date(this.addJob.controls.DateOfSubmission.value as string);
-                job.DateOfFollowUp = new Date(this.addJob.controls.DateOfFollowUp.value as string);
-                job.DateOfInterview = new Date(this.addJob.controls.DateOfInterview.value as string);
+                job.DateOfSubmission = new Date(this.addJob.controls.DateOfSubmission.value as string) || undefined;
+                job.DateOfFollowUp = new Date(this.addJob.controls.DateOfFollowUp.value as string) || undefined;
+                job.DateOfInterview = new Date(this.addJob.controls.DateOfInterview.value as string) || undefined;
                 this._jobService?.editJob(job)?.subscribe(
                   (result) => {
                     // Handle result
-                    console.log(result)
+                    console.log(result);
                     this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
+                   
                   },
                   (error) => {
                     this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
                   },
                   () => {
                     // No errors, route to new page
-                 
-                   
+                    debugger;
+                    this._headerComponent?.refreshTables();
+                    this._headerComponent!.changeTabs(0);
+                    this.goBackToJobGrid();
                   }
                 );
               }
@@ -209,6 +219,7 @@ export class EditJobComponent {
         }
         populateJob(job: JTSJob){
          this.addJob.controls.JobID.setValue(job.JobID.toString() || null);
+         this.addJob.controls.NotificationID.setValue(job.NotificationID?.toString() || null);
          this.addJob.controls.JobNumber.setValue(job.JobNumber.toString() || null);
          this.addJob.controls.JobTitle.setValue(job.JobTitle || null);
          this.addJob.controls.JobLocation.setValue(job.JobLocation || null);

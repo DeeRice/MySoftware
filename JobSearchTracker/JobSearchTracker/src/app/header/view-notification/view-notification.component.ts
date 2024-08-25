@@ -75,7 +75,6 @@ goToDetailPage(id: string) {
   this._appService?.setHeaderIsHidden(true);
   this._appService?.setNotificationIsHidden(false);
   this._router.navigate(['/app-notification-details/', id]);
-  console.log(id);
 }   
 
 public async refreshDataGrid(event: TableLazyLoadEvent) {
@@ -84,7 +83,11 @@ public async refreshDataGrid(event: TableLazyLoadEvent) {
      if((data != null) && (data != undefined) && ((data as JTSNotification[]).length != 0)){
        this._notifications = JSON.parse(data.toString());
      }
-    
+    }, 
+    (error) => {
+     this.messageHeader = "Error!"
+     let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
+     this.confirm(message);
    }); 
 }
 
@@ -125,7 +128,6 @@ confirm(messageToShow: string) {
   this._appService?.setHeaderIsHidden(true);
   this._appService?.setNotificationIsHidden(true);
   this._router.navigate(['/app-edit-notification/', id]);
-  console.log(id);
 }  
 
  setMessageHeader(header: string){

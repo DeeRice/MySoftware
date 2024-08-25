@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Host, Inject, ViewChild } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -14,10 +14,12 @@ import { JobService } from '../../../service/job.service';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {CalendarModule} from 'primeng/calendar';
+import { CalendarModule } from 'primeng/calendar';
 import { JTSNotification } from 'src/model/notification';
 import { NotificationService } from 'src/service/notification.service';
 import { HeaderComponent } from '../header.component';
+import { TabViewChangeEvent, TabViewModule } from 'primeng/tabview';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-add-job-applied-for',
@@ -40,22 +42,33 @@ export class AddJobAppliedForComponent {
   _notifications!: JTSNotification[];
   _notificationsToBeDisplay?: JTSNotification[];
   public messageHeader?: string;
-  @ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
-  constructor(private appService: AppService, private jobService: JobService,
+  @Inject(HeaderComponent) _headerComponent?: HeaderComponent;
+  public _router: any;
+  public _routerLink: any;
+  constructor(@Inject(ActivatedRoute) activatedRoute: ActivatedRoute, @Inject(Router) router: Router, private appService: AppService, private jobService: JobService,
   private messageService: MessageService, private confirmationService: ConfirmationService,
-  private notificationService: NotificationService
+  private notificationService: NotificationService, @Inject(HeaderComponent) headerComponent: HeaderComponent,
+  @Inject(RouterLink) routerLink?: RouterLink
   ) {
     this._appService = appService;
     this._jobService = jobService;
     this._messageService = messageService;
     this._confirmationService = confirmationService;
     this._notificationService = notificationService;
+    this._headerComponent = headerComponent;
+    this._router = router;
+    this._routerLink = routerLink;
   }
 
- async ngOnInit() {
+  ngOnInit() {
    this.titles = this._appService?.addJobTitles;   
-    
+ 
   }
+
+  ngAfterViewInit() {
+
+  } 
+
 public isNotNotes(title:any): Boolean {
   this.addJob.controls["JobID"].disable();
   if(title === "Client Notes" || title === "Recruiter Notes" || title === "Job Description"
@@ -149,15 +162,17 @@ confirm(messageToShow: string) {
             // Handle result
             console.log(result)
             this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
-            this.headerComponent?.loadHeaders();
+            this._headerComponent?.loadHeaders();
+        
           },
           (error) => {
             this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
           },
           () => {
             // No errors, route to new page
-         
-           
+            this._headerComponent?.refreshTables();
+            this._headerComponent!.changeTabs(0);
+            
           }
         );
       }
@@ -183,6 +198,7 @@ async displayNotificationsForToday() {
   }
    
 }
+
 }
 
 

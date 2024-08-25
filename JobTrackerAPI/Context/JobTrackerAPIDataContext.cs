@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using System.Reflection.Emit;
 using System.Xml;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace IntegraPartnersContactApplicationAPI
 {
@@ -34,12 +35,11 @@ namespace IntegraPartnersContactApplicationAPI
             });
             modelBuilder.Entity<Notification>(b =>
             {
-                b.HasKey(e => new { e.NotificationID, e.NotificationNumber});
+                b.HasKey(e => new { e.NotificationID, e.NotificationNumber });
                 b.Property(e => e.NotificationID).UseIdentityColumn();
                 b.Property(e => e.NotificationID).ValueGeneratedOnAdd().
                 Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Save);
             });
-
         }
 
         public virtual DbSet<Job> Job { get; set; } = null!;

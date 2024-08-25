@@ -24,6 +24,7 @@ import { JTSNotificationEvent, JTSNotificationPicker, NotficationEventEnum } fro
 import { MultiSelect, MultiSelectChangeEvent, MultiSelectLazyLoadEvent, MultiSelectModule, MultiSelectSelectAllChangeEvent } from 'primeng/multiselect';
 import { JobEnum } from 'src/model/job';
 import {CalendarModule} from 'primeng/calendar';
+import { TabViewChangeEvent } from 'primeng/tabview';
 
 
 @Component({
@@ -32,7 +33,8 @@ import {CalendarModule} from 'primeng/calendar';
   imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule, 
     ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, MultiSelectModule,
     CalendarModule],
-    providers: [MessageService,ConfirmationService,AppService, MultiSelectModule, CalendarModule, JobService],
+    providers: [MessageService,ConfirmationService,AppService, MultiSelectModule, CalendarModule, 
+      JobService],
   templateUrl: './edit-notification.component.html',
   styleUrl: './edit-notification.component.scss'
 })
@@ -63,10 +65,12 @@ export class EditNotificationComponent {
   @ViewChild('JobPicker') jobPickerMultiselect?: MultiSelect;
   _notifications!: JTSNotification[];
   notificationID: number = -1;
+  @Inject(HeaderComponent) _headerComponent?: HeaderComponent;
   constructor(@Inject(ActivatedRoute) activatedRoute: ActivatedRoute, 
    public notificationService: NotificationService, appService: AppService,
    private messageService: MessageService, private confirmationService: ConfirmationService,
-    @Inject(Router) router: Router,   public jobService: JobService) {
+    @Inject(Router) router: Router, public jobService: JobService,
+    @Inject(HeaderComponent) headerComponent: HeaderComponent) {
       this._appService = appService;
       this._messageService = messageService;
       this._confirmationService = confirmationService;
@@ -74,6 +78,7 @@ export class EditNotificationComponent {
       this._jobService = this.jobService;
       this._router = router;
       this._route = activatedRoute;
+      this._headerComponent = headerComponent;
     }
 
 
@@ -88,7 +93,6 @@ export class EditNotificationComponent {
   (error) => {
     this.messageHeader = "Error!"
     let message:string = "Error occured while trying to retrieve the params. See developer for solution."
-    console.log(error);
     this.confirm(message);
   });
     if(Number.isNaN(this.notificationID) == false){
@@ -102,7 +106,6 @@ export class EditNotificationComponent {
     (error)=> {
       this.messageHeader = "Error!"
       let message:string = "Error occured while trying to retrieve the notification id. See developer for solution."
-      console.log(error);
       this.confirm(message);
     });
     }
@@ -130,7 +133,6 @@ export class EditNotificationComponent {
 (error) => {
   this.messageHeader = "Error!"
   let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-  console.log(error);
   this.confirm(message);
 
 }); 
@@ -186,6 +188,14 @@ makeTextboxesUnEditable(){
   this.addNotification.controls.JobID.disable();
   this.addNotification.controls.JobNumber.disable();
   this.addNotification.controls.JobTitle.disable();
+  this.addNotification.controls.RecruiterName.disable();
+  this.addNotification.controls.RecruiterCompanyName.disable();
+  this.addNotification.controls.RecruiterCompanyLocation.disable();
+  this.addNotification.controls.RecruiterPhoneNumber.disable();
+  this.addNotification.controls.RecruiterCompanyPhoneNumber.disable();
+  this.addNotification.controls.ClientCompanyName.disable();
+  this.addNotification.controls.ClientCompanyLocation.disable();
+  this.addNotification.controls.ClientCompanyPhoneNumber.disable();
 }
 
 onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
@@ -219,13 +229,13 @@ onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
   }
   else{
     obj = obj as JTSJob;
-    obj.notificationID = this.currentNotificationID;
-    this.addNotification.controls.NotificationID.setValue(obj.notificationID || null);
+    obj.NotificationID = this.currentNotificationID;
+    this.addNotification.controls.NotificationID.setValue(obj.NotificationID || null);
     this.addNotification.controls.RecruiterName.setValue(obj.RecruiterName || null);
     this.addNotification.controls.RecruiterCompanyName.setValue(obj.RecruiterCompanyName || null)
     this.addNotification.controls.RecruiterCompanyLocation.setValue(obj.RecruiterCompanyLocation || null)
     this.addNotification.controls.RecruiterPhoneNumber.setValue(obj.RecruiterPhoneNumber || null)
-    this.addNotification.controls.RecruiterCompanyPhoneNumber.setValue(obj.RecruiterPhoneNumber || null)
+    this.addNotification.controls.RecruiterCompanyPhoneNumber.setValue(obj.RecruiterCompanyPhoneNumber || null)
     this.addNotification.controls.ClientContactName.setValue(obj.ClientCompanyContactName || null)
     this.addNotification.controls.ClientCompanyName.setValue(obj.ClientCompanyName || null)
     this.addNotification.controls.ClientCompanyLocation.setValue(obj.ClientCompanyLocation || null)
@@ -305,13 +315,11 @@ async displayNotificationsForToday() {
  (error) => {
   this.messageHeader = "Error!"
   let message:string = "Error occured while trying to retrieve a list of notifications. See developer for solution."
-  console.log(error);
   this.confirm(message);
  }); 
 }
 
 save(form: FormGroup){
-  console.log(form);
     this.addNotification = form;
     let message:string = "Are you sure you want add this notification?";
     this.messageHeader = "Add Notification Confirmation";
@@ -349,6 +357,7 @@ save(form: FormGroup){
      header: this.messageHeader,
      icon: 'pi pi-info-circle',
        accept: () => {
+        debugger;
         if(this.notification != null && this.currentNotificationID != -1) {
          this.notification.NotificationID = this.addNotification.controls.NotificationID.value as number;
          this.notification.NotificationNumber = this.addNotification.controls.NotificationNumber.value as number;
@@ -363,17 +372,19 @@ save(form: FormGroup){
          this.notification.ClientCompanyPhoneNumber = this.addNotification.controls.ClientCompanyPhoneNumber.value || undefined;
          this.notification.NotificationDate = new Date(this.addNotification.controls.NotificationDate.value as string);
          this.notification.Message = this.addNotification.controls.NotificationMessage.value as string;
+         this.notification.Job = this.job;
          this.job = this.jobs.find(item => item.JobID === this.notification?.JobID) as JTSJob;
-         this.job.notificationID = this.addNotification.controls.NotificationID.value as number;
+         this.job.NotificationID = this.addNotification.controls.NotificationID.value as number;
+         this.notification.Job = this.job;
          this.notificationService?.editNotification(this.notification)?.subscribe(
            (result) => {
              // Handle result
-             console.log(result)
+             this.job.NotificationID = this.notification?.NotificationID;
              this.jobService?.editJob(this.job)?.subscribe(
                (result) => {
                  // Handle result
-                 console.log(result)
                  this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
+                 
                },
                (error) => {
                  this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
@@ -387,6 +398,17 @@ save(form: FormGroup){
            },
            () => {
              // No errors, route to new page
+             this._headerComponent?.refreshTables();
+             this.goBackToJobGrid();
+             setTimeout(() => {
+              debugger;
+              var eventInitDic:EventInit = {};
+              var orginEvent:Event = new Event("TabViewChangeEvent", eventInitDic);
+              var tabViewChangeEvent:TabViewChangeEvent = {originalEvent: orginEvent, index: 3};
+              this._headerComponent?.handleChange(tabViewChangeEvent);
+              this._headerComponent?.handleTabRequest();
+             }, 2000);
+             
            }
          );
        }

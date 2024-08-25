@@ -17,7 +17,7 @@ import { JobService } from 'src/service/job.service';
 import { JTSJob } from 'src/model/job';
 import { Observable } from 'rxjs';
 import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api';
-import { getJSON } from 'jquery';
+import { error, getJSON } from 'jquery';
 import { NotificationService } from 'src/service/notification.service';
 import { JTSNotification, JTSNotificationEventType } from 'src/model/notification';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -31,7 +31,7 @@ import { HeaderComponent } from '../header.component';
     SliderModule,  FormsModule,FormsModule, RouterModule, CommonModule, ConfirmDialogModule],
   providers: [AppService, NotificationService, TableModule,CommonModule,
     RouterLinkActive,RouterLink, RouterOutlet, PrimeNGConfig, MessageService, 
-    ConfirmationService,  ConfirmDialogModule],
+    ConfirmationService,  ConfirmDialogModule, JobService],
   templateUrl: './remove-notification.component.html',
   styleUrl: './remove-notification.component.scss'
 })
@@ -39,6 +39,8 @@ export class RemoveNotificationComponent {
   _notifications!: JTSNotification[];
   _notificationService: NotificationService;
   public _appService?: AppService;  
+  public _jobService?: JobService;  
+  public notification?: JTSNotification;
   public _router: any;
   public _routerLink: any;
   public _messageService?: MessageService;
@@ -48,7 +50,7 @@ export class RemoveNotificationComponent {
   public messageHeader?: string;
   @ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService, @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, @Inject(Router) router: Router,
-  public appService: AppService, PrimeNGConfig: PrimeNGConfig,
+  public appService: AppService, jobService: JobService,
    notificationService: NotificationService, @Inject(RouterLink) routerLink?: RouterLink) {
     this._appService = appService;
     this._notificationService = notificationService;
@@ -56,6 +58,7 @@ export class RemoveNotificationComponent {
     this._routerLink = routerLink;
     this._messageService = messageService;
     this._confirmationService = confirmationService;
+    this._jobService = jobService;
   }
   ngOnInit() {
     this._notificationService.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
@@ -68,6 +71,9 @@ export class RemoveNotificationComponent {
     let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
     console.log(error);
     this.confirm(message);
+  },
+  () => {
+
   }); 
  
   }
@@ -88,12 +94,31 @@ remove(id: number){
         accept: () => {
   
           this._notificationService?.deleteNotification(this.currentID)?.subscribe(
-            (result) => {
+            (result: JTSNotification) => {
               // Handle result
               console.log(result);
               this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
               this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
               this.headerComponent?.loadHeaders();
+              debugger;
+              this.notification = JSON.parse(result.toString());
+              if(this.notification !== null && this.notification !== undefined){
+                this.notification.Job.NotificationID = 0;
+                this._jobService?.editJob(this.notification.Job as JTSJob)?.subscribe((job: JTSJob) =>{
+                  // Handle result
+           console.log(result)
+           this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
+           this.headerComponent?.loadHeaders();
+         },
+         (error) => {
+           this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
+         },
+         () => {
+
+         }
+       );
+              }
+         
             },
             (error) => {
               this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});

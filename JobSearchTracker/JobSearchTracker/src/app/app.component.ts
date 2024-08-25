@@ -32,7 +32,7 @@ import { EditNotificationComponent } from './edit-notification/edit-notification
     AddJobAppliedForComponent, ViewNotificationComponent, RouterModule, TableModule, CommonModule, CalendarModule,
   EditJobComponent, EditNotificationComponent],
   providers: [NgbModal, AppService, RouterModule, RouterOutlet, CommonModule,RouterLink, 
-    RouterLinkActive, FormsModule, RouterOutlet, BrowserAnimationsModule, TableModule, PrimeNGConfig, CalendarModule],
+    RouterLinkActive, FormsModule, BrowserAnimationsModule, TableModule, PrimeNGConfig, CalendarModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

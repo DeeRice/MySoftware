@@ -79,9 +79,10 @@ namespace JobTrackerAPI.Controllers
 
         // GET: Job/FindJob/5
         [HttpGet]
-        public async Task<JsonResult> FindJob(int? JobID)
+        public async Task<JsonResult> FindJob(JobViewModel? Job)
         {
-            var jobViewModel = _mapper.MapEntityToViewModel(await _IJobRepository.FindJob(JobID));
+            var job = _mapper.MapViewModelToEntity(Job);
+            var jobViewModel = _mapper.MapEntityToViewModel(await _IJobRepository.FindJob(job));
             if (jobViewModel == null)
             {
                 return new JsonResult(new Exception("Could Not Find Job With The Submitted ID.").Message.ToJson());
@@ -136,11 +137,19 @@ namespace JobTrackerAPI.Controllers
 
         public async Task<JsonResult> DeleteJob(int? JobID)
         {
-            var job = await _IJobRepository.FindJob(JobID);
-            if (job != null)
+            var job = await _IJobRepository.GetJobByID(JobID);
+            var jobFound = await _IJobRepository.FindJob(job);
+            if (jobFound != null)
             {
-                var returnedViewModel = _mapper.MapEntityToViewModel(await _IJobRepository.DeleteJob(JobID));
-                return new JsonResult(JsonConvert.SerializeObject(returnedViewModel));
+                if(jobFound.NotificationID > 0)
+                {
+                    return new JsonResult(new Exception("please delete notification attached to this job before deleting this job.").Message.ToJson());
+                }
+                else
+                {
+                    var returnedViewModel = _mapper.MapEntityToViewModel(await _IJobRepository.DeleteJob(JobID));
+                    return new JsonResult(JsonConvert.SerializeObject(returnedViewModel));
+                }
             }
             else
             {

@@ -116,10 +116,10 @@ namespace JobTrackerAPI.Repository
             }
         }
 
-        public async Task<Job> FindJob(int? jobID)
+        public async Task<Job?> FindJob(Job? job)
         {
-            var job = await _appDbContext.Job.FindAsync(jobID);
-            return job;
+            var jobFound = await _appDbContext.Job.FindAsync(job.JobID, job.JobNumber, job.JobTitle);
+            return jobFound;
         }
 
         public bool JobExists(int? jobID)

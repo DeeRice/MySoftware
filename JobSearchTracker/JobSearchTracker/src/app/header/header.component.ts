@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, OnChanges, SimpleChanges, Output, Inject, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnChanges, SimpleChanges, Output, Inject, ViewChild, Injectable } from '@angular/core';
 import { TabViewChangeEvent, TabViewModule } from 'primeng/tabview';
 import { SetNotificationComponent } from './set-notification/set-notification.component';
 import { RemoveNotificationComponent } from './remove-notification/remove-notification.component';
@@ -20,15 +20,17 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { EditJobComponent } from '../edit-job/edit-job.component';
 import { EditNotificationComponent } from '../edit-notification/edit-notification.component';
 
+@Injectable({ providedIn: 'root' })
+
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [JobAppliedForComponent, TabViewModule, SetNotificationComponent,
     RemoveNotificationComponent, RemoveJobAppliedForComponent, AddJobAppliedForComponent,
     ViewNotificationComponent, CommonModule, JobDetailsComponent, FormsModule,
-    ConfirmDialogModule, EditJobComponent, EditNotificationComponent],
+    ConfirmDialogModule, EditJobComponent, EditNotificationComponent, RouterModule, RouterOutlet],
   providers: [MessageService, ConfirmationService, AppService, NgbModal, AppService, RouterModule, RouterOutlet, 
-    TabViewModule,ConfirmDialogModule],
+    TabViewModule,ConfirmDialogModule, RouterModule, RouterOutlet],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -37,15 +39,18 @@ export class HeaderComponent {
  isHidden?: boolean;
  notificationsIsDisabled = true;
  lastJobID?: number = -1;
+ public headerIndex:number = 0;
  public _appService?: AppService;
  public _jobService?: JobService;
  public _messageService?: MessageService;
  public _confirmationService?: ConfirmationService;
  public messageHeader?: string;
+ public tabItem: any;
  @ViewChild(JobAppliedForComponent) jobAppliedForComponent?:JobAppliedForComponent;
  @ViewChild(RemoveJobAppliedForComponent) removeJobAppliedForComponent?: RemoveJobAppliedForComponent;
  @ViewChild(ViewNotificationComponent) viewNotificationComponent?:ViewNotificationComponent;
  @ViewChild(RemoveNotificationComponent) removeNotificationComponent?: RemoveNotificationComponent;
+ @ViewChild(SetNotificationComponent) setNotificationComponent?: SetNotificationComponent;
   constructor( @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, public appService: AppService, 
   private messageService: MessageService, private confirmationService: ConfirmationService,
   jobService: JobService) {
@@ -62,13 +67,16 @@ export class HeaderComponent {
   public hide(){
     this.hide();
   }
-  handleChange(event: TabViewChangeEvent){
+ public handleChange(event: TabViewChangeEvent){
      this.jobAppliedForComponent?.refreshDataGrid(this.jobAppliedForComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
      this.removeJobAppliedForComponent?.refreshDataGrid(this.removeJobAppliedForComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
      this.viewNotificationComponent?.refreshDataGrid(this.viewNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
      this.removeNotificationComponent?.refreshDataGrid(this.removeNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
+     this.setNotificationComponent?.populateJobEnumDropDown();
   }
-
+ public handleTabRequest(){
+    this.tabItem = this.viewNotificationComponent;
+  }
   confirm(messageToShow: string) {
     this.confirmationService?.confirm({
           message: messageToShow,
@@ -97,5 +105,15 @@ export class HeaderComponent {
      console.log(error);
      this.confirm(message);
     });
+  }
+  public changeTabs(index:number){
+    this.headerIndex = index;
+  }
+  public refreshTables(){
+    this.jobAppliedForComponent?.refreshDataGrid(this.jobAppliedForComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
+    this.removeJobAppliedForComponent?.refreshDataGrid(this.removeJobAppliedForComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
+    this.viewNotificationComponent?.refreshDataGrid(this.viewNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
+    this.removeNotificationComponent?.refreshDataGrid(this.removeNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
+    this.setNotificationComponent?.populateJobEnumDropDown();
   }
 }

@@ -43,6 +43,7 @@ namespace JobTrackerAPI.Repository
                 {
 
                     notification.NotificationID = 0;
+                    _appDbContext.Entry(notification.Job).State = EntityState.Modified;
                     var result = await _appDbContext.Notification.AddAsync(notification);
                     await _appDbContext.SaveChangesAsync();
                     Notification updatedNotification = _appDbContext.Notification.FirstOrDefault(x => x.NotificationID == notification.NotificationID);
@@ -115,10 +116,10 @@ namespace JobTrackerAPI.Repository
             }
         }
 
-        public async Task<Notification> FindNotification(int? notificationID)
+        public async Task<Notification?> FindNotification(Notification notification)
         {
-            var notification = await _appDbContext.Notification.FindAsync(notificationID);
-            return notification;
+            Notification ? notificationFound = await _appDbContext.Notification.FindAsync(notification);
+            return notificationFound;
         }
 
         public bool NotificationExists(int? notificationID)
@@ -127,7 +128,7 @@ namespace JobTrackerAPI.Repository
             return result;
         }
 
-        public async Task<int?> GetLastNotificationID()
+        public int? GetLastNotificationID()
         {
             int? lastNotificationID = _appDbContext?.Notification?.OrderByDescending(x => x.NotificationID).FirstOrDefault()?.NotificationID;
             return lastNotificationID;
@@ -137,6 +138,11 @@ namespace JobTrackerAPI.Repository
         {
             _appDbContext.Notification = Notifications;
             return _appDbContext.Notification;
+        }
+
+        public bool NotificationJobIDExist(int? jobID)
+        {
+           return _appDbContext.Notification.Any(x => x.JobID == jobID);
         }
     }
 }

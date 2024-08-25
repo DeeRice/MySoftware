@@ -20,7 +20,7 @@ export class JTSJob {
     DateOfSubmission!: Date;
     DateOfFollowUp?: Date;
     DateOfInterview?: Date;
-    notificationID?:number = 0;
+    NotificationID?:number = 0;
 }
 
 

@@ -27,6 +27,7 @@ namespace JobTrackerAPI.Mapping
             notificationViewModel.JobNumber = notification.JobNumber;
             notificationViewModel.JobTitle = notification.JobTitle;
             notificationViewModel.NotificationEvent = (NotificationEvent)notification.NotificationEvent;
+            notificationViewModel.Job = this.MapEntityToViewModel(notification?.Job);
             return notificationViewModel;
         }
 
@@ -34,6 +35,7 @@ namespace JobTrackerAPI.Mapping
         {
             JobViewModel jobViewModel = new JobViewModel();
             jobViewModel.JobID = job.JobID;
+            jobViewModel.NotificationID = job.NotificationID;
             jobViewModel.JobNumber = job.JobNumber;
             jobViewModel.JobTitle = job?.JobTitle;
             jobViewModel.JobLocation = job?.JobLocation;
@@ -75,6 +77,7 @@ namespace JobTrackerAPI.Mapping
             notification.JobTitle = notificationViewModel.JobTitle;
             notification.NotificationEvent = notificationViewModel?.NotificationEvent == null ? 0 : (int)notificationViewModel?.NotificationEvent;
             notification.Message = notificationViewModel?.Message;
+            notification.Job = this.MapViewModelToEntity(notificationViewModel?.Job);
             return notification;
 
         }
@@ -83,6 +86,7 @@ namespace JobTrackerAPI.Mapping
         {
             Job job = new Job();
             job.JobID = jobViewModel.JobID;
+            job.NotificationID = jobViewModel.NotificationID;
             job.JobNumber = jobViewModel.JobNumber;
             job.JobTitle = jobViewModel?.JobTitle;
             job.JobLocation = jobViewModel?.JobLocation;

@@ -42,6 +42,27 @@ export class AppService {
   {titleName:"Date Of Follow Up", formName:"DateOfFollowUp"}, 
   {titleName:"Date Of Interview", formName:"DateOfInterview"}];
 
+  public editJobTitles?: AddJobTable[] = [
+    {titleName: "Job ID", formName:"JobID"}, 
+    {titleName: "Notification ID", formName:"NotificationID"}, 
+    {titleName: "Job Number", formName:"JobNumber"}, 
+    {titleName:"Job Title", formName:"JobTitle"}, 
+    {titleName:"Job Location", formName:"JobLocation"}, 
+    {titleName:"Recruiter Name", formName:"RecruiterName"}, 
+    {titleName: "Client Company Contact Name", formName:"ClientCompanyContactName"}, 
+    {titleName: "Recruiter Company Name", formName:"RecruiterCompanyName"}, 
+    {titleName:"Client Company Name", formName:"ClientCompanyName"},
+    {titleName:"Recruiter Phone Number", formName:"RecruiterPhoneNumber"},
+    {titleName:"Recruiter Company Phone Number", formName:"RecruiterCompanyPhoneNumber"},
+    {titleName:"Client Company Phone Number", formName:"ClientCompanyPhoneNumber"} , 
+    {titleName:"Recruiter Company Location", formName:"RecruiterCompanyLocation"},
+    {titleName:"Client Company Location", formName:"ClientCompanyLocation"}, 
+    {titleName:"Recruiter Notes", formName:"RecruiterNotes"}, 
+    {titleName:"Client Notes", formName:"ClientNotes"} , 
+    {titleName:"Job Description", formName:"JobDescription"},
+    {titleName:"Date Of Submission", formName:"DateOfSubmission"} , 
+    {titleName:"Date Of Follow Up", formName:"DateOfFollowUp"}, 
+    {titleName:"Date Of Interview", formName:"DateOfInterview"}];
 
   public addNotificationTitles?: AddNotificationTable[] = [
     {titleName:"Job To Set Notification On", formName:"FKJobIDNotficationID"}, 

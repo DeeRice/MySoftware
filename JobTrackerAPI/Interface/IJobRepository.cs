@@ -8,7 +8,7 @@ namespace JobTrackerAPI.Interface
         Task<List<Job>> GetAllJobs();
         Task<Job> GetJobByID(int? JobID);
         Task<Job> CreateJob(Job Job);
-        Task<Job> FindJob(int? JobID);
+        Task<Job?> FindJob(Job? Job);
         Task<Job> EditJob(Job Job);
         Task<Job> DeleteJob(int? JobID);
         bool JobExists(int? JobID);

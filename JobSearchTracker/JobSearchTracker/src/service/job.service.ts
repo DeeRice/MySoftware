@@ -58,10 +58,9 @@ public _currentJobID: number = -1;
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8')
     .set('Accept', 'application/json');
-    let obj:JTSJob = new JTSJob();
     debugger;
     return this._httpClient?.post<JTSJob>(`${this.baseUrl}/${this.addJobUrl}`,job, {headers: headers}).pipe(
-      catchError(this.handleError<JTSJob>('addJob', obj, errorMessage))
+      catchError(this.handleError<JTSJob>('addJob', job, errorMessage))
     ).pipe(
       map((response: JTSJob) => response)
     );
@@ -72,9 +71,8 @@ public _currentJobID: number = -1;
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
-    let obj:JTSJob = new JTSJob();
     return this._httpClient?.put<JTSJob>(`${this.baseUrl}/${this.editJobUrl}`, JSON.stringify(job), httpOptions).pipe(
-      catchError(this.handleError<JTSJob>('editJob', obj, errorMessage))
+      catchError(this.handleError<JTSJob>('editJob', job, errorMessage))
     ).pipe(
       map((response: JTSJob) => response)
     );

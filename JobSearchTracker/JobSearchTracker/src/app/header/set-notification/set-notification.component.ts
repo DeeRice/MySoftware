@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, ViewChild } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -17,6 +17,7 @@ import { JobEnum, JTSJob } from 'src/model/job';
 import { JobService } from 'src/service/job.service';
 import {CalendarModule} from 'primeng/calendar';
 import { HeaderComponent } from '../header.component';
+import { parseJSON } from 'jquery';
 
 @Component({
   selector: 'app-set-notification',
@@ -51,20 +52,30 @@ export class SetNotificationComponent {
   @ViewChild('ms') multiselect?: MultiSelect;
   _notifications!: JTSNotification[];
   public messageHeader?: string;
-  @ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
+  @Inject(HeaderComponent) _headerComponent?: HeaderComponent;
   constructor(private appService: AppService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
-    private notificationService: NotificationService, private jobService: JobService
+    private notificationService: NotificationService, private jobService: JobService,   
+    @Inject(HeaderComponent) headerComponent?: HeaderComponent
   ) {
     this._appService = appService;
     this._messageService = messageService;
     this._confirmationService = confirmationService;
     this._notificationService = notificationService;
     this._jobService = this.jobService;
+    this._headerComponent = headerComponent;
   }
  async ngOnInit() {
    this.titles = this._appService?.addNotificationTitles;   
-   this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
+   this.populateJobEnumDropDown();
+ this.makeTextboxesUnEditable();
+
+this.setEventPicker();
+
+}
+
+public populateJobEnumDropDown(){
+  this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
     if((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)){
     this.jobs = JSON.parse(data.toString());
     
@@ -85,12 +96,7 @@ export class SetNotificationComponent {
   let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
   console.log(error);
   this.confirm(message);
-
 }); 
- this.makeTextboxesUnEditable();
-
-this.setEventPicker();
-
 }
 
 setEventPicker(){
@@ -167,21 +173,25 @@ setEventPicker(){
         this.notification.ClientCompanyPhoneNumber = this.addNotification.controls.ClientCompanyPhoneNumber.value || undefined;
         this.notification.NotificationDate = this.addNotification.controls.NotificationDate.value as Date;
         this.notification.Message = this.addNotification.controls.NotificationMessage.value as string;
-        this.job.notificationID = this.notification.NotificationID;
+        this.job.NotificationID = this.notification.NotificationID;
         this.notification.JobID = this.addNotification.controls.JobID.value as number;
         this.notification.JobNumber = this.addNotification.controls.JobNumber.value as number;
         this.notification.JobTitle = this.addNotification.controls.JobTitle.value as string;
         this.notification.Job = this.job;
         this.notificationService?.addNotification(this.notification)?.subscribe(
-          (result) => {
+          (result: JTSNotification) => {
             // Handle result
-            console.log(result)
-            this.jobService?.editJob(this.job)?.subscribe(
-              (result) => {
+            console.log(result);
+            debugger;
+            this.notification = JSON.parse(result.toString());
+            this.job.NotificationID = this.notification?.NotificationID;
+            this.jobService?.editJob(this.job as JTSJob)?.subscribe(
+              (result: JTSJob) => {
                 // Handle result
                 console.log(result)
                 this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
-                this.headerComponent?.loadHeaders();
+                this._headerComponent?.loadHeaders();
+               
               },
               (error) => {
                 this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
@@ -195,6 +205,9 @@ setEventPicker(){
           },
           () => {
             // No errors, route to new page
+            this._headerComponent?.refreshTables();
+            this._headerComponent!.changeTabs(3);
+
           }
         );
       }
@@ -229,6 +242,7 @@ makeTextboxesUnEditable(){
   this.addNotification.controls.JobTitle.disable();
   this.addNotification.controls.JobID.disable();
   this.addNotification.controls.JobNumber.disable();
+  this.addNotification.controls.NotificationID.disable();
 }
 
 onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
@@ -259,11 +273,11 @@ onFK_JobIDPickerChanged(event: MultiSelectChangeEvent) {
   else{
     obj = obj as JTSJob;
     this.currentNotificationID = undefined;
-    obj.notificationID = this.currentNotificationID;
+    obj.NotificationID = this.currentNotificationID;
     this.addNotification.controls.JobID.setValue(obj.JobID || null);
     this.addNotification.controls.JobNumber.setValue(obj.JobNumber || null);
     this.addNotification.controls.JobTitle.setValue(obj.JobTitle || null);
-    this.addNotification.controls.NotificationID.setValue(obj.notificationID || null);
+    this.addNotification.controls.NotificationID.setValue(obj.NotificationID || null);
     this.addNotification.controls.RecruiterName.setValue(obj.RecruiterName || null);
     this.addNotification.controls.RecruiterCompanyName.setValue(obj.RecruiterCompanyName || null)
     this.addNotification.controls.RecruiterCompanyLocation.setValue(obj.RecruiterCompanyLocation || null)
