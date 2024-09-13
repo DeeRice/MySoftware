@@ -1,6 +1,6 @@
-import { NgModule }      from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
-import { AppComponent }  from './app.component';
+import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule, provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from '../app/app.routes';
@@ -16,28 +16,28 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { RouterLinkActive } from '@angular/router';
 import { JobDetailsComponent } from './job-details/job-details.component';
-import {FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { provideHttpClient, withJsonpSupport } from '@angular/common/http';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { TableModule } from 'primeng/table';
 import { PrimeNGConfig } from 'primeng/api';
-import {CalendarModule} from 'primeng/calendar';
+import { CalendarModule } from 'primeng/calendar';
 import { NotificationDetailsComponent } from './notification-details/notification-details.component';
 import { TranslateModule } from '@ngx-translate/core';
 
-@NgModule({
-  imports: [AppComponent,RouterModule.forRoot([
-    {path: 'app-header', component: HeaderComponent},
-    {path: 'app-job-details', component: JobDetailsComponent}
-]), RouterModule, BrowserAnimationsModule, TableModule, CommonModule, CalendarModule, NotificationDetailsComponent,
-TranslateModule.forRoot(),],
-  providers: [provideRouter(routes, withComponentInputBinding()), provideHttpClient(withJsonpSupport()),
-    RouterOutlet, TableModule, RouterModule, CommonModule, RouterLink, RouterLinkActive,FormsModule, BrowserModule, 
-    NgbModule,NgModule, BrowserAnimationsModule, provideAnimations(), PrimeNGConfig, CalendarModule]
-})
+// @NgModule({
+//   imports: [AppComponent, RouterModule.forRoot([
+//     { path: 'app-header', component: HeaderComponent },
+//     { path: 'app-job-details', component: JobDetailsComponent }
+//   ]), RouterModule, BrowserAnimationsModule, TableModule, CommonModule, CalendarModule, NotificationDetailsComponent,
+//     TranslateModule.forRoot(),],
+//   providers: [provideRouter(routes, withComponentInputBinding()), provideHttpClient(withJsonpSupport()),
+//     RouterOutlet, TableModule, RouterModule, CommonModule, RouterLink, RouterLinkActive, FormsModule, BrowserModule,
+//     NgbModule, NgModule, BrowserAnimationsModule, provideAnimations(), PrimeNGConfig, CalendarModule]
+// })
 
-export class AppModule { }
+// export class AppModule { }
 
-bootstrapApplication(AppComponent, {
-  providers: [provideHttpClient(withJsonpSupport()), provideAnimations(), PrimeNGConfig, provideRouter(routes, withComponentInputBinding())]
-});
+// bootstrapApplication(AppComponent, {
+//   providers: [provideHttpClient(withJsonpSupport()), provideAnimations(), PrimeNGConfig, provideRouter(routes, withComponentInputBinding())]
+// });
