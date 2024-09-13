@@ -13,3 +13,7 @@
 a.tab:hover {
   color: #000080;
 }
+
+::ng-deep .p-tabview-panels {
+  display: none !important;
+}
