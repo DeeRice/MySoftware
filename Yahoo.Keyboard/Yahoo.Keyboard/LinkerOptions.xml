@@ -1,5 +1,0 @@
-﻿<linker>
-  <assembly fullname="Mono.Android">
-    <type fullname="Mono.Android.Runtime.Register" preserve="all" />
-  </assembly>
-</linker>
