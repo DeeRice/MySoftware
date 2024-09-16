@@ -24,9 +24,9 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-add-job-applied-for',
   standalone: true,
-  imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule, 
+  imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
     ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, CalendarModule],
-   providers: [MessageService, ConfirmationService,  ConfirmDialogModule, CalendarModule],
+  providers: [MessageService, ConfirmationService, ConfirmDialogModule, CalendarModule],
   templateUrl: './add-job-applied-for.component.html',
   styleUrl: './add-job-applied-for.component.scss'
 })
@@ -37,18 +37,18 @@ export class AddJobAppliedForComponent {
   public _messageService?: MessageService;
   public _confirmationService?: ConfirmationService;
   public _notificationService?: NotificationService;
-  public jobIDIsDiabled:boolean = true;
-  public newJobID:number = -1;
+  public jobIDIsDiabled: boolean = true;
+  public newJobID: number = -1;
   _notifications!: JTSNotification[];
   _notificationsToBeDisplay?: JTSNotification[];
   public messageHeader?: string;
   @Inject(HeaderComponent) _headerComponent?: HeaderComponent;
   public _router: any;
   public _routerLink: any;
-  constructor(@Inject(ActivatedRoute) activatedRoute: ActivatedRoute, @Inject(Router) router: Router, private appService: AppService, private jobService: JobService,
-  private messageService: MessageService, private confirmationService: ConfirmationService,
-  private notificationService: NotificationService, @Inject(HeaderComponent) headerComponent: HeaderComponent,
-  @Inject(RouterLink) routerLink?: RouterLink
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private appService: AppService, private jobService: JobService,
+    private messageService: MessageService, private confirmationService: ConfirmationService,
+    private notificationService: NotificationService, private headerComponent: HeaderComponent,
+    private routerLink?: RouterLink
   ) {
     this._appService = appService;
     this._jobService = jobService;
@@ -61,80 +61,80 @@ export class AddJobAppliedForComponent {
   }
 
   ngOnInit() {
-   this.titles = this._appService?.addJobTitles;   
- 
+    this.titles = this._appService?.addJobTitles;
+
   }
 
   ngAfterViewInit() {
 
-  } 
-
-public isNotNotes(title:any): Boolean {
-  this.addJob.controls["JobID"].disable();
-  if(title === "Client Notes" || title === "Recruiter Notes" || title === "Job Description"
-    || title === "Date Of Submission" || title === "Date Of Follow Up" || 
-    title === "Date Of Interview"
-  ){
-    return false;
   }
-  
-  else{
-    return true;
+
+  public isNotNotes(title: any): Boolean {
+    this.addJob.controls["JobID"].disable();
+    if (title === "Client Notes" || title === "Recruiter Notes" || title === "Job Description"
+      || title === "Date Of Submission" || title === "Date Of Follow Up" ||
+      title === "Date Of Interview"
+    ) {
+      return false;
+    }
+
+    else {
+      return true;
+    }
   }
- }
 
- isNotADatePicker(title: string){
-  if(title === "Date Of Submission" || title === "Date Of Follow Up" || 
-    title === "Date Of Interview"){
-    return false;
+  isNotADatePicker(title: string) {
+    if (title === "Date Of Submission" || title === "Date Of Follow Up" ||
+      title === "Date Of Interview") {
+      return false;
+    }
+    else {
+      return true;
+    }
   }
-  else{
-    return true;
+
+  onDateChanged() {
+
+    //this.addNotification.controls.NotificationDate.setValue();
   }
-}
 
-onDateChanged(){
-  
-  //this.addNotification.controls.NotificationDate.setValue();
+
+  addJob = new FormGroup({
+    RecruiterCompanyName: new FormControl(''),
+    ClientCompanyName: new FormControl(''),
+    ClientCompanyPhoneNumber: new FormControl(''),
+    JobID: new FormControl(''),
+    JobNumber: new FormControl(''),
+    JobLocation: new FormControl(''),
+    JobTitle: new FormControl(''),
+    JobDescription: new FormControl(''),
+    RecruiterName: new FormControl(''),
+    RecruiterPhoneNumber: new FormControl(''),
+    RecruiterCompanyPhoneNumber: new FormControl(''),
+    RecruiterNotes: new FormControl(''),
+    ClientCompanyContactName: new FormControl(''),
+    ClientNotes: new FormControl(''),
+    RecruiterCompanyLocation: new FormControl(''),
+    ClientCompanyLocation: new FormControl(''),
+    DateOfSubmission: new FormControl(''),
+    DateOfFollowUp: new FormControl(''),
+    DateOfInterview: new FormControl(''),
+  });
+
+
+  save(form: FormGroup) {
+    this.addJob = form;
+    let message: string = "Are you sure that you want to add this job?";
+    this.messageHeader = "Add Job Confirmation";
+    this.confirm(message);
   }
-  
 
-addJob = new FormGroup({
- RecruiterCompanyName: new FormControl(''),
-  ClientCompanyName: new FormControl(''),
-  ClientCompanyPhoneNumber: new FormControl(''),
-  JobID: new FormControl(''),
-  JobNumber: new FormControl(''),
-  JobLocation: new FormControl(''),
-  JobTitle: new FormControl(''),	
-  JobDescription: new FormControl(''),	
-  RecruiterName: new FormControl(''),
-  RecruiterPhoneNumber: new FormControl(''),
-  RecruiterCompanyPhoneNumber: new FormControl(''),
-  RecruiterNotes: new FormControl(''),
-  ClientCompanyContactName: new FormControl(''),
-  ClientNotes: new FormControl(''),
-  RecruiterCompanyLocation: new FormControl(''),	
-  ClientCompanyLocation: new FormControl(''),
-  DateOfSubmission: new FormControl(''),
-  DateOfFollowUp: new FormControl(''),
-  DateOfInterview: new FormControl(''),
-});
-
-
-save(form: FormGroup){
-this.addJob = form;
-let message:string = "Are you sure that you want to add this job?";
-this.messageHeader = "Add Job Confirmation";
-this.confirm(message);
-}
-
-clear() {
-  this.addJob.reset();
-}
-confirm(messageToShow: string) {
-  this.confirmationService.confirm({
-      header: this.messageHeader, 
+  clear() {
+    this.addJob.reset();
+  }
+  confirm(messageToShow: string) {
+    this.confirmationService.confirm({
+      header: this.messageHeader,
       message: messageToShow,
       accept: () => {
         var job = new JTSJob();
@@ -144,8 +144,8 @@ confirm(messageToShow: string) {
         job.JobLocation = this.addJob.controls.JobLocation.value as string;
         job.RecruiterName = this.addJob.controls.RecruiterName.value as string;
         job.ClientCompanyContactName = this.addJob.controls.ClientCompanyContactName.value || undefined;
-        job.RecruiterCompanyName = this.addJob .controls.RecruiterCompanyName.value as string;
-        job.ClientCompanyName = this.addJob .controls.ClientCompanyName.value as string;
+        job.RecruiterCompanyName = this.addJob.controls.RecruiterCompanyName.value as string;
+        job.ClientCompanyName = this.addJob.controls.ClientCompanyName.value as string;
         job.RecruiterPhoneNumber = this.addJob.controls.RecruiterPhoneNumber.value || undefined;
         job.RecruiterCompanyPhoneNumber = this.addJob.controls.RecruiterCompanyPhoneNumber.value as string;
         job.ClientCompanyPhoneNumber = this.addJob.controls.ClientCompanyPhoneNumber.value || undefined;
@@ -161,43 +161,43 @@ confirm(messageToShow: string) {
           (result) => {
             // Handle result
             console.log(result)
-            this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
+            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the job.' });
             this._headerComponent?.loadHeaders();
-        
+
           },
           (error) => {
-            this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
           },
           () => {
             // No errors, route to new page
             this._headerComponent?.refreshTables();
             this._headerComponent!.changeTabs(0);
-            
+
           }
         );
       }
-  });
-}
-
-async displayNotificationsForToday() {
- await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-    if((data != null) && (data != undefined) && (data.length > 0)){
-      this._notifications = JSON.parse(data.toString());
-    }
-  },
-(error) => {
-  this.messageHeader = "Error!"
-  let message:string = "Error occured while trying to retrieve a list of all notifications. See developer for solution."
-  console.log(error);
-  this.confirm(message);
-}); 
-
-  if((this._notifications != null) && (this._notifications != undefined) && (this._notifications.length > 0)) {
-    this._notificationsToBeDisplay = this._notifications.
-    filter(obj => `${new Date(obj.NotificationDate).getMonth()}/${new Date(obj.NotificationDate).getDay()}/${new Date(obj.NotificationDate).getFullYear()}` == `${new Date(Date.now()).getMonth()}/${new Date(Date.now()).getDay()}/${new Date(Date.now()).getFullYear()}`)
+    });
   }
-   
-}
+
+  async displayNotificationsForToday() {
+    await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+      if ((data != null) && (data != undefined) && (data.length > 0)) {
+        this._notifications = JSON.parse(data.toString());
+      }
+    },
+      (error) => {
+        this.messageHeader = "Error!"
+        let message: string = "Error occured while trying to retrieve a list of all notifications. See developer for solution."
+        console.log(error);
+        this.confirm(message);
+      });
+
+    if ((this._notifications != null) && (this._notifications != undefined) && (this._notifications.length > 0)) {
+      this._notificationsToBeDisplay = this._notifications.
+        filter(obj => `${new Date(obj.NotificationDate).getMonth()}/${new Date(obj.NotificationDate).getDay()}/${new Date(obj.NotificationDate).getFullYear()}` == `${new Date(Date.now()).getMonth()}/${new Date(Date.now()).getDay()}/${new Date(Date.now()).getFullYear()}`)
+    }
+
+  }
 
 }
 

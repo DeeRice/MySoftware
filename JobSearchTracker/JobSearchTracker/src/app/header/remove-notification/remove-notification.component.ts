@@ -26,32 +26,32 @@ import { HeaderComponent } from '../header.component';
 @Component({
   selector: 'app-remove-notification',
   standalone: true,
-  imports: [TableModule, InputTextModule, TagModule, 
-    DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule, 
-    SliderModule,  FormsModule,FormsModule, RouterModule, CommonModule, ConfirmDialogModule],
-  providers: [AppService, NotificationService, TableModule,CommonModule,
-    RouterLinkActive,RouterLink, RouterOutlet, PrimeNGConfig, MessageService, 
-    ConfirmationService,  ConfirmDialogModule, JobService],
+  imports: [TableModule, InputTextModule, TagModule,
+    DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule,
+    SliderModule, FormsModule, FormsModule, RouterModule, CommonModule, ConfirmDialogModule],
+  providers: [AppService, NotificationService, TableModule, CommonModule,
+    RouterLinkActive, RouterLink, RouterOutlet, PrimeNGConfig, MessageService,
+    ConfirmationService, ConfirmDialogModule, JobService],
   templateUrl: './remove-notification.component.html',
   styleUrl: './remove-notification.component.scss'
 })
 export class RemoveNotificationComponent {
   _notifications!: JTSNotification[];
   _notificationService: NotificationService;
-  public _appService?: AppService;  
-  public _jobService?: JobService;  
+  public _appService?: AppService;
+  public _jobService?: JobService;
   public notification?: JTSNotification;
   public _router: any;
   public _routerLink: any;
   public _messageService?: MessageService;
   public _confirmationService?: ConfirmationService;
-  public currentID:number = -1;
+  public currentID: number = -1;
   public lastTableLazyLoadEvent?: TableLazyLoadEvent;
   public messageHeader?: string;
   @ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
-  constructor(private messageService: MessageService, private confirmationService: ConfirmationService, @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, @Inject(Router) router: Router,
-  public appService: AppService, jobService: JobService,
-   notificationService: NotificationService, @Inject(RouterLink) routerLink?: RouterLink) {
+  constructor(private messageService: MessageService, private confirmationService: ConfirmationService, private activatedRoute: ActivatedRoute, private router: Router,
+    public appService: AppService, jobService: JobService,
+    notificationService: NotificationService, private routerLink: RouterLink) {
     this._appService = appService;
     this._notificationService = notificationService;
     this._router = router;
@@ -62,73 +62,73 @@ export class RemoveNotificationComponent {
   }
   ngOnInit() {
     this._notificationService.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-      if((data != null) && (data != undefined) && ((data as JTSNotification[]).length != 0)){
-      this._notifications = JSON.parse(data.toString());
+      if ((data != null) && (data != undefined) && ((data as JTSNotification[]).length != 0)) {
+        this._notifications = JSON.parse(data.toString());
       }
-  },
-  (error)=> {
-    this.messageHeader = "Error!"
-    let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-    console.log(error);
+    },
+      (error) => {
+        this.messageHeader = "Error!"
+        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
+        console.log(error);
+        this.confirm(message);
+      },
+      () => {
+
+      });
+
+  }
+
+  remove(id: number) {
+    console.log(id);
+    this.currentID = id;
+    this.messageHeader = "Delete Notification Confirmation"
+    let message: string = "Are you sure you want to delete this notification?"
     this.confirm(message);
-  },
-  () => {
-
-  }); 
- 
   }
 
-remove(id: number){
-  console.log(id);
-  this.currentID = id;
-  this.messageHeader = "Delete Notification Confirmation"
-  let message:string = "Are you sure you want to delete this notification?"
-  this.confirm(message);
-  }
-  
   confirm(messageToShow: string) {
     this.confirmationService.confirm({
       message: messageToShow,
       header: this.messageHeader,
       icon: 'pi pi-info-circle',
-        accept: () => {
-  
-          this._notificationService?.deleteNotification(this.currentID)?.subscribe(
-            (result: JTSNotification) => {
-              // Handle result
-              console.log(result);
-              this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
-              this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
-              this.headerComponent?.loadHeaders();
-              debugger;
-              this.notification = JSON.parse(result.toString());
-              if(this.notification !== null && this.notification !== undefined){
-                this.notification.Job.NotificationID = 0;
-                this._jobService?.editJob(this.notification.Job as JTSJob)?.subscribe((job: JTSJob) =>{
-                  // Handle result
-           console.log(result)
-           this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have successfully added the job.'});
-           this.headerComponent?.loadHeaders();
-         },
-         (error) => {
-           this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
-         },
-         () => {
+      accept: () => {
 
-         }
-       );
-              }
-         
-            },
-            (error) => {
-              this.messageService.add({severity:'error', summary:'Rejected', detail:'A error occurred while trying to add the job.'});
-            },
-            () => {
-              // No errors, route to new page
-          
+        this._notificationService?.deleteNotification(this.currentID)?.subscribe(
+          (result: JTSNotification) => {
+            // Handle result
+            console.log(result);
+            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the job.' });
+            this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
+            this.headerComponent?.loadHeaders();
+            debugger;
+            this.notification = JSON.parse(result.toString());
+            if (this.notification !== null && this.notification !== undefined) {
+              this.notification.Job.NotificationID = 0;
+              this._jobService?.editJob(this.notification.Job as JTSJob)?.subscribe((job: JTSJob) => {
+                // Handle result
+                console.log(result)
+                this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the job.' });
+                this.headerComponent?.loadHeaders();
+              },
+                (error) => {
+                  this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
+                },
+                () => {
+
+                }
+              );
             }
-          );
-        }
+
+          },
+          (error) => {
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
+          },
+          () => {
+            // No errors, route to new page
+
+          }
+        );
+      }
     });
     this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
   }
@@ -136,33 +136,33 @@ remove(id: number){
   public async refreshDataGrid(event: TableLazyLoadEvent) {
     this.lastTableLazyLoadEvent = event;
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-       if((data != null) && (data != undefined) && ((data as JTSNotification[]).length != 0)){
-         this._notifications = JSON.parse(data.toString());
-       }
-      
-     },
-    (error) =>{
-      this.messageHeader = "Error!"
-      let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-      console.log(error);
-      this.confirm(message);
-    }); 
+      if ((data != null) && (data != undefined) && ((data as JTSNotification[]).length != 0)) {
+        this._notifications = JSON.parse(data.toString());
+      }
+
+    },
+      (error) => {
+        this.messageHeader = "Error!"
+        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
+        console.log(error);
+        this.confirm(message);
+      });
   }
 
   async displayNotificationsForToday() {
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
-      if((data != null) && (data != undefined) && (data.length > 0)){
+      if ((data != null) && (data != undefined) && (data.length > 0)) {
         this._notifications = JSON.parse(data.toString());
       }
     },
-   (error)=>{
-    this.messageHeader = "Error!"
-    let message:string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-    console.log(error);
-    this.confirm(message);
-   }); 
+      (error) => {
+        this.messageHeader = "Error!"
+        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
+        console.log(error);
+        this.confirm(message);
+      });
   }
-  display(num: number){
+  display(num: number) {
     let jtsEvent = JTSNotificationEventType[num];
     return jtsEvent;
   }
@@ -173,6 +173,6 @@ remove(id: number){
     this._appService?.setNotificationIsHidden(false);
     this._router.navigate(['/app-notification-details/', id]);
     console.log(id);
-  }  
+  }
 
 }
