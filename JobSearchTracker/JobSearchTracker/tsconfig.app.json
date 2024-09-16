@@ -3,7 +3,10 @@
     "extends": "./tsconfig.json",
     "compilerOptions": {
         "outDir": "./out-tsc/app",
-        "types": ["jest"],
+        "types": [
+          "jest",
+          "@angular/localize"
+        ],
         "target": "ES2022",
         "useDefineForClassFields": false,
         // ADD THIS ↓↓↓

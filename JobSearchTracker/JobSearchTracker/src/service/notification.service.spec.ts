@@ -23,35 +23,35 @@ describe('NotificationService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('#getNotificationByID should return JTSNotification or undefined', (done: DoneFn) => {
+  it('#getNotificationByID should return JTSNotification or undefined', (done) => {
     service?.getNotificationByID(notificationID)?.subscribe((value) => {
        expect (typeof(value) == typeof(Observable<JTSNotification>) || typeof(value) == undefined).toBe(true);
       done();
     });
   });
 
-  it('#getAllNotifications should return JTSNotification[] or undefined', (done: DoneFn) => {
+  it('#getAllNotifications should return JTSNotification[] or undefined', (done) => {
     service?.getAllNotifications()?.subscribe((value) => {
        expect (typeof(value) == typeof(Observable<JTSNotification[]>) || typeof(value) == undefined).toBe(true);
       done();
     });
   });
 
-  it('#getLastNotificationID should return number or undefined', (done: DoneFn) => {
+  it('#getLastNotificationID should return number or undefined', (done) => {
     service?.getLastNotificationID()?.subscribe((value) => {
        expect (typeof(value) == typeof(Observable<Number>) || typeof(value) == undefined).toBe(true);
       done();
     });
   });
 
-  it('#addNotification should return JTSNotification or undefined', (done: DoneFn) => {
+  it('#addNotification should return JTSNotification or undefined', (done) => {
     service?.addNotification(notification)?.subscribe((value) => {
        expect (typeof(value) == typeof(Observable<JTSNotification>) || typeof(value) == undefined).toBe(true);
       done();
     });
   });
 
-  it('#deleteNotification should return JTSNotification or undefined', (done: DoneFn) => {
+  it('#deleteNotification should return JTSNotification or undefined', (done) => {
     service?.deleteNotification(-1)?.subscribe((value) => {
        expect (typeof(value) == typeof(Observable<JTSNotification>) || typeof(value) == undefined).toBe(true);
       done();

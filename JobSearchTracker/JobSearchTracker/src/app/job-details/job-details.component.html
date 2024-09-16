@@ -14,6 +14,10 @@
         <th scope="row"></th>
         <td>Job Description</td>
         <td>{{somejob.JobDescription}}</td>
+        <td></td>
+        <td>Recruiter Company Phone Number</td>
+        <td>{{somejob.RecruiterCompanyPhoneNumber}}</td>
+        <td></td>
       </tr>
       <tr>
         <th scope="row"></th>
@@ -63,14 +67,22 @@
       <tr>
         <th scope="row"></th>
         <td>Date Of Submissions</td>
-        <td>{{somejob.DateOfSubmission | date: 'MMMM d, y, h:mm:ss a'}}</td>
+        <td>{{somejob.DateOfSubmission | date: 'MMMM dd, yyyy'}}</td>
+        <td></td>
         <td>Date Of Follow-Up</td>
-        <td>{{somejob.DateOfFollowUp | date: 'MMMM d, y, h:mm:ss a' }}</td>
-        <td>Date Of Interview</td>
-        <td>{{somejob.DateOfInterview | date: 'MMMM d, y, h:mm:ss a'}}</td>
+        <td>{{somejob.DateOfFollowUp | date: 'MMMM dd, yyyy' }}</td>
+        <td></td>
       </tr>
    
-       
+      <tr>
+        <th scope="row"></th>
+        <td>Date Of Interview</td>
+        <td>{{somejob.DateOfInterview | date: 'MMMM dd, yyyy'}}</td>
+        <td></td>
+        <td>Job Number</td>
+        <td>{{somejob.JobNumber}}</td>
+        <td></td>
+      </tr>
       
     </tbody>
   </table>

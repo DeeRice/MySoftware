@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, OnChanges, SimpleChanges, Output, Inject, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnChanges, SimpleChanges, Output, Inject, ViewChild, Injectable } from '@angular/core';
 import { TabViewChangeEvent, TabViewModule } from 'primeng/tabview';
 import { SetNotificationComponent } from './set-notification/set-notification.component';
 import { RemoveNotificationComponent } from './remove-notification/remove-notification.component';
@@ -9,8 +9,8 @@ import { ViewNotificationComponent } from './view-notification/view-notification
 import { JobDetailsComponent } from '../job-details/job-details.component';
 import { CommonModule } from '@angular/common';
 import { AppService } from '../../service/app.service';
-import {FormsModule, ValueChangeEvent } from '@angular/forms';
-import { RouterLinkActive, ActivatedRoute, RouterModule, RouterOutlet } from '@angular/router';
+import { FormsModule, ValueChangeEvent } from '@angular/forms';
+import { RouterLinkActive, ActivatedRoute, RouterModule, RouterOutlet, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 import { JobService } from 'src/service/job.service';
@@ -26,73 +26,103 @@ import { EditNotificationComponent } from '../edit-notification/edit-notificatio
   imports: [JobAppliedForComponent, TabViewModule, SetNotificationComponent,
     RemoveNotificationComponent, RemoveJobAppliedForComponent, AddJobAppliedForComponent,
     ViewNotificationComponent, CommonModule, JobDetailsComponent, FormsModule,
-    ConfirmDialogModule, EditJobComponent, EditNotificationComponent],
-  providers: [MessageService, ConfirmationService, AppService, NgbModal, AppService, RouterModule, RouterOutlet, 
-    TabViewModule,ConfirmDialogModule],
+    ConfirmDialogModule, EditJobComponent, EditNotificationComponent, RouterModule, RouterOutlet],
+  providers: [MessageService, ConfirmationService, AppService, NgbModal, AppService, RouterModule, RouterOutlet,
+    TabViewModule, ConfirmDialogModule, RouterModule, RouterOutlet],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 
 export class HeaderComponent {
- isHidden?: boolean;
- notificationsIsDisabled = true;
- lastJobID?: number = -1;
- public _appService?: AppService;
- public _jobService?: JobService;
- public _messageService?: MessageService;
- public _confirmationService?: ConfirmationService;
- public messageHeader?: string;
- @ViewChild(JobAppliedForComponent) jobAppliedForComponent?:JobAppliedForComponent;
- @ViewChild(RemoveJobAppliedForComponent) removeJobAppliedForComponent?: RemoveJobAppliedForComponent;
- @ViewChild(ViewNotificationComponent) viewNotificationComponent?:ViewNotificationComponent;
- @ViewChild(RemoveNotificationComponent) removeNotificationComponent?: RemoveNotificationComponent;
-  constructor( @Inject(ActivatedRoute) activatedRoute: ActivatedRoute, public appService: AppService, 
-  private messageService: MessageService, private confirmationService: ConfirmationService,
-  jobService: JobService) {
-        this._appService = appService;
-        this.isHidden = this._appService.headerIsHidden;
-        this._jobService = jobService;
-        this._confirmationService = this.confirmationService;
-        this._messageService = this.messageService;
+  isHidden?: boolean;
+  notificationsIsDisabled = true;
+  lastJobID?: number = -1;
+  public headerIndex: number = 0;
+  public _appService?: AppService;
+  public _jobService?: JobService;
+  public _messageService?: MessageService;
+  public _confirmationService?: ConfirmationService;
+  public messageHeader?: string;
+  public tabItem: any;
+  @ViewChild(JobAppliedForComponent) jobAppliedForComponent?: JobAppliedForComponent;
+  @ViewChild(RemoveJobAppliedForComponent) removeJobAppliedForComponent?: RemoveJobAppliedForComponent;
+  @ViewChild(ViewNotificationComponent) viewNotificationComponent?: ViewNotificationComponent;
+  @ViewChild(RemoveNotificationComponent) removeNotificationComponent?: RemoveNotificationComponent;
+  @ViewChild(SetNotificationComponent) setNotificationComponent?: SetNotificationComponent;
+  constructor(private activatedRoute: ActivatedRoute, public appService: AppService,
+    private messageService: MessageService, private confirmationService: ConfirmationService, private router: Router,
+    jobService: JobService) {
+    this._appService = appService;
+    this.isHidden = this._appService.headerIsHidden;
+    this._jobService = jobService;
+    this._confirmationService = this.confirmationService;
+    this._messageService = this.messageService;
   }
-  ngOnInit(){
+  ngOnInit() {
+    this.loadHeaders();
 
-    this.notificationsIsDisabled = this.appService.getNotificationTabIsDisabled();
-     this._jobService!.getLastJobID()?.subscribe((jobID: number) => {
-       this.lastJobID = jobID;
-       if(jobID != null && jobID >= 1 && jobID != undefined){
-        this.notificationsIsDisabled = false;
-        this._appService!.setNotificationTabIsDisabled(this.notificationsIsDisabled);
-       }
-       else {
-        this.notificationsIsDisabled = true;
-        this._appService!.setNotificationTabIsDisabled(this.notificationsIsDisabled);
-       }
-     },
-     (error) => {
-      this.messageHeader = "Error!"
-      let message:string = "Error occured while trying to retrieve the last job. See developer for solution."
-      console.log(error);
-      this.confirm(message);
-     });
   }
-  public hide(){
+  public hide() {
     this.hide();
   }
-  handleChange(event: TabViewChangeEvent){
-     this.jobAppliedForComponent?.refreshDataGrid(this.jobAppliedForComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
-     this.removeJobAppliedForComponent?.refreshDataGrid(this.removeJobAppliedForComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
-     this.viewNotificationComponent?.refreshDataGrid(this.viewNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
-     this.removeNotificationComponent?.refreshDataGrid(this.removeNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
+  public handleChange(event: TabViewChangeEvent) {
+    const routingMap = [
+      'app-job-applied-for',
+      'app-add-job-applied-for',
+      'app-remove-job-applied-for',
+      'app-view-notification',
+      'app-set-notification',
+      'app-remove-notification',
+    ];
+    this.router.navigate(['./', routingMap[event.index]], {
+      relativeTo: this.activatedRoute
+    })
+    // this.jobAppliedForComponent?.refreshDataGrid(this.jobAppliedForComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
+    // this.removeJobAppliedForComponent?.refreshDataGrid(this.removeJobAppliedForComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
+    // this.viewNotificationComponent?.refreshDataGrid(this.viewNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
+    // this.removeNotificationComponent?.refreshDataGrid(this.removeNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
+    // this.setNotificationComponent?.populateJobEnumDropDown();
   }
-
+  public handleTabRequest() {
+    this.tabItem = this.viewNotificationComponent;
+  }
   confirm(messageToShow: string) {
     this.confirmationService?.confirm({
-          message: messageToShow,
-          accept: () => {
-              //Actual logic to perform a confirmation
-          }
-      });
+      message: messageToShow,
+      accept: () => {
+        //Actual logic to perform a confirmation
+      }
+    });
   }
 
+  public loadHeaders() {
+    this.notificationsIsDisabled = this.appService.getNotificationTabIsDisabled();
+    this._jobService!.getLastJobID()?.subscribe((jobID: number) => {
+      this.lastJobID = jobID;
+      if (jobID != null && jobID >= 1 && jobID != undefined) {
+        this.notificationsIsDisabled = false;
+        this._appService!.setNotificationTabIsDisabled(this.notificationsIsDisabled);
+      }
+      else {
+        this.notificationsIsDisabled = true;
+        this._appService!.setNotificationTabIsDisabled(this.notificationsIsDisabled);
+      }
+    },
+      (error) => {
+        this.messageHeader = "Error!"
+        let message: string = "Error occured while trying to retrieve the last job. See developer for solution."
+        console.log(error);
+        this.confirm(message);
+      });
+  }
+  public changeTabs(index: number) {
+    this.headerIndex = index;
+  }
+  public refreshTables() {
+    this.jobAppliedForComponent?.refreshDataGrid(this.jobAppliedForComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
+    this.removeJobAppliedForComponent?.refreshDataGrid(this.removeJobAppliedForComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
+    this.viewNotificationComponent?.refreshDataGrid(this.viewNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
+    this.removeNotificationComponent?.refreshDataGrid(this.removeNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
+    this.setNotificationComponent?.populateJobEnumDropDown();
+  }
 }

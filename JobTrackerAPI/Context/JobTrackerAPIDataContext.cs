@@ -2,7 +2,12 @@
 using JobTrackerAPI.Model;
 using JobTrackerAPI.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
+using System.Reflection.Emit;
+using System.Xml;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace IntegraPartnersContactApplicationAPI
 {
@@ -17,7 +22,26 @@ namespace IntegraPartnersContactApplicationAPI
 
         }
 
-       
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Job>(b =>
+            {
+                b.HasKey(e => new { e.JobID, e.JobNumber, e.JobTitle });
+                b.Property(e => e.JobID).UseIdentityColumn();
+                b.Property(e => e.JobID).ValueGeneratedOnAdd().
+                Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Save);
+                
+
+            });
+            modelBuilder.Entity<Notification>(b =>
+            {
+                b.HasKey(e => new { e.NotificationID, e.NotificationNumber });
+                b.Property(e => e.NotificationID).UseIdentityColumn();
+                b.Property(e => e.NotificationID).ValueGeneratedOnAdd().
+                Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Save);
+            });
+        }
+
         public virtual DbSet<Job> Job { get; set; } = null!;
         public virtual DbSet<Notification> Notification { get; set; } = null!;
 

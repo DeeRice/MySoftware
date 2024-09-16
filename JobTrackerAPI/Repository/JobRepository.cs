@@ -20,12 +20,12 @@ namespace JobTrackerAPI.Repository
             return await _appDbContext.Job.ToListAsync();
         }
 
-        public async Task<Job> GetJobByID(int? JobID)
+        public async Task<Job> GetJobByID(int? jobID)
         {
             try
             {
                 return await _appDbContext.Job
-                    .FirstOrDefaultAsync(e => e.JobID == JobID);
+                    .FirstOrDefaultAsync(e => e.JobID == jobID);
             }
             catch (Exception ex)
             {
@@ -33,16 +33,16 @@ namespace JobTrackerAPI.Repository
             }
         }
 
-        public async Task<Job> CreateJob(Job Job)
+        public async Task<Job> CreateJob(Job job)
         {
-            if (Job != null)
+            if (job != null)
             {
                 try
                 {
-                   
-                    var result = await _appDbContext.Job.AddAsync(Job);
+                    job.JobID = 0;
+                    var result = await _appDbContext.Job.AddAsync(job);
                     await _appDbContext.SaveChangesAsync();
-                    Job updatedJob = _appDbContext.Job.FirstOrDefault(x => x.JobID == Job.JobID);
+                    Job updatedJob = _appDbContext.Job.FirstOrDefault(x => x.JobID == job.JobID);
                     return updatedJob;
                 }
                 catch (Exception ex)
@@ -56,40 +56,39 @@ namespace JobTrackerAPI.Repository
             }
         }
 
-        public async Task<Job> EditJob(int? JobID, Job Job)
+        public async Task<Job> EditJob(Job job)
         {
             try
             {
                 var result = await _appDbContext.Job
-                    .FirstOrDefaultAsync(e => e.JobID == Job.JobID);
+                    .FirstOrDefaultAsync(e => e.JobID == job.JobID);
 
                 if (result != null)
                 {
 
-                    result.JobID = Job.JobID;
-                    result.JobNumber = Job.JobNumber;
-                    result.JobTitle = Job.JobTitle;
-                    result.JobLocation = Job.JobLocation;
-                    result.RecruiterName = Job.RecruiterName;
-                    result.ClientCompanyContactName = Job.ClientCompanyContactName;
-                    result.RecruiterCompanyName = Job.RecruiterCompanyName;
-                    result.ClientCompanyName = Job.ClientCompanyName;
-                    result.RecruiterPhoneNumber = Job.RecruiterPhoneNumber;
-                    result.ClientCompanyPhoneNumber = Job.ClientCompanyPhoneNumber;
-                    result.RecruiterCompanyLocation = Job.RecruiterCompanyLocation;
-                    result.ClientCompanyLocation = Job.ClientCompanyLocation;
-                    result.RecruiterNotes = Job.RecruiterNotes;
-                    result.ClientNotes = Job.ClientNotes;
-                    result.JobDescription = Job.JobDescription;
-                    result.DateOfSubmission = Job.DateOfSubmission;
-                    result.DateOfFollowUp = Job.DateOfFollowUp;
-                    result.DateOfInterview = Job.DateOfInterview;
-                    result.FK_JobID_NotficationID = Job.FK_JobID_NotficationID;
-                    result.Notification = Job.Notification;
-                    result.NotificationID = Job.NotificationID;
+                    result.JobID = job.JobID;
+                    result.JobNumber = job.JobNumber;
+                    result.JobTitle = job.JobTitle;
+                    result.JobLocation = job.JobLocation;
+                    result.RecruiterName = job.RecruiterName;
+                    result.ClientCompanyContactName = job.ClientCompanyContactName;
+                    result.RecruiterCompanyName = job.RecruiterCompanyName;
+                    result.ClientCompanyName = job.ClientCompanyName;
+                    result.RecruiterPhoneNumber = job.RecruiterPhoneNumber;
+                    result.RecruiterCompanyPhoneNumber = job.RecruiterCompanyPhoneNumber;
+                    result.ClientCompanyPhoneNumber = job.ClientCompanyPhoneNumber;
+                    result.RecruiterCompanyLocation = job.RecruiterCompanyLocation;
+                    result.ClientCompanyLocation = job.ClientCompanyLocation;
+                    result.RecruiterNotes = job.RecruiterNotes;
+                    result.ClientNotes = job.ClientNotes;
+                    result.JobDescription = job.JobDescription;
+                    result.DateOfSubmission = job.DateOfSubmission;
+                    result.DateOfFollowUp = job.DateOfFollowUp;
+                    result.DateOfInterview = job.DateOfInterview;
+                    result.NotificationID = job.NotificationID;
                     await _appDbContext.SaveChangesAsync();
 
-                    Job updatedJob = _appDbContext.Job.FirstOrDefault(x => x.JobID == Job.JobID);
+                    Job updatedJob = _appDbContext.Job.FirstOrDefault(x => x.JobID == job.JobID);
                     return updatedJob;
                 }
             }
@@ -100,13 +99,13 @@ namespace JobTrackerAPI.Repository
             return null;
         }
 
-        public async Task<Job> DeleteJob(int? JobID)
+        public async Task<Job> DeleteJob(int? jobID)
         {
             var result = await _appDbContext.Job
-                .FirstOrDefaultAsync(e => e.JobID == JobID);
+                .FirstOrDefaultAsync(e => e.JobID == jobID);
             if (result != null)
             {
-                var removeJob = _appDbContext.Job.FirstOrDefault(x => x.JobID == JobID);
+                var removeJob = _appDbContext.Job.FirstOrDefault(x => x.JobID == jobID);
                 _appDbContext.Job.Remove(result);
                 await _appDbContext.SaveChangesAsync();
                 return removeJob;
@@ -117,15 +116,15 @@ namespace JobTrackerAPI.Repository
             }
         }
 
-        public async Task<Job> FindJob(int? JobID)
+        public async Task<Job?> FindJob(Job? job)
         {
-            var job = await _appDbContext.Job.FindAsync(JobID);
-            return job;
+            var jobFound = await _appDbContext.Job.FindAsync(job.JobID, job.JobNumber, job.JobTitle);
+            return jobFound;
         }
 
-        public bool JobExists(int? JobID)
+        public bool JobExists(int? jobID)
         {
-            var result = _appDbContext.Job.Any(e => e.JobID == JobID);
+            var result = _appDbContext.Job.Any(e => e.JobID == jobID);
             return result;
         }
 

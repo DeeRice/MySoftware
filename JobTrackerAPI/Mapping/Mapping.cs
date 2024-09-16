@@ -23,7 +23,11 @@ namespace JobTrackerAPI.Mapping
             notificationViewModel.ClientCompanyPhoneNumber = notification?.ClientCompanyPhoneNumber;
             notificationViewModel.Message = notification?.Message;
             notificationViewModel.NotificationDate = notification.NotificationDate;
+            notificationViewModel.JobID = notification.JobID;
+            notificationViewModel.JobNumber = notification.JobNumber;
+            notificationViewModel.JobTitle = notification.JobTitle;
             notificationViewModel.NotificationEvent = (NotificationEvent)notification.NotificationEvent;
+            notificationViewModel.Job = this.MapEntityToViewModel(notification?.Job);
             return notificationViewModel;
         }
 
@@ -31,6 +35,7 @@ namespace JobTrackerAPI.Mapping
         {
             JobViewModel jobViewModel = new JobViewModel();
             jobViewModel.JobID = job.JobID;
+            jobViewModel.NotificationID = job.NotificationID;
             jobViewModel.JobNumber = job.JobNumber;
             jobViewModel.JobTitle = job?.JobTitle;
             jobViewModel.JobLocation = job?.JobLocation;
@@ -39,21 +44,16 @@ namespace JobTrackerAPI.Mapping
             jobViewModel.RecruiterCompanyName = job?.RecruiterCompanyName;
             jobViewModel.ClientCompanyName = job?.ClientCompanyName;
             jobViewModel.RecruiterPhoneNumber = job?.RecruiterPhoneNumber;
+            jobViewModel.RecruiterCompanyPhoneNumber = job?.RecruiterCompanyPhoneNumber;
             jobViewModel.ClientCompanyPhoneNumber = job?.ClientCompanyPhoneNumber;
             jobViewModel.RecruiterCompanyLocation = job?.RecruiterCompanyLocation;
             jobViewModel.ClientCompanyLocation = job?.ClientCompanyLocation;
             jobViewModel.RecruiterNotes = job?.RecruiterNotes;
             jobViewModel.ClientNotes = job?.ClientNotes;
             jobViewModel.JobDescription = job?.JobDescription;
-            jobViewModel.DateOfSubmission = job?.DateOfSubmission;
+            jobViewModel.DateOfSubmission = job.DateOfSubmission;
             jobViewModel.DateOfFollowUp = job?.DateOfFollowUp;
             jobViewModel.DateOfInterview = job?.DateOfInterview;
-            if (job?.Notification != null)
-            {
-                jobViewModel.FK_JobID_NotficationID = job?.FK_JobID_NotficationID;
-                jobViewModel.Notification = this.MapEntityToViewModel(job?.Notification);
-                jobViewModel.NotificationID = job?.NotificationID;
-            }
             return jobViewModel;
         }
 
@@ -72,8 +72,12 @@ namespace JobTrackerAPI.Mapping
             notification.ClientCompanyLocation = notificationViewModel?.ClientCompanyLocation;
             notification.ClientCompanyPhoneNumber = notificationViewModel?.ClientCompanyPhoneNumber;
             notification.NotificationDate = notificationViewModel.NotificationDate;
+            notification.JobID = notificationViewModel.JobID;
+            notification.JobNumber = notificationViewModel.JobNumber;
+            notification.JobTitle = notificationViewModel.JobTitle;
             notification.NotificationEvent = notificationViewModel?.NotificationEvent == null ? 0 : (int)notificationViewModel?.NotificationEvent;
             notification.Message = notificationViewModel?.Message;
+            notification.Job = this.MapViewModelToEntity(notificationViewModel?.Job);
             return notification;
 
         }
@@ -82,6 +86,7 @@ namespace JobTrackerAPI.Mapping
         {
             Job job = new Job();
             job.JobID = jobViewModel.JobID;
+            job.NotificationID = jobViewModel.NotificationID;
             job.JobNumber = jobViewModel.JobNumber;
             job.JobTitle = jobViewModel?.JobTitle;
             job.JobLocation = jobViewModel?.JobLocation;
@@ -90,21 +95,17 @@ namespace JobTrackerAPI.Mapping
             job.RecruiterCompanyName = jobViewModel?.RecruiterCompanyName;
             job.ClientCompanyName = jobViewModel?.ClientCompanyName;
             job.RecruiterPhoneNumber = jobViewModel?.RecruiterPhoneNumber;
+            job.RecruiterCompanyPhoneNumber = jobViewModel?.RecruiterCompanyPhoneNumber;
             job.ClientCompanyPhoneNumber = jobViewModel?.ClientCompanyPhoneNumber;
             job.RecruiterCompanyLocation = jobViewModel?.RecruiterCompanyLocation;
             job.ClientCompanyLocation = jobViewModel?.ClientCompanyLocation;
             job.RecruiterNotes = jobViewModel?.RecruiterNotes;
             job.ClientNotes = jobViewModel?.ClientNotes;
             job.JobDescription = jobViewModel?.JobDescription;
-            job.DateOfSubmission = jobViewModel?.DateOfSubmission;
+            job.DateOfSubmission = jobViewModel.DateOfSubmission;
             job.DateOfFollowUp = jobViewModel?.DateOfFollowUp;
             job.DateOfInterview = jobViewModel?.DateOfInterview;
-            if (jobViewModel?.Notification != null)
-            {
-                job.FK_JobID_NotficationID = jobViewModel?.FK_JobID_NotficationID;
-                job.Notification = this.MapViewModelToEntity(jobViewModel?.Notification);
-                job.NotificationID = jobViewModel?.NotificationID;
-            }
+          
             return job;
         }
     }

@@ -14,46 +14,52 @@ namespace JobTrackerAPI.Controllers
     public class NotificationController : ControllerBase, INotificationController
     {
         private readonly INotificationRepository _INotificationRepository;
+        private readonly IJobRepository _IJobRepository;
         private readonly IMapping _mapper;
 
-        public NotificationController(INotificationRepository INotificationRepository, IMapping mapper)
+        public NotificationController(INotificationRepository INotificationRepository, IJobRepository IJobRepository, IMapping mapper)
         {
             _INotificationRepository = INotificationRepository;
+            _IJobRepository = IJobRepository;
             _mapper = mapper;
         }
 
-        // GET: Users/GetAllUsers
+        // GET: Notification/GetAllNotifications
 
 
         [HttpGet]
         public async Task<JsonResult> GetAllNotifications()
         {
             var listOfAllNotifications = new List<NotificationViewModel>();
-            var result = await _INotificationRepository.GetAllNotifications();
-            result.ForEach(x =>
+            var notificationResults = await _INotificationRepository.GetAllNotifications();
+            var JobResults = await _IJobRepository.GetAllJobs();
+            notificationResults.ForEach(x =>
             {
+                x.Job = JobResults.Where(y => y.JobID == x.JobID).FirstOrDefault();
                 listOfAllNotifications.Add(_mapper.MapEntityToViewModel(x));
             });
             return new JsonResult(JsonConvert.SerializeObject(listOfAllNotifications));
         }
 
-        // GET: Users/GetUser/5
+        // GET: Notification/GetNotification/5
         [HttpGet]
         public async Task<JsonResult> GetNotificationByID(int? NotificationID)
         {
-
-            var notificationViewModel = _mapper.MapEntityToViewModel(await _INotificationRepository.GetNotificationByID(NotificationID));
+            var notification = await _INotificationRepository.GetNotificationByID(NotificationID);
+            var job = await _IJobRepository.GetJobByID(notification.JobID);
+            notification.Job = job;
+            var notificationViewModel = _mapper.MapEntityToViewModel(notification);
             if (notificationViewModel == null)
             {
 
-                return new JsonResult(new Exception("Could Not Find User With Specified ID").Message.ToJson());
+                return new JsonResult(new Exception("Could Not Find Notification With Specified ID").Message.ToJson());
             }
 
             return new JsonResult(JsonConvert.SerializeObject(notificationViewModel));
         }
 
 
-        // POST: Users/Create
+        // POST: Notification/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -64,7 +70,11 @@ namespace JobTrackerAPI.Controllers
 
             if (ModelState.IsValid)
             {
-                if (NotificationExists(NotificationViewModel.NotificationID) == false)
+                if (
+                    NotificationExists(NotificationViewModel.NotificationID) == false
+                    &&
+                    NotificationJobIDExist(NotificationViewModel.JobID) == false
+                    )
                 {
                     var notificationEntity = _mapper.MapViewModelToEntity(NotificationViewModel);
                     var returnedViewModel = _mapper.MapEntityToViewModel(await _INotificationRepository.CreateNotification(notificationEntity));
@@ -72,60 +82,74 @@ namespace JobTrackerAPI.Controllers
                 }
                 else
                 {
-                    return new JsonResult(new Exception("the user that was attempted to be created already exist in the database").Message.ToJson());
+                    return new JsonResult(new Exception("the notification that was attempted to be created already exist in the database or there is already a notification for this job").Message.ToJson());
                 }
             }
-            return new JsonResult(new Exception("error occurred while trying to create a user. Please check to make sure all value are accurate").Message.ToJson());
+            return new JsonResult(new Exception("error occurred while trying to create a notification. Please check to make sure all value are accurate").Message.ToJson());
         }
 
-        // GET: Users/FindUser/5
+        // GET: Notification/FindNotification/5
         [HttpGet]
-        public async Task<JsonResult> FindNotification(int? NotificationID)
+        public async Task<JsonResult> FindNotification(NotificationViewModel? Notification)
         {
-            var notificationViewModel = _mapper.MapEntityToViewModel(await _INotificationRepository.FindNotification(NotificationID));
-            if (notificationViewModel == null)
+            if (Notification == null)
             {
-                return new JsonResult(new Exception("Could Not Find User With The Submitted ID.").Message.ToJson());
+                return new JsonResult(new Exception("Could Not Find Notification With The Submitted ID.").Message.ToJson());
             }
-            return new JsonResult(JsonConvert.SerializeObject(notificationViewModel));
+            else
+            {
+                var job = await _IJobRepository.GetJobByID(Notification.JobID);
+                var notification = _mapper.MapViewModelToEntity(Notification);
+                notification.Job = job;
+                var notificationFound = await _INotificationRepository.FindNotification(notification);
+                notificationFound.Job = job;
+                var notificationViewModel = _mapper.MapEntityToViewModel(notificationFound);
+                if (notificationViewModel == null)
+                {
+                    return new JsonResult(new Exception("Could Not Find Notification With The Submitted ID.").Message.ToJson());
+                }
+                return new JsonResult(JsonConvert.SerializeObject(notificationViewModel));
+            }
         }
 
-        // POST: Users/Edit/5
+        // POST: Notification/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPut]
 
-        public async Task<JsonResult> EditNotification(int? NotificationID, [FromBody] NotificationViewModel NotificationViewModel)
+        public async Task<JsonResult> EditNotification([FromBody] NotificationViewModel NotificationViewModel)
         {
-            if (NotificationID == null)
+            if (NotificationViewModel.NotificationID == null)
             {
-                return new JsonResult(new Exception("a user was not submitted to be updated.").Message.ToJson());
+                return new JsonResult(new Exception("a notification was not submitted to be updated.").Message.ToJson());
             }
-            if (NotificationID != NotificationViewModel.NotificationID)
+            if (NotificationExists(NotificationViewModel.NotificationID) == false)
             {
-                return new JsonResult(new Exception("the id sent with the request does not match the id in the user object").Message.ToJson());
+                return new JsonResult(new Exception("the notification being edited is not found in the database").Message.ToJson());
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (NotificationExists(NotificationID))
+                    if (NotificationExists(NotificationViewModel.NotificationID))
                     {
                         var notificationEntity = _mapper.MapViewModelToEntity(NotificationViewModel);
-                        var returnedViewModel = _mapper.MapEntityToViewModel(await _INotificationRepository.EditNotification(NotificationID, notificationEntity));
+                        var job = await _IJobRepository.GetJobByID(NotificationViewModel.JobID);
+                        notificationEntity.Job = job;
+                        var returnedViewModel = _mapper.MapEntityToViewModel(await _INotificationRepository.EditNotification(notificationEntity));
                         return new JsonResult(JsonConvert.SerializeObject(returnedViewModel));
                     }
                     else
                     {
-                        return new JsonResult(new Exception("the user being edited is not found in the database").Message.ToJson());
+                        return new JsonResult(new Exception("the notification being edited is not found in the database").Message.ToJson());
                     }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!NotificationExists(NotificationViewModel.NotificationID))
                     {
-                        return new JsonResult(new Exception("the user being edited is not found in the database").Message.ToJson());
+                        return new JsonResult(new Exception("the notification being edited is not found in the database").Message.ToJson());
                     }
                     else
                     {
@@ -136,31 +160,45 @@ namespace JobTrackerAPI.Controllers
             return new JsonResult(new Exception("Something went wrong. Please check all data from the request and make sure it is valid.").Message.ToJson());
         }
 
-        // POST: Users/Delete/5
+        // POST: Notification/Delete/5
         [HttpDelete]
 
         public async Task<JsonResult> DeleteNotification(int? NotificationID)
         {
-            var notification = await _INotificationRepository.FindNotification(NotificationID);
-            if (notification != null)
+            var notification = await _INotificationRepository.GetNotificationByID(NotificationID);
+            if(notification == null)
             {
-                var returnedViewModel = _mapper.MapEntityToViewModel(await _INotificationRepository.DeleteNotification(NotificationID));
-                return new JsonResult(JsonConvert.SerializeObject(returnedViewModel));
+                return new JsonResult(new Exception("could not find the notification in the database to delete.").Message.ToJson());
             }
             else
             {
-                return new JsonResult(new Exception("could not find the user to delete.").Message.ToJson());
+                var job = await _IJobRepository.GetJobByID(notification.JobID);
+                if (notification != null)
+                {
+                    notification.Job = job;
+                    var returnedViewModel = _mapper.MapEntityToViewModel(await _INotificationRepository.DeleteNotification(NotificationID));
+                    return new JsonResult(JsonConvert.SerializeObject(returnedViewModel));
+                }
+                else
+                {
+                    return new JsonResult(new Exception("could not find the notification to delete.").Message.ToJson());
+                }
             }
+          
         }
 
         public bool NotificationExists(int? NotificationViewModel)
         {
             return _INotificationRepository.NotificationExists(NotificationViewModel);
         }
-
-        public async Task<JsonResult> GetLastNotificationID()
+        public bool NotificationJobIDExist(int? JobID)
         {
-            int? lastNotificationID = await _INotificationRepository.GetLastNotificationID();
+            bool jobIDExist = _INotificationRepository.NotificationJobIDExist(JobID);
+            return jobIDExist;
+        }
+        public JsonResult GetLastNotificationID()
+        {
+            int? lastNotificationID = _INotificationRepository.GetLastNotificationID();
             return new JsonResult(JsonConvert.SerializeObject(lastNotificationID));
         }
     }

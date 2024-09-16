@@ -2,7 +2,7 @@
     <p-table [value]="titles == undefined ? [] : titles"  [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
             <tr>
-                <th>Add Job Applied For</th>
+                <th>Edit Job Applied For</th>
                 <th></th>
             </tr>
         </ng-template>
@@ -14,24 +14,18 @@
                 <ng-template #elseBlock>
                     <td *ngIf="isNotADatePicker(titles.titleName); then thenBlock else elseBlock" ></td>
                     <ng-template #thenBlock><td><textarea rows="5" cols="30" pInputTextarea formControlName="{{titles.formName}}"></textarea></td></ng-template>
-                    <ng-template #elseBlock><td><p-calendar dataType="date" [inline]="false" dateFormat="MM, dd, yy" (onSelect)="onDateChanged()" placeholder="Click here to enter date" formControlName="{{titles.formName}}" /></td></ng-template>
+                    <ng-template #elseBlock><td><p-calendar dataType="string" [inline]="false" dateFormat="MM, dd, yyyy" (onSelect)="onDateChanged()" placeholder="Click here to enter date" formControlName="{{titles.formName}}" />
+                    </td></ng-template>
                 </ng-template>
             </tr>
         </ng-template>
-        <ng-template pTemplate="footer">
-            <tr>
-                <td><button
-                    pButton 
-                    label="Submit" 
-                    class="p-button-success" [rounded]="true" (click)="save(addJob)">
-                </button>
-            </td>
-            </tr>
-        
-        </ng-template>
-    
     </p-table>
 </div>
+<button
+                pButton 
+                label="Submit" 
+                class="p-button-success" [rounded]="true" (click)="save(addJob)">
+            </button>
 <button pButton 
 pRipple 
 label="Back" 

@@ -12,14 +12,26 @@ import { EditJobComponent } from './edit-job/edit-job.component';
 import { EditNotificationComponent } from './edit-notification/edit-notification.component';
 
 export const routes: Routes = [
-    { path: 'app-header', component: HeaderComponent },
-    { path: 'app-job-details', component: JobDetailsComponent  },
-    { path: 'app-job-details/:id', component: JobDetailsComponent  },
-    { path: 'app-notification-details', component: NotificationDetailsComponent  },
-    { path: 'app-notification-details/:id', component: NotificationDetailsComponent  },
-    { path: 'app-edit-job', component: EditJobComponent  },
-    { path: 'app-edit-job/:id', component: EditJobComponent  },
-    { path: 'app-edit-notification', component: EditNotificationComponent  },
-    { path: 'app-edit-notification/:id', component: EditNotificationComponent  }
+    { path: '', redirectTo: 'app-header', pathMatch: 'full' },
+    {
+        path: 'app-header', component: HeaderComponent, children: [
+            { path: '', redirectTo: 'app-job-applied-for', pathMatch: 'full' },
+            { path: 'app-job-applied-for', component: JobAppliedForComponent },
+            { path: 'app-add-job-applied-for', component: AddJobAppliedForComponent },
+            { path: 'app-remove-job-applied-for', component: RemoveJobAppliedForComponent },
+            { path: 'app-view-notification', component: ViewNotificationComponent },
+            { path: 'app-set-notification', component: SetNotificationComponent },
+            { path: 'app-remove-notification', component: RemoveNotificationComponent },
+
+        ]
+    },
+    { path: 'app-job-details', component: JobDetailsComponent },
+    { path: 'app-job-details/:id', component: JobDetailsComponent },
+    { path: 'app-notification-details', component: NotificationDetailsComponent },
+    { path: 'app-notification-details/:id', component: NotificationDetailsComponent },
+    { path: 'app-edit-job', component: EditJobComponent },
+    { path: 'app-edit-job/:id', component: EditJobComponent },
+    { path: 'app-edit-notification', component: EditNotificationComponent },
+    { path: 'app-edit-notification/:id', component: EditNotificationComponent }
 ];
 
