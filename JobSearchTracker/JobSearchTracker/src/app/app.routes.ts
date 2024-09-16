@@ -25,5 +25,6 @@ export const routes: Routes = [
     { path: 'app-edit-job/:id', component: EditJobComponent  },
     { path: 'app-edit-notification', component: EditNotificationComponent  },
     { path: 'app-edit-notification/:id', component: EditNotificationComponent  }
+
 ];
 

@@ -19,8 +19,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
   selector: 'app-notification-details',
   standalone: true,
   imports: [HeaderComponent, ButtonModule, TableModule, CommonModule, ConfirmDialogModule],
-  providers: [MessageService, ConfirmationService, NotificationService, AppService, 
-    TableModule, CommonModule, ButtonModule,RouterModule, ConfirmDialogModule],
+  providers: [MessageService, ConfirmationService, NotificationService, AppService,
+    TableModule, CommonModule, ButtonModule, RouterModule, ConfirmDialogModule],
   templateUrl: './notification-details.component.html',
   styleUrl: './notification-details.component.scss'
 })
@@ -33,61 +33,61 @@ export class NotificationDetailsComponent {
   public _messageService?: MessageService;
   public _confirmationService?: ConfirmationService;
   public messageHeader?: string;
-  constructor(@Inject(ActivatedRoute) activatedRoute: ActivatedRoute, 
-   public notificationService: NotificationService, appService: AppService,
-   private messageService: MessageService, private confirmationService: ConfirmationService,
-    @Inject(Router) router: Router) {
-     this._notificationService = notificationService;
-     this._router = router;
-     this._route = activatedRoute;
-     this._appService = appService;
-     this._confirmationService = this.confirmationService;
-     this._messageService = this.messageService;
-    }
+  constructor(private activatedRoute: ActivatedRoute,
+    public notificationService: NotificationService, appService: AppService,
+    private messageService: MessageService, private confirmationService: ConfirmationService,
+    private router: Router) {
+    this._notificationService = notificationService;
+    this._router = router;
+    this._route = activatedRoute;
+    this._appService = appService;
+    this._confirmationService = this.confirmationService;
+    this._messageService = this.messageService;
+  }
   public notification!: JTSNotification;
   public notificationDetails!: JTSNotification[];
   notificationID: number = -1;
- async ngOnInit() {
-  this.notificationDetails = [];
-   this.titles = this._appService?.addJobTitles;
-  await this._route?.params.subscribe((data: Params) => {
-    if((data != null) && (data != undefined))
-      this.notificationID = parseInt(data["id"]);
+  async ngOnInit() {
+    this.notificationDetails = [];
+    this.titles = this._appService?.addJobTitles;
+    await this._route?.params.subscribe((data: Params) => {
+      if ((data != null) && (data != undefined))
+        this.notificationID = parseInt(data["id"]);
     },
-  (error) => {
-    this.messageHeader = "Error!"
-    let message:string = "Error occured while trying to retrieve the params. See developer for solution."
-    console.log(error);
-    this.confirm(message);
-  });
-    if(Number.isNaN(this.notificationID) == false){
+      (error) => {
+        this.messageHeader = "Error!"
+        let message: string = "Error occured while trying to retrieve the params. See developer for solution."
+        console.log(error);
+        this.confirm(message);
+      });
+    if (Number.isNaN(this.notificationID) == false) {
       this.notificationService.getNotificationByID(this.notificationID)!.pipe(debounceTime(300), distinctUntilChanged(), switchMap((value: JTSNotification, index: number) => this.notificationService!.getNotificationByID(this.notificationID) as unknown as ObservableInput<JTSNotification>)).subscribe((data: JTSNotification) => {
         this.notification = JSON.parse(data.toString());
-           this.notificationDetails.push(this.notification!);
-     },
-    (error)=> {
-      this.messageHeader = "Error!"
-      let message:string = "Error occured while trying to retrieve the notification id. See developer for solution."
-      console.log(error);
-      this.confirm(message);
-    });
+        this.notificationDetails.push(this.notification!);
+      },
+        (error) => {
+          this.messageHeader = "Error!"
+          let message: string = "Error occured while trying to retrieve the notification id. See developer for solution."
+          console.log(error);
+          this.confirm(message);
+        });
     }
-   
- }
-convertNumberToNotificationEnum(eventNumber: number | undefined){
-  return JTSNotificationEventType[eventNumber as number];
-}
 
- goBackToJobGrid(){
-  this._router.navigateByUrl("/app-header");
- }
+  }
+  convertNumberToNotificationEnum(eventNumber: number | undefined) {
+    return JTSNotificationEventType[eventNumber as number];
+  }
 
- confirm(messageToShow: string) {
-  this.confirmationService?.confirm({
-        message: messageToShow,
-        accept: () => {
-            //Actual logic to perform a confirmation
-        }
+  goBackToJobGrid() {
+    this._router.navigateByUrl("/app-header");
+  }
+
+  confirm(messageToShow: string) {
+    this.confirmationService?.confirm({
+      message: messageToShow,
+      accept: () => {
+        //Actual logic to perform a confirmation
+      }
     });
   }
 }
