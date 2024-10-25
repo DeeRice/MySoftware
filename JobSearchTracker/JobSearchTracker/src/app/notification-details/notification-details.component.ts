@@ -79,7 +79,7 @@ export class NotificationDetailsComponent {
   }
 
   goBackToJobGrid() {
-    this._router.navigateByUrl("/app-header");
+    this._router.navigateByUrl("/app-header/app-view-notification");
   }
 
   confirm(messageToShow: string) {

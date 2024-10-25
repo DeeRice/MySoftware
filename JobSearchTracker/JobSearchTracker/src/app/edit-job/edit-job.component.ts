@@ -53,7 +53,7 @@ export class EditJobComponent {
   constructor(private appService: AppService, private jobService: JobService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
     private notificationService: NotificationService, private activatedRoute: ActivatedRoute,
-    private router: Router, private headerComponent: HeaderComponent) {
+    private router: Router) {
     this._appService = appService;
     this._jobService = jobService;
     this._messageService = messageService;
@@ -96,7 +96,7 @@ export class EditJobComponent {
 
   }
   goBackToJobGrid() {
-    this._router.navigateByUrl("/app-header");
+    this._router.navigateByUrl("/app-header/app-job-applied-for");
   }
   lockFields() {
     this.addJob.controls.JobID.disable();
@@ -207,8 +207,8 @@ export class EditJobComponent {
           () => {
             // No errors, route to new page
             debugger;
-            this.headerComponent?.refreshTables();
-            this.headerComponent!.changeTabs(0);
+           // this.headerComponent?.refreshTables();
+          //  this.headerComponent!.changeTabs(0);
             this.goBackToJobGrid();
           }
         );

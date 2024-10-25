@@ -95,17 +95,12 @@ export class JobAppliedForComponent {
   }
 
   goToEditPage(id: string) {
-    this._appService?.setJobDetailsIsHidden(false);
-    this._appService?.setHeaderIsHidden(true);
-    this._appService?.setNotificationIsHidden(true);
+    debugger;
     this._router.navigate(['/app-edit-job/', id]);
     console.log(id);
   }
 
   goToDetailPage(id: string) {
-    this._appService?.setJobDetailsIsHidden(false);
-    this._appService?.setHeaderIsHidden(true);
-    this._appService?.setNotificationIsHidden(true);
     this._router.navigate(['/app-job-details/', id]);
     console.log(id);
   }

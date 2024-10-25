@@ -83,7 +83,7 @@ export class AppService {
     { titleName: "Notification Event", formName: "NotificationEvent" }];
 
   constructor() {
-
+   
   }
   setHeaderIsHidden(isHidden: boolean) {
     this.headerIsHiddenBehavior.next(isHidden);
