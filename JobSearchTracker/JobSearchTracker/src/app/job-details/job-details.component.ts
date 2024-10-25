@@ -77,7 +77,7 @@ export class JobDetailsComponent {
 
   }
   goBackToJobGrid() {
-    this._router.navigateByUrl("/app-header");
+    this._router.navigateByUrl("/app-header/app-job-applied-for");
   }
 
   confirm(messageToShow: string) {

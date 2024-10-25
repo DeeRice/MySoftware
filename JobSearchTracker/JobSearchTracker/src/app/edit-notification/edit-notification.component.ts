@@ -70,7 +70,7 @@ export class EditNotificationComponent {
     public notificationService: NotificationService, appService: AppService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
     private router: Router, public jobService: JobService,
-    private headerComponent: HeaderComponent) {
+  ) {
     this._appService = appService;
     this._messageService = messageService;
     this._confirmationService = confirmationService;
@@ -78,7 +78,7 @@ export class EditNotificationComponent {
     this._jobService = this.jobService;
     this._router = router;
     this._route = activatedRoute;
-    this._headerComponent = headerComponent;
+    
   }
 
 
@@ -146,7 +146,7 @@ export class EditNotificationComponent {
   }
 
   goBackToJobGrid() {
-    this._router.navigateByUrl("/app-header");
+    this._router.navigateByUrl("/app-header/app-view-notification");
   }
 
   addNotification = new FormGroup({

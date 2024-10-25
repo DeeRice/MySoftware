@@ -15,7 +15,11 @@ export const routes: Routes = [
     { path: 'app-header', component: HeaderComponent, children:[
         { path: '',redirectTo: 'app-header', pathMatch: 'full'},
         { path: 'app-job-applied-for', component: JobAppliedForComponent},
-              // cherry picking this back into master
+        { path: 'app-add-job-applied-for', component: AddJobAppliedForComponent},
+        { path: 'app-remove-job-applied-for', component: RemoveJobAppliedForComponent},
+        { path: 'app-view-notification', component: ViewNotificationComponent},
+        { path: 'app-set-notification', component: SetNotificationComponent},
+        { path: 'app-remove-job-applied-for', component: RemoveNotificationComponent}
     ]},
     { path: 'app-job-details', component: JobDetailsComponent  },
     { path: 'app-job-details/:id', component: JobDetailsComponent  },
