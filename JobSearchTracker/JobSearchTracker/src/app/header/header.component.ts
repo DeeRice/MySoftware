@@ -74,17 +74,20 @@ export class HeaderComponent {
       'app-set-notification',
       'app-remove-notification',
     ];
+    this.headerIndex = event.index;
     this.router.navigate(['./', routingMap[event.index]], {
       relativeTo: this.activatedRoute
-    })
-    // this.jobAppliedForComponent?.refreshDataGrid(this.jobAppliedForComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
-    // this.removeJobAppliedForComponent?.refreshDataGrid(this.removeJobAppliedForComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
-    // this.viewNotificationComponent?.refreshDataGrid(this.viewNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
-    // this.removeNotificationComponent?.refreshDataGrid(this.removeNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
-    // this.setNotificationComponent?.populateJobEnumDropDown();
+    });
+    this.handleActiveIndexChange(event.index);
   }
-  public handleTabRequest() {
+
+ public handleActiveIndexChange(value:number){
+    value = this.headerIndex;
+ }
+  public handleTabRequest(index:Number) {
     this.tabItem = this.viewNotificationComponent;
+    this.headerIndex = parseInt(index.toString());
+    this.handleActiveIndexChange(parseInt(index.toString()));
   }
   confirm(messageToShow: string) {
     this.confirmationService?.confirm({

@@ -357,7 +357,6 @@ export class EditNotificationComponent {
       header: this.messageHeader,
       icon: 'pi pi-info-circle',
       accept: () => {
-        debugger;
         if (this.notification != null && this.currentNotificationID != -1) {
           this.notification.NotificationID = this.addNotification.controls.NotificationID.value as number;
           this.notification.NotificationNumber = this.addNotification.controls.NotificationNumber.value as number;
@@ -401,12 +400,12 @@ export class EditNotificationComponent {
               this._headerComponent?.refreshTables();
               this.goBackToJobGrid();
               setTimeout(() => {
-                debugger;
                 var eventInitDic: EventInit = {};
                 var orginEvent: Event = new Event("TabViewChangeEvent", eventInitDic);
                 var tabViewChangeEvent: TabViewChangeEvent = { originalEvent: orginEvent, index: 3 };
                 this._headerComponent?.handleChange(tabViewChangeEvent);
-                this._headerComponent?.handleTabRequest();
+                this._headerComponent?.handleActiveIndexChange(3);
+                this._headerComponent?.handleTabRequest(3);
               }, 2000);
 
             }

@@ -60,7 +60,6 @@ export class NotificationService {
   }
 
   editNotification(notification: JTSNotification, errorMessage?: string) : Observable<JTSNotification> | undefined {
-    debugger;
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8')
     .set('Accept', 'application/json');
