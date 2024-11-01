@@ -7,6 +7,7 @@ import { catchError, map, of } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class NotificationService {
   public baseUrl ="https://localhost:7052"
   public getNotificationByIDUrl: string = "Notification/GetNotificationByID";
@@ -16,6 +17,12 @@ export class NotificationService {
   public deleteNotificationUrl: string =  "Notification/DeleteNotification";
   public getLastNotificationIDUrl: string =  "Notification/GetLastNotificationID";
   public _httpClient?: HttpClient;
+  public ViewJobIsSelected: boolean = false;
+  public AddJobIsSelected: boolean = false;
+  public RemoveJobIsSelected: boolean = false;
+  public ViewNotificationIsSelected: boolean = false;
+  public SetNotificationIsSelected: boolean = false;
+  public RemoveNotificationIsSelected: boolean = false;
   constructor(private httpClient: HttpClient) { 
     this._httpClient = httpClient;
   }
@@ -94,4 +101,51 @@ export class NotificationService {
     };
   }
 
+  public setActiveTab(index:number){
+    debugger;
+    switch(index){
+      case 0: this.ViewJobIsSelected = true;
+              this.AddJobIsSelected = false;
+              this.RemoveJobIsSelected = false;
+              this.ViewNotificationIsSelected = false;
+              this.SetNotificationIsSelected = false;
+              this.RemoveNotificationIsSelected = false;
+              break;
+      case 1: this.ViewJobIsSelected = false;
+              this.AddJobIsSelected = true;
+              this.RemoveJobIsSelected = false;
+              this.ViewNotificationIsSelected = false;
+              this.SetNotificationIsSelected = false;
+              this.RemoveNotificationIsSelected = false;
+              break;
+      case 2: this.ViewJobIsSelected = false;
+              this.AddJobIsSelected = false;
+              this.RemoveJobIsSelected = true;
+              this.ViewNotificationIsSelected = false;
+              this.SetNotificationIsSelected = false;
+              this.RemoveNotificationIsSelected = false;
+              break;
+      case 3: this.ViewJobIsSelected = false;
+              this.AddJobIsSelected = false;
+              this.RemoveJobIsSelected = false;
+              this.ViewNotificationIsSelected = true;
+              this.SetNotificationIsSelected = false;
+              this.RemoveNotificationIsSelected = false;
+              break;
+      case 4: this.ViewJobIsSelected = false;
+              this.AddJobIsSelected = false;
+              this.RemoveJobIsSelected = false;
+              this.ViewNotificationIsSelected = false;
+              this.SetNotificationIsSelected = true;
+              this.RemoveNotificationIsSelected = false;
+              break;
+      case 5: this.ViewJobIsSelected = false;
+              this.AddJobIsSelected = false;
+              this.RemoveJobIsSelected = false;
+              this.ViewNotificationIsSelected = false;
+              this.SetNotificationIsSelected = false;
+              this.RemoveNotificationIsSelected = true;
+              break;
+    }
+  }
 }

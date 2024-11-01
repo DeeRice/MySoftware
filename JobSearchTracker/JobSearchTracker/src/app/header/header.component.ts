@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, OnChanges, SimpleChanges, Output, Inject, ViewChild, Injectable } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnChanges, SimpleChanges, Output, Inject, ViewChild, Injectable, ChangeDetectorRef } from '@angular/core';
 import { TabViewChangeEvent, TabViewModule } from 'primeng/tabview';
 import { SetNotificationComponent } from './set-notification/set-notification.component';
 import { RemoveNotificationComponent } from './remove-notification/remove-notification.component';
@@ -19,6 +19,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { EditJobComponent } from '../edit-job/edit-job.component';
 import { EditNotificationComponent } from '../edit-notification/edit-notification.component';
+import { NotificationService } from 'src/service/notification.service';
 
 @Component({
   selector: 'app-header',
@@ -28,7 +29,7 @@ import { EditNotificationComponent } from '../edit-notification/edit-notificatio
     ViewNotificationComponent, CommonModule, JobDetailsComponent, FormsModule,
     ConfirmDialogModule, EditJobComponent, EditNotificationComponent, RouterModule, RouterOutlet],
   providers: [MessageService, ConfirmationService, AppService, NgbModal, AppService, RouterModule, RouterOutlet,
-    TabViewModule, ConfirmDialogModule, RouterModule, RouterOutlet],
+    TabViewModule, ConfirmDialogModule, JobService, NotificationService, RouterModule, RouterOutlet],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -37,13 +38,15 @@ export class HeaderComponent {
   isHidden?: boolean;
   notificationsIsDisabled = true;
   lastJobID?: number = -1;
-  public headerIndex: number = 0;
-  public _appService?: AppService;
-  public _jobService?: JobService;
+  public activeIndex: number = 0;
+  public _appService!: AppService;
+  public _jobService!: JobService;
+  public _notificationService!: NotificationService;
   public _messageService?: MessageService;
   public _confirmationService?: ConfirmationService;
   public messageHeader?: string;
   public tabItem: any;
+
   @ViewChild(JobAppliedForComponent) jobAppliedForComponent?: JobAppliedForComponent;
   @ViewChild(RemoveJobAppliedForComponent) removeJobAppliedForComponent?: RemoveJobAppliedForComponent;
   @ViewChild(ViewNotificationComponent) viewNotificationComponent?: ViewNotificationComponent;
@@ -51,12 +54,13 @@ export class HeaderComponent {
   @ViewChild(SetNotificationComponent) setNotificationComponent?: SetNotificationComponent;
   constructor(private activatedRoute: ActivatedRoute, public appService: AppService,
     private messageService: MessageService, private confirmationService: ConfirmationService, private router: Router,
-    jobService: JobService) {
+    jobService: JobService, notificationService: NotificationService) {
     this._appService = appService;
     this.isHidden = this._appService.headerIsHidden;
     this._jobService = jobService;
-    this._confirmationService = this.confirmationService;
-    this._messageService = this.messageService;
+    this._notificationService = notificationService;
+    this._confirmationService = confirmationService;
+    this._messageService = messageService;
   }
   ngOnInit() {
     this.loadHeaders();
@@ -74,20 +78,21 @@ export class HeaderComponent {
       'app-set-notification',
       'app-remove-notification',
     ];
-    this.headerIndex = event.index;
-    this.router.navigate(['./', routingMap[event.index]], {
+    this.activeIndex = event.index;
+    this.router.navigate(['./', routingMap[event.index] ], {
       relativeTo: this.activatedRoute
     });
-    this.handleActiveIndexChange(event.index);
+  
   }
 
- public handleActiveIndexChange(value:number){
-    value = this.headerIndex;
- }
-  public handleTabRequest(index:Number) {
-    this.tabItem = this.viewNotificationComponent;
-    this.headerIndex = parseInt(index.toString());
-    this.handleActiveIndexChange(parseInt(index.toString()));
+
+
+
+  public handleTabRequest(index:number) {
+  
+    this.activeIndex = index;
+
+    
   }
   confirm(messageToShow: string) {
     this.confirmationService?.confirm({
@@ -119,7 +124,7 @@ export class HeaderComponent {
       });
   }
   public changeTabs(index: number) {
-    this.headerIndex = index;
+    this.activeIndex = index;
   }
   public refreshTables() {
     this.jobAppliedForComponent?.refreshDataGrid(this.jobAppliedForComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
@@ -128,4 +133,5 @@ export class HeaderComponent {
     this.removeNotificationComponent?.refreshDataGrid(this.removeNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
     this.setNotificationComponent?.populateJobEnumDropDown();
   }
+  
 }

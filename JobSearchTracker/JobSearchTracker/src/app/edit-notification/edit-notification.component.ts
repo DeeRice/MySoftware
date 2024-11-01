@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, Output } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -69,13 +69,13 @@ export class EditNotificationComponent {
   constructor(private activatedRoute: ActivatedRoute,
     public notificationService: NotificationService, appService: AppService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
-    private router: Router, public jobService: JobService,
+    private router: Router, public jobService: JobService
   ) {
     this._appService = appService;
     this._messageService = messageService;
     this._confirmationService = confirmationService;
     this._notificationService = notificationService;
-    this._jobService = this.jobService;
+    this._jobService = jobService;
     this._router = router;
     this._route = activatedRoute;
     
@@ -398,15 +398,18 @@ export class EditNotificationComponent {
             () => {
               // No errors, route to new page
               this._headerComponent?.refreshTables();
+              this.notificationService.ViewNotificationIsSelected = true;
+           
               this.goBackToJobGrid();
+           
               setTimeout(() => {
                 var eventInitDic: EventInit = {};
                 var orginEvent: Event = new Event("TabViewChangeEvent", eventInitDic);
                 var tabViewChangeEvent: TabViewChangeEvent = { originalEvent: orginEvent, index: 3 };
                 this._headerComponent?.handleChange(tabViewChangeEvent);
-                this._headerComponent?.handleActiveIndexChange(3);
                 this._headerComponent?.handleTabRequest(3);
-              }, 2000);
+           
+              }, 2000); 
 
             }
           );
