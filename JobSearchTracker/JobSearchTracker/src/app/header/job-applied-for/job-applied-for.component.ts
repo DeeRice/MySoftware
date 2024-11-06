@@ -26,6 +26,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { ThisReceiver } from '@angular/compiler';
+import moment from 'moment';
 
 @Component({
   selector: 'app-job-applied-for',
@@ -135,7 +136,11 @@ export class JobAppliedForComponent {
         this._notificationsToBeDisplay = [];
         this._notifications.forEach((obj, index) => {
 
-          if (new Date(obj.NotificationDate).toLocaleDateString("mmddyyyy") == new Date(Date.now()).toLocaleDateString("mmddyyyy")) {
+          if (
+              moment(new Date(obj.NotificationDate).toLocaleDateString("yyyy-dd-mm")).isSame(new Date().toLocaleDateString("yyyy-dd-mm"), 'day')
+                  ||
+              moment(new Date(obj.NotificationDate).toLocaleDateString("yyyy-dd-mm")).isBefore(new Date().toLocaleDateString("yyyy-dd-mm"), 'day')
+          ) {
             this._notificationsToBeDisplay?.push(obj)
           }
         });
