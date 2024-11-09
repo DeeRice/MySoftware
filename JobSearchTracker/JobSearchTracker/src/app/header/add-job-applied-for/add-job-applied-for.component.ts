@@ -171,8 +171,7 @@ export class AddJobAppliedForComponent {
           () => {
             // No errors, route to new page
             this._headerComponent?.refreshTables();
-            this._headerComponent!.changeTabs(0);
-
+          
           }
         );
       }

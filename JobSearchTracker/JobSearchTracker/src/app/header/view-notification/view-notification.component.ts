@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Inject, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { HttpClientModule, provideHttpClient, withJsonpSupport } from '@angular/common/http';
 import { CommonModule, JsonPipe } from '@angular/common';
@@ -30,7 +30,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
   imports: [TableModule, InputTextModule, TagModule,
     DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule,
     SliderModule, FormsModule, FormsModule, RouterModule, CommonModule, ConfirmDialogModule],
-  providers: [AppService, NotificationService, TableModule, CommonModule,
+  providers: [AppService, TableModule, CommonModule,
     RouterLinkActive, RouterLink, RouterOutlet, PrimeNGConfig, ConfirmDialogModule, ConfirmationService,
     MessageService],
   templateUrl: './view-notification.component.html',
@@ -51,7 +51,7 @@ export class ViewNotificationComponent {
   constructor(private activatedRoute: ActivatedRoute, private router: Router,
     public messageService: MessageService,
     public appService: AppService, PrimeNGConfig: PrimeNGConfig, public confirmationService: ConfirmationService,
-    notificationService: NotificationService, private routerLink?: RouterLink) {
+    notificationService: NotificationService, private cd: ChangeDetectorRef, private routerLink?: RouterLink) {
     this._appService = appService;
     this._notificationService = notificationService;
     this._router = router;
@@ -70,6 +70,9 @@ export class ViewNotificationComponent {
 
   }
 
+  ngOnChanges(changes: SimpleChanges){
+  }
+
   goToDetailPage(id: string) {
     this._appService?.setJobDetailsIsHidden(true);
     this._appService?.setHeaderIsHidden(true);
@@ -78,6 +81,7 @@ export class ViewNotificationComponent {
   }
 
   public async refreshDataGrid(event: TableLazyLoadEvent) {
+    this.cd.detectChanges();
     this.lastTableLazyLoadEvent = event;
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
       if ((data != null) && (data != undefined) && ((data as JTSNotification[]).length != 0)) {

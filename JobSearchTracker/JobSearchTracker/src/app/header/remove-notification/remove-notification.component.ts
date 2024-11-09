@@ -29,7 +29,7 @@ import { HeaderComponent } from '../header.component';
   imports: [TableModule, InputTextModule, TagModule,
     DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule,
     SliderModule, FormsModule, FormsModule, RouterModule, CommonModule, ConfirmDialogModule],
-  providers: [AppService, NotificationService, TableModule, CommonModule,
+  providers: [AppService, TableModule, CommonModule,
     RouterLinkActive, RouterLink, RouterOutlet, PrimeNGConfig, MessageService,
     ConfirmationService, ConfirmDialogModule, JobService],
   templateUrl: './remove-notification.component.html',
@@ -100,7 +100,6 @@ export class RemoveNotificationComponent {
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the job.' });
             this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
             this.headerComponent?.loadHeaders();
-            debugger;
             this.notification = JSON.parse(result.toString());
             if (this.notification !== null && this.notification !== undefined) {
               this.notification.Job.NotificationID = 0;

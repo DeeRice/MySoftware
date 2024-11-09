@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { HttpClientModule, provideHttpClient, withJsonpSupport } from '@angular/common/http';
-import { CommonModule, DatePipe, JsonPipe } from '@angular/common';
+import { CommonModule, DatePipe, JsonPipe, formatDate } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { DropdownModule } from 'primeng/dropdown';
@@ -27,6 +27,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { ThisReceiver } from '@angular/compiler';
 import moment from 'moment';
+
 
 @Component({
   selector: 'app-job-applied-for',
@@ -96,7 +97,6 @@ export class JobAppliedForComponent {
   }
 
   goToEditPage(id: string) {
-    debugger;
     this._router.navigate(['/app-edit-job/', id]);
     console.log(id);
   }
@@ -137,9 +137,9 @@ export class JobAppliedForComponent {
         this._notifications.forEach((obj, index) => {
 
           if (
-              moment(new Date(obj.NotificationDate).toLocaleDateString("yyyy-dd-mm")).isSame(new Date().toLocaleDateString("yyyy-dd-mm"), 'day')
+              moment(formatDate(new Date(obj.NotificationDate,), 'yyyy-mm-dd', 'en-US')).isSame(formatDate(new Date(), 'yyyy-mm-dd', 'en-US'), 'day')
                   ||
-              moment(new Date(obj.NotificationDate).toLocaleDateString("yyyy-dd-mm")).isBefore(new Date().toLocaleDateString("yyyy-dd-mm"), 'day')
+              moment(formatDate(new Date(obj.NotificationDate), 'yyyy-mm-dd', 'en-US')).isBefore(formatDate(new Date(), 'yyyy-mm-dd', 'en-US'), 'day')
           ) {
             this._notificationsToBeDisplay?.push(obj)
           }

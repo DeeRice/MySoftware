@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { JTSNotification } from '../model/notification';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { catchError, map, of } from 'rxjs';
+import { BehaviorSubject, catchError, map, of, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,10 @@ export class NotificationService {
   public RemoveNotificationIsSelected: boolean = false;
   constructor(private httpClient: HttpClient) { 
     this._httpClient = httpClient;
+    
   }
+
+
 
   getNotificationByID(notificationID: number, errorMessage?: string) : Observable<JTSNotification> | undefined {
     let params = new HttpParams().set('notificationID', notificationID);
@@ -102,7 +105,6 @@ export class NotificationService {
   }
 
   public setActiveTab(index:number){
-    debugger;
     switch(index){
       case 0: this.ViewJobIsSelected = true;
               this.AddJobIsSelected = false;

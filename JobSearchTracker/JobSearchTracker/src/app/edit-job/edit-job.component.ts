@@ -96,6 +96,8 @@ export class EditJobComponent {
 
   }
   goBackToJobGrid() {
+    this._appService!.setActiveIndex(0);
+    console.log(this._appService?.activeIndex);
     this._router.navigateByUrl("/app-header/app-job-applied-for");
   }
   lockFields() {
@@ -206,9 +208,6 @@ export class EditJobComponent {
           },
           () => {
             // No errors, route to new page
-            debugger;
-           // this.headerComponent?.refreshTables();
-          //  this.headerComponent!.changeTabs(0);
             this.goBackToJobGrid();
           }
         );

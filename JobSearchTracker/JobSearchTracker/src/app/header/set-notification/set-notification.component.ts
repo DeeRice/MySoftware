@@ -182,7 +182,6 @@ export class SetNotificationComponent {
             (result: JTSNotification) => {
               // Handle result
               console.log(result);
-              debugger;
               this.notification = JSON.parse(result.toString());
               this.job.NotificationID = this.notification?.NotificationID;
               this.jobService?.editJob(this.job as JTSJob)?.subscribe(
@@ -206,7 +205,7 @@ export class SetNotificationComponent {
             () => {
               // No errors, route to new page
               this._headerComponent?.refreshTables();
-              this._headerComponent!.changeTabs(3);
+           
 
             }
           );

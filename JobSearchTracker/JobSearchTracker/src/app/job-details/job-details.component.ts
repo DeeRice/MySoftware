@@ -77,6 +77,7 @@ export class JobDetailsComponent {
 
   }
   goBackToJobGrid() {
+    this._appService!.setActiveIndex(0);
     this._router.navigateByUrl("/app-header/app-job-applied-for");
   }
 

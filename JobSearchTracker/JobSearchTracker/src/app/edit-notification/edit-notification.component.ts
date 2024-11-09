@@ -7,7 +7,7 @@ import { RouterLinkActive, ActivatedRoute, RouterModule, Router, RoutesRecognize
 import { JTSJob } from '../../model/job';
 import { HeaderComponent } from '../header/header.component';
 import { JobService } from '../../service/job.service';
-import { debounce, debounceTime, distinctUntilChanged, interval, Observable, ObservableInput, switchMap } from 'rxjs';
+import { debounce, debounceTime, distinctUntilChanged, interval, Observable, ObservableInput, of, switchMap } from 'rxjs';
 import { AppService } from 'src/service/app.service';
 import { AddJobTable } from 'src/model/add-job-table';
 import { NotificationService } from 'src/service/notification.service';
@@ -65,7 +65,7 @@ export class EditNotificationComponent {
   @ViewChild('JobPicker') jobPickerMultiselect?: MultiSelect;
   _notifications!: JTSNotification[];
   notificationID: number = -1;
-  @Inject(HeaderComponent) _headerComponent?: HeaderComponent;
+
   constructor(private activatedRoute: ActivatedRoute,
     public notificationService: NotificationService, appService: AppService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
@@ -78,7 +78,7 @@ export class EditNotificationComponent {
     this._jobService = jobService;
     this._router = router;
     this._route = activatedRoute;
-    
+
   }
 
 
@@ -146,7 +146,11 @@ export class EditNotificationComponent {
   }
 
   goBackToJobGrid() {
-    this._router.navigateByUrl("/app-header/app-view-notification");
+   this._appService!.setActiveIndex(3);
+   console.log(this._appService?.activeIndex);
+   this._router.navigateByUrl("/app-header/app-view-notification");
+ 
+  
   }
 
   addNotification = new FormGroup({
@@ -397,19 +401,11 @@ export class EditNotificationComponent {
             },
             () => {
               // No errors, route to new page
-              this._headerComponent?.refreshTables();
+         
               this.notificationService.ViewNotificationIsSelected = true;
-           
               this.goBackToJobGrid();
            
-              setTimeout(() => {
-                var eventInitDic: EventInit = {};
-                var orginEvent: Event = new Event("TabViewChangeEvent", eventInitDic);
-                var tabViewChangeEvent: TabViewChangeEvent = { originalEvent: orginEvent, index: 3 };
-                this._headerComponent?.handleChange(tabViewChangeEvent);
-                this._headerComponent?.handleTabRequest(3);
-           
-              }, 2000); 
+             
 
             }
           );

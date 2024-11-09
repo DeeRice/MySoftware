@@ -19,7 +19,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
   selector: 'app-notification-details',
   standalone: true,
   imports: [HeaderComponent, ButtonModule, TableModule, CommonModule, ConfirmDialogModule],
-  providers: [MessageService, ConfirmationService, NotificationService, AppService,
+  providers: [MessageService, ConfirmationService, AppService,
     TableModule, CommonModule, ButtonModule, RouterModule, ConfirmDialogModule],
   templateUrl: './notification-details.component.html',
   styleUrl: './notification-details.component.scss'
@@ -79,6 +79,7 @@ export class NotificationDetailsComponent {
   }
 
   goBackToJobGrid() {
+    this._appService!.setActiveIndex(3);
     this._router.navigateByUrl("/app-header/app-view-notification");
   }
 
