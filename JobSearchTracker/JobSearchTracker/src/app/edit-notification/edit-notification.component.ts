@@ -382,31 +382,28 @@ export class EditNotificationComponent {
           this.notificationService?.editNotification(this.notification)?.subscribe(
             (result) => {
               // Handle result
+              debugger;
+              const substring = "the notification";
+              if(result.toString().includes(substring)){
+                this.messageService.add({ severity: 'error', summary: 'Rejected', detail: `${result}` });
+                this.notificationService.ViewNotificationIsSelected = true;
+              }
+              else {
               this.job.NotificationID = this.notification?.NotificationID;
               this.jobService?.editJob(this.job)?.subscribe(
                 (result) => {
                   // Handle result
+                  if(result.toString().includes(substring)){
+                    this.messageService.add({ severity: 'error', summary: 'Rejected', detail: `${result}` });
+                    this.notificationService.ViewNotificationIsSelected = true;
+                  }
+                  else {
                   this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the job.' });
-
-                },
-                (error) => {
-                  this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
-                },
-                () => {
-
-                });
-            },
-            (error) => {
-              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
-            },
-            () => {
-              // No errors, route to new page
-         
-              this.notificationService.ViewNotificationIsSelected = true;
-              this.goBackToJobGrid();
-           
-             
-
+                  this.notificationService.ViewNotificationIsSelected = true;
+                  this.goBackToJobGrid();
+                  }
+                })
+              }
             }
           );
         }

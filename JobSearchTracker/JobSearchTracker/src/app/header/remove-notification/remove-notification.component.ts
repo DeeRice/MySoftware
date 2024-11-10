@@ -96,8 +96,6 @@ export class RemoveNotificationComponent {
         this._notificationService?.deleteNotification(this.currentID)?.subscribe(
           (result: JTSNotification) => {
             // Handle result
-            console.log(result);
-            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the job.' });
             this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
             this.headerComponent?.loadHeaders();
             this.notification = JSON.parse(result.toString());
@@ -106,7 +104,7 @@ export class RemoveNotificationComponent {
               this._jobService?.editJob(this.notification.Job as JTSJob)?.subscribe((job: JTSJob) => {
                 // Handle result
                 console.log(result)
-                this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the job.' });
+                this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully removed the notification.' });
                 this.headerComponent?.loadHeaders();
               },
                 (error) => {

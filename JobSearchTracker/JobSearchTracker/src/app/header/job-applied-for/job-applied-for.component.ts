@@ -137,9 +137,9 @@ export class JobAppliedForComponent {
         this._notifications.forEach((obj, index) => {
 
           if (
-              moment(formatDate(new Date(obj.NotificationDate,), 'yyyy-mm-dd', 'en-US')).isSame(formatDate(new Date(), 'yyyy-mm-dd', 'en-US'), 'day')
+              moment(formatDate(new Date(obj.NotificationDate), 'dddd, MMMM Do YYYY, h:mm:ss a', 'en-US')).isSame(formatDate(new Date(), 'dddd, MMMM Do YYYY, h:mm:ss a', 'en-US'), 'day')
                   ||
-              moment(formatDate(new Date(obj.NotificationDate), 'yyyy-mm-dd', 'en-US')).isBefore(formatDate(new Date(), 'yyyy-mm-dd', 'en-US'), 'day')
+              moment(formatDate(new Date(obj.NotificationDate), 'dddd, MMMM Do YYYY, h:mm:ss a', 'en-US')).isBefore(formatDate(new Date(), 'dddd, MMMM Do YYYY, h:mm:ss a', 'en-US'), 'day')
           ) {
             this._notificationsToBeDisplay?.push(obj)
           }
