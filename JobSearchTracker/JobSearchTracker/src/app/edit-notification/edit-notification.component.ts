@@ -97,45 +97,53 @@ export class EditNotificationComponent {
       });
     if (Number.isNaN(this.notificationID) == false) {
       this.notificationService.getNotificationByID(this.notificationID)!.pipe(debounceTime(300), distinctUntilChanged(), switchMap((value: JTSNotification, index: number) => this.notificationService!.getNotificationByID(this.notificationID) as unknown as ObservableInput<JTSNotification>)).subscribe((data: JTSNotification) => {
+        const substring = "the job";
+        const substringTwo = "the notification";
+        if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
+          this.messageHeader = "Error Occurred!"
+          let message: string = data.toString();
+          this.confirm(message);
+        }
+        else {
         this.notification = JSON.parse(data.toString());
         this.currentNotificationID = this.notificationID;
         this._notifications.push(this.notification!);
         this.populateNotification(this.notification as JTSNotification);
-
-      },
-        (error) => {
-          this.messageHeader = "Error!"
-          let message: string = "Error occured while trying to retrieve the notification id. See developer for solution."
-          this.confirm(message);
-        });
+        }
+      });
     }
 
     this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
       if ((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)) {
-        this.jobs = JSON.parse(data.toString());
-        this.job = this.jobs.find(item => item.JobID === this.notification?.JobID) as JTSJob;
-        this.listofJobEnums = [];
-        if ((this.notification != undefined) && (this.notification != null)) {
-          this.notification.NotificationEvent = 0;
-        }
-        this.jobs.forEach((Value, index) => {
-          let jobEnum = new JobEnum();
-          jobEnum.id = Value.JobID;
-          jobEnum.name = Value.ClientCompanyName;
-          this.listofJobEnums?.push(jobEnum);
-          if (index == 0) {
-            this.jobEnum = jobEnum;
+        const substring = "the job";
+        const substringTwo = "the notification";
+         if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
+          let message: string = data.toString();
+          this.messageHeader = "Error Occured!";
+          this.confirm(message);
+         }
+         else {
+          this.jobs = JSON.parse(data.toString());
+          this.job = this.jobs.find(item => item.JobID === this.notification?.JobID) as JTSJob;
+          this.listofJobEnums = [];
+          if ((this.notification != undefined) && (this.notification != null)) {
+            this.notification.NotificationEvent = 0;
           }
-        });
+          this.jobs.forEach((Value, index) => {
+            let jobEnum = new JobEnum();
+            jobEnum.id = Value.JobID;
+            jobEnum.name = Value.ClientCompanyName;
+            this.listofJobEnums?.push(jobEnum);
+            if (index == 0) {
+              this.jobEnum = jobEnum;
+            }
+         });
+        
+        }
 
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-        this.confirm(message);
-
-      });
+    });
+      
     this.makeTextboxesUnEditable();
 
     this.setEventPicker();
@@ -313,14 +321,19 @@ export class EditNotificationComponent {
   async displayNotificationsForToday() {
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
       if ((data != null) && (data != undefined) && (data.length > 0)) {
-        this._notifications = JSON.parse(data.toString());
+        const substring = "the job";
+        const substringTwo = "the notification";
+        if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
+          let message: string = data.toString();
+          this.messageHeader = "Error Occured!";
+          this.confirm(message);
+        }
+        else {
+          this._notifications = JSON.parse(data.toString());
+        }
+       
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of notifications. See developer for solution."
-        this.confirm(message);
-      });
+    });
   }
 
   save(form: FormGroup) {
@@ -382,9 +395,9 @@ export class EditNotificationComponent {
           this.notificationService?.editNotification(this.notification)?.subscribe(
             (result) => {
               // Handle result
-              debugger;
-              const substring = "the notification";
-              if(result.toString().includes(substring)){
+              const substring = "the job";
+              const substringTwo = "the notification";
+              if(result.toString().includes(substring) || result.toString().includes(substringTwo)){
                 this.messageService.add({ severity: 'error', summary: 'Rejected', detail: `${result}` });
                 this.notificationService.ViewNotificationIsSelected = true;
               }
@@ -393,7 +406,7 @@ export class EditNotificationComponent {
               this.jobService?.editJob(this.job)?.subscribe(
                 (result) => {
                   // Handle result
-                  if(result.toString().includes(substring)){
+                  if(result.toString().includes(substring) || result.toString().includes(substringTwo)){
                     this.messageService.add({ severity: 'error', summary: 'Rejected', detail: `${result}` });
                     this.notificationService.ViewNotificationIsSelected = true;
                   }

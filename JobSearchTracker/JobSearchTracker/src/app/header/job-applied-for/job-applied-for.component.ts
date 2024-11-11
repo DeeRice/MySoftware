@@ -72,6 +72,14 @@ export class JobAppliedForComponent {
   async ngOnInit() {
     this._appService!.setNotificationTabIsDisabled(true);
     await this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
+        this.messageHeader = "Error Occured!"
+        let message: string = data.toString();
+        this.confirm(message);
+      }
+      else {
       if (data != null && (data as JTSJob[]).length != 0 && data != undefined) {
         this.jobs = JSON.parse(data.toString());
       }
@@ -81,19 +89,9 @@ export class JobAppliedForComponent {
       else {
         this._appService!.setNotificationTabIsDisabled(true);
       }
-
       this.displayNotificationsForToday();
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-        console.log(error);
-        this.confirm(message);
-      });
-
-
-
-
+    }
+    });
   }
 
   goToEditPage(id: string) {
@@ -109,6 +107,14 @@ export class JobAppliedForComponent {
     this.lastTableLazyLoadEvent = event;
     this._appService!.setNotificationTabIsDisabled(true);
     await this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
+        this.messageHeader = "Error Occured!"
+        let message: string = data.toString();
+        this.confirm(message);
+      }
+      else {
       if ((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)) {
         this.jobs = JSON.parse(data.toString());
       }
@@ -118,17 +124,20 @@ export class JobAppliedForComponent {
       else {
         this._appService!.setNotificationTabIsDisabled(true);
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-        console.log(error);
-        this.confirm(message);
-      });
+     }
+    });
   }
 
   async displayNotificationsForToday() {
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
+        this.messageHeader = "Error Occured!"
+        let message: string = data.toString();
+        this.confirm(message);
+      }
+      else {
       if ((data != null) && (data != undefined) && (data.length > 0)) {
         this._notifications = JSON.parse(data.toString());
       }
@@ -152,13 +161,8 @@ export class JobAppliedForComponent {
           });
         }
       }
-    }, (error) => {
-      this.messageHeader = "Error!"
-      let message: string = "Error occured while trying to retrieve a list of notifications. See developer for solution."
-      console.log(error);
-      this.confirm(message);
+     }
     });
-
   }
 
   confirm(messageToShow: string) {

@@ -160,18 +160,20 @@ export class AddJobAppliedForComponent {
         this._jobService?.addJob(job)?.subscribe(
           (result) => {
             // Handle result
+            const substring = "the job";
+            const substringTwo = "the notification";
+            if(result.toString().includes(substring) || result.toString().includes(substringTwo)){
+              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: result.toString() });
+            }
+            else {
             console.log(result)
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the job.' });
             this._headerComponent?.loadHeaders();
-
-          },
-          (error) => {
-            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
+            }
           },
           () => {
             // No errors, route to new page
             this._headerComponent?.refreshTables();
-          
           }
         );
       }
@@ -181,15 +183,18 @@ export class AddJobAppliedForComponent {
   async displayNotificationsForToday() {
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
       if ((data != null) && (data != undefined) && (data.length > 0)) {
-        this._notifications = JSON.parse(data.toString());
+        const substring = "the job";
+        const substringTwo = "the notification";
+        if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
+          this.messageHeader = "Error Occured!"
+          let message: string = data.toString();
+          this.confirm(message);
+        }
+        else{
+          this._notifications = JSON.parse(data.toString());
+        }
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of all notifications. See developer for solution."
-        console.log(error);
-        this.confirm(message);
-      });
+    });
 
     if ((this._notifications != null) && (this._notifications != undefined) && (this._notifications.length > 0)) {
       this._notificationsToBeDisplay = this._notifications.
