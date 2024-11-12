@@ -62,15 +62,19 @@ export class NotificationDetailsComponent {
       });
     if (Number.isNaN(this.notificationID) == false) {
       this.notificationService.getNotificationByID(this.notificationID)!.pipe(debounceTime(300), distinctUntilChanged(), switchMap((value: JTSNotification, index: number) => this.notificationService!.getNotificationByID(this.notificationID) as unknown as ObservableInput<JTSNotification>)).subscribe((data: JTSNotification) => {
+        const substring = "the job";
+        const substringTwo = "the notification";
+        if(data.toString().includes(substring) || data.toString().includes(substringTwo)) {
+          this.messageHeader = "Error Occured!"
+          let message: string = data.toString();
+          console.log(data);
+          this.confirm(message);
+        }
+        else {
         this.notification = JSON.parse(data.toString());
         this.notificationDetails.push(this.notification!);
-      },
-        (error) => {
-          this.messageHeader = "Error!"
-          let message: string = "Error occured while trying to retrieve the notification id. See developer for solution."
-          console.log(error);
-          this.confirm(message);
-        });
+        }
+      });
     }
 
   }

@@ -127,6 +127,15 @@ export class HeaderComponent {
   public loadHeaders() {
     this.notificationsIsDisabled = this.appService.getNotificationTabIsDisabled();
     this._jobService!.getLastJobID()?.subscribe((jobID: number) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(jobID.toString().includes(substring) || jobID.toString().includes(substringTwo)) {
+        this.messageHeader = "Error Occured!"
+        let message: string = jobID.toString();
+        console.log(jobID);
+        this.confirm(message);
+      }
+      else {
       this.lastJobID = jobID;
       if (jobID != null && jobID >= 1 && jobID != undefined) {
         this.notificationsIsDisabled = false;
@@ -136,13 +145,8 @@ export class HeaderComponent {
         this.notificationsIsDisabled = true;
         this._appService!.setNotificationTabIsDisabled(this.notificationsIsDisabled);
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve the last job. See developer for solution."
-        console.log(error);
-        this.confirm(message);
-      });
+    }
+    });
   }
 
 

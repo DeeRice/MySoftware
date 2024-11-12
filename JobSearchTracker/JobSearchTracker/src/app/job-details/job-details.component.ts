@@ -62,17 +62,21 @@ export class JobDetailsComponent {
       });
     if (Number.isNaN(this.jobID) == false) {
       this._jobService!.getJobByID(this.jobID)!.pipe(debounceTime(300), distinctUntilChanged(), switchMap((value: JTSJob, index: number) => this._jobService!.getJobByID(this.jobID) as unknown as ObservableInput<JTSJob>)).subscribe((data: JTSJob) => {
+        const substring = "the job";
+        const substringTwo = "the notification";
+        if(data.toString().includes(substring) || data.toString().includes(substringTwo)) {
+          this.messageHeader = "Error Occured!"
+          let message: string = data.toString();
+          console.log(data);
+          this.confirm(message);
+        }
+        else {
         if ((data != null) && (data != undefined)) {
           this.job = JSON.parse(data.toString());
           this.jobDetails.push(this.job);
         }
-      },
-        (error) => {
-          this.messageHeader = "Error!"
-          let message: string = "Error occured while trying to retrieve the last job id. See developer for solution."
-          console.log(error);
-          this.confirm(message);
-        });
+       }
+      });
     }
 
   }
