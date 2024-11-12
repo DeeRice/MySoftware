@@ -61,19 +61,20 @@ export class RemoveJobAppliedForComponent {
   ngOnInit() {
     this.titles = this._appService?.addJobTitles;
     this._jobService?.getAllJobs()?.subscribe((data) => {
-      if ((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)) {
-        this._jobs = JSON.parse(data.toString());
-      }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-        console.log(error);
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)) {
+        this.messageHeader = "Error Occured!"
+        let message: string = data.toString();
+        console.log(data);
         this.confirm(message);
-      });
-
-
-
+      }
+      else {
+        if ((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)) {
+          this._jobs = JSON.parse(data.toString());
+        }
+      }
+    });
   }
 
   remove(id: number) {
@@ -95,19 +96,18 @@ export class RemoveJobAppliedForComponent {
         this._jobService?.deleteJob(this.currentID)?.subscribe(
           (result) => {
             // Handle result
+            const substring = "the job";
+            const substringTwo = "the notification";
+            if(result.toString().includes(substring) || result.toString().includes(substringTwo)){
+              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: result.toString() });
+            }
+            else {
             console.log(result);
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully removed the job.' });
             this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
             this.headerComponent?.loadHeaders();
-          },
-          (error) => {
-            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
-          },
-          () => {
-            // No errors, route to new page
-
-          }
-        );
+            }
+          });
       }
     });
     this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
@@ -117,6 +117,14 @@ export class RemoveJobAppliedForComponent {
     this.lastTableLazyLoadEvent = event;
     this._appService!.setNotificationTabIsDisabled(true);
     await this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
+        this.messageHeader = "Error Occured!";
+        let message: string = data.toString();
+        this.confirm(message);
+      }
+      else {
       if ((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)) {
         this._jobs = JSON.parse(data.toString());
       }
@@ -126,27 +134,25 @@ export class RemoveJobAppliedForComponent {
       else {
         this._appService!.setNotificationTabIsDisabled(true);
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-        console.log(error);
-        this.confirm(message);
-      });
+    }
+    });
   }
 
   async displayNotificationsForToday() {
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)) {
+        this.messageHeader = "Error Occured!";
+        let message: string = data.toString();
+        this.confirm(message);
+      }
+      else {
       if ((data != null) && (data != undefined) && (data.length > 0)) {
         this._notifications = JSON.parse(data.toString());
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of notifications. See developer for solution."
-        console.log(error);
-        this.confirm(message);
-      });
+     }
+    });
   }
 
   goToDetailPage(id: string) {

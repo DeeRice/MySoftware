@@ -62,19 +62,19 @@ export class RemoveNotificationComponent {
   }
   ngOnInit() {
     this._notificationService.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)) {
+        this.messageHeader = "Error Occured!"
+        let message: string = data.toString();
+        this.confirm(message);
+      }
+      else {
       if ((data != null) && (data != undefined) && ((data as JTSNotification[]).length != 0)) {
         this._notifications = JSON.parse(data.toString());
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-        console.log(error);
-        this.confirm(message);
-      },
-      () => {
-
-      });
+     }
+    });
 
   }
 
@@ -96,6 +96,12 @@ export class RemoveNotificationComponent {
         this._notificationService?.deleteNotification(this.currentID)?.subscribe(
           (result: JTSNotification) => {
             // Handle result
+            const substring = "the job";
+            const substringTwo = "the notification";
+            if(result.toString().includes(substring) || result.toString().includes(substringTwo)) {
+              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: result.toString() });
+            }
+            else {
             this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
             this.headerComponent?.loadHeaders();
             this.notification = JSON.parse(result.toString());
@@ -103,28 +109,18 @@ export class RemoveNotificationComponent {
               this.notification.Job.NotificationID = 0;
               this._jobService?.editJob(this.notification.Job as JTSJob)?.subscribe((job: JTSJob) => {
                 // Handle result
+                if(result.toString().includes(substring) || result.toString().includes(substringTwo)) {
+                  this.messageService.add({ severity: 'error', summary: 'Rejected', detail: result.toString() });
+                }
+                else {
                 console.log(result)
                 this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully removed the notification.' });
                 this.headerComponent?.loadHeaders();
-              },
-                (error) => {
-                  this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
-                },
-                () => {
-
                 }
-              );
+              });
             }
-
-          },
-          (error) => {
-            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
-          },
-          () => {
-            // No errors, route to new page
-
           }
-        );
+        });
       }
     });
     this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
@@ -133,31 +129,38 @@ export class RemoveNotificationComponent {
   public async refreshDataGrid(event: TableLazyLoadEvent) {
     this.lastTableLazyLoadEvent = event;
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)) {
+        this.messageHeader = "Error Occured!"
+        let message: string = data.toString();
+        console.log(data);
+        this.confirm(message);
+      }
+      else {
       if ((data != null) && (data != undefined) && ((data as JTSNotification[]).length != 0)) {
         this._notifications = JSON.parse(data.toString());
       }
-
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-        console.log(error);
-        this.confirm(message);
-      });
+     }
+    });
   }
 
   async displayNotificationsForToday() {
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)) {
+        this.messageHeader = "Error Occured!"
+        let message: string = data.toString();
+        console.log(data);
+        this.confirm(message);
+      }
+      else { 
       if ((data != null) && (data != undefined) && (data.length > 0)) {
         this._notifications = JSON.parse(data.toString());
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-        console.log(error);
-        this.confirm(message);
-      });
+     }
+    });
   }
   display(num: number) {
     let jtsEvent = JTSNotificationEventType[num];
