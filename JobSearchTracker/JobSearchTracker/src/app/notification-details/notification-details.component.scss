@@ -34,3 +34,12 @@ $display: (
   :host ::ng-deep {
     width: 100%;;
   }
+
+  .emptyrowheight {
+    height: 50px;
+  }
+
+ .scrollableTable {
+  height:400px;
+  overflow:auto;
+ }
