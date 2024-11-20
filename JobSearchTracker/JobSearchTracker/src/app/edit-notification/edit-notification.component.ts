@@ -105,6 +105,7 @@ export class EditNotificationComponent {
           this.confirm(message);
         }
         else {
+          debugger;
         this.notification = JSON.parse(data.toString());
         this.currentNotificationID = this.notificationID;
         this._notifications.push(this.notification!);
@@ -127,7 +128,8 @@ export class EditNotificationComponent {
           this.job = this.jobs.find(item => item.JobID === this.notification?.JobID) as JTSJob;
           this.listofJobEnums = [];
           if ((this.notification != undefined) && (this.notification != null)) {
-            this.notification.NotificationEvent = 0;
+            debugger;
+            this.notification.NotificationEvent.valueOf();
           }
           this.jobs.forEach((Value, index) => {
             let jobEnum = new JobEnum();
@@ -138,7 +140,7 @@ export class EditNotificationComponent {
               this.jobEnum = jobEnum;
             }
          });
-        
+         
         }
 
       }
@@ -179,7 +181,7 @@ export class EditNotificationComponent {
     ClientCompanyPhoneNumber: new FormControl(''),
     NotificationMessage: new FormControl(''),
     NotificationDate: new FormControl<string | undefined>(undefined),
-    NotificationEvent: new FormControl<NotficationEventEnum | undefined>(undefined),
+    NotificationEvent: new FormControl<NotficationEventEnum | null>(null),
   });
 
   isNotAPicker(title: string) {
@@ -252,7 +254,7 @@ export class EditNotificationComponent {
       this.addNotification.controls.ClientCompanyName.setValue(obj.ClientCompanyName || null)
       this.addNotification.controls.ClientCompanyLocation.setValue(obj.ClientCompanyLocation || null)
       this.addNotification.controls.ClientCompanyPhoneNumber.setValue(obj.ClientCompanyPhoneNumber || null)
-      this.addNotification.controls.NotificationEvent.setValue(this.notficationEventEnum as NotficationEventEnum);
+      this.addNotification.controls.NotificationEvent.setValue({id: this.notification?.NotificationEvent, name: JTSNotificationEventType[this.notification!.NotificationEvent]});
 
       this.jobPickerMultiselect?.hide();
     }
@@ -448,8 +450,10 @@ export class EditNotificationComponent {
     this.addNotification.controls.ClientCompanyPhoneNumber.setValue(notification.ClientCompanyPhoneNumber || null);
     this.addNotification.controls.NotificationDate.setValue(this.formatDate(notification.NotificationDate as Date, "MMMM, dd, yyyy") || null);
     this.addNotification.controls.NotificationMessage.setValue(notification.Message || null);
-    this.addNotification.controls.NotificationEvent.setValue(this.notficationEventEnum as NotficationEventEnum);
-
+    this.addNotification.controls.NotificationEvent.setValue({id: notification.NotificationEvent, name: JTSNotificationEventType[notification.NotificationEvent]});
+    debugger;
+   
+    
   }
 
 }

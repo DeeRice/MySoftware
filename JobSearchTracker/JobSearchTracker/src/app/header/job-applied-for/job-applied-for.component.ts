@@ -132,6 +132,7 @@ export class JobAppliedForComponent {
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
       const substring = "the job";
       const substringTwo = "the notification";
+      debugger;
       if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
         this.messageHeader = "Error Occured!"
         let message: string = data.toString();
@@ -144,12 +145,13 @@ export class JobAppliedForComponent {
       if ((this._notifications != null) && (this._notifications != undefined) && (this._notifications.length > 0)) {
         this._notificationsToBeDisplay = [];
         this._notifications.forEach((obj, index) => {
-
+         console.log(moment(formatDate(new Date(obj.NotificationDate), 'dddd, MMMM Do YYYY, h:mm:ss a', 'en-US')).isBefore(formatDate(new Date(), 'dddd, MMMM Do YYYY, h:mm:ss a', 'en-US'), 'day'));
           if (
               moment(formatDate(new Date(obj.NotificationDate), 'dddd, MMMM Do YYYY, h:mm:ss a', 'en-US')).isSame(formatDate(new Date(), 'dddd, MMMM Do YYYY, h:mm:ss a', 'en-US'), 'day')
                   ||
               moment(formatDate(new Date(obj.NotificationDate), 'dddd, MMMM Do YYYY, h:mm:ss a', 'en-US')).isBefore(formatDate(new Date(), 'dddd, MMMM Do YYYY, h:mm:ss a', 'en-US'), 'day')
           ) {
+            console.log(moment(formatDate(new Date(obj.NotificationDate), 'dddd, MMMM Do YYYY, h:mm:ss a', 'en-US')).isSame(formatDate(new Date(), 'dddd, MMMM Do YYYY, h:mm:ss a', 'en-US'), 'day'));
             this._notificationsToBeDisplay?.push(obj)
           }
         });
