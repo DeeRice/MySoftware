@@ -104,7 +104,6 @@ export class EditNotificationComponent {
           this.confirm(message);
         }
         else {
-          debugger;
         this.notification = JSON.parse(data.toString());
         this.currentNotificationID = this.notificationID;
         this._notifications.push(this.notification!);
@@ -127,7 +126,6 @@ export class EditNotificationComponent {
           this.job = this.jobs.find(item => item.JobID === this.notification?.JobID) as JTSJob;
           this.listofJobEnums = [];
           if ((this.notification != undefined) && (this.notification != null)) {
-            debugger;
             this.notification.NotificationEvent.valueOf();
           }
           this.jobs.forEach((Value, index) => {
@@ -449,10 +447,7 @@ export class EditNotificationComponent {
     this.addNotification.controls.ClientCompanyPhoneNumber.setValue(notification.ClientCompanyPhoneNumber || null);
     this.addNotification.controls.NotificationDate.setValue(this.formatDate(notification.NotificationDate as Date, "MMMM, dd, yyyy") || null);
     this.addNotification.controls.NotificationMessage.setValue(notification.Message || null);
-    this.addNotification.controls.NotificationEvent.setValue({id: notification.NotificationEvent, name: JTSNotificationEventType[notification.NotificationEvent]});
-    debugger;
-   
-    
+    this.addNotification.controls.NotificationEvent.setValue({id: notification.NotificationEvent, name: JTSNotificationEventType[notification.NotificationEvent]});    
   }
 
 }

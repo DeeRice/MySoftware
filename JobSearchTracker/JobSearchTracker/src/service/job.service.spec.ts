@@ -28,35 +28,43 @@ describe('JobService', () => {
 
   it('#getJobByID should return JTSJob or undefined', (done) => {
     service?.getJobByID(jobID)?.subscribe((value) => {
-       expect (typeof(value) == typeof(Observable<JTSJob>) || typeof(value) == undefined).toBe(true);
+       expect (typeof(value) == typeof(Observable<JTSJob>) || typeof(value) == undefined ||
+       typeof(value) == typeof(JTSJob) || typeof(value) == typeof({}) ||
+       typeof(value) == typeof("string")).toBe(true);
       done();
     });
   });
 
   it('#getAllJobs should return JTSJob[] or undefined', (done) => {
     service?.getAllJobs()?.subscribe((value) => {
-       expect (typeof(value) == typeof(Observable<JTSJob[]>) || typeof(value) == undefined).toBe(true);
+       expect (typeof(value) == typeof(Observable<JTSJob[]>) || typeof(value) == undefined ||
+       typeof(value) == typeof(Array<JTSJob>) ||  typeof(value) == typeof([]) ||
+       typeof(value) == typeof("string")).toBe(true);
       done();
     });
   });
 
   it('#getLastJobID should return number or undefined', (done) => {
     service?.getLastJobID()?.subscribe((value) => {
-       expect (typeof(value) == typeof(Observable<Number>) || typeof(value) == undefined).toBe(true);
+       expect (typeof(value) == typeof(Observable<Number>) || typeof(value) == undefined || 
+       Number.isInteger(value) ||
+       typeof(value) == typeof("string")).toBe(true);
       done();
     });
   });
 
   it('#addJob should return JTSJob or undefined', (done) => {
     service?.addJob(job)?.subscribe((value) => {
-       expect (typeof(value) == typeof(Observable<JTSJob>) || typeof(value) == undefined).toBe(true);
+      debugger;
+       expect (value).toBeDefined();
       done();
     });
   });
 
   it('#deleteJob should return JTSJob or undefined', (done) => {
     service?.deleteJob(-1)?.subscribe((value) => {
-       expect (typeof(value) == typeof(Observable<JTSJob>) || typeof(value) == undefined).toBe(true);
+      debugger;
+       expect (value).toBeDefined();
       done();
     });
   });

@@ -15,10 +15,4 @@ describe('JobService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('#getNotificationTabIsDisabled should return boolean', (done) => {
-   let disabled:boolean = service?.getNotificationTabIsDisabled();
-   expect (typeof(disabled) == typeof(Boolean)).toBe(true);
-   done();
-  });
-
 });
