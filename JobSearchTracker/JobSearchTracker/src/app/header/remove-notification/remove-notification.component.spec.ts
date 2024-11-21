@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RemoveNotificationComponent } from './remove-notification.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('RemoveNotificationComponent', () => {
   let component: RemoveNotificationComponent;
@@ -8,7 +9,7 @@ describe('RemoveNotificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RemoveNotificationComponent]
+      providers: [RemoveNotificationComponent, ActivatedRoute]
     })
     .compileComponents();
     

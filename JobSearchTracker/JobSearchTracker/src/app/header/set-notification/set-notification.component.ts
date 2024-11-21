@@ -51,18 +51,18 @@ export class SetNotificationComponent {
   @ViewChild('ms') multiselect?: MultiSelect;
   _notifications!: JTSNotification[];
   public messageHeader?: string;
-  @Inject(HeaderComponent) _headerComponent?: HeaderComponent;
+ // @Inject(HeaderComponent) _headerComponent?: HeaderComponent;
   constructor(private appService: AppService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
     private notificationService: NotificationService, private jobService: JobService,
-    private headerComponent?: HeaderComponent
+  
   ) {
     this._appService = appService;
     this._messageService = messageService;
     this._confirmationService = confirmationService;
     this._notificationService = notificationService;
     this._jobService = this.jobService;
-    this._headerComponent = headerComponent;
+   // this._headerComponent = headerComponent;
   }
   async ngOnInit() {
     this.titles = this._appService?.addNotificationTitles;
@@ -201,14 +201,14 @@ export class SetNotificationComponent {
                   else {
                   console.log(result)
                   this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the notification.' });
-                  this._headerComponent?.loadHeaders();
+                 // this._headerComponent?.loadHeaders();
                   }
                 });
               }
             },
             () => {
               // No errors, route to new page
-              this._headerComponent?.refreshTables();
+            //  this._headerComponent?.refreshTables();
             }
           );
         }

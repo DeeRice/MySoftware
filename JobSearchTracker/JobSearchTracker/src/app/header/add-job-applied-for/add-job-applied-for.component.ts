@@ -41,7 +41,7 @@ export class AddJobAppliedForComponent {
   _notifications!: JTSNotification[];
   _notificationsToBeDisplay?: JTSNotification[];
   public messageHeader?: string;
-  @Inject(HeaderComponent) _headerComponent?: HeaderComponent;
+  //@Inject(HeaderComponent) _headerComponent?: HeaderComponent;
   public _router: any;
   public _routerLink: any;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private appService: AppService, private jobService: JobService,
@@ -54,7 +54,7 @@ export class AddJobAppliedForComponent {
     this._messageService = messageService;
     this._confirmationService = confirmationService;
     this._notificationService = notificationService;
-    this._headerComponent = headerComponent;
+   // this._headerComponent = headerComponent;
     this._router = router;
     this._routerLink = routerLink;
   }
@@ -167,12 +167,12 @@ export class AddJobAppliedForComponent {
             else {
             console.log(result)
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the job.' });
-            this._headerComponent?.loadHeaders();
+           // this._headerComponent?.loadHeaders();
             }
           },
           () => {
             // No errors, route to new page
-            this._headerComponent?.refreshTables();
+            //this._headerComponent?.refreshTables();
           }
         );
       }

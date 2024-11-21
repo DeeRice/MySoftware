@@ -25,7 +25,7 @@ import { HeaderComponent } from '../header/header.component';
 
 @Component({
     selector: 'app-edit-job',
-    imports: [HeaderComponent, TableModule, CommonModule, InputTextModule, InputTextareaModule,
+    imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
         ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, CalendarModule],
     providers: [MessageService, ConfirmationService, ConfirmDialogModule, CalendarModule
     ],

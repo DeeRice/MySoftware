@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { JobService } from './job.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JTSJob } from 'src/model/job';
 
@@ -11,8 +11,11 @@ describe('JobService', () => {
   let jobID:number = 1;
   let job:JTSJob;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      providers: [JobService, HttpClient, HttpHandler]
+    })
+    .compileComponents();
     httpClient = TestBed.inject(HttpClient);
     service = TestBed.inject(JobService);
     service = new JobService(httpClient);

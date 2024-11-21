@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { NotificationService } from './notification.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { JTSNotification } from 'src/model/notification';
 import { Observable } from 'rxjs';
 
@@ -11,8 +11,10 @@ describe('NotificationService', () => {
   let notificationID:number = 1;
   let notification:JTSNotification;
   
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      providers: [NotificationService, HttpClient, HttpHandler]
+    })
     httpClient = TestBed.inject(HttpClient);
     service = TestBed.inject(NotificationService);
     service = new NotificationService(httpClient);

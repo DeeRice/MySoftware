@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NotificationDetailsComponent } from './notification-details.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('NotificationDetailsComponent', () => {
   let component: NotificationDetailsComponent;
@@ -8,7 +9,7 @@ describe('NotificationDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NotificationDetailsComponent]
+      providers: [NotificationDetailsComponent, ActivatedRoute]
     })
     .compileComponents();
 

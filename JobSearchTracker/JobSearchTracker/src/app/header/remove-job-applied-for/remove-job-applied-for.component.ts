@@ -43,7 +43,7 @@ export class RemoveJobAppliedForComponent {
   public messageHeader?: string;
   public _router: any;
   public _routerLink: any;
-  @ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
+  //@ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
   constructor(private appService: AppService, private jobService: JobService, private router: Router,
     private messageService: MessageService, private confirmationService: ConfirmationService,
     private notificationService: NotificationService, private routerLink?: RouterLink
@@ -104,7 +104,7 @@ export class RemoveJobAppliedForComponent {
             console.log(result);
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully removed the job.' });
             this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
-            this.headerComponent?.loadHeaders();
+            //this.headerComponent?.loadHeaders();
             }
           });
       }

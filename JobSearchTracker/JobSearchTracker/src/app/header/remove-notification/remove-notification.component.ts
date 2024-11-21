@@ -47,7 +47,7 @@ export class RemoveNotificationComponent {
   public currentID: number = -1;
   public lastTableLazyLoadEvent?: TableLazyLoadEvent;
   public messageHeader?: string;
-  @ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
+ // @ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService, private activatedRoute: ActivatedRoute, private router: Router,
     public appService: AppService, jobService: JobService,
     notificationService: NotificationService, private routerLink: RouterLink) {
@@ -102,7 +102,7 @@ export class RemoveNotificationComponent {
             }
             else {
             this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
-            this.headerComponent?.loadHeaders();
+            //this.headerComponent?.loadHeaders();
             this.notification = JSON.parse(result.toString());
             if (this.notification !== null && this.notification !== undefined) {
               this.notification.Job.NotificationID = 0;
@@ -114,7 +114,7 @@ export class RemoveNotificationComponent {
                 else {
                 console.log(result)
                 this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully removed the notification.' });
-                this.headerComponent?.loadHeaders();
+                //this.headerComponent?.loadHeaders();
                 }
               });
             }

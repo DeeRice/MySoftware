@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { JobAppliedForComponent } from './job-applied-for.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('JobAppliedForComponent', () => {
   let component: JobAppliedForComponent;
@@ -8,7 +9,7 @@ describe('JobAppliedForComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [JobAppliedForComponent]
+      providers: [JobAppliedForComponent, ActivatedRoute]
     })
     .compileComponents();
     

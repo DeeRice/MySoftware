@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditNotificationComponent } from './edit-notification.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('EditNotificationComponent', () => {
   let component: EditNotificationComponent;
@@ -8,7 +9,7 @@ describe('EditNotificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditNotificationComponent]
+      providers: [EditNotificationComponent, ActivatedRoute]
     })
     .compileComponents();
 
