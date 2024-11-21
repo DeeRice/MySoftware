@@ -1,7 +1,8 @@
 import { Directive, ElementRef, Input, Output, EventEmitter, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[BooleanArrayBinding]'
+    selector: '[BooleanArrayBinding]',
+    standalone: false
 })
 export class BooleanArrayBindingDirective {
   @Input() appBooleanArrayBinding!: boolean[];

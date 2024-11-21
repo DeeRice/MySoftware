@@ -16,13 +16,12 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
-  selector: 'app-notification-details',
-  standalone: true,
-  imports: [HeaderComponent, ButtonModule, TableModule, CommonModule, ConfirmDialogModule],
-  providers: [MessageService, ConfirmationService, AppService,
-    TableModule, CommonModule, ButtonModule, RouterModule, ConfirmDialogModule],
-  templateUrl: './notification-details.component.html',
-  styleUrl: './notification-details.component.scss'
+    selector: 'app-notification-details',
+    imports: [HeaderComponent, ButtonModule, TableModule, CommonModule, ConfirmDialogModule],
+    providers: [MessageService, ConfirmationService, AppService,
+        TableModule, CommonModule, ButtonModule, RouterModule, ConfirmDialogModule],
+    templateUrl: './notification-details.component.html',
+    styleUrl: './notification-details.component.scss'
 })
 export class NotificationDetailsComponent {
   public titles?: AddJobTable[] = [];

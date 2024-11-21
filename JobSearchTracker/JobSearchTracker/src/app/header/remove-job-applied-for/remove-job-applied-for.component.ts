@@ -20,15 +20,14 @@ import { Router, RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from
 import { HeaderComponent } from '../header.component';
 
 @Component({
-  selector: 'app-remove-job-applied-for',
-  standalone: true,
-  imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
-    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, RouterModule],
-  providers: [JobService, MessageService, ConfirmationService, ToastModule, ButtonModule, ConfirmDialogModule,
-    RouterLinkActive, RouterLink, RouterOutlet
-  ],
-  templateUrl: './remove-job-applied-for.component.html',
-  styleUrl: './remove-job-applied-for.component.scss'
+    selector: 'app-remove-job-applied-for',
+    imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
+        ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, RouterModule],
+    providers: [JobService, MessageService, ConfirmationService, ToastModule, ButtonModule, ConfirmDialogModule,
+        RouterLinkActive, RouterLink, RouterOutlet
+    ],
+    templateUrl: './remove-job-applied-for.component.html',
+    styleUrl: './remove-job-applied-for.component.scss'
 })
 export class RemoveJobAppliedForComponent {
   public _jobs!: JTSJob[];

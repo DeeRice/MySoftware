@@ -22,13 +22,12 @@ import { TabViewChangeEvent, TabViewModule } from 'primeng/tabview';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-add-job-applied-for',
-  standalone: true,
-  imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
-    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, CalendarModule],
-  providers: [MessageService, ConfirmationService, ConfirmDialogModule, CalendarModule],
-  templateUrl: './add-job-applied-for.component.html',
-  styleUrl: './add-job-applied-for.component.scss'
+    selector: 'app-add-job-applied-for',
+    imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
+        ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, CalendarModule],
+    providers: [MessageService, ConfirmationService, ConfirmDialogModule, CalendarModule],
+    templateUrl: './add-job-applied-for.component.html',
+    styleUrl: './add-job-applied-for.component.scss'
 })
 export class AddJobAppliedForComponent {
   public titles?: AddJobTable[] = [];

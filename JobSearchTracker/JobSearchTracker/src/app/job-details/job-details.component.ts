@@ -14,13 +14,12 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
-  selector: 'app-job-details',
-  standalone: true,
-  imports: [HeaderComponent, ButtonModule, TableModule, CommonModule, ConfirmDialogModule],
-  providers: [MessageService, ConfirmationService, JobService, AppService, TableModule, CommonModule,
-    ButtonModule, RouterModule, ConfirmDialogModule],
-  templateUrl: './job-details.component.html',
-  styleUrl: './job-details.component.scss'
+    selector: 'app-job-details',
+    imports: [HeaderComponent, ButtonModule, TableModule, CommonModule, ConfirmDialogModule],
+    providers: [MessageService, ConfirmationService, JobService, AppService, TableModule, CommonModule,
+        ButtonModule, RouterModule, ConfirmDialogModule],
+    templateUrl: './job-details.component.html',
+    styleUrl: './job-details.component.scss'
 })
 export class JobDetailsComponent {
   public titles?: AddJobTable[] = [];

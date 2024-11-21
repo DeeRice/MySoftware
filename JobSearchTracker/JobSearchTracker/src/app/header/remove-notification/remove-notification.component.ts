@@ -24,16 +24,15 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { HeaderComponent } from '../header.component';
 
 @Component({
-  selector: 'app-remove-notification',
-  standalone: true,
-  imports: [TableModule, InputTextModule, TagModule,
-    DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule,
-    SliderModule, FormsModule, FormsModule, RouterModule, CommonModule, ConfirmDialogModule],
-  providers: [AppService, TableModule, CommonModule,
-    RouterLinkActive, RouterLink, RouterOutlet, PrimeNGConfig, MessageService,
-    ConfirmationService, ConfirmDialogModule, JobService],
-  templateUrl: './remove-notification.component.html',
-  styleUrl: './remove-notification.component.scss'
+    selector: 'app-remove-notification',
+    imports: [TableModule, InputTextModule, TagModule,
+        DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule,
+        SliderModule, FormsModule, FormsModule, RouterModule, CommonModule, ConfirmDialogModule],
+    providers: [AppService, TableModule, CommonModule,
+        RouterLinkActive, RouterLink, RouterOutlet, PrimeNGConfig, MessageService,
+        ConfirmationService, ConfirmDialogModule, JobService],
+    templateUrl: './remove-notification.component.html',
+    styleUrl: './remove-notification.component.scss'
 })
 export class RemoveNotificationComponent {
   _notifications!: JTSNotification[];

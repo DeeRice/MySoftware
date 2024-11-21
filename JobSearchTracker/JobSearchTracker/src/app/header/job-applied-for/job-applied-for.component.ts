@@ -30,15 +30,14 @@ import moment from 'moment';
 
 
 @Component({
-  selector: 'app-job-applied-for',
-  standalone: true,
-  imports: [TableModule, InputTextModule, TagModule,
-    DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule,
-    SliderModule, FormsModule, FormsModule, RouterModule, CommonModule, DialogModule, ConfirmDialogModule],
-  providers: [AppService, JobService, TableModule, CommonModule, MessageService,
-    RouterLinkActive, RouterLink, RouterOutlet, PrimeNGConfig, DialogModule, DialogService, ConfirmDialogModule, ConfirmationService],
-  templateUrl: './job-applied-for.component.html',
-  styleUrl: './job-applied-for.component.scss'
+    selector: 'app-job-applied-for',
+    imports: [TableModule, InputTextModule, TagModule,
+        DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule,
+        SliderModule, FormsModule, FormsModule, RouterModule, CommonModule, DialogModule, ConfirmDialogModule],
+    providers: [AppService, JobService, TableModule, CommonModule, MessageService,
+        RouterLinkActive, RouterLink, RouterOutlet, PrimeNGConfig, DialogModule, DialogService, ConfirmDialogModule, ConfirmationService],
+    templateUrl: './job-applied-for.component.html',
+    styleUrl: './job-applied-for.component.scss'
 })
 
 export class JobAppliedForComponent {

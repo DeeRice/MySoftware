@@ -24,14 +24,13 @@ import { TranslateLoader, TranslateService, TranslateStore } from '@ngx-translat
 import { HeaderComponent } from '../header/header.component';
 
 @Component({
-  selector: 'app-edit-job',
-  standalone: true,
-  imports: [HeaderComponent, TableModule, CommonModule, InputTextModule, InputTextareaModule,
-    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, CalendarModule],
-  providers: [MessageService, ConfirmationService, ConfirmDialogModule, CalendarModule
-  ],
-  templateUrl: './edit-job.component.html',
-  styleUrl: './edit-job.component.scss'
+    selector: 'app-edit-job',
+    imports: [HeaderComponent, TableModule, CommonModule, InputTextModule, InputTextareaModule,
+        ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, CalendarModule],
+    providers: [MessageService, ConfirmationService, ConfirmDialogModule, CalendarModule
+    ],
+    templateUrl: './edit-job.component.html',
+    styleUrl: './edit-job.component.scss'
 })
 export class EditJobComponent {
   public titles?: AddJobTable[] = [];

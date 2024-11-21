@@ -23,16 +23,15 @@ import { NotificationService } from 'src/service/notification.service';
 import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [JobAppliedForComponent, TabViewModule, SetNotificationComponent,
-    RemoveNotificationComponent, RemoveJobAppliedForComponent, AddJobAppliedForComponent,
-    ViewNotificationComponent, CommonModule, JobDetailsComponent, FormsModule,
-    ConfirmDialogModule, EditJobComponent, EditNotificationComponent, RouterModule, RouterOutlet],
-  providers: [MessageService, ConfirmationService, AppService, NgbModal, AppService, RouterModule, RouterOutlet,
-    TabViewModule, ConfirmDialogModule, JobService, RouterModule, RouterOutlet],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+    selector: 'app-header',
+    imports: [JobAppliedForComponent, TabViewModule, SetNotificationComponent,
+        RemoveNotificationComponent, RemoveJobAppliedForComponent, AddJobAppliedForComponent,
+        ViewNotificationComponent, CommonModule, JobDetailsComponent, FormsModule,
+        ConfirmDialogModule, EditJobComponent, EditNotificationComponent, RouterModule, RouterOutlet],
+    providers: [MessageService, ConfirmationService, AppService, NgbModal, AppService, RouterModule, RouterOutlet,
+        TabViewModule, ConfirmDialogModule, JobService, RouterModule, RouterOutlet],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.scss'
 })
 
 export class HeaderComponent {

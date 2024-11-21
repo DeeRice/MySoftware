@@ -28,15 +28,14 @@ import { TabViewChangeEvent } from 'primeng/tabview';
 
 
 @Component({
-  selector: 'app-edit-notification',
-  standalone: true,
-  imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
-    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, MultiSelectModule,
-    CalendarModule],
-  providers: [MessageService, ConfirmationService, AppService, MultiSelectModule, CalendarModule,
-    JobService],
-  templateUrl: './edit-notification.component.html',
-  styleUrl: './edit-notification.component.scss'
+    selector: 'app-edit-notification',
+    imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
+        ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, MultiSelectModule,
+        CalendarModule],
+    providers: [MessageService, ConfirmationService, AppService, MultiSelectModule, CalendarModule,
+        JobService],
+    templateUrl: './edit-notification.component.html',
+    styleUrl: './edit-notification.component.scss'
 })
 export class EditNotificationComponent {
   public titles?: AddNotificationTable[] = [];

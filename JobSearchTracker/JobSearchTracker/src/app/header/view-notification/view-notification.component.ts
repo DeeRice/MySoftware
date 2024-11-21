@@ -25,16 +25,15 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 
 @Component({
-  selector: 'app-view-notification',
-  standalone: true,
-  imports: [TableModule, InputTextModule, TagModule,
-    DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule,
-    SliderModule, FormsModule, FormsModule, RouterModule, CommonModule, ConfirmDialogModule],
-  providers: [AppService, TableModule, CommonModule,
-    RouterLinkActive, RouterLink, RouterOutlet, PrimeNGConfig, ConfirmDialogModule, ConfirmationService,
-    MessageService],
-  templateUrl: './view-notification.component.html',
-  styleUrl: './view-notification.component.scss'
+    selector: 'app-view-notification',
+    imports: [TableModule, InputTextModule, TagModule,
+        DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule,
+        SliderModule, FormsModule, FormsModule, RouterModule, CommonModule, ConfirmDialogModule],
+    providers: [AppService, TableModule, CommonModule,
+        RouterLinkActive, RouterLink, RouterOutlet, PrimeNGConfig, ConfirmDialogModule, ConfirmationService,
+        MessageService],
+    templateUrl: './view-notification.component.html',
+    styleUrl: './view-notification.component.scss'
 })
 
 export class ViewNotificationComponent {

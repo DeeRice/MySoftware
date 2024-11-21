@@ -20,14 +20,13 @@ import { HeaderComponent } from '../header.component';
 import { parseJSON } from 'jquery';
 
 @Component({
-  selector: 'app-set-notification',
-  standalone: true,
-  imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
-    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, MultiSelectModule,
-    CalendarModule],
-  providers: [MessageService, ConfirmationService, AppService, MultiSelectModule, CalendarModule],
-  templateUrl: './set-notification.component.html',
-  styleUrl: './set-notification.component.scss'
+    selector: 'app-set-notification',
+    imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
+        ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, MultiSelectModule,
+        CalendarModule],
+    providers: [MessageService, ConfirmationService, AppService, MultiSelectModule, CalendarModule],
+    templateUrl: './set-notification.component.html',
+    styleUrl: './set-notification.component.scss'
 })
 export class SetNotificationComponent {
   thedateEmit!: EventEmitter<Date>;
