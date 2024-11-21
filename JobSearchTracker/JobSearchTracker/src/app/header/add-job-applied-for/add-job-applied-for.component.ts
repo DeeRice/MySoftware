@@ -41,22 +41,17 @@ export class AddJobAppliedForComponent {
   _notifications!: JTSNotification[];
   _notificationsToBeDisplay?: JTSNotification[];
   public messageHeader?: string;
-  //@Inject(HeaderComponent) _headerComponent?: HeaderComponent;
   public _router: any;
-  public _routerLink: any;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private appService: AppService, private jobService: JobService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
-    private notificationService: NotificationService, private headerComponent: HeaderComponent,
-    private routerLink?: RouterLink
+    private notificationService: NotificationService
   ) {
     this._appService = appService;
     this._jobService = jobService;
     this._messageService = messageService;
     this._confirmationService = confirmationService;
     this._notificationService = notificationService;
-   // this._headerComponent = headerComponent;
     this._router = router;
-    this._routerLink = routerLink;
   }
 
   ngOnInit() {

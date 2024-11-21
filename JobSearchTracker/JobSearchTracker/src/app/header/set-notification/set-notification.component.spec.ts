@@ -3,6 +3,7 @@ import { SetNotificationComponent } from './set-notification.component';
 import { HeaderComponent } from '../header.component';
 import { forwardRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('SetNotificationComponent', () => {
   let notificationComponent: SetNotificationComponent;
@@ -11,7 +12,17 @@ describe('SetNotificationComponent', () => {
   let headerFixture: ComponentFixture<HeaderComponent>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [SetNotificationComponent, ActivatedRoute]
+      providers: [SetNotificationComponent, HttpClient, HttpHandler, {provide: ActivatedRoute, 
+        useValue: {
+          snapshot: {
+            queryParamMap: {
+              get(): number {
+                return 6;
+              }
+            }
+          }
+        }
+      } ]
     })
     .compileComponents();
     headerFixture = TestBed.createComponent(HeaderComponent);

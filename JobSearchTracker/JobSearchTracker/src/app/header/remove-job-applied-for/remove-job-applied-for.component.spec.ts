@@ -10,7 +10,19 @@ describe('RemoveJobAppliedForComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [RemoveJobAppliedForComponent, ActivatedRoute, HttpClient, HttpHandler]
+      providers: [RemoveJobAppliedForComponent, HttpClient, HttpHandler,
+        {provide: ActivatedRoute, 
+          useValue: {
+            snapshot: {
+              queryParamMap: {
+                get(): number {
+                  return 6;
+                }
+              }
+            }
+          }
+        } 
+      ]
     })
     .compileComponents();
     

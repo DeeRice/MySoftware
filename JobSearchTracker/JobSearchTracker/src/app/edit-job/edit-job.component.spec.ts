@@ -11,7 +11,17 @@ describe('EditJobComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [EditJobComponent, ActivatedRoute, JobService, HttpClient, HttpHandler]
+      providers: [EditJobComponent, JobService, HttpClient, HttpHandler,  {provide: ActivatedRoute, 
+        useValue: {
+          snapshot: {
+            queryParamMap: {
+              get(): number {
+                return 6;
+              }
+            }
+          }
+        }
+      } ]
     })
     .compileComponents();
 

@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditNotificationComponent } from './edit-notification.component';
 import { ActivatedRoute } from '@angular/router';
+import { NotificationService } from 'src/service/notification.service';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('EditNotificationComponent', () => {
   let component: EditNotificationComponent;
@@ -9,7 +11,17 @@ describe('EditNotificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [EditNotificationComponent, ActivatedRoute]
+      providers: [EditNotificationComponent, NotificationService, HttpClient, HttpHandler, {provide: ActivatedRoute, 
+        useValue: {
+          snapshot: {
+            queryParamMap: {
+              get(): number {
+                return 6;
+              }
+            }
+          }
+        }
+      } ]
     })
     .compileComponents();
 
