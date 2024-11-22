@@ -178,7 +178,7 @@ export class EditNotificationComponent {
     ClientCompanyPhoneNumber: new FormControl(''),
     NotificationMessage: new FormControl(''),
     NotificationDate: new FormControl<string | undefined>(undefined),
-    NotificationEvent: new FormControl<NotficationEventEnum | null>(null),
+    NotificationEvent: new FormControl<NotficationEventEnum[] | undefined>(undefined),
   });
 
   isNotAPicker(title: string) {
@@ -251,7 +251,7 @@ export class EditNotificationComponent {
       this.addNotification.controls.ClientCompanyName.setValue(obj.ClientCompanyName || null)
       this.addNotification.controls.ClientCompanyLocation.setValue(obj.ClientCompanyLocation || null)
       this.addNotification.controls.ClientCompanyPhoneNumber.setValue(obj.ClientCompanyPhoneNumber || null)
-      this.addNotification.controls.NotificationEvent.setValue({id: this.notification?.NotificationEvent, name: JTSNotificationEventType[this.notification!.NotificationEvent]});
+      this.addNotification.controls.NotificationEvent.setValue([{id: this.notification?.NotificationEvent, name: JTSNotificationEventType[this.notification!.NotificationEvent]}]);
 
       this.jobPickerMultiselect?.hide();
     }
@@ -261,7 +261,7 @@ export class EditNotificationComponent {
 
   onEventPickerChanged(event: MultiSelectChangeEvent) {
     if (event.value.length > 0) {
-      this.addNotification.controls.NotificationEvent.setValue(this.notficationEventEnum as NotficationEventEnum | null)
+      this.addNotification.controls.NotificationEvent.setValue([{id: event.value, name: JTSNotificationEventType[this.notification!.NotificationEvent]}])
       if ((this.notification != null) && (this.notification != undefined)) {
         this.notification.NotificationEvent = event.value[0].id;
       }
@@ -447,7 +447,7 @@ export class EditNotificationComponent {
     this.addNotification.controls.ClientCompanyPhoneNumber.setValue(notification.ClientCompanyPhoneNumber || null);
     this.addNotification.controls.NotificationDate.setValue(this.formatDate(notification.NotificationDate as Date, "MMMM, dd, yyyy") || null);
     this.addNotification.controls.NotificationMessage.setValue(notification.Message || null);
-    this.addNotification.controls.NotificationEvent.setValue({id: notification.NotificationEvent, name: JTSNotificationEventType[notification.NotificationEvent]});    
+    this.addNotification.controls.NotificationEvent.setValue([{id: notification.NotificationEvent, name: JTSNotificationEventType[notification.NotificationEvent]}]);    
   }
 
 }
