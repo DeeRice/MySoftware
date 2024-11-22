@@ -73,6 +73,14 @@ export class HeaderComponent {
       (x) => { 
        this.activeIndex = x;
      });
+     this._appService.headerData.subscribe(
+      (x) => { 
+       this.loadHeaders();
+     });
+     this._appService.refreshTables.subscribe(
+      (x) => { 
+       this.refreshTables();
+     });
   }
 
 

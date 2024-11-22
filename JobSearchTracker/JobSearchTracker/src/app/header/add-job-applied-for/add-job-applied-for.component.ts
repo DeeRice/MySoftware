@@ -163,11 +163,13 @@ export class AddJobAppliedForComponent {
             console.log(result)
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the job.' });
            // this._headerComponent?.loadHeaders();
+           this._appService?.loadHeaderData("load");
             }
           },
           () => {
             // No errors, route to new page
             //this._headerComponent?.refreshTables();
+            this._appService?.refreshHeaderTable("header");
           }
         );
       }
