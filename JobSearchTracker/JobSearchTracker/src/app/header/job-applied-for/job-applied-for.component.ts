@@ -16,7 +16,7 @@ import { AppService } from '../../../service/app.service';
 import { JobService } from 'src/service/job.service';
 import { JTSJob } from 'src/model/job';
 import { Observable, Subject } from 'rxjs';
-import { LazyLoadEvent, MessageService, PrimeNGConfig } from 'primeng/api';
+import { Confirmation, LazyLoadEvent, Message, MessageService, PrimeNGConfig } from 'primeng/api';
 import { error, getJSON } from 'jquery';
 import { JTSNotification, JTSNotificationEventType } from 'src/model/notification';
 import { NotificationService } from 'src/service/notification.service';
@@ -55,6 +55,7 @@ export class JobAppliedForComponent {
   public messageHeader?: string;
   @Output() isHiddensChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
   _dialogService?: DialogService;
+  confirmQueue: Array<Message> = [];
   constructor(private activatedRoute: ActivatedRoute, private router: Router, public dialogService: DialogService,
     public appService: AppService, private messageService: MessageService, private confirmationService: ConfirmationService, PrimeNGConfig: PrimeNGConfig, private notificationService: NotificationService,
     jobService?: JobService, private routerLink?: RouterLink) {
@@ -152,15 +153,18 @@ export class JobAppliedForComponent {
                   ||
               moment(dateString, 'ddd MMM DD YYYY').isBefore(moment().format('ddd MMM DD YYYY'), 'day')
           ) {
-            this._notificationsToBeDisplay?.push(obj)
+            this._notificationsToBeDisplay?.push(obj);
+            let notificationEvt = JTSNotificationEventType[obj.NotificationEvent];
+            this.confirmQueue.push({
+              severity: 'success',
+              summary: notificationEvt,
+              detail: obj.Message
+            });
           }
         });
         if ((this._notificationsToBeDisplay != null) && (this._notificationsToBeDisplay != undefined) && (this._notificationsToBeDisplay.length > 0)) {
           this._notificationsToBeDisplay.forEach((obj, index) => {
-            debugger;
-            let notificationEvt = JTSNotificationEventType[obj.NotificationEvent];
-            this.setMessageHeader(notificationEvt);
-            this.confirm(obj.Message);
+            this._messageService?.add(this.confirmQueue[index] as Message);
           });
         }
       }
@@ -168,15 +172,18 @@ export class JobAppliedForComponent {
     });
   }
 
+ 
   confirm(messageToShow: string) {
     this.confirmationService?.confirm({
       header: this.messageHeader,
       message: messageToShow,
       accept: () => {
         //Actual logic to perform a confirmation
+       
       }
     });
   }
+
 
   setMessageHeader(header: string) {
     switch (header) {
