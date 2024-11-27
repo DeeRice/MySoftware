@@ -55,7 +55,6 @@ describe('JobService', () => {
 
   it('#addJob should return JTSJob or undefined', (done) => {
     service?.addJob(job)?.subscribe((value) => {
-      debugger;
        expect (value).toBeDefined();
       done();
     });
@@ -63,7 +62,6 @@ describe('JobService', () => {
 
   it('#deleteJob should return JTSJob or undefined', (done) => {
     service?.deleteJob(-1)?.subscribe((value) => {
-      debugger;
        expect (value).toBeDefined();
       done();
     });
