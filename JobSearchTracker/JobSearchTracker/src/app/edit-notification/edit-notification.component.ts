@@ -29,6 +29,7 @@ import { TabViewChangeEvent } from 'primeng/tabview';
 
 @Component({
     selector: 'app-edit-notification',
+    standalone: true,
     imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
         ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, MultiSelectModule,
         CalendarModule],

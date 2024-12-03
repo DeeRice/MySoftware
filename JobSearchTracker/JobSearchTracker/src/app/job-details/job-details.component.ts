@@ -15,6 +15,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
     selector: 'app-job-details',
+    standalone: true,
     imports: [ButtonModule, TableModule, CommonModule, ConfirmDialogModule],
     providers: [MessageService, ConfirmationService, JobService, AppService, TableModule, CommonModule,
         ButtonModule, RouterModule, ConfirmDialogModule],

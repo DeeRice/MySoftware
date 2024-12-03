@@ -23,6 +23,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-add-job-applied-for',
+    standalone: true,
     imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
         ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, CalendarModule],
     providers: [MessageService, ConfirmationService, ConfirmDialogModule, CalendarModule],

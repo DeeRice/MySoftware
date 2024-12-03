@@ -25,6 +25,7 @@ import { HeaderComponent } from '../header.component';
 
 @Component({
     selector: 'app-remove-notification',
+    standalone: true,
     imports: [TableModule, InputTextModule, TagModule,
         DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule,
         SliderModule, FormsModule, FormsModule, RouterModule, CommonModule, ConfirmDialogModule],
@@ -45,9 +46,11 @@ export class RemoveNotificationComponent {
   public _messageService?: MessageService;
   public _confirmationService?: ConfirmationService;
   public currentID: number = -1;
-  public lastTableLazyLoadEvent?: TableLazyLoadEvent;
+  public lastTableLazyLoadEvent!: TableLazyLoadEvent;
   public messageHeader?: string;
  // @ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
+ first = 0;
+ rows = 10;
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService, private activatedRoute: ActivatedRoute, private router: Router,
     public appService: AppService, jobService: JobService,
     notificationService: NotificationService, private routerLink: RouterLink) {
@@ -59,6 +62,14 @@ export class RemoveNotificationComponent {
     this._confirmationService = confirmationService;
     this._jobService = jobService;
   }
+
+  pageChange(event: any) {
+    debugger;
+    this.first = event.first;
+    this.rows = event.rows;
+    this.refreshDataGrid(this.lastTableLazyLoadEvent);
+}
+
   ngOnInit() {
     this._notificationService.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
       const substring = "the job";

@@ -21,13 +21,15 @@ import { EditJobComponent } from '../edit-job/edit-job.component';
 import { EditNotificationComponent } from '../edit-notification/edit-notification.component';
 import { NotificationService } from 'src/service/notification.service';
 import { FormControl } from '@angular/forms';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
     selector: 'app-header',
+    standalone: true,
     imports: [JobAppliedForComponent, TabViewModule, SetNotificationComponent,
         RemoveNotificationComponent, RemoveJobAppliedForComponent, AddJobAppliedForComponent,
         ViewNotificationComponent, CommonModule, JobDetailsComponent, FormsModule,
-        ConfirmDialogModule, EditJobComponent, EditNotificationComponent, RouterModule, RouterOutlet],
+        ConfirmDialogModule, EditJobComponent, EditNotificationComponent, RouterModule, RouterOutlet, PaginatorModule],
     providers: [MessageService, ConfirmationService, AppService, NgbModal, AppService, RouterModule, RouterOutlet,
         TabViewModule, ConfirmDialogModule, JobService, RouterModule, RouterOutlet],
     templateUrl: './header.component.html',
@@ -159,6 +161,7 @@ export class HeaderComponent {
 
 
   public refreshTables() {
+    debugger;
     this.jobAppliedForComponent?.refreshDataGrid(this.jobAppliedForComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
     this.removeJobAppliedForComponent?.refreshDataGrid(this.removeJobAppliedForComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
     this.viewNotificationComponent?.refreshDataGrid(this.viewNotificationComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);

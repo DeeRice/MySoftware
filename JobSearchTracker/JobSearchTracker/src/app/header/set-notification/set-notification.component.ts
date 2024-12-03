@@ -21,6 +21,7 @@ import { parseJSON } from 'jquery';
 
 @Component({
     selector: 'app-set-notification',
+    standalone: true,
     imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
         ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, MultiSelectModule,
         CalendarModule],

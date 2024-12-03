@@ -21,6 +21,7 @@ import { HeaderComponent } from '../header.component';
 
 @Component({
     selector: 'app-remove-job-applied-for',
+    standalone: true,
     imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
         ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, RouterModule],
     providers: [JobService, MessageService, ConfirmationService, ToastModule, ButtonModule, ConfirmDialogModule,
@@ -38,12 +39,14 @@ export class RemoveJobAppliedForComponent {
   public _notificationService?: NotificationService;
   public _appService?: AppService;
   public currentID: number = -1;
-  public lastTableLazyLoadEvent?: TableLazyLoadEvent;
+  public lastTableLazyLoadEvent!: TableLazyLoadEvent;
   _notifications!: JTSNotification[];
   public messageHeader?: string;
   public _router: any;
   public _routerLink: any;
   //@ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
+  first = 0;
+  rows = 10;
   constructor(private appService: AppService, private jobService: JobService, private router: Router,
     private messageService: MessageService, private confirmationService: ConfirmationService,
     private notificationService: NotificationService, private routerLink?: RouterLink
@@ -57,6 +60,15 @@ export class RemoveJobAppliedForComponent {
     this._router = router;
     this._routerLink = routerLink;
   }
+
+  pageChange(event: any) {
+    debugger;
+    this.first = event.first;
+    this.rows = event.rows;
+    this.refreshDataGrid(this.lastTableLazyLoadEvent);
+}
+
+
   ngOnInit() {
     this.titles = this._appService?.addJobTitles;
     this._jobService?.getAllJobs()?.subscribe((data) => {

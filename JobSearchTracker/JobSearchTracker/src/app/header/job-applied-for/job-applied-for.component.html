@@ -1,12 +1,15 @@
 <div class="card">
-    <p-table [value]="jobs" 
+    <p-table [value]="this.jobs" 
     [columns]="appService.addJobTitles"  
     [paginator]="true"
     [rows]="5"
+    [first]="this.first"
     dataKey="JobID"
     [tableStyle]="{ 'min-width': '50rem' }"
     [rowsPerPageOptions]="[5, 10, 20]"
-    [lazy]="true" (onLazyLoad)="refreshDataGrid($event)">
+    [totalRecords]="this.jobs.length"
+    (onPage)="pageChange($event)"
+    >
         <ng-template pTemplate="header">
             <tr>
                 <th>Job ID</th>
@@ -31,7 +34,7 @@
                 <th>Edit</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-job>
+        <ng-template #dt pTemplate="body" let-job>
             <tr>
                 <td><a [routerLink]="['/app-job-details']" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="goToDetailPage(job.JobID.toString())">{{job.JobID}}</a></td>
                 <td>{{ job.JobNumber}}</td>

@@ -26,6 +26,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
     selector: 'app-view-notification',
+    standalone: true,
     imports: [TableModule, InputTextModule, TagModule,
         DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule,
         SliderModule, FormsModule, FormsModule, RouterModule, CommonModule, ConfirmDialogModule],
@@ -42,11 +43,13 @@ export class ViewNotificationComponent {
   public _appService?: AppService;
   public _router: any;
   public _routerLink: any;
-  public lastTableLazyLoadEvent?: TableLazyLoadEvent;
+  public lastTableLazyLoadEvent!: TableLazyLoadEvent;
   _notificationsToBeDisplay?: JTSNotification[];
   public _confirmationService?: ConfirmationService;
   public _messageService?: MessageService;
   public messageHeader?: string;
+ first = 0;
+ rows = 10;
   constructor(private activatedRoute: ActivatedRoute, private router: Router,
     public messageService: MessageService,
     public appService: AppService, PrimeNGConfig: PrimeNGConfig, public confirmationService: ConfirmationService,
@@ -58,6 +61,14 @@ export class ViewNotificationComponent {
     this._confirmationService = confirmationService;
     this._messageService = messageService;
   }
+
+  pageChange(event: any) {
+    debugger;
+    this.first = event.first;
+    this.rows = event.rows;
+    this.refreshDataGrid(this.lastTableLazyLoadEvent);
+}
+
   ngOnInit() {
     this._notificationService.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
       const substring = "the job";

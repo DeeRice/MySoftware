@@ -26,10 +26,8 @@ import { EditNotificationComponent } from './edit-notification/edit-notification
 
 @Component({
     selector: 'app-root',
-    imports: [HeaderComponent, SetNotificationComponent, TabViewModule, NotificationDetailsComponent,
-        RemoveNotificationComponent, RemoveJobAppliedForComponent, JobAppliedForComponent, JobDetailsComponent,
-        AddJobAppliedForComponent, ViewNotificationComponent, RouterModule, TableModule, CommonModule, CalendarModule,
-        EditJobComponent, EditNotificationComponent],
+    standalone: true,
+    imports: [ RouterModule, TableModule, CommonModule, CalendarModule],
     providers: [NgbModal, AppService, RouterModule, RouterOutlet, CommonModule, RouterLink,
         RouterLinkActive, FormsModule, BrowserAnimationsModule, TableModule, PrimeNGConfig, CalendarModule],
     templateUrl: './app.component.html',

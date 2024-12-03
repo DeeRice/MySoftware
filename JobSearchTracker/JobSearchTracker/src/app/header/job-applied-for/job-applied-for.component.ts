@@ -27,13 +27,16 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { ThisReceiver } from '@angular/compiler';
 import moment from 'moment';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 @Component({
     selector: 'app-job-applied-for',
+    standalone: true,
     imports: [TableModule, InputTextModule, TagModule,
         DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule,
-        SliderModule, FormsModule, FormsModule, RouterModule, CommonModule, DialogModule, ConfirmDialogModule],
+        SliderModule, FormsModule, FormsModule, RouterModule, CommonModule, DialogModule, ConfirmDialogModule,
+        PaginatorModule],
     providers: [AppService, JobService, TableModule, CommonModule, MessageService,
         RouterLinkActive, RouterLink, RouterOutlet, PrimeNGConfig, DialogModule, DialogService, ConfirmDialogModule, ConfirmationService],
     templateUrl: './job-applied-for.component.html',
@@ -48,7 +51,7 @@ export class JobAppliedForComponent {
   public _confirmationService?: ConfirmationService;
   public _router: any;
   public _routerLink: any;
-  lastTableLazyLoadEvent?: TableLazyLoadEvent;
+  lastTableLazyLoadEvent!: TableLazyLoadEvent;
   _notifications!: JTSNotification[];
   _notificationsToBeDisplay?: JTSNotification[];
   public _messageService?: MessageService;
@@ -56,6 +59,8 @@ export class JobAppliedForComponent {
   @Output() isHiddensChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
   _dialogService?: DialogService;
   confirmQueue: Array<Message> = [];
+  first = 0;
+  rows = 10;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, public dialogService: DialogService,
     public appService: AppService, private messageService: MessageService, private confirmationService: ConfirmationService, PrimeNGConfig: PrimeNGConfig, private notificationService: NotificationService,
     jobService?: JobService, private routerLink?: RouterLink) {
@@ -68,6 +73,13 @@ export class JobAppliedForComponent {
     this._confirmationService = this.confirmationService;
     this._messageService = this.messageService;
   }
+
+  pageChange(event: any) {
+    debugger;
+    this.first = event.first;
+    this.rows = event.rows;
+    this.refreshDataGrid(this.lastTableLazyLoadEvent);
+}
 
   async ngOnInit() {
     this._appService!.setNotificationTabIsDisabled(true);
@@ -124,7 +136,6 @@ export class JobAppliedForComponent {
       else {
         this._appService!.setNotificationTabIsDisabled(true);
       }
-      debugger;
       this.displayNotificationsForToday();
      }
     });
@@ -146,8 +157,8 @@ export class JobAppliedForComponent {
       if ((this._notifications != null) && (this._notifications != undefined) && (this._notifications.length > 0)) {
         this._notificationsToBeDisplay = [];
         this._notifications.forEach((obj, index) => {
-         const dateString = new Date(obj.NotificationDate).toDateString();
-         console.log(moment(dateString, 'ddd MMM DD YYYY', 'en-US').isBefore(moment().format('ddd MMM DD YYYY'), 'day'));
+         const dateString = new Date(obj.NotificationDate).toISOString();
+        
           if (
               moment(dateString, 'ddd MMM DD YYYY').isSame(moment().format('ddd MMM DD YYYY'), 'day')
                   ||
