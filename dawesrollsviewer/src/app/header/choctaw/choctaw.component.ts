@@ -64,6 +64,50 @@ export class ChoctawComponent {
     this.refreshDataGrid(this.lastTableLazyLoadEvent);
 }
 
+ returnPercentage(bloodPercentage: string): string {
+    if(bloodPercentage == "full"){
+      return "100%";
+    }
+    else {
+       return this.calculateBloodPercentage(bloodPercentage);
+    }
+ }
+ 
+ calculateBloodPercentage(bloodPercentage: string): string {
+        let numberOfCharacters = bloodPercentage.length;
+        switch(numberOfCharacters){
+          case 3: return this.processThreeCharacterBloodPercentage(bloodPercentage);
+          case 4: return this.processFourCharacterBloodPercentage(bloodPercentage);
+          default: return "";
+        }
+ }
+
+ processThreeCharacterBloodPercentage(bloodPercentage: string): string {
+     let bloodpercentAsCharacterArray = bloodPercentage.split('');
+     let result = parseInt(bloodpercentAsCharacterArray[0]) / parseInt(bloodpercentAsCharacterArray[2]);
+     result = result * 100;
+     if(Number.isNaN(result)){
+       return "N/A";
+     }
+     else {
+      return `${result.toString()}%`;
+     }
+    
+ }
+ 
+ processFourCharacterBloodPercentage(bloodPercentage: string): string {
+     let bloodpercentAsCharacterArray = bloodPercentage.split('');
+     let argOne = parseInt(bloodpercentAsCharacterArray[0]); 
+     let argTwo = parseInt(bloodPercentage.substring(2, 3).toString());
+     let result = argOne / argTwo;
+     result = result * 100;
+     if(Number.isNaN(result)){
+      return "N/A";
+    }
+    else {
+     return `${result.toString()}%`;
+    }
+ }
 
   async ngOnInit() {
     await this._indianDataService?.getAllChoctawIndians()?.subscribe((data: Indian[]) => {

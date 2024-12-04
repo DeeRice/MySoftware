@@ -10,6 +10,8 @@
     [rowsPerPageOptions]="[5, 10, 20, 50]"
     [resizableColumns]="true"
     [totalRecords]="this.listofIndians.length"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
     (onPage)="pageChange($event)">
         <ng-template pTemplate="header">
             <tr>
@@ -41,8 +43,8 @@
                 <td>{{ indian?.Age }}</td>
                 <td>{{ indian?.Year }}</td>
                 <td>{{ indian?.Sex  }}</td>
-                <td>{{ indian?.Blood }}</td>
-                <td>{{ indian?.Relationship }}</td>
+                <td>{{ this.calculateBloodPercentage(indian?.Blood) }}</td>
+                <td>By {{ indian?.Relationship }}</td>
                 <td>{{ indian?.RollNum }}</td>
                 <td>{{ indian?.Source }}</td>
             </tr>
