@@ -5,7 +5,7 @@ namespace DawesRollViewerAPI.Interface
 {
     public interface IMapping
     {
-        IndianViewModel MapEntityToViewModel(Indian indian);
-        Indian MapViewModelToEntity(IndianViewModel indianViewModel);
+        IndiansViewModel MapEntityToViewModel(Indians indian);
+        Indians MapViewModelToEntity(IndiansViewModel indianViewModel);
     }
 }

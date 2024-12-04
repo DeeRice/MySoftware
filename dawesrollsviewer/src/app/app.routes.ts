@@ -9,11 +9,11 @@ import { SeminoleComponent } from './header/seminole/seminole.component';
 
 export const routes: Routes = [
     { path: 'app-header', component: HeaderComponent, children:[
-        { path: '',redirectTo: 'app-header', pathMatch: 'full'},
+        { path: '',redirectTo: 'app-all', pathMatch: 'full'},
         { path: 'app-all', component: AllComponent},
         { path: 'app-cherokee', component: CherokeeComponent},
         { path: 'app-chickasaw', component: ChickasawComponent},
-        { path: 'app-chotaw', component: ChoctawComponent},
+        { path: 'app-choctaw', component: ChoctawComponent},
         { path: 'app-creek', component: CreekComponent},
         { path: 'app-seminole', component: SeminoleComponent}
     ]}

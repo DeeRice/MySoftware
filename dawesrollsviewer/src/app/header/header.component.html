@@ -1,6 +1,14 @@
 <div class="background">
     <p class="text-center">Dawes Rolls Viewer</p>
+    <span class="p-input-icon-left">
+      <i class="pi pi-search"></i>
+      <input pInputText type="text" (input)="filterGlobal($event, 'contains', this.activeIndex)" placeholder="Global Search" />
+  </span>
     <p-tabView
+    [hidden]="isHidden"
+    (onChange)="handleChange($event)"
+    [selectOnFocus]="true"
+  [activeIndex]="this.activeIndex"
     >
       <p-tabPanel header="All" [tabIndex]="5"> </p-tabPanel>
       <p-tabPanel header="Choctaw" [tabIndex]="0"> </p-tabPanel>
@@ -10,5 +18,6 @@
       <p-tabPanel header="Seminole" [tabIndex]="4"> </p-tabPanel>
     </p-tabView>
     <router-outlet />
-  </div>
   
+  
+  </div>

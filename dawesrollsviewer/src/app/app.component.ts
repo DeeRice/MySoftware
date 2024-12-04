@@ -10,13 +10,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PrimeNGConfig } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
 import { TableModule } from 'primeng/table';
+import { CherokeeComponent } from './header/cherokee/cherokee.component';
+import { ChickasawComponent } from './header/chickasaw/chickasaw.component';
+import { ChoctawComponent } from './header/choctaw/choctaw.component';
+import { CreekComponent } from './header/creek/creek.component';
+import { SeminoleComponent } from './header/seminole/seminole.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, AllComponent],
+  imports: [RouterOutlet, HeaderComponent, AllComponent, RouterModule, 
+    AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent, CreekComponent, SeminoleComponent],
   providers: [NgbModal, /* AppService */ RouterModule, RouterOutlet, CommonModule, RouterLink,
-    RouterLinkActive, FormsModule, BrowserAnimationsModule, TableModule, PrimeNGConfig, CalendarModule],
+    RouterLinkActive, FormsModule, BrowserAnimationsModule, TableModule, PrimeNGConfig, CalendarModule, RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

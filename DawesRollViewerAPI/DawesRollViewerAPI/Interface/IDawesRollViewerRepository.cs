@@ -5,11 +5,11 @@ namespace DawesRollViewerAPI.Interface
 {
     public interface IDawesRollViewerRepository
     {
-        Task<List<Indian>> GetAllIndians();
-        Task<List<Indian>> GetAllChoctawIndians();
-        Task<List<Indian>> GetAllCherokeeIndians();
-        Task<List<Indian>> GetAllCreekIndians();
-        Task<List<Indian>> GetAllChickasawIndians();
-        Task<List<Indian>> GetAllSeminoleIndians();
+        Task<List<Indians>> GetAllIndians();
+        Task<List<Choctaw>> GetAllChoctawIndians();
+        Task<List<Cherokee>> GetAllCherokeeIndians();
+        Task<List<Creek>> GetAllCreekIndians();
+        Task<List<Chickasaw>> GetAllChickasawIndians();
+        Task<List<Seminole>> GetAllSeminoleIndians();
     }
 }

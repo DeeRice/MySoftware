@@ -21,7 +21,7 @@ namespace DawesRollViewerAPI.Controllers
         [HttpGet]
         public async Task<JsonResult> GetAllCherokeeIndians()
         {
-            var listOfAllCherokeeIndians = new List<IndianViewModel>();
+            var listOfAllCherokeeIndians = new List<IndiansViewModel>();
             var result = await _IDawesRollViewerRepository.GetAllCherokeeIndians();
             result.ForEach(x =>
             {
@@ -34,7 +34,7 @@ namespace DawesRollViewerAPI.Controllers
         [HttpGet]
         public async Task<JsonResult> GetAllChickasawIndians()
         {
-            var listOfAllChickasawIndians = new List<IndianViewModel>();
+            var listOfAllChickasawIndians = new List<IndiansViewModel>();
             var result = await _IDawesRollViewerRepository.GetAllChickasawIndians();
             result.ForEach(x =>
             {
@@ -47,7 +47,7 @@ namespace DawesRollViewerAPI.Controllers
         [HttpGet]
         public async Task<JsonResult> GetAllChoctawIndians()
         {
-            var listOfAllChoctawIndians = new List<IndianViewModel>();
+            var listOfAllChoctawIndians = new List<IndiansViewModel>();
             var result = await _IDawesRollViewerRepository.GetAllChoctawIndians();
             result.ForEach(x =>
             {
@@ -60,7 +60,7 @@ namespace DawesRollViewerAPI.Controllers
         [HttpGet]
         public async Task<JsonResult> GetAllCreekIndians()
         {
-            var listOfAllCreekIndians = new List<IndianViewModel>();
+            var listOfAllCreekIndians = new List<IndiansViewModel>();
             var result = await _IDawesRollViewerRepository.GetAllCreekIndians();
             result.ForEach(x =>
             {
@@ -73,7 +73,7 @@ namespace DawesRollViewerAPI.Controllers
         [HttpGet]
         public async Task<JsonResult> GetAllIndians()
         {
-            var listOfAllIndians = new List<IndianViewModel>();
+            var listOfAllIndians = new List<IndiansViewModel>();
             var result = await _IDawesRollViewerRepository.GetAllIndians();
             result.ForEach(x =>
             {
@@ -86,7 +86,7 @@ namespace DawesRollViewerAPI.Controllers
         [HttpGet]
         public async Task<JsonResult> GetAllSeminoleIndians()
         {
-            var listOfAllSeminoleIndians = new List<IndianViewModel>();
+            var listOfAllSeminoleIndians = new List<IndiansViewModel>();
             var result = await _IDawesRollViewerRepository.GetAllSeminoleIndians();
             result.ForEach(x =>
             {

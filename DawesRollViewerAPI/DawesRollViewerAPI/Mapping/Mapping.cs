@@ -6,9 +6,9 @@ namespace DawesRollViewerAPI.Mapping
 {
     public class Mapping : IMapping
     {
-        public IndianViewModel MapEntityToViewModel(Indian indian)
+        public IndiansViewModel MapEntityToViewModel(Indians indian)
         {
-            IndianViewModel indianViewModel = new IndianViewModel();
+            IndiansViewModel indianViewModel = new IndiansViewModel();
             indianViewModel.ID = indian.ID;
             indianViewModel.Page = indian.Page;
             indianViewModel.Tribe = indian.Tribe;
@@ -26,9 +26,9 @@ namespace DawesRollViewerAPI.Mapping
             return indianViewModel;
         }
 
-        public Indian MapViewModelToEntity(IndianViewModel indianViewModel)
+        public Indians MapViewModelToEntity(IndiansViewModel indianViewModel)
         {
-            Indian indian = new Indian();
+            Indians indian = new Indians();
             indian.ID = indianViewModel.ID;
             indian.Page = indianViewModel.Page;
             indian.Tribe = indianViewModel.Tribe;

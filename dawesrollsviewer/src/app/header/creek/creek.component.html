@@ -1,1 +1,51 @@
-<p>creek works!</p>
+<div class="card">
+    <p-table #creek [value]="listofIndians" 
+    [columns]="this._appService?.addIndianTitles"  
+    [paginator]="true"
+    [rows]="5"
+    [first]="this.first" 
+    dataKey="ID"
+    styleClass="p-datatable-gridlines" 
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [resizableColumns]="true"
+    [totalRecords]="this.listofIndians.length"
+    (onPage)="pageChange($event)">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pResizableColumn>ID</th>
+                <th pResizableColumn>Tribe</th>
+                <th pResizableColumn>Page</th>
+                <th pResizableColumn>LastName</th>
+                <th pResizableColumn>FirstName</th>
+                <th pResizableColumn>MiddleName</th>
+                <th pResizableColumn>Suffix</th>
+                <th pResizableColumn>Age</th>
+                <th pResizableColumn>Year</th>
+                <th pResizableColumn>Sex</th>
+                <th pResizableColumn>Blood</th>
+                <th pResizableColumn>Relationship</th>
+                <th pResizableColumn>RollNum</th>
+                <th pResizableColumn>Source</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-indian>
+            <tr>
+                <td><a [routerLink]="['/app-job-details']" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="goToDetailPage(indian?.ID.toString())">{{indian?.ID}}</a></td>
+                <td>{{ indian?.Tribe }}</td>
+                <td>{{ indian?.Page }}</td>
+                <td>{{ indian?.LastName }}</td>
+                <td>{{ indian?.FirstName }}</td>
+                <td>{{ indian?.MiddleName }}</td>
+                <td>{{ indian?.Suffix }}</td>
+                <td>{{ indian?.Age }}</td>
+                <td>{{ indian?.Year }}</td>
+                <td>{{ indian?.Sex  }}</td>
+                <td>{{ indian?.Blood }}</td>
+                <td>{{ indian?.Relationship }}</td>
+                <td>{{ indian?.RollNum }}</td>
+                <td>{{ indian?.Source }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
