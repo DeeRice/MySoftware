@@ -32,7 +32,7 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-indian>
-            <tr>
+            <tr [ngClass]="getRowClass(indian?.LastName)">
                 <td><a [routerLink]="['/app-job-details']" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="goToDetailPage(indian?.ID.toString())">{{indian?.ID}}</a></td>
                 <td>{{ indian?.Tribe }}</td>
                 <td>{{ indian?.Page }}</td>
@@ -43,8 +43,8 @@
                 <td>{{ indian?.Age }}</td>
                 <td>{{ indian?.Year }}</td>
                 <td>{{ indian?.Sex  }}</td>
-                <td>{{ this.calculateBloodPercentage(indian?.Blood) }}</td>
-                <td>By {{ indian?.Relationship }}</td>
+                <td class="redtext">{{ this.calculateBloodPercentage(indian?.Blood) }}</td>
+                <td class="orangetext">By {{ indian?.Relationship }}</td>
                 <td>{{ indian?.RollNum }}</td>
                 <td>{{ indian?.Source }}</td>
             </tr>

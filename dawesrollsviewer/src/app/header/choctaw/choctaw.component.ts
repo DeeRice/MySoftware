@@ -40,6 +40,7 @@ export class ChoctawComponent {
   public filterInput:string ="";
   first = 0;
   rows = 10;
+  public isStricken:Boolean = true;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
     appService?: AppService, indianDataService?: IndianDataService, messageService?: MessageService,
     confirmationService?: ConfirmationService,
@@ -56,6 +57,18 @@ export class ChoctawComponent {
       
      });
   }
+  
+
+  getRowClass(lastName: string) {
+    if (lastName === 'Stricken from roll') {
+      return 'redtext';
+    } else {
+      return '';
+    }
+    return '';
+  }
+
+
   
   pageChange(event: any) {
     debugger;
