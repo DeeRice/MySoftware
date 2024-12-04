@@ -7,6 +7,7 @@
     dataKey="ID"
     styleClass="p-datatable-gridlines" 
     [tableStyle]="{ 'min-width': '50rem' }"
+    sortMode="multiple"
     [rowsPerPageOptions]="[5, 10, 20, 50]"
     [resizableColumns]="true"
     [totalRecords]="this.listofIndians.length"
@@ -15,20 +16,20 @@
     (onPage)="pageChange($event)">
         <ng-template pTemplate="header">
             <tr>
-                <th pResizableColumn>ID</th>
-                <th pResizableColumn>Tribe</th>
-                <th pResizableColumn>Page</th>
-                <th pResizableColumn>LastName</th>
-                <th pResizableColumn>FirstName</th>
-                <th pResizableColumn>MiddleName</th>
-                <th pResizableColumn>Suffix</th>
-                <th pResizableColumn>Age</th>
-                <th pResizableColumn>Year</th>
-                <th pResizableColumn>Sex</th>
-                <th pResizableColumn>Blood</th>
-                <th pResizableColumn>Relationship</th>
-                <th pResizableColumn>RollNum</th>
-                <th pResizableColumn>Source</th>
+                <th pResizableColumn pSortableColumn="ID">ID  <p-sortIcon field="ID" /></th>
+                <th pResizableColumn pSortableColumn="Tribe">Tribe  <p-sortIcon field="Page" /></th>
+                <th pResizableColumn pSortableColumn="Page">Page  <p-sortIcon field="Page" /></th>
+                <th pResizableColumn pSortableColumn="LastName">LastName  <p-sortIcon field="LastName" /></th>
+                <th pResizableColumn pSortableColumn="FirstName">FirstName  <p-sortIcon field="FirstName" /></th>
+                <th pResizableColumn pSortableColumn="MiddleName">MiddleName  <p-sortIcon field="MiddleName" /></th>
+                <th pResizableColumn pSortableColumn="Suffix">Suffix  <p-sortIcon field="Suffix" /></th>
+                <th pResizableColumn pSortableColumn="Age">Age  <p-sortIcon field="Age" /></th>
+                <th pResizableColumn pSortableColumn="Year">Year  <p-sortIcon field="Year" /></th>
+                <th pResizableColumn pSortableColumn="Sex">Sex  <p-sortIcon field="Sex" /></th>
+                <th pResizableColumn pSortableColumn="Blood">Blood  <p-sortIcon field="Blood" /></th>
+                <th pResizableColumn pSortableColumn="Relationship">Relationship  <p-sortIcon field="Relationship" /></th>
+                <th pResizableColumn pSortableColumn="RollNum">RollNum  <p-sortIcon field="RollNum" /></th>
+                <th pResizableColumn pSortableColumn="Source">Source  <p-sortIcon field="Source" /></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-indian>
