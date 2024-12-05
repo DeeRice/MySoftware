@@ -179,13 +179,8 @@ export class CreekComponent {
     }
   }
   
-  goToEditPage(id: string) {
-    this._router.navigate(['/app-edit-job/', id]);
-    console.log(id);
-  }
-
   goToDetailPage(id: string) {
-    this._router.navigate(['/app-job-details/', id]);
+    this._router.navigate(['/app-indian-details/', id]);
     console.log(id);
   }
 

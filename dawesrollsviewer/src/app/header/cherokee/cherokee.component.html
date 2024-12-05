@@ -35,7 +35,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-indian>
             <tr [ngClass]="getRowClass(indian?.LastName)">
-                <td><a [routerLink]="['/app-job-details']" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="goToDetailPage(indian?.ID.toString())">{{indian?.ID}}</a></td>
+                <td><a [routerLink]="['/app-indian-details']" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="goToDetailPage(indian?.ID.toString())">{{indian?.ID}}</a></td>
                 <td>{{ indian?.Tribe }}</td>
                 <td>{{ indian?.Page }}</td>
                 <td>{{ indian?.LastName }}</td>

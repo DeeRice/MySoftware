@@ -178,11 +178,6 @@ export class SeminoleComponent {
     }
   }
   
-  goToEditPage(id: string) {
-    this._router.navigate(['/app-edit-job/', id]);
-    console.log(id);
-  }
-
   goToDetailPage(id: string) {
     this._router.navigate(['/app-job-details/', id]);
     console.log(id);
