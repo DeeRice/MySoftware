@@ -1,1 +1,161 @@
-<p>indian-details works!</p>
+<h3 class="centered-header">Job Details</h3>
+<div [className]="'scrollableTable'">
+<table class="table">
+    <tbody *ngFor="let indian of this.indians" [className]="'verticalScroll'">
+      <tr>
+        <th scope="row"></th>
+        <td>Job Title</td>
+        <td>{{somejob.JobTitle}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Job Location</td>
+        <td>{{somejob.JobLocation}}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Job Number</td>
+        <td>{{somejob.JobNumber}}</td>
+        <td></td>
+        <td>JobID</td>
+        <td>{{somejob.JobID}}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Job Description</td>
+        <td>{{somejob.JobDescription}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr [className]="'emptyrowheight'">
+        <td></td>
+        <td></td>
+        <td></td> 
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Recruiter Name</td>
+        <td>{{somejob.RecruiterName}}</td>
+        <td></td>
+        <td>Client Contact Name</td>
+        <td>{{somejob.ClientCompanyContactName}}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Recruiter Company Name</td>
+        <td>{{somejob.RecruiterCompanyName}}</td>
+        <td></td>
+        <td>Client Company Name</td>
+        <td>{{somejob.ClientCompanyName}}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Recruiter Company Phone Number</td>
+        <td>{{somejob.RecruiterCompanyPhoneNumber}}</td>
+        <td></td>
+        <td>Client Company Phone Number</td>
+        <td>{{somejob.ClientCompanyPhoneNumber}}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Recruiter Phone JobNumber</td>
+        <td>{{somejob.RecruiterPhoneNumber}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr [className]="'emptyrowheight'">
+        <td></td>
+        <td></td>
+        <td></td> 
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Recruiter Company Location</td>
+        <td>{{somejob.RecruiterCompanyLocation}}</td>
+        <td></td>
+        <td>Client Company Location</td>
+        <td>{{somejob.ClientCompanyLocation}}</td>
+        <td></td>
+      </tr>
+      <tr [className]="'emptyrowheight'">
+        <td></td>
+        <td></td>
+        <td></td> 
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Recruiter Notes</td>
+        <td>{{somejob.RecruiterNotes}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Client Notes</td>
+        <td>{{somejob.ClientNotes}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr [className]="'emptyrowheight'">
+        <td></td>
+        <td></td>
+        <td></td> 
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Date Of Submissions</td>
+        <td>{{somejob.DateOfSubmission | date: 'MMMM dd, yyyy'}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Date Of Follow-Up</td>
+        <td>{{somejob.DateOfFollowUp | date: 'MMMM dd, yyyy' }}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td>Date Of Interview</td>
+        <td>{{somejob.DateOfInterview | date: 'MMMM dd, yyyy'}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+   
+    
+      
+    </tbody>
+  </table>
+  </div>
+  <p-button label="Back" (click)="goBackToJobGrid()" />

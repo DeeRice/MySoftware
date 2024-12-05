@@ -179,6 +179,7 @@ export class SeminoleComponent {
   }
   
   goToDetailPage(id: string, tribe:string) {
+    let myArray:any[] = [id, tribe];
     this._router.navigate(['/app-indian-details/', [id, tribe]]);
     console.log(id);
   }

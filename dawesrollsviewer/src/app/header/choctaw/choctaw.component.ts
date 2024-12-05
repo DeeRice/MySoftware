@@ -188,7 +188,8 @@ export class ChoctawComponent {
   }
   
   goToDetailPage(id: string, tribe:string) {
-    this._router.navigate(['/app-indian-details/', [id, tribe]]);
+    let indians:any[] = [id, tribe];
+    this._router.navigate(['/app-indian-details/', { queryParams: { indians } }]);
     console.log(id);
   }
 

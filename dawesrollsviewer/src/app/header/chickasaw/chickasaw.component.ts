@@ -179,7 +179,8 @@ export class ChickasawComponent {
   }
   
   goToDetailPage(id: string, tribe:string) {
-    this._router.navigate(['/app-indian-details/', [id, tribe]]);
+    let myArray:any[] = [id, tribe];
+    this._router.navigate(['/app-indian-details/', { queryParams: { myArray } }]);
     console.log(id);
   }
 

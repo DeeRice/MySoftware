@@ -14,9 +14,75 @@ export class IndianDataService {
   public getAllChoctawIndiansURL ="GetAllChoctawIndians";
   public getAllCreekIndiansURL ="GetAllCreekIndians";
   public getAllSeminoleIndiansURL ="GetAllSeminoleIndians";
+  public getCherokeeIndianByIDUrl ="GetCherokeeIndianByID";
+  public getChoctawIndianByIDUrl ="GetChoctawIndianByIDUrl";
+  public getChickasawIndianByIDUrl ="GetChickasawIndianByID";
+  public getCreekIndianByIDUrl ="GetCreekIndianByID";
+  public getSeminoleIndianByIDUrl ="GetSeminoleIndianByID";
+
   public _httpClient?: HttpClient;
   constructor(private httpClient: HttpClient) { 
     this._httpClient = httpClient;
+  }
+
+  getCherokeeIndianByID(jobID: number, errorMessage?: string) :  Observable<Indian> | undefined {
+    let headers = new HttpHeaders();
+    let obj:Indian = new Indian();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8')
+    .set('Accept', 'application/json');
+    return this._httpClient?.get<Indian>(`${this.baseUrl}/${this.getCherokeeIndianByIDUrl}/${jobID}`, { headers: headers }).pipe(
+      catchError(this.handleError<Indian>('getCherokeeIndianByID', obj, errorMessage))
+    ).pipe(
+      map((response: Indian) => response)
+    );
+  }
+
+  getChoctawIndianByID(indianID: number, errorMessage?: string) :  Observable<Indian> | undefined {
+    let headers = new HttpHeaders();
+    let obj:Indian = new Indian();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8')
+    .set('Accept', 'application/json');
+    return this._httpClient?.get<Indian>(`${this.baseUrl}/${this.getChoctawIndianByIDUrl}/${indianID}`, { headers: headers }).pipe(
+      catchError(this.handleError<Indian>('getChoctawIndianByID', obj, errorMessage))
+    ).pipe(
+      map((response: Indian) => response)
+    );
+  }
+
+  getChickasawIndianByID(indianID: number, errorMessage?: string) :  Observable<Indian> | undefined {
+    let headers = new HttpHeaders();
+    let obj:Indian = new Indian();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8')
+    .set('Accept', 'application/json');
+    return this._httpClient?.get<Indian>(`${this.baseUrl}/${this.getChickasawIndianByIDUrl}/${indianID}`, { headers: headers }).pipe(
+      catchError(this.handleError<Indian>('getChickasawIndianByID', obj, errorMessage))
+    ).pipe(
+      map((response: Indian) => response)
+    );
+  }
+
+  getCreekIndianByID(indianID: number, errorMessage?: string) :  Observable<Indian> | undefined {
+    let headers = new HttpHeaders();
+    let obj:Indian = new Indian();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8')
+    .set('Accept', 'application/json');
+    return this._httpClient?.get<Indian>(`${this.baseUrl}/${this.getCreekIndianByIDUrl}/${indianID}`, { headers: headers }).pipe(
+      catchError(this.handleError<Indian>('getCreekIndianByID', obj, errorMessage))
+    ).pipe(
+      map((response: Indian) => response)
+    );
+  }
+
+  getSeminoleIndianByID(indianID: number, errorMessage?: string) :  Observable<Indian> | undefined {
+    let headers = new HttpHeaders();
+    let obj:Indian = new Indian();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8')
+    .set('Accept', 'application/json');
+    return this._httpClient?.get<Indian>(`${this.baseUrl}/${this.getSeminoleIndianByIDUrl}/${indianID}`, { headers: headers }).pipe(
+      catchError(this.handleError<Indian>('getSeminoleIndianByID', obj, errorMessage))
+    ).pipe(
+      map((response: Indian) => response)
+    );
   }
 
   getAllIndians(errorMessage?: string) : Observable<Indian[]> | undefined {
