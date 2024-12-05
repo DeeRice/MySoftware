@@ -39,7 +39,7 @@ export class ChoctawComponent {
   public textInput:string ="";
   public filterInput:string ="";
   first = 0;
-  rows = 10;
+  rows = 5;
   public isStricken:Boolean = true;
   @ViewChild('choctaw') choctawTable!: Table;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 

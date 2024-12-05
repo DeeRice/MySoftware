@@ -13,6 +13,7 @@ export class Indian {
     Relationship!: Relationship;
     RollNum!: Number;
     Source!: string;
+    url?: string;
 }
 
 export enum YearOrYears {

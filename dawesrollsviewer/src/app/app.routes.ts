@@ -6,6 +6,7 @@ import { ChickasawComponent } from './header/chickasaw/chickasaw.component';
 import { ChoctawComponent } from './header/choctaw/choctaw.component';
 import { CreekComponent } from './header/creek/creek.component';
 import { SeminoleComponent } from './header/seminole/seminole.component';
+import { IndianDetailsComponent } from './indian-details/indian-details.component';
 
 export const routes: Routes = [
     { path: 'app-header', component: HeaderComponent, children:[
@@ -16,6 +17,7 @@ export const routes: Routes = [
         { path: 'app-choctaw', component: ChoctawComponent},
         { path: 'app-creek', component: CreekComponent},
         { path: 'app-seminole', component: SeminoleComponent}
-    ]}
+    ]},
+    { path: 'app-indian-details', component: IndianDetailsComponent  },
 
 ];
