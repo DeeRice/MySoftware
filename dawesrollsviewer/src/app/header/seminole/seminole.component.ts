@@ -178,9 +178,10 @@ export class SeminoleComponent {
     }
   }
   
-  goToDetailPage(id: string) {
-    this._router.navigate(['/app-job-details/', id]);
+  goToDetailPage(id: string, tribe:string) {
+    this._router.navigate(['/app-indian-details/', [id, tribe]]);
     console.log(id);
   }
+
 
 }

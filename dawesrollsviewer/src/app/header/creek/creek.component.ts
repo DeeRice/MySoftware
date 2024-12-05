@@ -179,10 +179,11 @@ export class CreekComponent {
     }
   }
   
-  goToDetailPage(id: string) {
-    this._router.navigate(['/app-indian-details/', id]);
+  goToDetailPage(id: string, tribe:string) {
+    this._router.navigate(['/app-indian-details/', [id, tribe]]);
     console.log(id);
   }
+
 
 
 }
