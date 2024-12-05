@@ -8,12 +8,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { Indian } from '../../model/indian';
 import { debounceTime, distinctUntilChanged, switchMap, ObservableInput } from 'rxjs';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-indian-details',
   standalone: true,
-  imports: [TableModule, InputTextModule, CommonModule, RouterModule],
-  providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
+  imports: [TableModule, InputTextModule, CommonModule, RouterModule, ButtonModule],
+  providers: [IndianDataService, MessageService, ConfirmationService, RouterModule, ButtonModule],
   templateUrl: './indian-details.component.html',
   styleUrl: './indian-details.component.scss'
 })
@@ -206,4 +207,10 @@ export class IndianDetailsComponent {
       }
     });
   }
+
+  goBackToIndianGrid() {
+    this._appService!.setActiveIndex(0);
+    this._router.navigateByUrl("/app-header/app-choctaw");
+  }
+
 }
