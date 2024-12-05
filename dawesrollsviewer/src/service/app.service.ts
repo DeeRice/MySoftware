@@ -33,27 +33,27 @@ export class AppService {
 
   }
 
-  public getFilterInputFromAllSearch(event:Event, filter: string) {
-    this.allInputBehaviorSubject.next([event, filter as unknown as object]);
+  public getFilterInputFromAllSearch(searchInput:string, filter: string) {
+    this.allInputBehaviorSubject.next([searchInput as unknown as object, filter as unknown as object]);
   }
-  public getFilterInputFromCherokeeSearch(event:Event, filter: string) {
-    this.cherokeeInputBehaviorSubject.next([event, filter as unknown as object]);
-  }
-
-  public getFilterInputFromChickasawSearch(event:Event, filter: string) {
-    this.chickasawInputBehaviorSubject.next([event, filter as unknown as object]);
+  public getFilterInputFromCherokeeSearch(searchInput:string, filter: string) {
+    this.cherokeeInputBehaviorSubject.next([searchInput as unknown as object, filter as unknown as object]);
   }
 
-  public getFilterInputFromChoctawSearch(event:Event, filter: string) {
-  this.choctawInputBehaviorSubject.next([event, filter as unknown as object]); 
+  public getFilterInputFromChickasawSearch(searchInput:string, filter: string) {
+    this.chickasawInputBehaviorSubject.next([searchInput as unknown as object, filter as unknown as object]);
   }
 
-  public getFilterInputFromCreekSearch(event:Event, filter: string) {
-    this.creekInputBehaviorSubject.next([event, filter as unknown as object]);
+  public getFilterInputFromChoctawSearch(searchInput:string, filter: string) {
+  this.choctawInputBehaviorSubject.next([searchInput as unknown as object, filter as unknown as object]); 
   }
 
-  public getFilterInputFromSeminoleSearch(event:Event, filter: string) {
-    this.seminoleInputBehaviorSubject.next([event, filter as unknown as object]);
+  public getFilterInputFromCreekSearch(searchInput:string, filter: string) {
+    this.creekInputBehaviorSubject.next([searchInput as unknown as object, filter as unknown as object]);
+  }
+
+  public getFilterInputFromSeminoleSearch(searchInput:string, filter: string) {
+    this.seminoleInputBehaviorSubject.next([searchInput as unknown as object, filter as unknown as object]);
   }
   refreshHeaderTable(refresh: string) {
     this.refreshTables.next(refresh);

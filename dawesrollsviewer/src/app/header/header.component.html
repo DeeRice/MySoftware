@@ -2,7 +2,7 @@
     <p class="text-center">Dawes Rolls Viewer</p>
     <span class="p-input-icon-left">
       <i class="pi pi-search"></i>
-      <input pInputText type="text" (input)="filterGlobal($event, 'contains', this.activeIndex)" placeholder="Global Search" />
+      <input pInputText type="text" [(ngModel)]="this.searchInput" name="searchInput" (input)="filterGlobal(this.searchInput, 'contains', this.activeIndex)" placeholder="Global Search" />
   </span>
     <p-tabView
     [hidden]="isHidden"

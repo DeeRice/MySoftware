@@ -13,6 +13,7 @@
     [totalRecords]="this.listofIndians.length"
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+    [globalFilterFields]="['ID','Tribe','Page','LastName', 'FirstName', 'MiddleName', 'Suffix', 'Age', 'Year', 'Sex', 'Blood', 'Relationship', 'RollNum', 'Source']"
     (onPage)="pageChange($event)">
         <ng-template pTemplate="header">
             <tr>

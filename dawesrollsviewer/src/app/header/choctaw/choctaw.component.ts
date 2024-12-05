@@ -41,6 +41,7 @@ export class ChoctawComponent {
   first = 0;
   rows = 10;
   public isStricken:Boolean = true;
+  @ViewChild('choctaw') choctawTable!: Table;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
     appService?: AppService, indianDataService?: IndianDataService, messageService?: MessageService,
     confirmationService?: ConfirmationService,
@@ -52,26 +53,29 @@ export class ChoctawComponent {
      this._confirmationService = confirmationService;
      this._router = router;
      this._appService?.choctawInputBehaviorSubject.subscribe(
-      (x) => {
-       
-      
+      (x:Array<object>) => {
+         let input = x[0] as unknown as string;
+         let selector = x[1] as unknown as string;
+        if(input.trim().length === 0) {
+           this.choctawTable.clear();
+        }
+        else{
+          this.choctawTable.filterGlobal(input, selector);
+        }
      });
   }
   
-
   getRowClass(lastName: string) {
     if (lastName === 'Stricken from roll') {
       return 'redtext';
     } else {
       return '';
     }
-    return '';
   }
 
 
   
   pageChange(event: any) {
-    debugger;
     this.first = event.first;
     this.rows = event.rows;
     this.refreshDataGrid(this.lastTableLazyLoadEvent);
@@ -141,7 +145,6 @@ export class ChoctawComponent {
   onMyPage(event: TablePageEvent) {
     this.first = event.first;
     this.rows = event.rows;
-    debugger;
     this._appService?.refreshHeaderTable("header");
 }
   public async refreshDataGrid(event: TableLazyLoadEvent) {

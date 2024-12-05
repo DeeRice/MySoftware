@@ -15,11 +15,12 @@ import { ChickasawComponent } from './chickasaw/chickasaw.component';
 import { ChoctawComponent } from './choctaw/choctaw.component';
 import { CreekComponent } from './creek/creek.component';
 import { SeminoleComponent } from './seminole/seminole.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [TabViewModule, RouterOutlet,AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent, CreekComponent, SeminoleComponent],
+  imports: [TabViewModule, RouterOutlet, FormsModule, AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent, CreekComponent, SeminoleComponent],
   providers: [MessageService, ConfirmationService, NgbModal, RouterModule, RouterOutlet,
     TabViewModule, ConfirmDialogModule,  RouterModule, RouterOutlet, AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent],
   templateUrl: './header.component.html',
@@ -36,6 +37,7 @@ export class HeaderComponent {
   @ViewChild(ChoctawComponent) choctawComponent?: ChoctawComponent;
   @ViewChild(CreekComponent) creekComponent?: CreekComponent;
   @ViewChild(SeminoleComponent) seminoleComponent?: SeminoleComponent;
+  public searchInput:string = "";
   constructor(private activatedRoute: ActivatedRoute, public appService: AppService,
     private messageService: MessageService, private router: Router,
     indianDataService: IndianDataService, private cd: ChangeDetectorRef) {
@@ -43,7 +45,6 @@ export class HeaderComponent {
     this._indianDataService = indianDataService;
     this._appService.refreshTables.subscribe(
       (x) => { 
-        debugger;
        this.refreshTables();
      });
     }
@@ -56,7 +57,6 @@ export class HeaderComponent {
     }
 
     public refreshTables() {
-      debugger;
       this.allComponent?.refreshDataGrid(this.allComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
       this.cherokeeComponent?.refreshDataGrid(this.cherokeeComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
       this.chickasawComponent?.refreshDataGrid(this.chickasawComponent.lastTableLazyLoadEvent as TableLazyLoadEvent);
@@ -66,20 +66,19 @@ export class HeaderComponent {
     }
   
 
-  public filterGlobal(event:Event, filter: string, tabIndex:Number) {
-    debugger;
+  public filterGlobal(searchInput:string, filter: string, tabIndex:Number) {
       switch(tabIndex) {
-        case 0:  this._appService.getFilterInputFromAllSearch(event, filter);
+        case 0:  this._appService.getFilterInputFromAllSearch(searchInput, filter);
                  break;
-        case 1: this._appService.getFilterInputFromChoctawSearch(event, filter); 
+        case 1: this._appService.getFilterInputFromChoctawSearch(searchInput, filter); 
                  break;
-        case 2:  this._appService.getFilterInputFromChickasawSearch(event, filter);
+        case 2:  this._appService.getFilterInputFromChickasawSearch(searchInput, filter);
                  break;
-        case 3:  this._appService.getFilterInputFromCherokeeSearch(event, filter);
+        case 3:  this._appService.getFilterInputFromCherokeeSearch(searchInput, filter);
                  break;
-        case 4:  this._appService.getFilterInputFromCreekSearch(event, filter);
+        case 4:  this._appService.getFilterInputFromCreekSearch(searchInput, filter);
                  break;
-        case 5:  this._appService.getFilterInputFromSeminoleSearch(event, filter);
+        case 5:  this._appService.getFilterInputFromSeminoleSearch(searchInput, filter);
                  break;
         default: break;
       }

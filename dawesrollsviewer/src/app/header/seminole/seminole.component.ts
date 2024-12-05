@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { Component, ViewChild } from '@angular/core';
+import { Table, TableLazyLoadEvent, TableModule, TablePageEvent } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -27,26 +27,95 @@ export class SeminoleComponent {
   lastTableLazyLoadEvent!: TableLazyLoadEvent;
   public _router: any;
   public _routerLink: any;
+  public textInput:string ="";
+  public filterInput:string ="";
   first = 0;
   rows = 10;
-  constructor(    private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
+  public isStricken:Boolean = true;
+  @ViewChild('seminole') seminoleTable!: Table;
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
     appService?: AppService, indianDataService?: IndianDataService, messageService?: MessageService,
     confirmationService?: ConfirmationService,
 
   ){
-     this._appService = appService;
-     this._indianDataService = indianDataService;
-     this._messageService = messageService;
-     this._confirmationService = confirmationService;
-     this._router = router;
+    this._appService = appService;
+    this._indianDataService = indianDataService;
+    this._messageService = messageService;
+    this._confirmationService = confirmationService;
+    this._router = router;
+    this._appService?.seminoleInputBehaviorSubject.subscribe(
+     (x:Array<object>) => {
+        let input = x[0] as unknown as string;
+        let selector = x[1] as unknown as string;
+       if(input.trim().length === 0) {
+          this.seminoleTable.clear();
+       }
+       else{
+         this.seminoleTable.filterGlobal(input, selector);
+       }
+    });
   }
+ 
+  getRowClass(lastName: string) {
+    if (lastName === 'Stricken from roll') {
+      return 'redtext';
+    } else {
+      return '';
+    }
+  }
+
+
   
   pageChange(event: any) {
-    debugger;
     this.first = event.first;
     this.rows = event.rows;
     this.refreshDataGrid(this.lastTableLazyLoadEvent);
 }
+
+ returnPercentage(bloodPercentage: string): string {
+    if(bloodPercentage == "full"){
+      return "100%";
+    }
+    else {
+       return this.calculateBloodPercentage(bloodPercentage);
+    }
+ }
+ 
+ calculateBloodPercentage(bloodPercentage: string): string {
+        let numberOfCharacters = bloodPercentage.length;
+        switch(numberOfCharacters){
+          case 3: return this.processThreeCharacterBloodPercentage(bloodPercentage);
+          case 4: return this.processFourCharacterBloodPercentage(bloodPercentage);
+          default: return "";
+        }
+ }
+
+ processThreeCharacterBloodPercentage(bloodPercentage: string): string {
+     let bloodpercentAsCharacterArray = bloodPercentage.split('');
+     let result = parseInt(bloodpercentAsCharacterArray[0]) / parseInt(bloodpercentAsCharacterArray[2]);
+     result = result * 100;
+     if(Number.isNaN(result)){
+       return "N/A";
+     }
+     else {
+      return `${result.toString()}%`;
+     }
+    
+ }
+ 
+ processFourCharacterBloodPercentage(bloodPercentage: string): string {
+     let bloodpercentAsCharacterArray = bloodPercentage.split('');
+     let argOne = parseInt(bloodpercentAsCharacterArray[0]); 
+     let argTwo = parseInt(bloodPercentage.substring(2, 3).toString());
+     let result = argOne / argTwo;
+     result = result * 100;
+     if(Number.isNaN(result)){
+      return "N/A";
+    }
+    else {
+     return `${result.toString()}%`;
+    }
+ }
 
   async ngOnInit() {
     await this._indianDataService?.getAllSeminoleIndians()?.subscribe((data: Indian[]) => {
@@ -62,8 +131,13 @@ export class SeminoleComponent {
       }
     }
     });
+   
   }
-  
+  onMyPage(event: TablePageEvent) {
+    this.first = event.first;
+    this.rows = event.rows;
+    this._appService?.refreshHeaderTable("header");
+}
   public async refreshDataGrid(event: TableLazyLoadEvent) {
     this.lastTableLazyLoadEvent = event;
     await this._indianDataService?.getAllSeminoleIndians()?.subscribe((data: Indian[]) => {
@@ -113,4 +187,5 @@ export class SeminoleComponent {
     this._router.navigate(['/app-job-details/', id]);
     console.log(id);
   }
+
 }
