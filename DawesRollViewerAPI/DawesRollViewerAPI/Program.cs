@@ -33,7 +33,7 @@ var app = builder.Build();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{JobID?}");
+    pattern: "{controller=Home}/{action=Index}/{IndianID?}");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

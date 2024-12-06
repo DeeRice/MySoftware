@@ -23,6 +23,7 @@ namespace DawesRollViewerAPI.Mapping
             indianViewModel.Relationship = indian.Relationship;
             indianViewModel.RollNum = indian.RollNum;
             indianViewModel.Source = indian.Source;
+            indianViewModel.Url = indian.Url;
             return indianViewModel;
         }
 
@@ -43,6 +44,7 @@ namespace DawesRollViewerAPI.Mapping
             indian.Relationship = indianViewModel.Relationship;
             indian.RollNum = indianViewModel.RollNum;
             indian.Source = indianViewModel.Source;
+            indian.Url = indianViewModel.Url;
             return indian;
         }
     }
