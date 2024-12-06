@@ -3,7 +3,7 @@ using DawesRollViewerAPI.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Globalization;
-
+using System.Text.Json;
 namespace DawesRollViewerAPI.Controllers
 {
     public class DawesRollViewerController : Controller, IDawesRollViewerController
@@ -16,6 +16,85 @@ namespace DawesRollViewerAPI.Controllers
             _IDawesRollViewerRepository = IDawesRollViewerRepository;
             _mapper = mapper;
         }
+
+
+        // GET: Job/GetJob/5
+        [HttpGet]
+        public async Task<JsonResult> GetCherokeeIndianByID(int? IndianID)
+        {
+
+            var indianViewModel = _mapper.MapEntityToViewModel(await _IDawesRollViewerRepository.GetCherokeeIndianByID(IndianID));
+            if (indianViewModel == null)
+            {
+
+                return new JsonResult(new Exception("Could Not Find Job With Specified ID").Message);
+            }
+
+            return new JsonResult(JsonConvert.SerializeObject(indianViewModel));
+        }
+
+        // GET: Job/GetJob/5
+        [HttpGet]
+        public async Task<JsonResult> GetChoctawIndianByID(int? IndianID)
+        {
+
+            var indianViewModel = _mapper.MapEntityToViewModel(await _IDawesRollViewerRepository.GetChoctawIndianByID(IndianID));
+            if (indianViewModel == null)
+            {
+
+                return new JsonResult(new Exception("Could Not Find Job With Specified ID").Message);
+            }
+
+            return new JsonResult(JsonConvert.SerializeObject(indianViewModel));
+        }
+
+        // GET: Job/GetJob/5
+        [HttpGet]
+        public async Task<JsonResult> GetChickasawIndianByID(int? IndianID)
+        {
+
+            var indianViewModel = _mapper.MapEntityToViewModel(await _IDawesRollViewerRepository.GetChickasawIndianByID(IndianID));
+            if (indianViewModel == null)
+            {
+
+                return new JsonResult(new Exception("Could Not Find Job With Specified ID").Message);
+            }
+
+            return new JsonResult(JsonConvert.SerializeObject(indianViewModel));
+        }
+
+
+        // GET: Job/GetJob/5
+        [HttpGet]
+        public async Task<JsonResult> GetCreekIndianByID(int? IndianID)
+        {
+
+            var indianViewModel = _mapper.MapEntityToViewModel(await _IDawesRollViewerRepository.GetCreekIndianByID(IndianID));
+            if (indianViewModel == null)
+            {
+
+                return new JsonResult(new Exception("Could Not Find Job With Specified ID").Message);
+            }
+
+            return new JsonResult(JsonConvert.SerializeObject(indianViewModel));
+        }
+
+
+        // GET: Job/GetJob/5
+        [HttpGet]
+        public async Task<JsonResult> GetSeminoleIndianByID(int? IndianID)
+        {
+
+            var indianViewModel = _mapper.MapEntityToViewModel(await _IDawesRollViewerRepository.GetSeminoleIndianByID(IndianID));
+            if (indianViewModel == null)
+            {
+
+                return new JsonResult(new Exception("Could Not Find Job With Specified ID").Message);
+            }
+
+            return new JsonResult(JsonConvert.SerializeObject(indianViewModel));
+        }
+
 
         // GET: DawesRollViewer/GetAllCherokeeIndians
         [HttpGet]

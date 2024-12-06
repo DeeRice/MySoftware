@@ -16,6 +16,73 @@ namespace DawesRollViewerAPI.Repository
         {
             this._appDbContext = appDbContext;
         }
+
+        public async Task<Cherokee> GetCherokeeIndianByID(int? IndianID)
+        {
+            try
+            {
+                return await _appDbContext.Cherokee
+                    .FirstOrDefaultAsync(e => e.ID == IndianID);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<Choctaw> GetChoctawIndianByID(int? IndianID)
+        {
+            try
+            {
+                return await _appDbContext.Choctaw
+                    .FirstOrDefaultAsync(e => e.ID == IndianID);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<Chickasaw> GetChickasawIndianByID(int? IndianID)
+        {
+            try
+            {
+                return await _appDbContext.Chickasaw
+                    .FirstOrDefaultAsync(e => e.ID == IndianID);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<Creek> GetCreekIndianByID(int? IndianID)
+        {
+            try
+            {
+                return await _appDbContext.Creek
+                    .FirstOrDefaultAsync(e => e.ID == IndianID);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<Seminole> GetSeminoleIndianByID(int? IndianID)
+        {
+            try
+            {
+                return await _appDbContext.Seminole
+                    .FirstOrDefaultAsync(e => e.ID == IndianID);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
         public async Task<List<Cherokee>> GetAllCherokeeIndians()
         {
             return await _appDbContext.Cherokee.ToListAsync();
