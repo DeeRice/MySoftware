@@ -179,8 +179,8 @@ export class CherokeeComponent {
   }
   
   goToDetailPage(id: string, tribe:string) {
-    let myArray:any[] = [id, tribe];
-    this._router.navigate(['/app-indian-details/', { queryParams: { myArray } }]);
+    let indians:object[] = [id as unknown as object, tribe as unknown as object];
+    this._router.navigate(['/app-indian-details/',indians]);
     console.log(id);
   }
 

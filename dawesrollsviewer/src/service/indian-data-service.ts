@@ -15,7 +15,7 @@ export class IndianDataService {
   public getAllCreekIndiansURL ="GetAllCreekIndians";
   public getAllSeminoleIndiansURL ="GetAllSeminoleIndians";
   public getCherokeeIndianByIDUrl ="GetCherokeeIndianByID";
-  public getChoctawIndianByIDUrl ="GetChoctawIndianByIDUrl";
+  public getChoctawIndianByIDUrl ="GetChoctawIndianByID";
   public getChickasawIndianByIDUrl ="GetChickasawIndianByID";
   public getCreekIndianByIDUrl ="GetCreekIndianByID";
   public getSeminoleIndianByIDUrl ="GetSeminoleIndianByID";

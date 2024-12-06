@@ -28,7 +28,7 @@ export class IndianDetailsComponent {
   public _routerLink: any;
   public _activatedRoute: any;
   public indian!: Indian;
-  public indians!: Indian[];
+  public indians: Indian[] = [];
   jobID: number = -1;
   public messageHeader?:string;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
@@ -43,30 +43,34 @@ export class IndianDetailsComponent {
     this._router = router;
     this._routerLink = routerLink;
     this._activatedRoute = activatedRoute;
-    this._activatedRoute.queryParams.subscribe((params: { [x: string]: any; }) => {
-      const indians = params['indians']; // Access the array
-      // Use JSON.parse if the array was stringified
-      if (typeof indians === 'string') {
+    
+  }
+
+  ngOnInit() {
+    this._activatedRoute.params.subscribe((params: object[]) => {
+      if (params.length == undefined) {
         //const parsedArray = JSON.parse(indians);
-        let id:string = indians[1];
-        let tableName:string = indians[2];
+        let id:string = params[0] as unknown as string;
+        let tableName:string = params[1] as unknown as string;
         this.processDetails(id, tableName);
       }
     });
   }
+
+
   public processDetails(id:string, tableName: string) {
       switch(tableName){
-        case "all": this.processall(id, tableName);
+        case "All": this.processall(id, tableName);
                          break;
-        case "cherokee": this.processCherokee(id);
+        case "Cherokee": this.processCherokee(id);
                          break;
-        case "chickasaw": this.processChickasaw(id);
+        case "Chickasaw": this.processChickasaw(id);
                          break;
-        case "choctaw": this.processChoctaw(id);
+        case "Choctaw": this.processChoctaw(id);
                          break;
-        case "creek":    this.processCreek(id);
+        case "Creek":    this.processCreek(id);
                          break;
-        case "seminole": this.processSeminole(id);
+        case "Ceminole": this.processSeminole(id);
                          break;
         default: break;
       }
@@ -212,5 +216,50 @@ export class IndianDetailsComponent {
     this._appService!.setActiveIndex(0);
     this._router.navigateByUrl("/app-header/app-choctaw");
   }
+
+  returnPercentage(bloodPercentage: string): string {
+    if(bloodPercentage == "full"){
+      return "100%";
+    }
+    else {
+       return this.calculateBloodPercentage(bloodPercentage);
+    }
+ }
+ 
+ calculateBloodPercentage(bloodPercentage: string): string {
+        let numberOfCharacters = bloodPercentage.length;
+        switch(numberOfCharacters){
+          case 3: return this.processThreeCharacterBloodPercentage(bloodPercentage);
+          case 4: return this.processFourCharacterBloodPercentage(bloodPercentage);
+          default: return "";
+        }
+ }
+
+ processThreeCharacterBloodPercentage(bloodPercentage: string): string {
+     let bloodpercentAsCharacterArray = bloodPercentage.split('');
+     let result = parseInt(bloodpercentAsCharacterArray[0]) / parseInt(bloodpercentAsCharacterArray[2]);
+     result = result * 100;
+     if(Number.isNaN(result)){
+       return "N/A";
+     }
+     else {
+      return `${result.toString()}%`;
+     }
+    
+ }
+ 
+ processFourCharacterBloodPercentage(bloodPercentage: string): string {
+     let bloodpercentAsCharacterArray = bloodPercentage.split('');
+     let argOne = parseInt(bloodpercentAsCharacterArray[0]); 
+     let argTwo = parseInt(bloodPercentage.substring(2, 3).toString());
+     let result = argOne / argTwo;
+     result = result * 100;
+     if(Number.isNaN(result)){
+      return "N/A";
+    }
+    else {
+     return `${result.toString()}%`;
+    }
+ }
 
 }

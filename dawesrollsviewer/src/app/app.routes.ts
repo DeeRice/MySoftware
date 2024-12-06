@@ -19,5 +19,5 @@ export const routes: Routes = [
         { path: 'app-seminole', component: SeminoleComponent}
     ]},
     { path: 'app-indian-details', component: IndianDetailsComponent  },
-
+    { path: 'app-indian-details/:id', component: IndianDetailsComponent  },
 ];

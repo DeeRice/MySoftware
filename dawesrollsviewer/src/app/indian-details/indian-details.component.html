@@ -3,58 +3,58 @@
 <table class="table">
     <tbody *ngFor="let indian of this.indians" [className]="'verticalScroll'">
       <tr>
-        <td>Last Name</td>
+        <td><b>Last Name</b></td>
         <td>{{indian.LastName}}</td>
-        <td>Suffix</td>
+        <td><b>Suffix</b></td>
         <td>{{indian.Suffix}}</td>
-        <td>First Name</td>
+        <td><b>First Name</b></td>
         <td>{{indian.FirstName}}</td>
-        <td>Middle Name</td>
+        <td><b>Middle Name</b></td>
         <td>{{indian.MiddleName}}</td>
       </tr>
       <tr>
-        <td>Sex</td>
+        <td><b>Sex</b></td>
         <td>{{indian.Sex}}</td>
-        <td>Age</td>
-        <td>{{indian.Age}}</td>
-        <td>Year</td>
-        <td>{{indian.Year}}</td>
-        <td>Roll Number</td>
+        <td><b>Age</b></td>
+        <td>{{indian.Age}}{{indian.Year}}</td>
+        <td><b>ID</b></td>
+        <td>{{indian.ID}}</td>
+        <td><b>Roll Number</b></td>
         <td>{{indian.RollNum}}</td>
       </tr>
       <tr>
-        <td>Percentage</td>
-        <td>{{indian.Blood}}</td>
-        <td>Tribe</td>
+        <td><b>Percentage</b></td>
+        <td>{{this.returnPercentage(indian.Blood)}}</td>
+        <td><b>Tribe</b></td>
         <td>{{indian.Tribe}}</td>
-        <td>Relationship</td>
-        <td>{{indian.Relationship}}</td>
-        <td>Page Number</td>
+        <td><b>Relationship</b></td>
+        <td>By {{indian.Relationship}}</td>
+        <td><b>Page Number</b></td>
         <td>{{indian.Page}}</td>
-      </tr>
+      </tr>      
+    </tbody>
+    <tfoot>
       <tr>
-        <th scope="row"></th>
-        <td>Source</td>
+        <td><b>Source</b></td>
         <td>{{indian.Source}}</td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
-      </tr>
-      <tr [className]="'emptyrowheight'">
-        <td></td>
-        <td></td>
-        <td></td> 
         <td></td>
         <td></td>
       </tr>
       <tr>
-        <td>Card</td>
-        <td><img [src]="indian.url" /></td>
+      <td><b>Card</b></td>
+       <td><img [src]="indian.url" /></td>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
       </tr>
-    
-      
-    </tbody>
+    </tfoot>
   </table>
   </div>
   <p-button label="Back" (click)="goBackToIndianGrid()" />
