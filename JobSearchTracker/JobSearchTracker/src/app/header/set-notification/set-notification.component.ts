@@ -20,14 +20,14 @@ import { HeaderComponent } from '../header.component';
 import { parseJSON } from 'jquery';
 
 @Component({
-  selector: 'app-set-notification',
-  standalone: true,
-  imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
-    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, MultiSelectModule,
-    CalendarModule],
-  providers: [MessageService, ConfirmationService, AppService, MultiSelectModule, CalendarModule],
-  templateUrl: './set-notification.component.html',
-  styleUrl: './set-notification.component.scss'
+    selector: 'app-set-notification',
+    standalone: true,
+    imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
+        ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, MultiSelectModule,
+        CalendarModule],
+    providers: [MessageService, ConfirmationService, AppService, MultiSelectModule, CalendarModule],
+    templateUrl: './set-notification.component.html',
+    styleUrl: './set-notification.component.scss'
 })
 export class SetNotificationComponent {
   thedateEmit!: EventEmitter<Date>;
@@ -52,18 +52,18 @@ export class SetNotificationComponent {
   @ViewChild('ms') multiselect?: MultiSelect;
   _notifications!: JTSNotification[];
   public messageHeader?: string;
-  @Inject(HeaderComponent) _headerComponent?: HeaderComponent;
+ // @Inject(HeaderComponent) _headerComponent?: HeaderComponent;
   constructor(private appService: AppService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
     private notificationService: NotificationService, private jobService: JobService,
-    private headerComponent?: HeaderComponent
+  
   ) {
     this._appService = appService;
     this._messageService = messageService;
     this._confirmationService = confirmationService;
     this._notificationService = notificationService;
     this._jobService = this.jobService;
-    this._headerComponent = headerComponent;
+   // this._headerComponent = headerComponent;
   }
   async ngOnInit() {
     this.titles = this._appService?.addNotificationTitles;
@@ -76,9 +76,17 @@ export class SetNotificationComponent {
 
   public populateJobEnumDropDown() {
     this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)) {
+        this.messageHeader = "Error Occured!"
+        let message: string = data.toString();
+        console.log(data);
+        this.confirm(message);
+      }
+      else {
       if ((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)) {
         this.jobs = JSON.parse(data.toString());
-
         this.listofJobEnums = [];
         if ((this.notification != undefined) && (this.notification != null)) {
           this.notification.NotificationEvent = -1;
@@ -89,14 +97,9 @@ export class SetNotificationComponent {
           jobEnum.name = value.ClientCompanyName;
           this.listofJobEnums?.push(jobEnum);
         });
+       }
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-        console.log(error);
-        this.confirm(message);
-      });
+    });
   }
 
   setEventPicker() {
@@ -181,33 +184,32 @@ export class SetNotificationComponent {
           this.notificationService?.addNotification(this.notification)?.subscribe(
             (result: JTSNotification) => {
               // Handle result
+              const substring = "the job";
+              const substringTwo = "the notification";
+              if(result.toString().includes(substring) || result.toString().includes(substringTwo)) {
+                this.messageService.add({ severity: 'error', summary: 'Rejected', detail: result.toString() });
+              }
+              else {
               console.log(result);
-              debugger;
               this.notification = JSON.parse(result.toString());
               this.job.NotificationID = this.notification?.NotificationID;
               this.jobService?.editJob(this.job as JTSJob)?.subscribe(
                 (result: JTSJob) => {
                   // Handle result
+                  if(result.toString().includes(substring) || result.toString().includes(substringTwo)) {
+                    this.messageService.add({ severity: 'error', summary: 'Rejected', detail: result.toString() });
+                  }
+                  else {
                   console.log(result)
-                  this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the job.' });
-                  this._headerComponent?.loadHeaders();
-
-                },
-                (error) => {
-                  this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
-                },
-                () => {
-
+                  this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the notification.' });
+                 // this._headerComponent?.loadHeaders();
+                  }
                 });
-            },
-            (error) => {
-              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
+              }
             },
             () => {
               // No errors, route to new page
-              this._headerComponent?.refreshTables();
-              this._headerComponent!.changeTabs(3);
-
+            //  this._headerComponent?.refreshTables();
             }
           );
         }
@@ -358,16 +360,20 @@ export class SetNotificationComponent {
 
   async displayNotificationsForToday() {
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)) {
+        this.messageHeader = "Error Occured!"
+        let message: string = data.toString();
+        console.log(data);
+        this.confirm(message);
+      }
+      else {
       if ((data != null) && (data != undefined) && (data.length > 0)) {
         this._notifications = JSON.parse(data.toString());
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of notifications. See developer for solution."
-        console.log(error);
-        this.confirm(message);
-      });
+    }
+    });
   }
 
 

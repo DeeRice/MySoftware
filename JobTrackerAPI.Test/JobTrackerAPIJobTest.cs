@@ -224,11 +224,11 @@ namespace JobTrackerAPI.Test
             var iMockJobRepository = new Mock<IJobRepository>();
             var iMapper = new Mock<IMapping>();
             Job job = null;
-            string exceptionMessage = "a job was not submitted to be updated.";
+            string exceptionMessage = "the job was not submitted to be updated.";
             JobViewModel jobViewModel = null;
             List<Job> list = new List<Job>();
             list.Add(job);
-            iMockJobRepository.Setup(x => x.EditJob(0, job)).Returns(Task.FromResult(job));
+            iMockJobRepository.Setup(x => x.EditJob(job)).Returns(Task.FromResult(job));
             iMapper.Setup(x => x.MapEntityToViewModel(job)).Returns(jobViewModel);
             var controller = new JobController(iMockJobRepository.Object, iMapper.Object);
             JsonResult? result = null;
@@ -237,7 +237,7 @@ namespace JobTrackerAPI.Test
             Task.Run(async () =>
             {
 
-                result = await controller.EditJob(0, jobViewModel);
+                result = await controller.EditJob(jobViewModel);
 
             }).Wait();
             string okResult = JsonConvert.DeserializeObject<string>(result.Value.ToString());
@@ -278,7 +278,7 @@ namespace JobTrackerAPI.Test
             };
             List<Job> list = new List<Job>();
             list.Add(job);
-            iMockJobRepository.Setup(x => x.EditJob(0, job)).Returns(Task.FromResult(job));
+            iMockJobRepository.Setup(x => x.EditJob(job)).Returns(Task.FromResult(job));
             iMapper.Setup(x => x.MapEntityToViewModel(job)).Returns(jobViewModel);
             var controller = new JobController(iMockJobRepository.Object, iMapper.Object);
             JsonResult? result = null;
@@ -287,57 +287,7 @@ namespace JobTrackerAPI.Test
             Task.Run(async () =>
             {
 
-                result = await controller.EditJob(100000, jobViewModel);
-
-            }).Wait();
-            string okResult = JsonConvert.DeserializeObject<string>(result.Value.ToString());
-
-            // Assert test
-            Assert.AreEqual(okResult, exceptionMessage);
-        }
-
-        [TestMethod]
-        public void EditJobReturnsMisMatchIDMessage()
-        {
-            // Arrange test
-            var iMockJobRepository = new Mock<IJobRepository>();
-            var iMapper = new Mock<IMapping>();
-            Job job = null;
-            string exceptionMessage = "the id sent with the request does not match the id in the job object";
-            var jobViewModel = new JobViewModel()
-            {
-                JobID = 1000,
-                JobNumber = 0,
-                JobTitle = "",
-                JobLocation = "",
-                RecruiterName = "",
-                ClientCompanyContactName = "",
-                RecruiterCompanyName = "",
-                ClientCompanyName = "",
-                RecruiterPhoneNumber = "",
-                ClientCompanyPhoneNumber = "",
-                RecruiterCompanyLocation = "",
-                ClientCompanyLocation = "",
-                RecruiterNotes = "",
-                ClientNotes = "",
-                JobDescription = "",
-                DateOfSubmission = new DateTime(),
-                DateOfFollowUp = new DateTime(),
-                DateOfInterview = new DateTime(),
-                NotificationID = 0
-            };
-            List<Job> list = new List<Job>();
-            list.Add(job);
-            iMockJobRepository.Setup(x => x.EditJob(1, job)).Returns(Task.FromResult(job));
-            iMapper.Setup(x => x.MapEntityToViewModel(job)).Returns(jobViewModel);
-            var controller = new JobController(iMockJobRepository.Object, iMapper.Object);
-            JsonResult? result = null;
-
-            // Act test
-            Task.Run(async () =>
-            {
-
-                result = await controller.EditJob(1, jobViewModel);
+                result = await controller.EditJob(jobViewModel);
 
             }).Wait();
             string okResult = JsonConvert.DeserializeObject<string>(result.Value.ToString());
@@ -400,7 +350,7 @@ namespace JobTrackerAPI.Test
             list.Add(job);
             int? lastID = 6;
             iMockJobRepository.Setup(x => x.JobExists(jobViewModel.JobID)).Returns(true);
-            iMockJobRepository.Setup(x => x.EditJob(6, job)).Returns(Task.FromResult(job));
+            iMockJobRepository.Setup(x => x.EditJob(job)).Returns(Task.FromResult(job));
             iMockJobRepository.Setup(x => x.GetLastJobID()).Returns(Task.FromResult<int?>(lastID));
             iMapper.Setup(x => x.MapViewModelToEntity(jobViewModel)).Returns(job);
             iMapper.Setup(x => x.MapEntityToViewModel(job)).Returns(jobViewModel);
@@ -412,7 +362,7 @@ namespace JobTrackerAPI.Test
             {
                var lastJobID = await controller.GetLastJobID();
                 jobViewModel.JobID = int.Parse(lastJobID.Value.ToString());
-                result = await controller.EditJob(jobViewModel.JobID, jobViewModel);
+                result = await controller.EditJob(jobViewModel);
 
             }).Wait();
             JobViewModel okResult = JsonConvert.DeserializeObject<JobViewModel>(result?.Value?.ToString());
@@ -625,9 +575,10 @@ namespace JobTrackerAPI.Test
             var iMockJobRepository = new Mock<IJobRepository>();
             iMockJobRepository.Setup(x => x.PopulateDataSet(query)).Returns(query);
             string exceptionMessage = "the job that was attempted to be created already exist in the database";
+            iMockJobRepository.Setup(x => x.GetJobByID(job.JobID)).Returns(Task.FromResult(job));
             iMockJobRepository.Setup(x => x.DeleteJob(job.JobID)).Returns(Task.FromResult(job));
             iMockJobRepository.Setup(x => x.JobExists(job.JobID)).Returns(true);
-            iMockJobRepository.Setup(x => x.FindJob(job.JobID)).Returns(Task.FromResult(job));
+            iMockJobRepository.Setup(x => x.FindJob(job)).Returns(Task.FromResult(job));
             iMapper.Setup(x => x.MapViewModelToEntity(jobViewModel)).Returns(job);
             iMapper.Setup(x => x.MapEntityToViewModel(job)).Returns(jobViewModel);
             var controller = new JobController(iMockJobRepository.Object, iMapper.Object);
@@ -704,7 +655,7 @@ namespace JobTrackerAPI.Test
             string exceptionMessage = "could not find the job to delete.";
             iMockJobRepository.Setup(x => x.DeleteJob(job.JobID)).Returns(Task.FromResult(job));
             iMockJobRepository.Setup(x => x.JobExists(job.JobID)).Returns(false);
-            iMockJobRepository.Setup(x => x.FindJob(job.JobID)).Returns(Task.FromResult(myJob));
+            iMockJobRepository.Setup(x => x.FindJob(job)).Returns(Task.FromResult(myJob));
             iMapper.Setup(x => x.MapViewModelToEntity(jobViewModel)).Returns(job);
             var controller = new JobController(iMockJobRepository.Object, iMapper.Object);
             JsonResult? result = null;

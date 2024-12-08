@@ -1,0 +1,94 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Deebo-PC\\source\\repos\\MySoftware\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{FF96F61C-DD1E-4610-AEEE-5194A24E0278}|JobTrackerAPI\\JobTrackerAPI.csproj|c:\\users\\deebo-pc\\source\\repos\\mysoftware\\jobtrackerapi\\enum\\jtenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF96F61C-DD1E-4610-AEEE-5194A24E0278}|JobTrackerAPI\\JobTrackerAPI.csproj|solutionrelative:jobtrackerapi\\enum\\jtenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF96F61C-DD1E-4610-AEEE-5194A24E0278}|JobTrackerAPI\\JobTrackerAPI.csproj|c:\\users\\deebo-pc\\source\\repos\\mysoftware\\jobtrackerapi\\interface\\ijobrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF96F61C-DD1E-4610-AEEE-5194A24E0278}|JobTrackerAPI\\JobTrackerAPI.csproj|solutionrelative:jobtrackerapi\\interface\\ijobrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF96F61C-DD1E-4610-AEEE-5194A24E0278}|JobTrackerAPI\\JobTrackerAPI.csproj|c:\\users\\deebo-pc\\source\\repos\\mysoftware\\jobtrackerapi\\controllers\\jobcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF96F61C-DD1E-4610-AEEE-5194A24E0278}|JobTrackerAPI\\JobTrackerAPI.csproj|solutionrelative:jobtrackerapi\\controllers\\jobcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF96F61C-DD1E-4610-AEEE-5194A24E0278}|JobTrackerAPI\\JobTrackerAPI.csproj|c:\\users\\deebo-pc\\source\\repos\\mysoftware\\jobtrackerapi\\controllers\\notificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF96F61C-DD1E-4610-AEEE-5194A24E0278}|JobTrackerAPI\\JobTrackerAPI.csproj|solutionrelative:jobtrackerapi\\controllers\\notificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "JTEnum.cs",
+              "DocumentMoniker": "C:\\Users\\Deebo-PC\\source\\repos\\MySoftware\\JobTrackerAPI\\Enum\\JTEnum.cs",
+              "RelativeDocumentMoniker": "JobTrackerAPI\\Enum\\JTEnum.cs",
+              "ToolTip": "C:\\Users\\Deebo-PC\\source\\repos\\MySoftware\\JobTrackerAPI\\Enum\\JTEnum.cs",
+              "RelativeToolTip": "JobTrackerAPI\\Enum\\JTEnum.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-27T21:06:12.835Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IJobRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Deebo-PC\\source\\repos\\MySoftware\\JobTrackerAPI\\Interface\\IJobRepository.cs",
+              "RelativeDocumentMoniker": "JobTrackerAPI\\Interface\\IJobRepository.cs",
+              "ToolTip": "C:\\Users\\Deebo-PC\\source\\repos\\MySoftware\\JobTrackerAPI\\Interface\\IJobRepository.cs",
+              "RelativeToolTip": "JobTrackerAPI\\Interface\\IJobRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-27T20:05:11.007Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "JobController.cs",
+              "DocumentMoniker": "C:\\Users\\Deebo-PC\\source\\repos\\MySoftware\\JobTrackerAPI\\Controllers\\JobController.cs",
+              "RelativeDocumentMoniker": "JobTrackerAPI\\Controllers\\JobController.cs",
+              "ToolTip": "C:\\Users\\Deebo-PC\\source\\repos\\MySoftware\\JobTrackerAPI\\Controllers\\JobController.cs",
+              "RelativeToolTip": "JobTrackerAPI\\Controllers\\JobController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-27T19:40:26.872Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "NotificationController.cs",
+              "DocumentMoniker": "C:\\Users\\Deebo-PC\\source\\repos\\MySoftware\\JobTrackerAPI\\Controllers\\NotificationController.cs",
+              "RelativeDocumentMoniker": "JobTrackerAPI\\Controllers\\NotificationController.cs",
+              "ToolTip": "C:\\Users\\Deebo-PC\\source\\repos\\MySoftware\\JobTrackerAPI\\Controllers\\NotificationController.cs",
+              "RelativeToolTip": "JobTrackerAPI\\Controllers\\NotificationController.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAewDUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-14T03:55:19.111Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

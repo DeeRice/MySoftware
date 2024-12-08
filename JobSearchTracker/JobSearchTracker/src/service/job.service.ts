@@ -58,7 +58,6 @@ public _currentJobID: number = -1;
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8')
     .set('Accept', 'application/json');
-    debugger;
     return this._httpClient?.post<JTSJob>(`${this.baseUrl}/${this.addJobUrl}`,job, {headers: headers}).pipe(
       catchError(this.handleError<JTSJob>('addJob', job, errorMessage))
     ).pipe(

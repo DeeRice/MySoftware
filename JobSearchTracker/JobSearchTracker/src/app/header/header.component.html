@@ -1,17 +1,17 @@
 <div class="background">
   <p class="text-center">Job Tracker</p>
   <p-tabView
-    class="tab"
     [hidden]="isHidden"
     (onChange)="handleChange($event)"
-    [(activeIndex)]="headerIndex"
+    [selectOnFocus]="true"
+  [activeIndex]="this.activeIndex"
   >
-    <p-tabPanel header="View Jobs Applied For"> </p-tabPanel>
-    <p-tabPanel header="Add Job Applied For"> </p-tabPanel>
-    <p-tabPanel header="Remove Job Applied For"> </p-tabPanel>
-    <p-tabPanel header="View Notification"> </p-tabPanel>
-    <p-tabPanel header="Set Notification"> </p-tabPanel>
-    <p-tabPanel header="Remove Notification"> </p-tabPanel>
+    <p-tabPanel header="View Jobs Applied For" [tabIndex]="0"> </p-tabPanel>
+    <p-tabPanel header="Add Job Applied For" [tabIndex]="1"> </p-tabPanel>
+    <p-tabPanel header="Remove Job Applied For" [tabIndex]="2"> </p-tabPanel>
+    <p-tabPanel header="View Notification" [tabIndex]="3"> </p-tabPanel>
+    <p-tabPanel header="Set Notification" [tabIndex]="4"> </p-tabPanel>
+    <p-tabPanel header="Remove Notification" [tabIndex]="5"> </p-tabPanel>
   </p-tabView>
   <router-outlet />
 </div>

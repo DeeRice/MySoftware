@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Inject, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { HttpClientModule, provideHttpClient, withJsonpSupport } from '@angular/common/http';
 import { CommonModule, JsonPipe } from '@angular/common';
@@ -25,16 +25,16 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 
 @Component({
-  selector: 'app-view-notification',
-  standalone: true,
-  imports: [TableModule, InputTextModule, TagModule,
-    DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule,
-    SliderModule, FormsModule, FormsModule, RouterModule, CommonModule, ConfirmDialogModule],
-  providers: [AppService, NotificationService, TableModule, CommonModule,
-    RouterLinkActive, RouterLink, RouterOutlet, PrimeNGConfig, ConfirmDialogModule, ConfirmationService,
-    MessageService],
-  templateUrl: './view-notification.component.html',
-  styleUrl: './view-notification.component.scss'
+    selector: 'app-view-notification',
+    standalone: true,
+    imports: [TableModule, InputTextModule, TagModule,
+        DropdownModule, MultiSelectModule, ProgressBarModule, ToastModule, ButtonModule,
+        SliderModule, FormsModule, FormsModule, RouterModule, CommonModule, ConfirmDialogModule],
+    providers: [AppService, TableModule, CommonModule,
+        RouterLinkActive, RouterLink, RouterOutlet, PrimeNGConfig, ConfirmDialogModule, ConfirmationService,
+        MessageService],
+    templateUrl: './view-notification.component.html',
+    styleUrl: './view-notification.component.scss'
 })
 
 export class ViewNotificationComponent {
@@ -43,15 +43,17 @@ export class ViewNotificationComponent {
   public _appService?: AppService;
   public _router: any;
   public _routerLink: any;
-  public lastTableLazyLoadEvent?: TableLazyLoadEvent;
+  public lastTableLazyLoadEvent!: TableLazyLoadEvent;
   _notificationsToBeDisplay?: JTSNotification[];
   public _confirmationService?: ConfirmationService;
   public _messageService?: MessageService;
   public messageHeader?: string;
+ first = 0;
+ rows = 10;
   constructor(private activatedRoute: ActivatedRoute, private router: Router,
     public messageService: MessageService,
     public appService: AppService, PrimeNGConfig: PrimeNGConfig, public confirmationService: ConfirmationService,
-    notificationService: NotificationService, private routerLink?: RouterLink) {
+    notificationService: NotificationService, private cd: ChangeDetectorRef, private routerLink?: RouterLink) {
     this._appService = appService;
     this._notificationService = notificationService;
     this._router = router;
@@ -59,15 +61,35 @@ export class ViewNotificationComponent {
     this._confirmationService = confirmationService;
     this._messageService = messageService;
   }
+
+  pageChange(event: any) {
+    debugger;
+    this.first = event.first;
+    this.rows = event.rows;
+    this.refreshDataGrid(this.lastTableLazyLoadEvent);
+}
+
   ngOnInit() {
     this._notificationService.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)) {
+        this.messageHeader = "Error Occured!"
+        let message: string = data.toString();
+        this.confirm(message);
+      }
+      else {
       if ((data != null) && (data != undefined) && (data.length > 0)) {
         this._notifications = JSON.parse(data.toString());
       }
+     }
     });
     this.displayNotificationsForToday();
     //  this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
 
+  }
+
+  ngOnChanges(changes: SimpleChanges){
   }
 
   goToDetailPage(id: string) {
@@ -78,21 +100,35 @@ export class ViewNotificationComponent {
   }
 
   public async refreshDataGrid(event: TableLazyLoadEvent) {
+    this.cd.detectChanges();
     this.lastTableLazyLoadEvent = event;
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if (data.toString().includes(substring) || data.toString().includes(substringTwo)) {
+        this.messageHeader = "Error Occured!"
+        let message: string = data.toString();
+        this.confirm(message);
+      }
+      else {
       if ((data != null) && (data != undefined) && ((data as JTSNotification[]).length != 0)) {
         this._notifications = JSON.parse(data.toString());
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-        this.confirm(message);
-      });
+     }
+    });
   }
 
   async displayNotificationsForToday() {
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)) {
+        this.messageHeader = "Error Occured!"
+        let message: string = data.toString();
+        console.log(data);
+        this.confirm(message);
+      }
+      else {
       if ((data != null) && (data != undefined) && (data.length > 0)) {
         this._notifications = JSON.parse(data.toString());
       }
@@ -110,6 +146,7 @@ export class ViewNotificationComponent {
           this.confirm(obj.Message);
         });
       }
+     }
     });
 
   }

@@ -19,7 +19,9 @@ export class AppService {
   getNotificationDetailsIsHidden = this.notificationDetailsIsHiddenBehavior.asObservable();
   private jobDetailsIsHiddenBehavior = new BehaviorSubject(false);
   getjobDetailsIsHidden = this.jobDetailsIsHiddenBehavior.asObservable();
-
+  public activeIndex:BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  public headerData:BehaviorSubject<string> = new BehaviorSubject<string>("");
+  public refreshTables:BehaviorSubject<string> = new BehaviorSubject<string>("");
   public addJobTitles?: AddJobTable[] = [
     { titleName: "Job ID", formName: "JobID" },
     { titleName: "Job Number", formName: "JobNumber" },
@@ -106,6 +108,14 @@ export class AppService {
     return this.notificationTabIsDisabled;
   }
 
+  setActiveIndex(index: number){
+    this.activeIndex = new BehaviorSubject<number>(index);
+  }
+  loadHeaderData(data: string) {
+    this.headerData = new BehaviorSubject<string>(data);
+  }
 
-
+  refreshHeaderTable(refresh: string) {
+    this.refreshTables = new BehaviorSubject<string>(refresh);
+  }
 }

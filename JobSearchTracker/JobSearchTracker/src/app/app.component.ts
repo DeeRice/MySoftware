@@ -25,16 +25,13 @@ import { EditJobComponent } from './edit-job/edit-job.component';
 import { EditNotificationComponent } from './edit-notification/edit-notification.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [HeaderComponent, SetNotificationComponent, TabViewModule, NotificationDetailsComponent,
-    RemoveNotificationComponent, RemoveJobAppliedForComponent, JobAppliedForComponent, JobDetailsComponent,
-    AddJobAppliedForComponent, ViewNotificationComponent, RouterModule, TableModule, CommonModule, CalendarModule,
-  EditJobComponent, EditNotificationComponent],
-  providers: [NgbModal, AppService, RouterModule, RouterOutlet, CommonModule,RouterLink, 
-    RouterLinkActive, FormsModule, BrowserAnimationsModule, TableModule, PrimeNGConfig, CalendarModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    standalone: true,
+    imports: [ RouterModule, TableModule, CommonModule, CalendarModule],
+    providers: [NgbModal, AppService, RouterModule, RouterOutlet, CommonModule, RouterLink,
+        RouterLinkActive, FormsModule, BrowserAnimationsModule, TableModule, PrimeNGConfig, CalendarModule],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'JobSearchTracker';

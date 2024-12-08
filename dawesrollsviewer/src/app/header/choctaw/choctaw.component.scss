@@ -1,0 +1,20 @@
+::ng-deep  tr:nth-child(even) {
+    background: #22E55E;
+    color: white;
+  }
+
+  ::ng-deep td {
+    width: 50px;
+  }
+
+  ::ng-deep tr.redtext {
+    color:red;
+  }
+
+  ::ng-deep td.redtext {
+    color:red;
+  }
+
+  ::ng-deep td.orangetext {
+    color:orange;
+  }

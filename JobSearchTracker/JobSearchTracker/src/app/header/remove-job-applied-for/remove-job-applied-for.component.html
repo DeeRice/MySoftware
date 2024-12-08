@@ -6,7 +6,8 @@
     dataKey="JobID"
     [tableStyle]="{ 'min-width': '50rem' }"
     [rowsPerPageOptions]="[5, 10, 20]"
-    [lazy]="true" (onLazyLoad)="refreshDataGrid($event)">
+    [totalRecords]="this._jobs.length"
+    (onPage)="pageChange($event)">
         <ng-template pTemplate="header">
             <tr>
                 <td>Job ID</td>

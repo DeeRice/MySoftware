@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewNotificationComponent } from './view-notification.component';
+import { ActivatedRoute } from '@angular/router';
+import { NotificationService } from 'src/service/notification.service';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('ViewNotificationComponent', () => {
   let component: ViewNotificationComponent;
@@ -8,7 +11,17 @@ describe('ViewNotificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ViewNotificationComponent]
+      providers: [ViewNotificationComponent, NotificationService, HttpClient, HttpHandler, {provide: ActivatedRoute, 
+        useValue: {
+          snapshot: {
+            queryParamMap: {
+              get(): number {
+                return 6;
+              }
+            }
+          }
+        }
+      }]
     })
     .compileComponents();
     

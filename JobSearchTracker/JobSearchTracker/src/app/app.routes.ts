@@ -19,7 +19,7 @@ export const routes: Routes = [
         { path: 'app-remove-job-applied-for', component: RemoveJobAppliedForComponent},
         { path: 'app-view-notification', component: ViewNotificationComponent},
         { path: 'app-set-notification', component: SetNotificationComponent},
-        { path: 'app-remove-job-applied-for', component: RemoveNotificationComponent}
+        { path: 'app-remove-notification', component: RemoveNotificationComponent}
     ]},
     { path: 'app-job-details', component: JobDetailsComponent  },
     { path: 'app-job-details/:id', component: JobDetailsComponent  },

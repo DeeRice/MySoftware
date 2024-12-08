@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RemoveJobAppliedForComponent } from './remove-job-applied-for.component';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 describe('RemoveJobAppliedForComponent', () => {
   let component: RemoveJobAppliedForComponent;
@@ -8,7 +10,19 @@ describe('RemoveJobAppliedForComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RemoveJobAppliedForComponent]
+      providers: [RemoveJobAppliedForComponent, HttpClient, HttpHandler,
+        {provide: ActivatedRoute, 
+          useValue: {
+            snapshot: {
+              queryParamMap: {
+                get(): number {
+                  return 6;
+                }
+              }
+            }
+          }
+        } 
+      ]
     })
     .compileComponents();
     

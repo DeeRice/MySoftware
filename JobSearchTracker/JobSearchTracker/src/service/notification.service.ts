@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { JTSNotification } from '../model/notification';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { catchError, map, of } from 'rxjs';
+import { BehaviorSubject, catchError, map, of, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class NotificationService {
   public baseUrl ="https://localhost:7052"
   public getNotificationByIDUrl: string = "Notification/GetNotificationByID";
@@ -16,9 +17,18 @@ export class NotificationService {
   public deleteNotificationUrl: string =  "Notification/DeleteNotification";
   public getLastNotificationIDUrl: string =  "Notification/GetLastNotificationID";
   public _httpClient?: HttpClient;
+  public ViewJobIsSelected: boolean = false;
+  public AddJobIsSelected: boolean = false;
+  public RemoveJobIsSelected: boolean = false;
+  public ViewNotificationIsSelected: boolean = false;
+  public SetNotificationIsSelected: boolean = false;
+  public RemoveNotificationIsSelected: boolean = false;
   constructor(private httpClient: HttpClient) { 
     this._httpClient = httpClient;
+    
   }
+
+
 
   getNotificationByID(notificationID: number, errorMessage?: string) : Observable<JTSNotification> | undefined {
     let params = new HttpParams().set('notificationID', notificationID);
@@ -60,7 +70,6 @@ export class NotificationService {
   }
 
   editNotification(notification: JTSNotification, errorMessage?: string) : Observable<JTSNotification> | undefined {
-    debugger;
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8')
     .set('Accept', 'application/json');
@@ -83,16 +92,61 @@ export class NotificationService {
 
   private handleError<T>(operation = 'operation', result?: T, errorMessage?: string) {
     return (error: any): Observable<T>  => {
-  
       // TODO: send the error to remote logging infrastructure
       errorMessage = error; // log to console instead
   
       // TODO: better job of transforming error for user consumption
       console.log(`${operation} failed: ${error.message}`);
   
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
+      // return error message
+      return of(`${operation} failed: ${error.message}` as T);
     };
   }
 
+  public setActiveTab(index:number){
+    switch(index){
+      case 0: this.ViewJobIsSelected = true;
+              this.AddJobIsSelected = false;
+              this.RemoveJobIsSelected = false;
+              this.ViewNotificationIsSelected = false;
+              this.SetNotificationIsSelected = false;
+              this.RemoveNotificationIsSelected = false;
+              break;
+      case 1: this.ViewJobIsSelected = false;
+              this.AddJobIsSelected = true;
+              this.RemoveJobIsSelected = false;
+              this.ViewNotificationIsSelected = false;
+              this.SetNotificationIsSelected = false;
+              this.RemoveNotificationIsSelected = false;
+              break;
+      case 2: this.ViewJobIsSelected = false;
+              this.AddJobIsSelected = false;
+              this.RemoveJobIsSelected = true;
+              this.ViewNotificationIsSelected = false;
+              this.SetNotificationIsSelected = false;
+              this.RemoveNotificationIsSelected = false;
+              break;
+      case 3: this.ViewJobIsSelected = false;
+              this.AddJobIsSelected = false;
+              this.RemoveJobIsSelected = false;
+              this.ViewNotificationIsSelected = true;
+              this.SetNotificationIsSelected = false;
+              this.RemoveNotificationIsSelected = false;
+              break;
+      case 4: this.ViewJobIsSelected = false;
+              this.AddJobIsSelected = false;
+              this.RemoveJobIsSelected = false;
+              this.ViewNotificationIsSelected = false;
+              this.SetNotificationIsSelected = true;
+              this.RemoveNotificationIsSelected = false;
+              break;
+      case 5: this.ViewJobIsSelected = false;
+              this.AddJobIsSelected = false;
+              this.RemoveJobIsSelected = false;
+              this.ViewNotificationIsSelected = false;
+              this.SetNotificationIsSelected = false;
+              this.RemoveNotificationIsSelected = true;
+              break;
+    }
+  }
 }

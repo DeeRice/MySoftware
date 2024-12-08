@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { JobDetailsComponent } from './job-details.component';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('JobDetailsComponent', () => {
   let component: JobDetailsComponent;
@@ -8,7 +10,17 @@ describe('JobDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [JobDetailsComponent]
+      providers: [JobDetailsComponent, HttpClient, HttpHandler, {provide: ActivatedRoute, 
+        useValue: {
+          snapshot: {
+            queryParamMap: {
+              get(): number {
+                return 6;
+              }
+            }
+          }
+        }
+      }]
     })
     .compileComponents();
     

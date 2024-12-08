@@ -4,7 +4,8 @@
     [rows]="5"
     [tableStyle]="{ 'min-width': '50rem' }"
     [rowsPerPageOptions]="[5, 10, 20]"
-    [lazy]="true" (onLazyLoad)="refreshDataGrid($event)">
+    [totalRecords]="this._notifications.length"
+    (onPage)="pageChange($event)">
         <ng-template pTemplate="header">
             <tr>
                 <th>Notification ID</th>

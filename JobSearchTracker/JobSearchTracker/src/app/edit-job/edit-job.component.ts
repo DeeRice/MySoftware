@@ -24,14 +24,14 @@ import { TranslateLoader, TranslateService, TranslateStore } from '@ngx-translat
 import { HeaderComponent } from '../header/header.component';
 
 @Component({
-  selector: 'app-edit-job',
-  standalone: true,
-  imports: [HeaderComponent, TableModule, CommonModule, InputTextModule, InputTextareaModule,
-    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, CalendarModule],
-  providers: [MessageService, ConfirmationService, ConfirmDialogModule, CalendarModule
-  ],
-  templateUrl: './edit-job.component.html',
-  styleUrl: './edit-job.component.scss'
+    selector: 'app-edit-job',
+    standalone: true,
+    imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
+        ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, CalendarModule],
+    providers: [MessageService, ConfirmationService, ConfirmDialogModule, CalendarModule
+    ],
+    templateUrl: './edit-job.component.html',
+    styleUrl: './edit-job.component.scss'
 })
 export class EditJobComponent {
   public titles?: AddJobTable[] = [];
@@ -70,32 +70,34 @@ export class EditJobComponent {
       if ((data != null) && (data != undefined)) {
         this.jobID = parseInt(data["id"]);
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve the params. See developer for solution."
-        console.log(error);
-        this.confirm(message);
-      });
+    });
+
     if (Number.isNaN(this.jobID) == false) {
       this._jobService!.getJobByID(this.jobID)!.pipe(debounceTime(300), distinctUntilChanged(), switchMap((value: JTSJob, index: number) => this._jobService!.getJobByID(this.jobID) as unknown as ObservableInput<JTSJob>)).subscribe((data: JTSJob) => {
         if ((data != null) && (data != undefined)) {
-          this.job = JSON.parse(data.toString());
-          this._jobs.push(this.job);
-          this.populateJob(this.job);
-          this.lockFields();
+          const substring = "the job";
+          const substringTwo = "the notification";
+          if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: data.toString() });
+            let message: string = data.toString();
+            this.messageHeader = "Error Occured!";
+            this.confirm(message);
+          }
+          else{
+              this.job = JSON.parse(data.toString());
+              this._jobs.push(this.job);
+              this.populateJob(this.job);
+              this.lockFields();
+          }
         }
-      },
-        (error) => {
-          this.messageHeader = "Error!"
-          let message: string = "Error occured while trying to retrieve the last job id. See developer for solution."
-          console.log(error);
-          this.confirm(message);
-        });
+      });
+
     }
 
   }
   goBackToJobGrid() {
+    this._appService!.setActiveIndex(0);
+    console.log(this._appService?.activeIndex);
     this._router.navigateByUrl("/app-header/app-job-applied-for");
   }
   lockFields() {
@@ -197,18 +199,18 @@ export class EditJobComponent {
         this._jobService?.editJob(job)?.subscribe(
           (result) => {
             // Handle result
-            console.log(result);
-            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the job.' });
-
-          },
-          (error) => {
-            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
+            const substring = "the job";
+            const substringTwo = "the notification";
+            if(result.toString().includes(substring) || result.toString().includes(substringTwo)){
+              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: result.toString() });
+            }
+            else {   
+                  console.log(result);
+                  this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the job.' });
+            }
           },
           () => {
             // No errors, route to new page
-            debugger;
-           // this.headerComponent?.refreshTables();
-          //  this.headerComponent!.changeTabs(0);
             this.goBackToJobGrid();
           }
         );

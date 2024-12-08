@@ -22,13 +22,13 @@ import { TabViewChangeEvent, TabViewModule } from 'primeng/tabview';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-add-job-applied-for',
-  standalone: true,
-  imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
-    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, CalendarModule],
-  providers: [MessageService, ConfirmationService, ConfirmDialogModule, CalendarModule],
-  templateUrl: './add-job-applied-for.component.html',
-  styleUrl: './add-job-applied-for.component.scss'
+    selector: 'app-add-job-applied-for',
+    standalone: true,
+    imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
+        ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, CalendarModule],
+    providers: [MessageService, ConfirmationService, ConfirmDialogModule, CalendarModule],
+    templateUrl: './add-job-applied-for.component.html',
+    styleUrl: './add-job-applied-for.component.scss'
 })
 export class AddJobAppliedForComponent {
   public titles?: AddJobTable[] = [];
@@ -42,22 +42,17 @@ export class AddJobAppliedForComponent {
   _notifications!: JTSNotification[];
   _notificationsToBeDisplay?: JTSNotification[];
   public messageHeader?: string;
-  @Inject(HeaderComponent) _headerComponent?: HeaderComponent;
   public _router: any;
-  public _routerLink: any;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private appService: AppService, private jobService: JobService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
-    private notificationService: NotificationService, private headerComponent: HeaderComponent,
-    private routerLink?: RouterLink
+    private notificationService: NotificationService
   ) {
     this._appService = appService;
     this._jobService = jobService;
     this._messageService = messageService;
     this._confirmationService = confirmationService;
     this._notificationService = notificationService;
-    this._headerComponent = headerComponent;
     this._router = router;
-    this._routerLink = routerLink;
   }
 
   ngOnInit() {
@@ -160,19 +155,22 @@ export class AddJobAppliedForComponent {
         this._jobService?.addJob(job)?.subscribe(
           (result) => {
             // Handle result
+            const substring = "the job";
+            const substringTwo = "the notification";
+            if(result.toString().includes(substring) || result.toString().includes(substringTwo)){
+              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: result.toString() });
+            }
+            else {
             console.log(result)
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the job.' });
-            this._headerComponent?.loadHeaders();
-
-          },
-          (error) => {
-            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
+           // this._headerComponent?.loadHeaders();
+           this._appService?.loadHeaderData("load");
+            }
           },
           () => {
             // No errors, route to new page
-            this._headerComponent?.refreshTables();
-            this._headerComponent!.changeTabs(0);
-
+            //this._headerComponent?.refreshTables();
+            this._appService?.refreshHeaderTable("header");
           }
         );
       }
@@ -182,15 +180,18 @@ export class AddJobAppliedForComponent {
   async displayNotificationsForToday() {
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
       if ((data != null) && (data != undefined) && (data.length > 0)) {
-        this._notifications = JSON.parse(data.toString());
+        const substring = "the job";
+        const substringTwo = "the notification";
+        if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
+          this.messageHeader = "Error Occured!"
+          let message: string = data.toString();
+          this.confirm(message);
+        }
+        else{
+          this._notifications = JSON.parse(data.toString());
+        }
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of all notifications. See developer for solution."
-        console.log(error);
-        this.confirm(message);
-      });
+    });
 
     if ((this._notifications != null) && (this._notifications != undefined) && (this._notifications.length > 0)) {
       this._notificationsToBeDisplay = this._notifications.

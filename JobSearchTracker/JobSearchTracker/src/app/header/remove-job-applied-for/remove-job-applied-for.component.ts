@@ -20,15 +20,15 @@ import { Router, RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from
 import { HeaderComponent } from '../header.component';
 
 @Component({
-  selector: 'app-remove-job-applied-for',
-  standalone: true,
-  imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
-    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, RouterModule],
-  providers: [JobService, MessageService, ConfirmationService, ToastModule, ButtonModule, ConfirmDialogModule,
-    RouterLinkActive, RouterLink, RouterOutlet
-  ],
-  templateUrl: './remove-job-applied-for.component.html',
-  styleUrl: './remove-job-applied-for.component.scss'
+    selector: 'app-remove-job-applied-for',
+    standalone: true,
+    imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
+        ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, RouterModule],
+    providers: [JobService, MessageService, ConfirmationService, ToastModule, ButtonModule, ConfirmDialogModule,
+        RouterLinkActive, RouterLink, RouterOutlet
+    ],
+    templateUrl: './remove-job-applied-for.component.html',
+    styleUrl: './remove-job-applied-for.component.scss'
 })
 export class RemoveJobAppliedForComponent {
   public _jobs!: JTSJob[];
@@ -39,12 +39,14 @@ export class RemoveJobAppliedForComponent {
   public _notificationService?: NotificationService;
   public _appService?: AppService;
   public currentID: number = -1;
-  public lastTableLazyLoadEvent?: TableLazyLoadEvent;
+  public lastTableLazyLoadEvent!: TableLazyLoadEvent;
   _notifications!: JTSNotification[];
   public messageHeader?: string;
   public _router: any;
   public _routerLink: any;
-  @ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
+  //@ViewChild(HeaderComponent) headerComponent?: HeaderComponent;
+  first = 0;
+  rows = 10;
   constructor(private appService: AppService, private jobService: JobService, private router: Router,
     private messageService: MessageService, private confirmationService: ConfirmationService,
     private notificationService: NotificationService, private routerLink?: RouterLink
@@ -58,22 +60,32 @@ export class RemoveJobAppliedForComponent {
     this._router = router;
     this._routerLink = routerLink;
   }
+
+  pageChange(event: any) {
+    debugger;
+    this.first = event.first;
+    this.rows = event.rows;
+    this.refreshDataGrid(this.lastTableLazyLoadEvent);
+}
+
+
   ngOnInit() {
     this.titles = this._appService?.addJobTitles;
     this._jobService?.getAllJobs()?.subscribe((data) => {
-      if ((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)) {
-        this._jobs = JSON.parse(data.toString());
-      }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-        console.log(error);
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)) {
+        this.messageHeader = "Error Occured!"
+        let message: string = data.toString();
+        console.log(data);
         this.confirm(message);
-      });
-
-
-
+      }
+      else {
+        if ((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)) {
+          this._jobs = JSON.parse(data.toString());
+        }
+      }
+    });
   }
 
   remove(id: number) {
@@ -95,19 +107,18 @@ export class RemoveJobAppliedForComponent {
         this._jobService?.deleteJob(this.currentID)?.subscribe(
           (result) => {
             // Handle result
+            const substring = "the job";
+            const substringTwo = "the notification";
+            if(result.toString().includes(substring) || result.toString().includes(substringTwo)){
+              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: result.toString() });
+            }
+            else {
             console.log(result);
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully removed the job.' });
             this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
-            this.headerComponent?.loadHeaders();
-          },
-          (error) => {
-            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
-          },
-          () => {
-            // No errors, route to new page
-
-          }
-        );
+            //this.headerComponent?.loadHeaders();
+            }
+          });
       }
     });
     this.refreshDataGrid(this.lastTableLazyLoadEvent as TableLazyLoadEvent);
@@ -117,6 +128,14 @@ export class RemoveJobAppliedForComponent {
     this.lastTableLazyLoadEvent = event;
     this._appService!.setNotificationTabIsDisabled(true);
     await this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
+        this.messageHeader = "Error Occured!";
+        let message: string = data.toString();
+        this.confirm(message);
+      }
+      else {
       if ((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)) {
         this._jobs = JSON.parse(data.toString());
       }
@@ -126,27 +145,25 @@ export class RemoveJobAppliedForComponent {
       else {
         this._appService!.setNotificationTabIsDisabled(true);
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-        console.log(error);
-        this.confirm(message);
-      });
+    }
+    });
   }
 
   async displayNotificationsForToday() {
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
+      const substring = "the job";
+      const substringTwo = "the notification";
+      if(data.toString().includes(substring) || data.toString().includes(substringTwo)) {
+        this.messageHeader = "Error Occured!";
+        let message: string = data.toString();
+        this.confirm(message);
+      }
+      else {
       if ((data != null) && (data != undefined) && (data.length > 0)) {
         this._notifications = JSON.parse(data.toString());
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of notifications. See developer for solution."
-        console.log(error);
-        this.confirm(message);
-      });
+     }
+    });
   }
 
   goToDetailPage(id: string) {

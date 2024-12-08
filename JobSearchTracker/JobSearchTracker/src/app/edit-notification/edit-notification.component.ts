@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, Output } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -7,7 +7,7 @@ import { RouterLinkActive, ActivatedRoute, RouterModule, Router, RoutesRecognize
 import { JTSJob } from '../../model/job';
 import { HeaderComponent } from '../header/header.component';
 import { JobService } from '../../service/job.service';
-import { debounce, debounceTime, distinctUntilChanged, interval, Observable, ObservableInput, switchMap } from 'rxjs';
+import { debounce, debounceTime, distinctUntilChanged, interval, Observable, ObservableInput, of, switchMap } from 'rxjs';
 import { AppService } from 'src/service/app.service';
 import { AddJobTable } from 'src/model/add-job-table';
 import { NotificationService } from 'src/service/notification.service';
@@ -28,15 +28,15 @@ import { TabViewChangeEvent } from 'primeng/tabview';
 
 
 @Component({
-  selector: 'app-edit-notification',
-  standalone: true,
-  imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
-    ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, MultiSelectModule,
-    CalendarModule],
-  providers: [MessageService, ConfirmationService, AppService, MultiSelectModule, CalendarModule,
-    JobService],
-  templateUrl: './edit-notification.component.html',
-  styleUrl: './edit-notification.component.scss'
+    selector: 'app-edit-notification',
+    standalone: true,
+    imports: [TableModule, CommonModule, InputTextModule, InputTextareaModule,
+        ButtonModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, ToastModule, MultiSelectModule,
+        CalendarModule],
+    providers: [MessageService, ConfirmationService, AppService, MultiSelectModule, CalendarModule,
+        JobService],
+    templateUrl: './edit-notification.component.html',
+    styleUrl: './edit-notification.component.scss'
 })
 export class EditNotificationComponent {
   public titles?: AddNotificationTable[] = [];
@@ -65,20 +65,20 @@ export class EditNotificationComponent {
   @ViewChild('JobPicker') jobPickerMultiselect?: MultiSelect;
   _notifications!: JTSNotification[];
   notificationID: number = -1;
-  @Inject(HeaderComponent) _headerComponent?: HeaderComponent;
+
   constructor(private activatedRoute: ActivatedRoute,
     public notificationService: NotificationService, appService: AppService,
     private messageService: MessageService, private confirmationService: ConfirmationService,
-    private router: Router, public jobService: JobService,
+    private router: Router, public jobService: JobService
   ) {
     this._appService = appService;
     this._messageService = messageService;
     this._confirmationService = confirmationService;
     this._notificationService = notificationService;
-    this._jobService = this.jobService;
+    this._jobService = jobService;
     this._router = router;
     this._route = activatedRoute;
-    
+
   }
 
 
@@ -97,45 +97,53 @@ export class EditNotificationComponent {
       });
     if (Number.isNaN(this.notificationID) == false) {
       this.notificationService.getNotificationByID(this.notificationID)!.pipe(debounceTime(300), distinctUntilChanged(), switchMap((value: JTSNotification, index: number) => this.notificationService!.getNotificationByID(this.notificationID) as unknown as ObservableInput<JTSNotification>)).subscribe((data: JTSNotification) => {
+        const substring = "the job";
+        const substringTwo = "the notification";
+        if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
+          this.messageHeader = "Error Occurred!"
+          let message: string = data.toString();
+          this.confirm(message);
+        }
+        else {
         this.notification = JSON.parse(data.toString());
         this.currentNotificationID = this.notificationID;
         this._notifications.push(this.notification!);
         this.populateNotification(this.notification as JTSNotification);
-
-      },
-        (error) => {
-          this.messageHeader = "Error!"
-          let message: string = "Error occured while trying to retrieve the notification id. See developer for solution."
-          this.confirm(message);
-        });
+        }
+      });
     }
 
     this._jobService?.getAllJobs()?.subscribe((data: JTSJob[]) => {
       if ((data != null) && (data != undefined) && ((data as JTSJob[]).length != 0)) {
-        this.jobs = JSON.parse(data.toString());
-        this.job = this.jobs.find(item => item.JobID === this.notification?.JobID) as JTSJob;
-        this.listofJobEnums = [];
-        if ((this.notification != undefined) && (this.notification != null)) {
-          this.notification.NotificationEvent = 0;
-        }
-        this.jobs.forEach((Value, index) => {
-          let jobEnum = new JobEnum();
-          jobEnum.id = Value.JobID;
-          jobEnum.name = Value.ClientCompanyName;
-          this.listofJobEnums?.push(jobEnum);
-          if (index == 0) {
-            this.jobEnum = jobEnum;
+        const substring = "the job";
+        const substringTwo = "the notification";
+         if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
+          let message: string = data.toString();
+          this.messageHeader = "Error Occured!";
+          this.confirm(message);
+         }
+         else {
+          this.jobs = JSON.parse(data.toString());
+          this.job = this.jobs.find(item => item.JobID === this.notification?.JobID) as JTSJob;
+          this.listofJobEnums = [];
+          if ((this.notification != undefined) && (this.notification != null)) {
+            this.notification.NotificationEvent.valueOf();
           }
-        });
+          this.jobs.forEach((Value, index) => {
+            let jobEnum = new JobEnum();
+            jobEnum.id = Value.JobID;
+            jobEnum.name = Value.ClientCompanyName;
+            this.listofJobEnums?.push(jobEnum);
+            if (index == 0) {
+              this.jobEnum = jobEnum;
+            }
+         });
+         
+        }
 
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of jobs. See developer for solution."
-        this.confirm(message);
-
-      });
+    });
+      
     this.makeTextboxesUnEditable();
 
     this.setEventPicker();
@@ -146,7 +154,11 @@ export class EditNotificationComponent {
   }
 
   goBackToJobGrid() {
-    this._router.navigateByUrl("/app-header/app-view-notification");
+   this._appService!.setActiveIndex(3);
+   console.log(this._appService?.activeIndex);
+   this._router.navigateByUrl("/app-header/app-view-notification");
+ 
+  
   }
 
   addNotification = new FormGroup({
@@ -167,7 +179,7 @@ export class EditNotificationComponent {
     ClientCompanyPhoneNumber: new FormControl(''),
     NotificationMessage: new FormControl(''),
     NotificationDate: new FormControl<string | undefined>(undefined),
-    NotificationEvent: new FormControl<NotficationEventEnum | undefined>(undefined),
+    NotificationEvent: new FormControl<NotficationEventEnum[] | undefined>(undefined),
   });
 
   isNotAPicker(title: string) {
@@ -240,7 +252,7 @@ export class EditNotificationComponent {
       this.addNotification.controls.ClientCompanyName.setValue(obj.ClientCompanyName || null)
       this.addNotification.controls.ClientCompanyLocation.setValue(obj.ClientCompanyLocation || null)
       this.addNotification.controls.ClientCompanyPhoneNumber.setValue(obj.ClientCompanyPhoneNumber || null)
-      this.addNotification.controls.NotificationEvent.setValue(this.notficationEventEnum as NotficationEventEnum);
+      this.addNotification.controls.NotificationEvent.setValue([{id: this.notification?.NotificationEvent, name: JTSNotificationEventType[this.notification!.NotificationEvent]}]);
 
       this.jobPickerMultiselect?.hide();
     }
@@ -250,7 +262,7 @@ export class EditNotificationComponent {
 
   onEventPickerChanged(event: MultiSelectChangeEvent) {
     if (event.value.length > 0) {
-      this.addNotification.controls.NotificationEvent.setValue(this.notficationEventEnum as NotficationEventEnum | null)
+      this.addNotification.controls.NotificationEvent.setValue([{id: event.value, name: JTSNotificationEventType[this.notification!.NotificationEvent]}])
       if ((this.notification != null) && (this.notification != undefined)) {
         this.notification.NotificationEvent = event.value[0].id;
       }
@@ -309,14 +321,19 @@ export class EditNotificationComponent {
   async displayNotificationsForToday() {
     await this._notificationService?.getAllNotifications()?.subscribe((data: JTSNotification[]) => {
       if ((data != null) && (data != undefined) && (data.length > 0)) {
-        this._notifications = JSON.parse(data.toString());
+        const substring = "the job";
+        const substringTwo = "the notification";
+        if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
+          let message: string = data.toString();
+          this.messageHeader = "Error Occured!";
+          this.confirm(message);
+        }
+        else {
+          this._notifications = JSON.parse(data.toString());
+        }
+       
       }
-    },
-      (error) => {
-        this.messageHeader = "Error!"
-        let message: string = "Error occured while trying to retrieve a list of notifications. See developer for solution."
-        this.confirm(message);
-      });
+    });
   }
 
   save(form: FormGroup) {
@@ -357,7 +374,6 @@ export class EditNotificationComponent {
       header: this.messageHeader,
       icon: 'pi pi-info-circle',
       accept: () => {
-        debugger;
         if (this.notification != null && this.currentNotificationID != -1) {
           this.notification.NotificationID = this.addNotification.controls.NotificationID.value as number;
           this.notification.NotificationNumber = this.addNotification.controls.NotificationNumber.value as number;
@@ -379,36 +395,28 @@ export class EditNotificationComponent {
           this.notificationService?.editNotification(this.notification)?.subscribe(
             (result) => {
               // Handle result
+              const substring = "the job";
+              const substringTwo = "the notification";
+              if(result.toString().includes(substring) || result.toString().includes(substringTwo)){
+                this.messageService.add({ severity: 'error', summary: 'Rejected', detail: `${result}` });
+                this.notificationService.ViewNotificationIsSelected = true;
+              }
+              else {
               this.job.NotificationID = this.notification?.NotificationID;
               this.jobService?.editJob(this.job)?.subscribe(
                 (result) => {
                   // Handle result
+                  if(result.toString().includes(substring) || result.toString().includes(substringTwo)){
+                    this.messageService.add({ severity: 'error', summary: 'Rejected', detail: `${result}` });
+                    this.notificationService.ViewNotificationIsSelected = true;
+                  }
+                  else {
                   this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have successfully added the job.' });
-
-                },
-                (error) => {
-                  this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
-                },
-                () => {
-
-                });
-            },
-            (error) => {
-              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'A error occurred while trying to add the job.' });
-            },
-            () => {
-              // No errors, route to new page
-              this._headerComponent?.refreshTables();
-              this.goBackToJobGrid();
-              setTimeout(() => {
-                debugger;
-                var eventInitDic: EventInit = {};
-                var orginEvent: Event = new Event("TabViewChangeEvent", eventInitDic);
-                var tabViewChangeEvent: TabViewChangeEvent = { originalEvent: orginEvent, index: 3 };
-                this._headerComponent?.handleChange(tabViewChangeEvent);
-                this._headerComponent?.handleTabRequest();
-              }, 2000);
-
+                  this.notificationService.ViewNotificationIsSelected = true;
+                  this.goBackToJobGrid();
+                  }
+                })
+              }
             }
           );
         }
@@ -440,8 +448,7 @@ export class EditNotificationComponent {
     this.addNotification.controls.ClientCompanyPhoneNumber.setValue(notification.ClientCompanyPhoneNumber || null);
     this.addNotification.controls.NotificationDate.setValue(this.formatDate(notification.NotificationDate as Date, "MMMM, dd, yyyy") || null);
     this.addNotification.controls.NotificationMessage.setValue(notification.Message || null);
-    this.addNotification.controls.NotificationEvent.setValue(this.notficationEventEnum as NotficationEventEnum);
-
+    this.addNotification.controls.NotificationEvent.setValue([{id: notification.NotificationEvent, name: JTSNotificationEventType[notification.NotificationEvent]}]);    
   }
 
 }
