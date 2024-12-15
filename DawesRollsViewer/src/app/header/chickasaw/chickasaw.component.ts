@@ -9,12 +9,11 @@ import { IndianDataService } from '../../../service/indian-data-service';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-chickasaw',
-  standalone: true,
-  imports: [TableModule, InputTextModule, CommonModule, RouterModule],
-  providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
-  templateUrl: './chickasaw.component.html',
-  styleUrl: './chickasaw.component.scss'
+    selector: 'app-chickasaw',
+    imports: [TableModule, InputTextModule, CommonModule, RouterModule],
+    providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
+    templateUrl: './chickasaw.component.html',
+    styleUrl: './chickasaw.component.scss'
 })
 export class ChickasawComponent {
   public indian?: Indian;

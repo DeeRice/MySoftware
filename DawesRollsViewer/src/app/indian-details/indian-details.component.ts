@@ -11,12 +11,11 @@ import { debounceTime, distinctUntilChanged, switchMap, ObservableInput } from '
 import { ButtonModule } from 'primeng/button';
 
 @Component({
-  selector: 'app-indian-details',
-  standalone: true,
-  imports: [TableModule, InputTextModule, CommonModule, RouterModule, ButtonModule],
-  providers: [IndianDataService, MessageService, ConfirmationService, RouterModule, ButtonModule],
-  templateUrl: './indian-details.component.html',
-  styleUrl: './indian-details.component.scss'
+    selector: 'app-indian-details',
+    imports: [TableModule, InputTextModule, CommonModule, RouterModule, ButtonModule],
+    providers: [IndianDataService, MessageService, ConfirmationService, RouterModule, ButtonModule],
+    templateUrl: './indian-details.component.html',
+    styleUrl: './indian-details.component.scss'
 })
 export class IndianDetailsComponent {
 

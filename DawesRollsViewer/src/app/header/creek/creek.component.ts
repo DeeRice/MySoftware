@@ -9,12 +9,11 @@ import { IndianDataService } from '../../../service/indian-data-service';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-creek',
-  standalone: true,
-  imports: [TableModule, InputTextModule, CommonModule, RouterModule],
-  providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
-  templateUrl: './creek.component.html',
-  styleUrl: './creek.component.scss'
+    selector: 'app-creek',
+    imports: [TableModule, InputTextModule, CommonModule, RouterModule],
+    providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
+    templateUrl: './creek.component.html',
+    styleUrl: './creek.component.scss'
 })
 export class CreekComponent {
   public indian?: Indian;

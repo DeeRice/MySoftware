@@ -9,12 +9,11 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-all',
-  standalone: true,
-  imports: [TableModule, InputTextModule, CommonModule, RouterModule],
-  providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
-  templateUrl: './all.component.html',
-  styleUrl: './all.component.scss'
+    selector: 'app-all',
+    imports: [TableModule, InputTextModule, CommonModule, RouterModule],
+    providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
+    templateUrl: './all.component.html',
+    styleUrl: './all.component.scss'
 })
 export class AllComponent {
   public indian?: Indian;

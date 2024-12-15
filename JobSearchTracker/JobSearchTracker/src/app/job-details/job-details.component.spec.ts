@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {} from 'jasmine'; 
 import { JobDetailsComponent } from './job-details.component';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHandler } from '@angular/common/http';

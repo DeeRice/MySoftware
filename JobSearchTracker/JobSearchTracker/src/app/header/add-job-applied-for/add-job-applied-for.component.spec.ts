@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {} from 'jasmine'; 
 import { AddJobAppliedForComponent } from './add-job-applied-for.component';
 import { ActivatedRoute } from '@angular/router';
 import { JobService } from 'src/service/job.service';

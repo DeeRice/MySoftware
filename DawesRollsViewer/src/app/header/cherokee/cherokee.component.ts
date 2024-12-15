@@ -9,12 +9,11 @@ import { IndianDataService } from '../../../service/indian-data-service';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-cherokee',
-  standalone: true,
-  imports: [TableModule, InputTextModule, CommonModule, RouterModule],
-  providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
-  templateUrl: './cherokee.component.html',
-  styleUrl: './cherokee.component.scss'
+    selector: 'app-cherokee',
+    imports: [TableModule, InputTextModule, CommonModule, RouterModule],
+    providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
+    templateUrl: './cherokee.component.html',
+    styleUrl: './cherokee.component.scss'
 })
 export class CherokeeComponent {
   public indian?: Indian;

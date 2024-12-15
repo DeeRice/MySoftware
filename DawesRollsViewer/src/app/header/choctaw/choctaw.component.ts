@@ -18,12 +18,11 @@ interface PageEvent {
 
 
 @Component({
-  selector: 'app-choctaw',
-  standalone: true,
-  imports: [TableModule, InputTextModule, CommonModule, RouterModule, PaginatorModule],
-  providers: [IndianDataService, MessageService, ConfirmationService, RouterModule,PaginatorModule],
-  templateUrl: './choctaw.component.html',
-  styleUrl: './choctaw.component.scss'
+    selector: 'app-choctaw',
+    imports: [TableModule, InputTextModule, CommonModule, RouterModule, PaginatorModule],
+    providers: [IndianDataService, MessageService, ConfirmationService, RouterModule, PaginatorModule],
+    templateUrl: './choctaw.component.html',
+    styleUrl: './choctaw.component.scss'
 })
 export class ChoctawComponent {
   public indian?: Indian;

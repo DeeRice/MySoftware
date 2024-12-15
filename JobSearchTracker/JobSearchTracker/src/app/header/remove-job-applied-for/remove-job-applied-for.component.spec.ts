@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {} from 'jasmine'; 
 import { RemoveJobAppliedForComponent } from './remove-job-applied-for.component';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';

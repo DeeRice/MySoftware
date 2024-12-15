@@ -17,14 +17,13 @@ import { CreekComponent } from './header/creek/creek.component';
 import { SeminoleComponent } from './header/seminole/seminole.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, HeaderComponent, AllComponent, RouterModule, 
-    AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent, CreekComponent, SeminoleComponent],
-  providers: [NgbModal, /* AppService */ RouterModule, RouterOutlet, CommonModule, RouterLink,
-    RouterLinkActive, FormsModule, BrowserAnimationsModule, TableModule, PrimeNGConfig, CalendarModule, RouterModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    imports: [RouterOutlet, HeaderComponent, AllComponent, RouterModule,
+        AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent, CreekComponent, SeminoleComponent],
+    providers: [NgbModal, /* AppService */ RouterModule, RouterOutlet, CommonModule, RouterLink,
+        RouterLinkActive, FormsModule, BrowserAnimationsModule, TableModule, PrimeNGConfig, CalendarModule, RouterModule],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'dawesrollsviewer';

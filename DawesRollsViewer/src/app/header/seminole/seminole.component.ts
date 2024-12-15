@@ -9,12 +9,11 @@ import { IndianDataService } from '../../../service/indian-data-service';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-seminole',
-  standalone: true,
-  imports: [TableModule, InputTextModule, CommonModule, RouterModule],
-  providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
-  templateUrl: './seminole.component.html',
-  styleUrl: './seminole.component.scss'
+    selector: 'app-seminole',
+    imports: [TableModule, InputTextModule, CommonModule, RouterModule],
+    providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
+    templateUrl: './seminole.component.html',
+    styleUrl: './seminole.component.scss'
 })
 export class SeminoleComponent {
   public indian?: Indian;

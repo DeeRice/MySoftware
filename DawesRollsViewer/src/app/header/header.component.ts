@@ -18,13 +18,12 @@ import { SeminoleComponent } from './seminole/seminole.component';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [TabViewModule, RouterOutlet, FormsModule, AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent, CreekComponent, SeminoleComponent],
-  providers: [MessageService, ConfirmationService, NgbModal, RouterModule, RouterOutlet,
-    TabViewModule, ConfirmDialogModule,  RouterModule, RouterOutlet, AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+    selector: 'app-header',
+    imports: [TabViewModule, RouterOutlet, FormsModule, AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent, CreekComponent, SeminoleComponent],
+    providers: [MessageService, ConfirmationService, NgbModal, RouterModule, RouterOutlet,
+        TabViewModule, ConfirmDialogModule, RouterModule, RouterOutlet, AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
   public activeIndex = 0;
