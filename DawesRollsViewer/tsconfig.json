@@ -3,31 +3,42 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist/out-tsc",
-    "strict": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "sourceMap": true,
-    "declaration": false,
-    "experimentalDecorators": true,
-    "moduleResolution": "bundler",
-    "importHelpers": true,
-    "target": "ES2022",
-    "module": "ES2022",
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+      "outDir": "./dist/",
+      "forceConsistentCasingInFileNames": true,
+      "strict": true,
+      "esModuleInterop": true,
+      "noImplicitReturns": true,
+      "noFallthroughCasesInSwitch": true,
+      "sourceMap": true,
+      "declaration": false,
+      "experimentalDecorators": true,
+      "moduleResolution": "node",
+      "importHelpers": true,
+      "target": "es2015",
+      "module": "es2020",
+      "lib": [
+          "es2018",
+          "dom"
+      ],
+
+      // ADD THIS ↓↓↓
+      "baseUrl": "./",
+      "paths": {
+          "@tool/*": [ "src/app/tool/*" ],
+          "@models/*": [ "src/app/models/*" ],
+          "@services/*": [ "src/app/services/*" ],
+          "@components/*": [ "src/app/components/*" ],
+          "@interfaces/*": [ "src/app/interfaces/*" ]
+      }
+      // ADD THIS ↑↑↑
   },
+  "typeRoots": [
+"node_modules/@types"
+],
   "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
+      "enableI18nLegacyMessageIdFormat": false,
+      "strictInjectionParameters": true,
+      "strictInputAccessModifiers": true,
+      "strictTemplates": true
   }
 }

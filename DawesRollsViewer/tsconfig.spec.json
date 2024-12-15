@@ -3,13 +3,26 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "./out-tsc/spec",
-    "types": [
-      "jasmine"
-    ]
+      "outDir": "./out-tsc/spec",
+      "types": [
+        "jasmine",
+        "node",
+        "@angular/localize"
+      ],
+      "baseUrl": "./",
+      "paths": {
+          "@tool/*": [ "src/app/tool/*" ],
+          "@models/*": [ "src/app/models/*" ],
+          "@services/*": [ "src/app/services/*" ],
+          "@components/*": [ "src/app/components/*" ],
+          "@interfaces/*": [ "src/app/interfaces/*" ]
+      }
   },
+  "files": [
+      "src/test.ts"
+  ],
   "include": [
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts"
+      "src/**/*.spec.ts",
+      "src/**/*.d.ts"
   ]
 }
