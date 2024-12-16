@@ -12,6 +12,7 @@ import { ButtonModule } from 'primeng/button';
 
 @Component({
     selector: 'app-indian-details',
+    standalone: true,
     imports: [TableModule, InputTextModule, CommonModule, RouterModule, ButtonModule],
     providers: [IndianDataService, MessageService, ConfirmationService, RouterModule, ButtonModule],
     templateUrl: './indian-details.component.html',

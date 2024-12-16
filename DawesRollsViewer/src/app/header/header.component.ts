@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-header',
+    standalone: true,
     imports: [TabViewModule, RouterOutlet, FormsModule, AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent, CreekComponent, SeminoleComponent],
     providers: [MessageService, ConfirmationService, NgbModal, RouterModule, RouterOutlet,
         TabViewModule, ConfirmDialogModule, RouterModule, RouterOutlet, AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent],

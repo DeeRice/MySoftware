@@ -19,6 +19,7 @@ interface PageEvent {
 
 @Component({
     selector: 'app-choctaw',
+    standalone: true,
     imports: [TableModule, InputTextModule, CommonModule, RouterModule, PaginatorModule],
     providers: [IndianDataService, MessageService, ConfirmationService, RouterModule, PaginatorModule],
     templateUrl: './choctaw.component.html',

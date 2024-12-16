@@ -10,6 +10,7 @@ import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/route
 
 @Component({
     selector: 'app-chickasaw',
+    standalone: true,
     imports: [TableModule, InputTextModule, CommonModule, RouterModule],
     providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
     templateUrl: './chickasaw.component.html',

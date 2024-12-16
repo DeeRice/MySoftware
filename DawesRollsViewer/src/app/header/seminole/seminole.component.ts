@@ -10,6 +10,7 @@ import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/route
 
 @Component({
     selector: 'app-seminole',
+    standalone: true,
     imports: [TableModule, InputTextModule, CommonModule, RouterModule],
     providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
     templateUrl: './seminole.component.html',

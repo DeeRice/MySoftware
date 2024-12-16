@@ -18,6 +18,7 @@ import { SeminoleComponent } from './header/seminole/seminole.component';
 
 @Component({
     selector: 'app-root',
+    standalone: true,
     imports: [RouterOutlet, HeaderComponent, AllComponent, RouterModule,
         AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent, CreekComponent, SeminoleComponent],
     providers: [NgbModal, /* AppService */ RouterModule, RouterOutlet, CommonModule, RouterLink,
