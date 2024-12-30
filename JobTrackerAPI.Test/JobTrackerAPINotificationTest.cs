@@ -17,7 +17,6 @@ using System.Data;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using static JobTrackerAPI.Enum.JTEnum;
 
 
