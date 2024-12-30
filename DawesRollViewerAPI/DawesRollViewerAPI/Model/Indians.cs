@@ -57,9 +57,24 @@ namespace DawesRollViewerAPI.Model
         public string? Url { get; set; }
     }
 
-    public class Cherokee : Indians;
-    public class Choctaw : Indians;
-    public class Chickasaw : Indians;
-    public class Creek : Indians;
-    public class Seminole : Indians;
+    public class Cherokee : Indians
+    {
+        public Cherokee() { }
+    }
+    public class Choctaw : Indians
+    {
+        public Choctaw() { }
+    }
+    public class Chickasaw : Indians
+    {
+        public Chickasaw() { }
+    }
+    public class Creek : Indians
+    {
+        public Creek() { }
+    }
+    public class Seminole : Indians
+    {
+        public Seminole() { }
+    }
 }
