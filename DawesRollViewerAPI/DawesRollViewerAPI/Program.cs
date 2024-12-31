@@ -15,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<DawesRollViewerAPIDataContext>(options =>
 {
-    options.UseSqlServer("Data Source=DESKTOP-7Q3Q0SF;Initial Catalog=Indians;Integrated Security=True;Encrypt=False");
+    options.UseSqlite("Data Source=Indian.db");
 });
 builder.Services.AddScoped<IMapping, Mapping>();
 builder.Services.AddScoped<IDawesRollViewerController, DawesRollViewerController>();

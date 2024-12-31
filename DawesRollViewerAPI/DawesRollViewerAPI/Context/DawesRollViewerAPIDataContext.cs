@@ -6,14 +6,23 @@ namespace DawesRollViewerAPI.Context
 {
     public class DawesRollViewerAPIDataContext : DbContext
     {
+
+        public string DbPath { get; }
+
         public DawesRollViewerAPIDataContext(DbContextOptions<DawesRollViewerAPIDataContext> options)
            : base(options)
         {
+            DbPath = "Indian.db";
         }
         public DawesRollViewerAPIDataContext()
         {
-
+            var folder = Environment.SpecialFolder.LocalApplicationData;
+            var path = Environment.GetFolderPath(folder);
+            DbPath = System.IO.Path.Join(path, "Indian.db");
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+       => options.UseSqlite($"Data Source={DbPath}");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,4 +1,7 @@
 ﻿{
+  "ConnectionStrings": {
+    "WebApiDatabase": "Data Source=Indian.db"
+  },
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
