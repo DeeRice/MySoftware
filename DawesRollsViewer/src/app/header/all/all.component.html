@@ -1,11 +1,11 @@
-<div class="card">
+<div class="card row">
     <p-table #all [value]="listofIndians" 
     [columns]="this._appService?.addIndianTitles"  
     [paginator]="true"
     [rows]="rows"
     [first]="this.first" 
     dataKey="ID"
-    styleClass="p-datatable-gridlines" 
+    styleClass="p-datatable-gridlines col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" 
     [tableStyle]="{ 'min-width': '50rem' }"
     sortMode="multiple"
     [rowsPerPageOptions]="[5, 10, 20, 50]"
