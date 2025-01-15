@@ -7,8 +7,8 @@ import { Indian } from '../model/indian';
   providedIn: 'root'
 })
 export class IndianDataService {
- // public baseUrl ="https://localhost:7103/DawesRollViewer";  // development url
- public baseUrl ="https://mysoftware-production.up.railway.app/DawesRollViewer"; // production url
+  public baseUrl ="https://localhost:7103/DawesRollViewer";  // development url
+// public baseUrl ="https://mysoftware-production.up.railway.app/DawesRollViewer"; // production url
   public getAllIndiansURL ="GetAllIndians";
   public getAllCherokeeIndiansURL ="GetAllCherokeeIndians";
   public getAllChickasawIndiansURL ="GetAllChickasawIndians";
