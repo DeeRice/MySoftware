@@ -1,7 +1,7 @@
 <h3 class="centered-header">Job Details</h3>
 <div [className]="'scrollableTable'">
 <table class="table">
-    <tbody *ngFor="let indian of this.indians" [className]="'verticalScroll'">
+    <tbody [className]="'verticalScroll'">
       <tr>
         <td><b>Last Name</b></td>
         <td>{{indian.LastName}}</td>
@@ -57,4 +57,9 @@
     </tfoot>
   </table>
   </div>
-  <p-button label="Back" (click)="goBackToIndianGrid()" />
+
+  <p-button 
+  pRipple 
+  label="Back" 
+  class="p-button-success" [rounded]="true" (click)="goBackToIndianGrid()">Back
+</p-button>

@@ -10,6 +10,7 @@ import { Indian } from '../../model/indian';
 import { debounceTime, distinctUntilChanged, switchMap, ObservableInput } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
     selector: 'app-indian-details',
@@ -32,9 +33,9 @@ export class IndianDetailsComponent {
   public indians: Indian[] = [];
   jobID: number = -1;
   public messageHeader?:string;
-  constructor(private sanitizer: DomSanitizer, private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
+  constructor( PrimeNGConfig: PrimeNGConfig, private sanitizer: DomSanitizer, private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
     appService?: AppService, indianDataService?: IndianDataService, messageService?: MessageService,
-    confirmationService?: ConfirmationService
+    confirmationService?: ConfirmationService,
 
   ){
     this._appService = appService;

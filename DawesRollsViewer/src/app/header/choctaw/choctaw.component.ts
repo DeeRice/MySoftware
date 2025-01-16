@@ -189,7 +189,7 @@ export class ChoctawComponent {
   
   goToDetailPage(id: string, tribe:string) {
     let indians:object[] = [id as unknown as object, tribe as unknown as object];
-    this._router.navigate(['/app-indian-details/',indians]);
+    this._router.navigate(['/app-indian-details/', indians]);
     console.log(id);
   }
 

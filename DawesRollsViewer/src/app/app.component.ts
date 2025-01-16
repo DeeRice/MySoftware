@@ -15,14 +15,15 @@ import { ChickasawComponent } from './header/chickasaw/chickasaw.component';
 import { ChoctawComponent } from './header/choctaw/choctaw.component';
 import { CreekComponent } from './header/creek/creek.component';
 import { SeminoleComponent } from './header/seminole/seminole.component';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
     selector: 'app-root',
     standalone: true,
     imports: [RouterOutlet, HeaderComponent, AllComponent, RouterModule,
-        AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent, CreekComponent, SeminoleComponent],
+        AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent, CreekComponent, SeminoleComponent, ButtonModule],
     providers: [NgbModal, /* AppService */ RouterModule, RouterOutlet, CommonModule, RouterLink,
-        RouterLinkActive, FormsModule, BrowserAnimationsModule, TableModule, PrimeNGConfig, CalendarModule, RouterModule],
+        RouterLinkActive, FormsModule, BrowserAnimationsModule, TableModule, PrimeNGConfig, CalendarModule, RouterModule, ButtonModule],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })

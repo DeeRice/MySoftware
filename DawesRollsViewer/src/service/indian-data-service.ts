@@ -7,8 +7,8 @@ import { Indian } from '../model/indian';
   providedIn: 'root'
 })
 export class IndianDataService {
-  public baseUrl ="https://localhost:7103/DawesRollViewer";  // development url
-// public baseUrl ="https://mysoftware-production.up.railway.app/DawesRollViewer"; // production url
+//  public baseUrl ="https://localhost:7103/DawesRollViewer";  // development url
+  public baseUrl ="https://mysoftware-production.up.railway.app/DawesRollViewer"; // production url
   public getAllIndiansURL ="GetAllIndians";
   public getAllCherokeeIndiansURL ="GetAllCherokeeIndians";
   public getAllChickasawIndiansURL ="GetAllChickasawIndians";
@@ -91,7 +91,7 @@ export class IndianDataService {
     headers = headers.set('Content-Type', 'application/json; charset=utf-8')
     .set('Accept', 'application/json');
     return this._httpClient?.get<Indian[]>(`${this.baseUrl}/${this.getAllIndiansURL}`, { headers: headers, responseType: 'json' }).pipe(
-      catchError(this.handleError<Indian[]>('getAllJobs', [], errorMessage))
+      catchError(this.handleError<Indian[]>('getAllIndians', [], errorMessage))
     ).pipe(
       map((response: Indian[]) => response)
     );
@@ -102,7 +102,7 @@ export class IndianDataService {
     headers = headers.set('Content-Type', 'application/json; charset=utf-8')
     .set('Accept', 'application/json');
     return this._httpClient?.get<Indian[]>(`${this.baseUrl}/${this.getAllCherokeeIndiansURL}`, { headers: headers, responseType: 'json' }).pipe(
-      catchError(this.handleError<Indian[]>('getAllJobs', [], errorMessage))
+      catchError(this.handleError<Indian[]>('getAllCherokeeIndians', [], errorMessage))
     ).pipe(
       map((response: Indian[]) => response)
     );
@@ -113,7 +113,7 @@ export class IndianDataService {
     headers = headers.set('Content-Type', 'application/json; charset=utf-8')
     .set('Accept', 'application/json');
     return this._httpClient?.get<Indian[]>(`${this.baseUrl}/${this.getAllChickasawIndiansURL}`, { headers: headers, responseType: 'json' }).pipe(
-      catchError(this.handleError<Indian[]>('getAllJobs', [], errorMessage))
+      catchError(this.handleError<Indian[]>('getAllChickasawIndians', [], errorMessage))
     ).pipe(
       map((response: Indian[]) => response)
     );
@@ -124,7 +124,7 @@ export class IndianDataService {
     headers = headers.set('Content-Type', 'application/json; charset=utf-8')
     .set('Accept', 'application/json');
     return this._httpClient?.get<Indian[]>(`${this.baseUrl}/${this.getAllChoctawIndiansURL}`, { headers: headers, responseType: 'json' }).pipe(
-      catchError(this.handleError<Indian[]>('getAllJobs', [], errorMessage))
+      catchError(this.handleError<Indian[]>('getAllChoctawIndians', [], errorMessage))
     ).pipe(
       map((response: Indian[]) => response)
     );
@@ -135,7 +135,7 @@ export class IndianDataService {
     headers = headers.set('Content-Type', 'application/json; charset=utf-8')
     .set('Accept', 'application/json');
     return this._httpClient?.get<Indian[]>(`${this.baseUrl}/${this.getAllCreekIndiansURL}`, { headers: headers, responseType: 'json' }).pipe(
-      catchError(this.handleError<Indian[]>('getAllJobs', [], errorMessage))
+      catchError(this.handleError<Indian[]>('getAllCreekIndians', [], errorMessage))
     ).pipe(
       map((response: Indian[]) => response)
     );
@@ -146,7 +146,7 @@ export class IndianDataService {
     headers = headers.set('Content-Type', 'application/json; charset=utf-8')
     .set('Accept', 'application/json');
     return this._httpClient?.get<Indian[]>(`${this.baseUrl}/${this.getAllSeminoleIndiansURL}`, { headers: headers, responseType: 'json' }).pipe(
-      catchError(this.handleError<Indian[]>('getAllJobs', [], errorMessage))
+      catchError(this.handleError<Indian[]>('getAllSeminoleIndians', [], errorMessage))
     ).pipe(
       map((response: Indian[]) => response)
     );
