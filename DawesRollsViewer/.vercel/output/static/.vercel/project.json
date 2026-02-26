@@ -1,0 +1,15 @@
+{
+  "projectId": "prj_M10LZT0pRN9No1Vzzddi1kq6KFNf",
+  "orgId": "team_Ey7xvUxQH4oyUcwfp0WQ8ez7",
+  "settings": {
+    "createdAt": 1733761333533,
+    "framework": "angular",
+    "devCommand": " ng serve --configuration production",
+    "installCommand": "npm install",
+    "buildCommand": " ng build --configuration production",
+    "outputDirectory": "./",
+    "rootDirectory": "./",
+    "directoryListing": true,
+    "nodeVersion": "22.x"
+  }
+}

@@ -1,0 +1,32 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": [   
+      "jasmine",
+      "@angular/localize"
+    ]
+  },
+  "target": "ES2022",
+  "useDefineForClassFields": false,
+  // ADD THIS ↓↓↓
+  "baseUrl": "./",
+  "paths": {
+    "@tool/*": [ "src/app/tool/*" ],
+    "@models/*": [ "src/app/models/*" ],
+    "@services/*": [ "src/app/services/*" ],
+    "@components/*": [ "src/app/components/*" ],
+    "@interfaces/*": [ "src/app/interfaces/*" ]
+},
+// ADD THIS ↑↑↑
+  "files": [
+    "src/main.ts"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.spec.ts"
+  ]
+}
