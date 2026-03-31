@@ -59,6 +59,6 @@ namespace DawesRollViewerAPI.ViewModel
 
 
         [BindProperty(BinderType = typeof(Nullable), Name = "ImageBinary", SupportsGet = true)]
-        public long ImageBinary { get; set; }
+        public byte[]? ImageBinary { get; set; }
     }
 }
