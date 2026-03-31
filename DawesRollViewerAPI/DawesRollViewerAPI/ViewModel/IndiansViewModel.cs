@@ -50,7 +50,15 @@ namespace DawesRollViewerAPI.ViewModel
         [BindProperty(BinderType = typeof(Nullable), Name = "Source", SupportsGet = true)]
         public string ? Source { get; set; }
 
-        [BindProperty(BinderType = typeof(Nullable), Name = "Url", SupportsGet = true)]
-        public string? Url { get; set; }
+        [BindProperty(BinderType = typeof(Nullable), Name = "Link", SupportsGet = true)]
+        public string? Link { get; set; }
+
+
+        [BindProperty(BinderType = typeof(Nullable), Name = "ImageName", SupportsGet = true)]
+        public string? ImageName { get; set; }
+
+
+        [BindProperty(BinderType = typeof(Nullable), Name = "ImageBinary", SupportsGet = true)]
+        public long ImageBinary { get; set; }
     }
 }

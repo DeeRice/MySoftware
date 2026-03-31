@@ -23,7 +23,9 @@ namespace DawesRollViewerAPI.Mapping
             indianViewModel.Relationship = indian.Relationship;
             indianViewModel.RollNum = indian.RollNum;
             indianViewModel.Source = indian.Source;
-            indianViewModel.Url = indian.Url;
+            indianViewModel.Link = indian.Link;
+            indianViewModel.ImageName = indian.ImageName;
+            indianViewModel.ImageBinary = indian.ImageBinary;
             return indianViewModel;
         }
 
@@ -44,7 +46,9 @@ namespace DawesRollViewerAPI.Mapping
             indian.Relationship = indianViewModel.Relationship;
             indian.RollNum = indianViewModel.RollNum;
             indian.Source = indianViewModel.Source;
-            indian.Url = indianViewModel.Url;
+            indian.Link = indianViewModel.Link;
+            indian.ImageName = indianViewModel.ImageName;
+            indian.ImageBinary = indianViewModel.ImageBinary;
             return indian;
         }
     }

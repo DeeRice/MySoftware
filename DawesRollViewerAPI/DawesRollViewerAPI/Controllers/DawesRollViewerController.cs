@@ -18,7 +18,7 @@ namespace DawesRollViewerAPI.Controllers
         }
 
 
-        // GET: Job/GetJob/5
+        // GET: DawesRollViewer/GetCherokeeIndianByID
         [HttpGet]
         public async Task<JsonResult> GetCherokeeIndianByID(int? IndianID)
         {
@@ -33,7 +33,7 @@ namespace DawesRollViewerAPI.Controllers
             return new JsonResult(JsonConvert.SerializeObject(indianViewModel));
         }
 
-        // GET: Job/GetJob/5
+        // GET: DawesRollViewer/GetChoctawIndianByID
         [HttpGet]
         public async Task<JsonResult> GetChoctawIndianByID(int? IndianID)
         {
@@ -48,7 +48,7 @@ namespace DawesRollViewerAPI.Controllers
             return new JsonResult(JsonConvert.SerializeObject(indianViewModel));
         }
 
-        // GET: Job/GetJob/5
+        // GET: DawesRollViewer/GetChickasawIndianByID
         [HttpGet]
         public async Task<JsonResult> GetChickasawIndianByID(int? IndianID)
         {
@@ -64,7 +64,7 @@ namespace DawesRollViewerAPI.Controllers
         }
 
 
-        // GET: Job/GetJob/5
+        // GET: DawesRollViewer/GetCreekIndianByID
         [HttpGet]
         public async Task<JsonResult> GetCreekIndianByID(int? IndianID)
         {
@@ -80,7 +80,7 @@ namespace DawesRollViewerAPI.Controllers
         }
 
 
-        // GET: Job/GetJob/5
+        // GET: DawesRollViewer/GetSeminoleIndianByID
         [HttpGet]
         public async Task<JsonResult> GetSeminoleIndianByID(int? IndianID)
         {

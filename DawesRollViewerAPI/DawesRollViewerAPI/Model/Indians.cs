@@ -54,7 +54,11 @@ namespace DawesRollViewerAPI.Model
 
         public string ? Source { get; set; }
 
-        public string? Url { get; set; }
+        public string? Link { get; set; }
+
+        public string? ImageName { get; set; }
+
+        public long ImageBinary { get; set; }
     }
 
     public class Cherokee : Indians

@@ -12,13 +12,13 @@ namespace DawesRollViewerAPI.Context
         public DawesRollViewerAPIDataContext(DbContextOptions<DawesRollViewerAPIDataContext> options)
            : base(options)
         {
-            DbPath = "Indian.db";
+            DbPath = "Indians.db";
         }
         public DawesRollViewerAPIDataContext()
         {
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
-            DbPath = System.IO.Path.Join(path, "Indian.db");
+            DbPath = System.IO.Path.Join(path, "Indians.db");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
