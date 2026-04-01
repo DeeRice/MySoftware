@@ -10,12 +10,12 @@ import { Indian } from '../../model/indian';
 import { debounceTime, distinctUntilChanged, switchMap, ObservableInput } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { PrimeNGConfig } from 'primeng/api';
+import {NgOptimizedImage} from '@angular/common';
 
 @Component({
     selector: 'app-indian-details',
     standalone: true,
-    imports: [TableModule, InputTextModule, CommonModule, RouterModule, ButtonModule],
+    imports: [TableModule, InputTextModule, CommonModule, RouterModule, ButtonModule,   NgOptimizedImage],
     providers: [IndianDataService, MessageService, ConfirmationService, RouterModule, ButtonModule],
     templateUrl: './indian-details.component.html',
     styleUrl: './indian-details.component.scss'
@@ -33,9 +33,9 @@ export class IndianDetailsComponent {
   public indians: Indian[] = [];
   jobID: number = -1;
   public messageHeader?:string;
-  constructor( PrimeNGConfig: PrimeNGConfig, private sanitizer: DomSanitizer, private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
+  constructor(private sanitizer: DomSanitizer, private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
     appService?: AppService, indianDataService?: IndianDataService, messageService?: MessageService,
-    confirmationService?: ConfirmationService,
+    confirmationService?: ConfirmationService
 
   ){
     this._appService = appService;
@@ -265,6 +265,13 @@ export class IndianDetailsComponent {
  }
   
   displayUrl(url?: string): SafeResourceUrl {
+    if(url!.length > 0)
+     return this.sanitizer.bypassSecurityTrustResourceUrl(url as string);
+    else
+     return this.sanitizer.bypassSecurityTrustResourceUrl("");
+  }
+
+  displayImage(url?: string): SafeResourceUrl {
     if(url!.length > 0)
      return this.sanitizer.bypassSecurityTrustResourceUrl(url as string);
     else

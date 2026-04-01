@@ -16,6 +16,7 @@ export class Indian {
     Link?: string;
     ImageName?: string;
     ImageBinary?: Number;
+    TribeRelationship?: string;
 }
 
 export enum YearOrYears {
