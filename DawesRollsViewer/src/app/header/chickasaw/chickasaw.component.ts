@@ -7,11 +7,13 @@ import { Indian } from '../../../model/indian';
 import { AppService } from '../../../service/app.service';
 import { IndianDataService } from '../../../service/indian-data-service';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { MenuItem } from 'primeng/api';
 
 @Component({
     selector: 'app-chickasaw',
     standalone: true,
-    imports: [TableModule, InputTextModule, CommonModule, RouterModule],
+    imports: [TableModule, InputTextModule, CommonModule, RouterModule, ContextMenuModule],
     providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
     templateUrl: './chickasaw.component.html',
     styleUrl: './chickasaw.component.scss'
@@ -32,6 +34,7 @@ export class ChickasawComponent {
   first = 0;
   rows = 5;
   public isStricken:Boolean = true;
+  contextMenuItems: MenuItem[] | undefined;
   @ViewChild('chickasaw') choctawTable!: Table;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
     appService?: AppService, indianDataService?: IndianDataService, messageService?: MessageService,
@@ -118,6 +121,9 @@ export class ChickasawComponent {
  }
 
   async ngOnInit() {
+    this.contextMenuItems = [
+      { label: 'CopyToExcel', icon: 'pi pi-copy' }
+    ];
     await this._indianDataService?.getAllChickasawIndians()?.subscribe((data: Indian[]) => {
       const substring = "the indian";
       if(data.toString().includes(substring)){

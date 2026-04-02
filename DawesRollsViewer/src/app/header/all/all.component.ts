@@ -7,11 +7,13 @@ import { IndianDataService } from '../../../service/indian-data-service';
 import { AppService } from '../../../service/app.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { MenuItem } from 'primeng/api';
 
 @Component({
     selector: 'app-all',
     standalone: true,
-    imports: [TableModule, InputTextModule, CommonModule, RouterModule],
+    imports: [TableModule, InputTextModule, CommonModule, RouterModule, ContextMenuModule],
     providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
     templateUrl: './all.component.html',
     styleUrl: './all.component.scss'
@@ -32,6 +34,7 @@ export class AllComponent {
   first = 0;
   rows = 5;
   public isStricken:Boolean = true;
+  contextMenuItems: MenuItem[] | undefined;
   @ViewChild('all') allTable!: Table;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
     appService?: AppService, indianDataService?: IndianDataService, messageService?: MessageService,
@@ -118,6 +121,9 @@ export class AllComponent {
  }
 
   async ngOnInit() {
+    this.contextMenuItems = [
+            { label: 'CopyToExcel', icon: 'pi pi-copy' }
+    ];
     await this._indianDataService?.getAllIndians()?.subscribe((data: Indian[]) => {
       const substring = "the indian";
       if(data.toString().includes(substring)){

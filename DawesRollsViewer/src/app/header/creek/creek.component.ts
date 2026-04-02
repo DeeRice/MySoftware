@@ -7,11 +7,13 @@ import { Indian } from '../../../model/indian';
 import { AppService } from '../../../service/app.service';
 import { IndianDataService } from '../../../service/indian-data-service';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { MenuItem } from 'primeng/api';
 
 @Component({
     selector: 'app-creek',
     standalone: true,
-    imports: [TableModule, InputTextModule, CommonModule, RouterModule],
+    imports: [TableModule, InputTextModule, CommonModule, RouterModule, ContextMenuModule],
     providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
     templateUrl: './creek.component.html',
     styleUrl: './creek.component.scss'
@@ -32,6 +34,7 @@ export class CreekComponent {
   first = 0;
   rows = 5;
   public isStricken:Boolean = true;
+  contextMenuItems: MenuItem[] | undefined;
   @ViewChild('creek') creekTable!: Table;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
     appService?: AppService, indianDataService?: IndianDataService, messageService?: MessageService,
@@ -119,6 +122,9 @@ export class CreekComponent {
  }
 
   async ngOnInit() {
+    this.contextMenuItems = [
+      { label: 'CopyToExcel', icon: 'pi pi-copy' }
+    ];
     await this._indianDataService?.getAllCreekIndians()?.subscribe((data: Indian[]) => {
       const substring = "the indian";
       if(data.toString().includes(substring)){

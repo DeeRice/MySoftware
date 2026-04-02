@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Table, TableLazyLoadEvent, TableModule, TablePageEvent } from 'primeng/table';
+import { ExportCSVOptions, Table, TableLazyLoadEvent, TableModule, TablePageEvent } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -8,6 +8,8 @@ import { AppService } from '../../../service/app.service';
 import { IndianDataService } from '../../../service/indian-data-service';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { MenuItem } from 'primeng/api';
 
 interface PageEvent {
   first: number;
@@ -17,10 +19,15 @@ interface PageEvent {
 }
 
 
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
+
 @Component({
     selector: 'app-choctaw',
     standalone: true,
-    imports: [TableModule, InputTextModule, CommonModule, RouterModule, PaginatorModule],
+    imports: [TableModule, InputTextModule, CommonModule, RouterModule, PaginatorModule, ContextMenuModule],
     providers: [IndianDataService, MessageService, ConfirmationService, RouterModule, PaginatorModule],
     templateUrl: './choctaw.component.html',
     styleUrl: './choctaw.component.scss'
@@ -41,6 +48,10 @@ export class ChoctawComponent {
   first = 0;
   rows = 5;
   public isStricken:Boolean = true;
+  contextMenuItems: MenuItem[] | undefined;
+  options?: ExportCSVOptions = {
+    allValues: true
+  };
   @ViewChild('choctaw') choctawTable!: Table;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
     appService?: AppService, indianDataService?: IndianDataService, messageService?: MessageService,
@@ -127,6 +138,11 @@ export class ChoctawComponent {
  }
 
   async ngOnInit() {
+    this.contextMenuItems = [
+      { label: 'CopyToExcel', icon: 'pi pi-copy',   command: () => {
+         this.choctawTable.exportCSV(this.options);
+    } }
+    ];
     await this._indianDataService?.getAllChoctawIndians()?.subscribe((data: Indian[]) => {
       const substring = "the indian";
       if(data.toString().includes(substring)){
