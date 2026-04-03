@@ -1,44 +1,53 @@
 {
   "name": "dawesrollsviewer",
   "version": "0.0.0",
+  "private": true,
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration 'production'",
+    "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "vercel-build": "npm run build"
   },
-  "private": true,
   "dependencies": {
-    "@angular/animations": "^18.0.1",
-    "@angular/cli": "^18.0.1",
-    "@angular/common": "^18.0.1",
-    "@angular/compiler": "^18.0.1",
-    "@angular/core": "^18.0.1",
-    "@angular/forms": "^18.0.1",
-    "@angular/localize": "^18.0.1",
-    "@angular/platform-browser": "^18.0.1",
-    "@angular/platform-browser-dynamic": "^18.0.1",
-    "@angular/router": "^18.0.1",
-    "@ng-bootstrap/ng-bootstrap": "^17.0.1",
+    "@angular/animations": "21.2.6",
+    "@angular/common": "21.2.6",
+    "@angular/compiler": "21.2.6",
+    "@angular/core": "21.2.6",
+    "@angular/forms": "21.2.6",
+    "@angular/localize": "21.2.6",
+    "@angular/platform-browser": "21.2.6",
+    "@angular/platform-browser-dynamic": "21.2.6",
+    "@angular/router": "21.2.6",
+    "@ng-bootstrap/ng-bootstrap": "^20.0.0",
+    "@primeuix/themes": "^2.0.3",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
-    "primeng": "^17.18.12",
+    "exceljs": "^4.4.0",
+    "file-saver": "^2.0.5",
+    "primeng": "^21.1.5",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.0"
+    "zone.js": "~0.15.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.0.1",
-    "@angular/compiler-cli": "^18.0.1",
+    "@angular-devkit/build-angular": "21.2.6",
+    "@angular/cli": "21.2.6",
+    "@angular/compiler-cli": "21.2.6",
+    "@types/events": "^3.0.3",
+    "@types/file-saver": "^2.0.7",
     "@types/jasmine": "~5.1.0",
+    "@types/node": "^25.5.0",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": ">=5.2 <5.5"
+    "typescript": "~5.9.0"
+  },
+  "engines": {
+    "node": "^20.19.0 || ^22.12.0 || ^24.0.0"
   }
 }

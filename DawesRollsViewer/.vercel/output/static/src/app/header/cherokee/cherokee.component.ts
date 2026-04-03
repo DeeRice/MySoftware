@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { Table, TableLazyLoadEvent, TableModule, TablePageEvent } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -6,15 +6,19 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Indian } from '../../../model/indian';
 import { AppService } from '../../../service/app.service';
 import { IndianDataService } from '../../../service/indian-data-service';
-import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
+import { RouterLink,Router, RouterLinkActive, RouterOutlet, ActivatedRoute } from '@angular/router';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { MenuItem } from 'primeng/api';
+import { ExcelDataService } from "../../../service/excel-data.service";
 
 @Component({
     selector: 'app-cherokee',
     standalone: true,
-    imports: [TableModule, InputTextModule, CommonModule, RouterModule],
-    providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
+    imports: [TableModule, InputTextModule, CommonModule, ContextMenuModule, RouterLink,
+      RouterLinkActive],
+    providers: [IndianDataService, MessageService, ConfirmationService, ExcelDataService],
     templateUrl: './cherokee.component.html',
-    styleUrl: './cherokee.component.scss'
+    styleUrls: ['./cherokee.component.scss']
 })
 export class CherokeeComponent {
   public indian?: Indian;
@@ -24,6 +28,7 @@ export class CherokeeComponent {
   public _confirmationService?: ConfirmationService;
   public messageHeader?: string;
   public _messageService?: MessageService;
+  public _excelDataService?:ExcelDataService;
   lastTableLazyLoadEvent!: TableLazyLoadEvent;
   public _router: any;
   public _routerLink: any;
@@ -32,10 +37,11 @@ export class CherokeeComponent {
   first = 0;
   rows = 5;
   public isStricken:Boolean = true;
+  contextMenuItems: MenuItem[] | undefined;
   @ViewChild('cherokee') cherokeeTable!: Table;
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
+  constructor(private router?: Router, 
     appService?: AppService, indianDataService?: IndianDataService, messageService?: MessageService,
-    confirmationService?: ConfirmationService,
+    confirmationService?: ConfirmationService, excelDataService?:ExcelDataService
 
   ){
     this._appService = appService;
@@ -43,6 +49,7 @@ export class CherokeeComponent {
     this._messageService = messageService;
     this._confirmationService = confirmationService;
     this._router = router;
+    this._excelDataService = excelDataService;
     this._appService?.cherokeeInputBehaviorSubject.subscribe(
      (x:Array<object>) => {
         let input = x[0] as unknown as string;
@@ -118,6 +125,9 @@ export class CherokeeComponent {
  }
 
   async ngOnInit() {
+    this.contextMenuItems = [
+      { label: 'CopyToExcel', icon: 'pi pi-copy' }
+    ];
     await this._indianDataService?.getAllCherokeeIndians()?.subscribe((data: Indian[]) => {
       const substring = "the indian";
       if(data.toString().includes(substring)){

@@ -13,7 +13,10 @@ export class Indian {
     Relationship!: Relationship;
     RollNum!: Number;
     Source!: string;
-    Url?: string;
+    Link?: string;
+    ImageName?: string;
+    ImageBinary?: Number;
+    TribeRelationship?: string;
 }
 
 export enum YearOrYears {

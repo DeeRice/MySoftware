@@ -1,16 +1,16 @@
 <div class="card">
-    <p-table #choctaw [value]="listofIndians" 
-    [columns]="this._appService?.addIndianTitles"  
+    <p-table #choctaw [value]="(listofIndians$ | async) ?? []" 
+    [columns]="_appService?.addIndianTitles"  
     [paginator]="true"
     [rows]="rows"
-    [first]="this.first" 
+    [first]="first" 
     dataKey="ID"
     styleClass="p-datatable-gridlines" 
     [tableStyle]="{ 'min-width': '50rem' }"
     sortMode="multiple"
     [rowsPerPageOptions]="[5, 10, 20, 50]"
     [resizableColumns]="true"
-    [totalRecords]="this.listofIndians.length"
+    [totalRecords]="((listofIndians$ | async) ?? []).length"
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
     [globalFilterFields]="['ID','Tribe','Page','LastName', 'FirstName', 'MiddleName', 'Suffix', 'Age', 'Year', 'Sex', 'Blood', 'Relationship', 'RollNum', 'Source']"
@@ -45,11 +45,13 @@
                 <td>{{ indian?.Age }}</td>
                 <td>{{ indian?.Year }}</td>
                 <td>{{ indian?.Sex  }}</td>
-                <td class="redtext">{{ this.calculateBloodPercentage(indian?.Blood) }}</td>
+                <td class="redtext">{{ calculateBloodPercentage(indian?.Blood) }}</td>
                 <td class="orangetext">By {{ indian?.Relationship }}</td>
                 <td>{{ indian?.RollNum }}</td>
                 <td>{{ indian?.Source }}</td>
+                
             </tr>
         </ng-template>
     </p-table>
 </div>
+<p-contextMenu [model]="contextMenuItems" [global]="true" />

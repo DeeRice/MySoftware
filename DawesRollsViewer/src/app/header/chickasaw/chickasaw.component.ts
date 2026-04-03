@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { Table, TableLazyLoadEvent, TableModule, TablePageEvent } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -6,17 +6,19 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Indian } from '../../../model/indian';
 import { AppService } from '../../../service/app.service';
 import { IndianDataService } from '../../../service/indian-data-service';
-import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
+import { RouterLink,Router, RouterLinkActive, RouterOutlet, ActivatedRoute } from '@angular/router';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { MenuItem } from 'primeng/api';
+import { ExcelDataService } from "../../../service/excel-data.service";
 
 @Component({
     selector: 'app-chickasaw',
     standalone: true,
-    imports: [TableModule, InputTextModule, CommonModule, RouterModule, ContextMenuModule],
-    providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
+    imports: [TableModule, InputTextModule, CommonModule, ContextMenuModule, RouterLink,
+      RouterLinkActive],
+    providers: [IndianDataService, MessageService, ConfirmationService, ExcelDataService],
     templateUrl: './chickasaw.component.html',
-    styleUrl: './chickasaw.component.scss'
+    styleUrls: ['./chickasaw.component.scss']
 })
 export class ChickasawComponent {
   public indian?: Indian;
@@ -26,6 +28,7 @@ export class ChickasawComponent {
   public _confirmationService?: ConfirmationService;
   public messageHeader?: string;
   public _messageService?: MessageService;
+  public _excelDataService?: ExcelDataService;
   lastTableLazyLoadEvent!: TableLazyLoadEvent;
   public _router: any;
   public _routerLink: any;
@@ -36,9 +39,9 @@ export class ChickasawComponent {
   public isStricken:Boolean = true;
   contextMenuItems: MenuItem[] | undefined;
   @ViewChild('chickasaw') choctawTable!: Table;
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
+  constructor(private router?: Router, 
     appService?: AppService, indianDataService?: IndianDataService, messageService?: MessageService,
-    confirmationService?: ConfirmationService,
+    confirmationService?: ConfirmationService, excelDataService?:ExcelDataService
 
   ){
     this._appService = appService;
@@ -46,6 +49,7 @@ export class ChickasawComponent {
     this._messageService = messageService;
     this._confirmationService = confirmationService;
     this._router = router;
+    this._excelDataService = excelDataService;
     this._appService?.chickasawInputBehaviorSubject.subscribe(
      (x:Array<object>) => {
         let input = x[0] as unknown as string;

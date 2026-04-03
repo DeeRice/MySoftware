@@ -6,6 +6,9 @@ $display: (
     values: inline inline-block block grid table table-row table-cell flex inline-flex none
   );
 
+td {
+  width: 4%;
+}
 
 .firstRow {
     position: relative;
@@ -27,6 +30,7 @@ $display: (
   }
 
   :host ::ng-deep .p-button{
+   margin-top: 2%;
    padding-left: 48%;
    padding-right: 48%;
    background-color: #22E55E;
@@ -38,7 +42,7 @@ $display: (
   }
 
  .scrollableTable {
-  height:400px;
+  height:200px;
   overflow:auto;
  }
 
@@ -46,3 +50,7 @@ $display: (
   display: contents;
 }
  
+img {
+  height: 80%;
+  width: 60%;
+}

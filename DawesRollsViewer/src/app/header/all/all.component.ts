@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { Table, TableLazyLoadEvent, TableModule, TablePageEvent } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -6,17 +6,19 @@ import { Indian } from '../../../model/indian';
 import { IndianDataService } from '../../../service/indian-data-service';
 import { AppService } from '../../../service/app.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { MenuItem } from 'primeng/api';
+import { ExcelDataService } from "../../../service/excel-data.service";
 
 @Component({
     selector: 'app-all',
     standalone: true,
-    imports: [TableModule, InputTextModule, CommonModule, RouterModule, ContextMenuModule],
-    providers: [IndianDataService, MessageService, ConfirmationService, RouterModule],
+    imports: [TableModule, InputTextModule, CommonModule, ContextMenuModule, RouterLink,
+      RouterLinkActive],
+    providers: [IndianDataService, MessageService, ConfirmationService, ExcelDataService],
     templateUrl: './all.component.html',
-    styleUrl: './all.component.scss'
+    styleUrls: ['./all.component.scss']
 })
 export class AllComponent {
   public indian?: Indian;
@@ -36,7 +38,7 @@ export class AllComponent {
   public isStricken:Boolean = true;
   contextMenuItems: MenuItem[] | undefined;
   @ViewChild('all') allTable!: Table;
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
+  constructor(private router?: Router,  
     appService?: AppService, indianDataService?: IndianDataService, messageService?: MessageService,
     confirmationService?: ConfirmationService,
 

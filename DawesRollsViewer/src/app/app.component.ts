@@ -7,8 +7,7 @@ import { AllComponent } from './header/all/all.component';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PrimeNGConfig } from 'primeng/api';
-import { CalendarModule } from 'primeng/calendar';
+import { DatePickerModule } from 'primeng/datepicker';
 import { TableModule } from 'primeng/table';
 import { CherokeeComponent } from './header/cherokee/cherokee.component';
 import { ChickasawComponent } from './header/chickasaw/chickasaw.component';
@@ -23,7 +22,7 @@ import { ButtonModule } from 'primeng/button';
     imports: [RouterOutlet, HeaderComponent, AllComponent, RouterModule, NgOptimizedImage,
         AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent, CreekComponent, SeminoleComponent, ButtonModule],
     providers: [NgbModal, /* AppService */ RouterModule, RouterOutlet, CommonModule, RouterLink,
-        RouterLinkActive, FormsModule, BrowserAnimationsModule, TableModule, PrimeNGConfig, CalendarModule, RouterModule, ButtonModule],
+        RouterLinkActive, FormsModule, BrowserAnimationsModule, TableModule, DatePickerModule, RouterModule, ButtonModule],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })

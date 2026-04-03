@@ -4,19 +4,18 @@
       <i class="pi pi-search"></i>
       <input pInputText type="text" [(ngModel)]="this.searchInput" name="searchInput" (input)="filterGlobal(this.searchInput, 'contains', this.activeIndex)" placeholder="Global Search" />
   </span>
-    <p-tabView
+    <p-tabs
     [hidden]="isHidden"
     (onChange)="handleChange($event)"
-    [selectOnFocus]="true"
-  [activeIndex]="this.activeIndex"
+    [tabindex]="0"
     >
-      <p-tabPanel header="All" [tabIndex]="5"> </p-tabPanel>
-      <p-tabPanel header="Choctaw" [tabIndex]="0"> </p-tabPanel>
-      <p-tabPanel header="Chickasaw" [tabIndex]="1"> </p-tabPanel>
-      <p-tabPanel header="Cherokee" [tabIndex]="2"> </p-tabPanel>
-      <p-tabPanel header="Creek" [tabIndex]="3"> </p-tabPanel>
-      <p-tabPanel header="Seminole" [tabIndex]="4"> </p-tabPanel>
-    </p-tabView>
+      <p-tabpanel header="All" [tabIndex]="5"> </p-tabpanel>
+      <p-tabpanel header="Choctaw" [tabIndex]="0"> </p-tabpanel>
+      <p-tabpanel header="Chickasaw" [tabIndex]="1"> </p-tabpanel>
+      <p-tabpanel header="Cherokee" [tabIndex]="2"> </p-tabpanel>
+      <p-tabpanel header="Creek" [tabIndex]="3"> </p-tabpanel>
+      <p-tabpanel header="Seminole" [tabIndex]="4"> </p-tabpanel>
+    </p-tabs>
     <router-outlet />
   
   

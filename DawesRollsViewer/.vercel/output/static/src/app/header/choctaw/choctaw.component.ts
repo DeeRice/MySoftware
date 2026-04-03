@@ -1,36 +1,35 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Table, TableLazyLoadEvent, TableModule, TablePageEvent } from 'primeng/table';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { ExportCSVOptions, Table, TableLazyLoadEvent, TableModule, TablePageEvent } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Indian } from '../../../model/indian';
 import { AppService } from '../../../service/app.service';
 import { IndianDataService } from '../../../service/indian-data-service';
-import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
+import { RouterLink,Router, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
-
-interface PageEvent {
-  first: number;
-  rows: number;
-  page: number;
-  pageCount: number;
-}
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { MenuItem } from 'primeng/api';
+import { ExcelDataService } from "../../../service/excel-data.service";
+import { Observable, map } from 'rxjs';
 
 
 @Component({
     selector: 'app-choctaw',
     standalone: true,
-    imports: [TableModule, InputTextModule, CommonModule, RouterModule, PaginatorModule],
-    providers: [IndianDataService, MessageService, ConfirmationService, RouterModule, PaginatorModule],
+    imports: [TableModule, InputTextModule, CommonModule, PaginatorModule, ContextMenuModule, RouterLink,
+      RouterLinkActive],
+    providers: [IndianDataService, ExcelDataService, MessageService, ConfirmationService],
     templateUrl: './choctaw.component.html',
-    styleUrl: './choctaw.component.scss'
+    styleUrls: ['./choctaw.component.scss']
 })
 export class ChoctawComponent {
   public indian?: Indian;
-  public listofIndians: Indian[] = [];
+  public listofIndians$?: Observable<Indian[]>;
   public _appService?: AppService;
   public _indianDataService?: IndianDataService;
   public _confirmationService?: ConfirmationService;
+  public _excelDataService?: ExcelDataService;
   public messageHeader?: string;
   public _messageService?: MessageService;
   lastTableLazyLoadEvent!: TableLazyLoadEvent;
@@ -41,28 +40,21 @@ export class ChoctawComponent {
   first = 0;
   rows = 5;
   public isStricken:Boolean = true;
+  contextMenuItems: MenuItem[] | undefined;
+  options?: ExportCSVOptions = {
+    allValues: true
+  };
   @ViewChild('choctaw') choctawTable!: Table;
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private routerLink?: RouterLink, 
+  constructor(private router: Router, 
     appService?: AppService, indianDataService?: IndianDataService, messageService?: MessageService,
-    confirmationService?: ConfirmationService,
-
+    confirmationService?: ConfirmationService, excelDataService?: ExcelDataService
   ){
      this._appService = appService;
      this._indianDataService = indianDataService;
      this._messageService = messageService;
      this._confirmationService = confirmationService;
      this._router = router;
-     this._appService?.choctawInputBehaviorSubject.subscribe(
-      (x:Array<object>) => {
-         let input = x[0] as unknown as string;
-         let selector = x[1] as unknown as string;
-        if(input.trim().length === 0) {
-           this.choctawTable.clear();
-        }
-        else{
-          this.choctawTable.filterGlobal(input, selector);
-        }
-     });
+     this._excelDataService = excelDataService;
   }
   
   getRowClass(lastName: string) {
@@ -126,22 +118,42 @@ export class ChoctawComponent {
     }
  }
 
-  async ngOnInit() {
-    await this._indianDataService?.getAllChoctawIndians()?.subscribe((data: Indian[]) => {
-      const substring = "the indian";
-      if(data.toString().includes(substring)){
-        this.messageHeader = "Error Occured!"
-        let message: string = data.toString();
-        this.confirm(message);
-      }
-      else {
-      if (data != null && (data as Indian[]).length != 0 && data != undefined) {
-        this.listofIndians = JSON.parse(data.toString());
+ ngOnInit(): void {
+  this.contextMenuItems = [
+    {
+      label: 'CopyToExcel',
+      icon: 'pi pi-copy',
+      command: () => {
+        this.choctawTable.exportCSV(this.options);
       }
     }
-    });
-   
-  }
+  ];
+
+  this.listofIndians$ = this._indianDataService?.getAllChoctawIndians()?.pipe(
+    map((data: unknown) => {
+      if (Array.isArray(data)) return data as Indian[];
+      if (typeof data === 'string') return JSON.parse(data) as Indian[];
+      return [];
+    })
+  );
+};
+
+
+ngAfterViewInit(): void {
+  this._appService?.choctawInputBehaviorSubject.subscribe((x: Array<object>) => {
+    const input = x[0] as unknown as string;
+    const selector = x[1] as unknown as string;
+
+    if (!input) return;
+
+    if (input.trim().length === 0) {
+      this.choctawTable?.clear();
+    } else {
+      this.choctawTable?.filterGlobal(input, selector);
+    }
+  });
+}
+
   onMyPage(event: TablePageEvent) {
     this.first = event.first;
     this.rows = event.rows;
@@ -149,21 +161,16 @@ export class ChoctawComponent {
 }
   public async refreshDataGrid(event: TableLazyLoadEvent) {
     this.lastTableLazyLoadEvent = event;
-    await this._indianDataService?.getAllChoctawIndians()?.subscribe((data: Indian[]) => {
+    this.listofIndians$ = this._indianDataService?.getAllChoctawIndians();
       const substring = "the job";
       const substringTwo = "the notification";
-      if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
-        this.messageHeader = "Error Occured!"
-        let message: string = data.toString();
+      if (this.listofIndians$ === undefined || this.listofIndians$ === null) {
+        this.messageHeader = "Error Occured!";
+        let message: string = "No Data";
         this.confirm(message);
       }
-      else {
-      if ((data != null) && (data != undefined) && ((data as Indian[]).length != 0)) {
-        this.listofIndians = JSON.parse(data.toString());
-      }
-     }
-    });
-  }
+    }
+  
   
   confirm(messageToShow: string) {
     this._confirmationService?.confirm({

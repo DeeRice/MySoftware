@@ -1,7 +1,7 @@
 <h3 class="centered-header">Job Details</h3>
-<div [className]="'scrollableTable'">
+<div>
 <table class="table">
-    <tbody [className]="'verticalScroll'">
+    <tbody>
       <tr>
         <td><b>Last Name</b></td>
         <td>{{indian.LastName}}</td>
@@ -37,29 +37,31 @@
       <tr>
         <td><b>Source</b></td>
         <td>{{indian.Source}}</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
       </tr>
       <tr>
-      <td><b>Card</b></td>
-       <td><iframe [src]="displayUrl(indian.Url)"></iframe></td>
-       <td></td>
-       <td></td>
-       <td></td>
-       <td></td>
-       <td></td>
-       <td></td>
+        <td><b>Link</b></td>
+        <td> <a href={{indian.Link}}>Roll Number: {{indian.RollNum}}</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
       </tr>
     </tfoot>
   </table>
+  <div>
+    <section>
+      <b>Card</b>
+    </section>
+    <section>
+      <img src='assets/{{indian.Tribe}}/Images/{{indian.TribeRelationship}}/Page{{indian.Page}}/{{indian.ImageName}}'  />
+    </section>
+  </div>
   </div>
 
   <p-button 
   pRipple 
   label="Back" 
-  class="p-button-success" [rounded]="true" (click)="goBackToIndianGrid()">Back
+  class="p-button-success" [rounded]="true" (click)="goBackToIndianGrid()">
 </p-button>

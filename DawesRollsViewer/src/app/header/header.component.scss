@@ -14,15 +14,15 @@
     color: #8ffcb0;
   }
 
-  ::ng-deep .p-tabview-title {
+  ::ng-deep .p-tabs-title {
     color: #22B500;
   }
 
-  ::ng-deep .p-tabview-panels {
+  ::ng-deep .p-tabs-panels {
     display: none !important;
   }
   
-  ::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  ::ng-deep .p-tabs .p-tabs-nav li.p-highlight .p-tabs-nav-link {
     color: #22B500;
     border-color:#22B500;
   }

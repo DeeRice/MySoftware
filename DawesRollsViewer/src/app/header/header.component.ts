@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { TabViewChangeEvent, TabViewModule } from 'primeng/tabview';
 import { ActivatedRoute, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService, ConfirmationService } from 'primeng/api';
@@ -16,13 +15,14 @@ import { ChoctawComponent } from './choctaw/choctaw.component';
 import { CreekComponent } from './creek/creek.component';
 import { SeminoleComponent } from './seminole/seminole.component';
 import { FormsModule } from '@angular/forms';
+import { TabsModule } from 'primeng/tabs';
 
 @Component({
     selector: 'app-header',
     standalone: true,
-    imports: [TabViewModule, RouterOutlet, FormsModule, AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent, CreekComponent, SeminoleComponent],
+    imports: [TabsModule, RouterOutlet, FormsModule, AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent, CreekComponent, SeminoleComponent],
     providers: [MessageService, ConfirmationService, NgbModal, RouterModule, RouterOutlet,
-        TabViewModule, ConfirmDialogModule, RouterModule, RouterOutlet, AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent],
+      TabsModule, ConfirmDialogModule, RouterModule, RouterOutlet, AllComponent, CherokeeComponent, ChickasawComponent, ChoctawComponent],
     templateUrl: './header.component.html',
     styleUrl: './header.component.scss'
 })
@@ -83,7 +83,7 @@ export class HeaderComponent {
         default: break;
       }
   }
-  public handleChange(event: TabViewChangeEvent) {
+  public handleChange(event:Event) {
     const routingMap = [
       'app-all',
       'app-choctaw',
@@ -92,10 +92,10 @@ export class HeaderComponent {
       'app-creek',
       'app-seminole',
     ];
-    this.router.navigate(['./', routingMap[event.index] ], {
+   // this.router.navigate(['./', routingMap[event.index] ], {
       relativeTo: this.activatedRoute
-    });
-     this.activeIndex = event.index;
+   // });
+    // this.activeIndex = event.index;
 
   }
 }
