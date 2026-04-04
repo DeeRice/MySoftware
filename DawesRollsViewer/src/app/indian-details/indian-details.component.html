@@ -1,67 +1,72 @@
-<h3 class="centered-header">Job Details</h3>
-<div>
-<table class="table">
+<ng-container *ngIf="indian$ | async as person">
+
+  <h3 class="centered-header">Job Details</h3>
+
+  <table class="table">
     <tbody>
       <tr>
         <td><b>Last Name</b></td>
-        <td>{{indian.LastName}}</td>
+        <td>{{ person.LastName }}</td>
         <td><b>Suffix</b></td>
-        <td>{{indian.Suffix}}</td>
+        <td>{{ person.Suffix }}</td>
         <td><b>First Name</b></td>
-        <td>{{indian.FirstName}}</td>
+        <td>{{ person.FirstName }}</td>
         <td><b>Middle Name</b></td>
-        <td>{{indian.MiddleName}}</td>
+        <td>{{ person.MiddleName }}</td>
       </tr>
+
       <tr>
         <td><b>Sex</b></td>
-        <td>{{indian.Sex}}</td>
+        <td>{{ person.Sex }}</td>
         <td><b>Age</b></td>
-        <td>{{indian.Age}}{{indian.Year}}</td>
+        <td>{{ person.Age }}{{ person.Year }}</td>
         <td><b>ID</b></td>
-        <td>{{indian.ID}}</td>
+        <td>{{ person.ID }}</td>
         <td><b>Roll Number</b></td>
-        <td>{{indian.RollNum}}</td>
+        <td>{{ person.RollNum }}</td>
       </tr>
+
       <tr>
         <td><b>Percentage</b></td>
-        <td>{{this.returnPercentage(indian.Blood)}}</td>
+        <td>{{ returnPercentage(person.Blood) }}</td>
         <td><b>Tribe</b></td>
-        <td>{{indian.Tribe}}</td>
+        <td>{{ person.Tribe }}</td>
         <td><b>Relationship</b></td>
-        <td>By {{indian.Relationship}}</td>
+        <td>By {{ person.Relationship }}</td>
         <td><b>Page Number</b></td>
-        <td>{{indian.Page}}</td>
-      </tr>      
+        <td>{{ person.Page }}</td>
+      </tr>
     </tbody>
+
     <tfoot>
       <tr>
         <td><b>Source</b></td>
-        <td>{{indian.Source}}</td>
+        <td>{{ person.Source }}</td>
       </tr>
       <tr>
         <td><b>Link</b></td>
-        <td> <a href={{indian.Link}}>Roll Number: {{indian.RollNum}}</a></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>
+          <a [href]="person.Link">Roll Number: {{ person.RollNum }}</a>
+        </td>
       </tr>
     </tfoot>
   </table>
+
   <div>
+    <section><b>Card</b></section>
     <section>
-      <b>Card</b>
+      <img
+        [src]="'assets/' + person.Tribe + '/Images/' + person.TribeRelationship + '/Page' + person.Page + '/' + person.ImageName"
+      />
     </section>
-    <section>
-      <img src='assets/{{indian.Tribe}}/Images/{{indian.TribeRelationship}}/Page{{indian.Page}}/{{indian.ImageName}}'  />
-    </section>
-  </div>
   </div>
 
-  <p-button 
-  pRipple 
-  label="Back" 
-  class="p-button-success" [rounded]="true" (click)="goBackToIndianGrid()">
+</ng-container>
+
+<p-button
+  pRipple
+  label="Back"
+  class="p-button-success"
+  [rounded]="true"
+  (click)="goBackToIndianGrid()">
 </p-button>

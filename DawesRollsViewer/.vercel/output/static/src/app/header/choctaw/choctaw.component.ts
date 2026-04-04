@@ -70,7 +70,6 @@ export class ChoctawComponent {
   pageChange(event: any) {
     this.first = event.first;
     this.rows = event.rows;
-    this.refreshDataGrid(this.lastTableLazyLoadEvent);
 }
 
  returnPercentage(bloodPercentage: string): string {
@@ -157,8 +156,9 @@ ngAfterViewInit(): void {
   onMyPage(event: TablePageEvent) {
     this.first = event.first;
     this.rows = event.rows;
-    this._appService?.refreshHeaderTable("header");
+  
 }
+
   public async refreshDataGrid(event: TableLazyLoadEvent) {
     this.lastTableLazyLoadEvent = event;
     this.listofIndians$ = this._indianDataService?.getAllChoctawIndians();
@@ -194,10 +194,10 @@ ngAfterViewInit(): void {
     }
   }
   
-  goToDetailPage(id: string, tribe:string) {
-    let indians:object[] = [id as unknown as object, tribe as unknown as object];
-    this._router.navigate(['/app-indian-details/', indians]);
-    console.log(id);
+  goToDetailPage(id: string, tribe: string) {
+    this.router.navigate(['/app-indian-details', id], {
+      queryParams: { tribe }
+    });
   }
 
 }

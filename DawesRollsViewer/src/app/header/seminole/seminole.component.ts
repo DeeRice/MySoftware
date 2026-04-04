@@ -1,15 +1,17 @@
-import { Component, Inject, ViewChild } from '@angular/core';
-import { Table, TableLazyLoadEvent, TableModule, TablePageEvent } from 'primeng/table';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { ExportCSVOptions, Table, TableLazyLoadEvent, TableModule, TablePageEvent } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Indian } from '../../../model/indian';
 import { AppService } from '../../../service/app.service';
 import { IndianDataService } from '../../../service/indian-data-service';
-import { RouterLink,Router, RouterLinkActive, RouterOutlet, ActivatedRoute } from '@angular/router';
+import { RouterLink,Router, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { PaginatorModule } from 'primeng/paginator';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { MenuItem } from 'primeng/api';
-import { ExcelDataService } from '../../../service/excel-data.service';
+import { ExcelDataService } from "../../../service/excel-data.service";
+import { Observable, map } from 'rxjs';
 
 @Component({
     selector: 'app-seminole',
@@ -22,7 +24,7 @@ import { ExcelDataService } from '../../../service/excel-data.service';
 })
 export class SeminoleComponent {
   public indian?: Indian;
-  public listofIndians: Indian[] = [];
+  public listofIndians$?: Observable<Indian[]>;
   public _appService?: AppService;
   public _indianDataService?: IndianDataService;
   public _confirmationService?: ConfirmationService;
@@ -38,8 +40,11 @@ export class SeminoleComponent {
   rows = 5;
   public isStricken:Boolean = true;
   contextMenuItems: MenuItem[] | undefined;
+  options?: ExportCSVOptions = {
+    allValues: true
+  };
   @ViewChild('seminole') seminoleTable!: Table;
-  constructor(private router?: Router, 
+  constructor(private router: Router, 
     appService?: AppService, indianDataService?: IndianDataService, messageService?: MessageService,
     confirmationService?: ConfirmationService, excelDataService?:ExcelDataService
 
@@ -50,17 +55,6 @@ export class SeminoleComponent {
     this._confirmationService = confirmationService;
     this._router = router;
     this._excelDataService = excelDataService;
-    this._appService?.seminoleInputBehaviorSubject.subscribe(
-     (x:Array<object>) => {
-        let input = x[0] as unknown as string;
-        let selector = x[1] as unknown as string;
-       if(input.trim().length === 0) {
-          this.seminoleTable.clear();
-       }
-       else{
-         this.seminoleTable.filterGlobal(input, selector);
-       }
-    });
   }
  
   getRowClass(lastName: string) {
@@ -76,7 +70,6 @@ export class SeminoleComponent {
   pageChange(event: any) {
     this.first = event.first;
     this.rows = event.rows;
-    this.refreshDataGrid(this.lastTableLazyLoadEvent);
 }
 
  returnPercentage(bloodPercentage: string): string {
@@ -124,46 +117,57 @@ export class SeminoleComponent {
     }
  }
 
-  async ngOnInit() {
-    this.contextMenuItems = [
-      { label: 'CopyToExcel', icon: 'pi pi-copy' }
-    ];
-    await this._indianDataService?.getAllSeminoleIndians()?.subscribe((data: Indian[]) => {
-      const substring = "the indian";
-      if(data.toString().includes(substring)){
-        this.messageHeader = "Error Occured!"
-        let message: string = data.toString();
-        this.confirm(message);
-      }
-      else {
-      if (data != null && (data as Indian[]).length != 0 && data != undefined) {
-        this.listofIndians = JSON.parse(data.toString());
+ ngOnInit(): void {
+  this.contextMenuItems = [
+    {
+      label: 'CopyToExcel',
+      icon: 'pi pi-copy',
+      command: () => {
+        this.seminoleTable.exportCSV(this.options);
       }
     }
-    });
-   
-  }
+  ];
+
+  this.listofIndians$ = this._indianDataService?.getAllSeminoleIndians()?.pipe(
+    map((data: unknown) => {
+      if (Array.isArray(data)) return data as Indian[];
+      if (typeof data === 'string') return JSON.parse(data) as Indian[];
+      return [];
+    })
+  );
+};
+
+
+ngAfterViewInit(): void {
+  this._appService?.seminoleInputBehaviorSubject.subscribe((x: Array<object>) => {
+    const input = x[0] as unknown as string;
+    const selector = x[1] as unknown as string;
+
+    if (!input) return;
+
+    if (input.trim().length === 0) {
+      this.seminoleTable?.clear();
+    } else {
+      this.seminoleTable?.filterGlobal(input, selector);
+    }
+  });
+}
+
   onMyPage(event: TablePageEvent) {
     this.first = event.first;
     this.rows = event.rows;
-    this._appService?.refreshHeaderTable("header");
+
 }
   public async refreshDataGrid(event: TableLazyLoadEvent) {
     this.lastTableLazyLoadEvent = event;
-    await this._indianDataService?.getAllSeminoleIndians()?.subscribe((data: Indian[]) => {
+    this.listofIndians$ = this._indianDataService?.getAllSeminoleIndians();
       const substring = "the job";
       const substringTwo = "the notification";
-      if(data.toString().includes(substring) || data.toString().includes(substringTwo)){
-        this.messageHeader = "Error Occured!"
-        let message: string = data.toString();
+      if (this.listofIndians$ === undefined || this.listofIndians$ === null) {
+        this.messageHeader = "Error Occured!";
+        let message: string = "No Data";
         this.confirm(message);
       }
-      else {
-      if ((data != null) && (data != undefined) && ((data as Indian[]).length != 0)) {
-        this.listofIndians = JSON.parse(data.toString());
-      }
-     }
-    });
   }
   
   confirm(messageToShow: string) {
@@ -188,10 +192,10 @@ export class SeminoleComponent {
     }
   }
   
-  goToDetailPage(id: string, tribe:string) {
-    let indians:object[] = [id as unknown as object, tribe as unknown as object];
-    this._router.navigate(['/app-indian-details/',indians]);
-    console.log(id);
+  goToDetailPage(id: string, tribe: string) {
+    this.router.navigate(['/app-indian-details', id], {
+      queryParams: { tribe }
+    });
   }
 
 
